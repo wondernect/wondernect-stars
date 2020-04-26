@@ -18,6 +18,15 @@
     <name>wondernect-stars</name>
     <url>http://www.example.com</url>
 
+    <modules>
+        <module>session</module>
+        <module>user</module>
+        <module>rbac</module>
+        <module>file</module>
+        <module>mail</module>
+        <module>sms</module>
+    </modules>
+
     <build>
         <plugins>
             <!-- 一键更新子模块版本号：mvn -N versions:update-child-modules -->
