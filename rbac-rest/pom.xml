@@ -20,12 +20,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- rbac -->
@@ -35,11 +29,10 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!-- mysql connector -->
+        <!-- elements i18n -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>i18n</artifactId>
         </dependency>
 
         <!-- elements authorize-context -->
@@ -48,10 +41,10 @@
             <artifactId>authorize-context</artifactId>
         </dependency>
 
-        <!-- elements log -->
+        <!-- elements swagger-api -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
-            <artifactId>log</artifactId>
+            <artifactId>swagger-api</artifactId>
         </dependency>
 
         <!-- 单元测试相关 -->
