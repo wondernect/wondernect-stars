@@ -21,10 +21,12 @@
     <modules>
         <module>session</module>
         <module>user</module>
+        <module>rbac-dto</module>
         <module>rbac</module>
         <module>file</module>
         <module>mail</module>
         <module>sms</module>
+        <module>rbac-rest</module>
     </modules>
 
     <build>

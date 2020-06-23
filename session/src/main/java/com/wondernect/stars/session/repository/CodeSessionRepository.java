@@ -1,4 +1,4 @@
-package com.wondernect.stars.session.repository.crud;
+package com.wondernect.stars.session.repository;
 
 import com.wondernect.elements.rdb.base.repository.BaseCodeRepository;
 import com.wondernect.stars.session.model.CodeSession;
