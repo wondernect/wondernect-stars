@@ -85,6 +85,7 @@ public class AbstractFastDFSFileService implements InitFileService {
         File file = fileManager.findById(id);
         if (ESObjectUtils.isNotNull(file)) {
             file.setDeleted(true);
+            file.setLocalPath(null);
             fileManager.save(file);
             switch (file.getUploadType()) {
                 case LOCAL:
