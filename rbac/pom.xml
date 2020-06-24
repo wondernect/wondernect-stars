@@ -16,10 +16,6 @@
     <name>rbac</name>
     <url>http://www.example.com</url>
 
-    <properties>
-        <wondernect.stars.version>1.0.0</wondernect.stars.version>
-    </properties>
-
     <dependencies>
         <!-- rdb -->
         <dependency>
