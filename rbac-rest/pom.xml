@@ -16,6 +16,10 @@
     <name>rbac-rest</name>
     <url>http://www.example.com</url>
 
+    <properties>
+        <wondernect.stars.version>1.0.0</wondernect.stars.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -26,7 +30,7 @@
         <dependency>
             <groupId>com.wondernect.stars</groupId>
             <artifactId>rbac</artifactId>
-            <version>${project.version}</version>
+            <version>${wondernect.stars.version}</version>
         </dependency>
 
         <!-- elements authorize-context -->

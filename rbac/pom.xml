@@ -16,6 +16,10 @@
     <name>rbac</name>
     <url>http://www.example.com</url>
 
+    <properties>
+        <wondernect.stars.version>1.0.0</wondernect.stars.version>
+    </properties>
+
     <dependencies>
         <!-- rdb -->
         <dependency>
@@ -39,7 +43,7 @@
         <dependency>
             <groupId>com.wondernect.stars</groupId>
             <artifactId>rbac-dto</artifactId>
-            <version>${project.version}</version>
+            <version>${wondernect.stars.version}</version>
         </dependency>
 
         <!-- 单元测试相关 -->
