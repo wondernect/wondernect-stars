@@ -77,10 +77,10 @@ public class FastDFSFileController {
     @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<FileResponseDTO> findById(
+    public BusinessData<FileResponseDTO> getById(
             @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @RequestParam(value = "id", required = false) String id
     ) {
-        return new BusinessData<>(fastDFSFileService.findById(id));
+        return new BusinessData<>(fastDFSFileService.getById(id));
     }
 
     @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
