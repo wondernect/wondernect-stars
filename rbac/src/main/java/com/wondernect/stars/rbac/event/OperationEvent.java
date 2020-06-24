@@ -7,20 +7,20 @@ import org.springframework.context.ApplicationEvent;
  * FileName: RoleTypeEvent
  * Author: chenxun
  * Date: 2020-06-23 14:08
- * Description: 角色事件
+ * Description: 操作事件
  */
-public class RoleEvent extends ApplicationEvent {
+public class OperationEvent extends ApplicationEvent {
 
-    private static final long serialVersionUID = 7987832574613396467L;
+    private static final long serialVersionUID = 5375530166859492737L;
 
     private RBACEventType rbacEventType;
 
-    private String roleCode;
+    private String operationCode;
 
-    public RoleEvent(Object source, RBACEventType rbacEventType, String roleCode) {
+    public OperationEvent(Object source, RBACEventType rbacEventType, String operationCode) {
         super(source);
         this.rbacEventType = rbacEventType;
-        this.roleCode = roleCode;
+        this.operationCode = operationCode;
     }
 
     @Override
@@ -36,11 +36,11 @@ public class RoleEvent extends ApplicationEvent {
         this.rbacEventType = rbacEventType;
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public String getOperationCode() {
+        return operationCode;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setOperationCode(String operationCode) {
+        this.operationCode = operationCode;
     }
 }

@@ -10,8 +10,8 @@ import com.wondernect.stars.rbac.dto.role.ListRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.PageRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.RoleResponseDTO;
 import com.wondernect.stars.rbac.dto.role.SaveRoleRequestDTO;
-import com.wondernect.stars.rbac.service.RoleService;
-import com.wondernect.stars.rbac.service.RoleTypeService;
+import com.wondernect.stars.rbac.service.astract.dfault.RoleService;
+import com.wondernect.stars.rbac.service.astract.dfault.RoleTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,7 +31,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/wondernect/rbac/role")
+@RequestMapping(value = "/v1/{application}/rbac/role")
 @Validated
 @Api(tags = "角色", description = "角色")
 public class RoleController {

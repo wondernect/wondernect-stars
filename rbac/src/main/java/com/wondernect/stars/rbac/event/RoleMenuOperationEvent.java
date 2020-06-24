@@ -7,20 +7,26 @@ import org.springframework.context.ApplicationEvent;
  * FileName: RoleTypeEvent
  * Author: chenxun
  * Date: 2020-06-23 14:08
- * Description: 角色事件
+ * Description: 角色菜单事件
  */
-public class RoleEvent extends ApplicationEvent {
+public class RoleMenuOperationEvent extends ApplicationEvent {
 
-    private static final long serialVersionUID = 7987832574613396467L;
+    private static final long serialVersionUID = -6961131970409741238L;
 
     private RBACEventType rbacEventType;
 
     private String roleCode;
 
-    public RoleEvent(Object source, RBACEventType rbacEventType, String roleCode) {
+    private String menuCode;
+
+    private String operationCode;
+
+    public RoleMenuOperationEvent(Object source, RBACEventType rbacEventType, String roleCode, String menuCode, String operationCode) {
         super(source);
         this.rbacEventType = rbacEventType;
         this.roleCode = roleCode;
+        this.menuCode = menuCode;
+        this.operationCode = operationCode;
     }
 
     @Override
@@ -42,5 +48,21 @@ public class RoleEvent extends ApplicationEvent {
 
     public void setRoleCode(String roleCode) {
         this.roleCode = roleCode;
+    }
+
+    public String getMenuCode() {
+        return menuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
+    }
+
+    public String getOperationCode() {
+        return operationCode;
+    }
+
+    public void setOperationCode(String operationCode) {
+        this.operationCode = operationCode;
     }
 }

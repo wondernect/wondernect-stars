@@ -10,7 +10,7 @@ import com.wondernect.stars.rbac.dto.roletype.ListRoleTypeRequestDTO;
 import com.wondernect.stars.rbac.dto.roletype.PageRoleTypeRequestDTO;
 import com.wondernect.stars.rbac.dto.roletype.RoleTypeResponseDTO;
 import com.wondernect.stars.rbac.dto.roletype.SaveRoleTypeRequestDTO;
-import com.wondernect.stars.rbac.service.RoleTypeService;
+import com.wondernect.stars.rbac.service.astract.dfault.RoleTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,7 +30,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/wondernect/rbac/role_type")
+@RequestMapping(value = "/v1/{application}/rbac/role_type")
 @Validated
 @Api(tags = "角色类型", description = "角色类型")
 public class RoleTypeController {

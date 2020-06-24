@@ -1,6 +1,6 @@
-package com.wondernect.stars.rbac.service;
+package com.wondernect.stars.rbac.service.astract.dfault;
 
-import com.wondernect.stars.rbac.service.abs.AbstractOperationService;
+import com.wondernect.stars.rbac.service.astract.AbstractOperationService;
 import org.springframework.stereotype.Service;
 
 /**

@@ -7,7 +7,7 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.*;
-import com.wondernect.stars.rbac.service.MenuService;
+import com.wondernect.stars.rbac.service.astract.dfault.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,7 +27,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/wondernect/rbac/menu")
+@RequestMapping(value = "/v1/{application}/rbac/menu")
 @Validated
 @Api(tags = "菜单", description = "菜单")
 public class MenuController {

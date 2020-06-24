@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * Description: 初始化服务
  */
 @Service
-public class InitService {
+public class RBACInitService {
 
     @Autowired
     private RoleTypeManager roleTypeManager;

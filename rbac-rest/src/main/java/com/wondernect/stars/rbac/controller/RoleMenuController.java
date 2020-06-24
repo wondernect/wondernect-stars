@@ -7,7 +7,7 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
-import com.wondernect.stars.rbac.service.RoleMenuService;
+import com.wondernect.stars.rbac.service.astract.dfault.RoleMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/wondernect/rbac/role_menu")
+@RequestMapping(value = "/v1/{application}/rbac/role_menu")
 @Validated
 @Api(tags = "角色-菜单管理", description = "角色-菜单管理")
 public class RoleMenuController {

@@ -10,7 +10,7 @@ import com.wondernect.stars.rbac.dto.operation.ListOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.OperationResponseDTO;
 import com.wondernect.stars.rbac.dto.operation.PageOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.SaveOperationRequestDTO;
-import com.wondernect.stars.rbac.service.OperationService;
+import com.wondernect.stars.rbac.service.astract.dfault.OperationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,7 +30,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/wondernect/rbac/operation")
+@RequestMapping(value = "/v1/{application}/rbac/operation")
 @Validated
 @Api(tags = "操作", description = "操作")
 public class OperationController {

@@ -1,6 +1,6 @@
-package com.wondernect.stars.rbac.service;
+package com.wondernect.stars.rbac.service.astract.dfault;
 
-import com.wondernect.stars.rbac.service.abs.AbstractRoleTypeService;
+import com.wondernect.stars.rbac.service.astract.AbstractRoleTypeService;
 import org.springframework.stereotype.Service;
 
 /**

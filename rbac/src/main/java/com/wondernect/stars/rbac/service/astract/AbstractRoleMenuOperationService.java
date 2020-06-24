@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.service.abs;
+package com.wondernect.stars.rbac.service.astract;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;

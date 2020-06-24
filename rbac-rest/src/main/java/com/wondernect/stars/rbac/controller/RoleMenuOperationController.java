@@ -11,7 +11,7 @@ import com.wondernect.stars.rbac.dto.rolemenuoperation.ListRoleMenuOperationRequ
 import com.wondernect.stars.rbac.dto.rolemenuoperation.PageRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationResponseDTO;
-import com.wondernect.stars.rbac.service.RoleMenuOperationService;
+import com.wondernect.stars.rbac.service.astract.dfault.RoleMenuOperationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,7 +31,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/wondernect/rbac/role_menu_operation")
+@RequestMapping(value = "/v1/{application}/rbac/role_menu_operation")
 @Validated
 @Api(tags = "角色-菜单-操作管理", description = "角色-菜单-操作管理")
 public class RoleMenuOperationController {
