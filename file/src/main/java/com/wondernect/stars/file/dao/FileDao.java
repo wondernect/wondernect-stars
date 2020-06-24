@@ -1,4 +1,4 @@
-package com.wondernect.stars.file.repository;
+package com.wondernect.stars.file.dao;
 
 import com.wondernect.elements.rdb.base.dao.BaseStringDao;
 import com.wondernect.stars.file.model.File;

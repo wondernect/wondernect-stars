@@ -1,44 +1,36 @@
-package com.wondernect.stars.file.model;
+package com.wondernect.stars.file.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wondernect.elements.rdb.base.model.BaseStringModel;
-import com.wondernect.stars.file.model.em.FileType;
-import com.wondernect.stars.file.model.em.FileUploadType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
 /**
- * Created by cxhome on 2017/8/23.
- * wondernect.com
- * @author sunbeam
+ * Copyright (C), 2017-2019, wondernect.com
+ * FileName: FileResponseDTO
+ * Author: chenxun
+ * Date: 2019/6/3 14:39
+ * Description:
  */
-@Entity
-@Table(name = "file")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "文件")
-public class File extends BaseStringModel implements Serializable{
+@ApiModel(value = "文件响应对象")
+public class FileResponseDTO {
 
-    private static final long serialVersionUID = 6788863875446323944L;
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "唯一标识")
+    private String id;
 
-    @Enumerated(EnumType.STRING)
     @JsonProperty("upload_type")
     @ApiModelProperty(notes = "文件上传类型")
-    private FileUploadType uploadType;
+    private String uploadType;
 
-    @Enumerated(EnumType.STRING)
     @JsonProperty("type")
     @ApiModelProperty(notes = "文件类型")
-    private FileType type;
+    private String type;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "文件名称")
@@ -56,9 +48,17 @@ public class File extends BaseStringModel implements Serializable{
     @ApiModelProperty(notes = "文件资源服务器唯一路径")
     private String localPath;
 
+    @JsonProperty("path")
+    @ApiModelProperty(notes = "访问url路径")
+    private String path;
+
     @JsonProperty("thumb_image_path")
     @ApiModelProperty(notes = "图片文件缩略图访问服务器路径")
     private String thumbImagePath;
+
+    @JsonProperty("thumb_path")
+    @ApiModelProperty(notes = "缩略图访问url路径")
+    private String thumbPath;
 
     @JsonProperty("meta_data")
     @ApiModelProperty(notes = "文件元信息")

@@ -41,6 +41,19 @@
             <artifactId>rdb</artifactId>
         </dependency>
 
+        <!-- elements boot-application -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>boot-application</artifactId>
+        </dependency>
+
+        <!-- file-dto -->
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>file-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

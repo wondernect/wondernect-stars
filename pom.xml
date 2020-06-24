@@ -27,6 +27,8 @@
         <module>file</module>
         <module>mail</module>
         <module>sms</module>
+        <module>file-dto</module>
+        <module>file-rest</module>
     </modules>
 
     <build>

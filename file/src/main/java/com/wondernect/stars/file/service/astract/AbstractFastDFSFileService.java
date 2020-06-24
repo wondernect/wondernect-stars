@@ -1,24 +1,25 @@
-package com.wondernect.stars.file.service.impl;
+package com.wondernect.stars.file.service.astract;
 
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESJSONObjectUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.file.client.FastDFSFileClient;
 import com.wondernect.elements.file.client.LocalFileClient;
 import com.wondernect.elements.file.client.util.FileUploadResult;
-import com.wondernect.elements.rdb.request.PageRequestData;
-import com.wondernect.elements.rdb.request.SortData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.common.error.FileErrorEnum;
 import com.wondernect.stars.file.common.exception.FileException;
+import com.wondernect.stars.file.dto.FileResponseDTO;
+import com.wondernect.stars.file.dto.ListFileRequestDTO;
+import com.wondernect.stars.file.dto.PageFileRequestDTO;
 import com.wondernect.stars.file.manager.FileManager;
 import com.wondernect.stars.file.model.File;
 import com.wondernect.stars.file.model.em.FileType;
 import com.wondernect.stars.file.model.em.FileUploadType;
-import com.wondernect.stars.file.service.FileService;
+import com.wondernect.stars.file.service.InitFileService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -27,13 +28,12 @@ import java.util.Map;
 
 /**
  * Copyright (C), 2017-2019, wondernect.com
- * FileName: LocalFileService
+ * FileName: FastDFSFileService
  * Author: chenxun
- * Date: 2019/3/28 15:03
- * Description: default local file service
+ * Date: 2019/1/14 18:57
+ * Description: fast dfs file service
  */
-@Service(value = "local")
-public class LocalFileService implements FileService {
+public class AbstractFastDFSFileService implements InitFileService {
 
     @Autowired
     private LocalFileClient localFileClient;
@@ -45,7 +45,7 @@ public class LocalFileService implements FileService {
     private FileManager fileManager;
 
     @Override
-    public File upload(MultipartFile fileMedia, String fileType, Map<String, String> fileMetaData) {
+    public FileResponseDTO upload(MultipartFile fileMedia, String fileType, Map<String, String> fileMetaData) {
         if (ESStringUtils.isRealEmpty(fileType)) {
             throw new FileException(FileErrorEnum.FILE_TYPE_IS_NULL);
         }
@@ -57,35 +57,33 @@ public class LocalFileService implements FileService {
         }
         FileUploadResult fileUploadResult;
         if (fileTypeEnum == FileType.IMAGE) {
-            fileUploadResult = localFileClient.uploadImageAndCreateThumbImage(fileMedia, fileMetaData);
+            fileUploadResult = fastDFSFileClient.uploadImageAndCreateThumbImage(fileMedia, fileMetaData);
         } else {
-            fileUploadResult = localFileClient.uploadFile(fileMedia, fileMetaData);
+            fileUploadResult = fastDFSFileClient.uploadFile(fileMedia, fileMetaData);
         }
         if (!fileUploadResult.getResult()) {
             throw new FileException(FileErrorEnum.FILE_UPLOAD_FAILED, fileUploadResult.getMessage());
         }
         File file = fileManager.save(
                 new File(
-                        FileUploadType.LOCAL,
+                        FileUploadType.FASTDFS,
                         fileTypeEnum,
                         fileUploadResult.getFileName(),
                         fileUploadResult.getFileSize(),
                         fileUploadResult.getFileExt(),
                         fileUploadResult.getFilePath(),
-                        localFileClient.getFileDownloadUrl(fileUploadResult.getFilePath()),
                         fileUploadResult.getThumbFilePath(),
-                        localFileClient.getImageThumbUrl(fileUploadResult.getThumbFilePath()),
                         ESJSONObjectUtils.jsonObjectToJsonString(fileUploadResult.getMetaData())
                 )
         );
-        return getFilePath(file);
+        return generate(file);
     }
 
     @Override
-    public void delete(String fileId) {
-        File file = fileManager.findById(fileId);
+    public void deleteById(String id) {
+        File file = fileManager.findById(id);
         if (ESObjectUtils.isNotNull(file)) {
-            fileManager.deleteById(fileId);
+            fileManager.deleteById(id);
             switch (file.getUploadType()) {
                 case LOCAL:
                 {
@@ -102,50 +100,53 @@ public class LocalFileService implements FileService {
     }
 
     @Override
-    public File findByFileId(String fileId) {
-        File file = fileManager.findById(fileId);
+    public FileResponseDTO findById(String id) {
+        File file = fileManager.findById(id);
         if (ESObjectUtils.isNull(file)) {
             throw new FileException(FileErrorEnum.FILE_NOT_FOUND);
         }
-        return getFilePath(file);
+        return generate(file);
     }
 
     @Override
-    public List<File> findAllByUserId(String userId, List<SortData> sortDataList) {
-        List<File> fileListResponse = new ArrayList<>();
+    public List<FileResponseDTO> list(ListFileRequestDTO listFileRequestDTO) {
+        List<FileResponseDTO> fileResponseDTOList = new ArrayList<>();
         List<File> fileList;
-        if (ESStringUtils.isNotBlank(userId)) {
-            fileList = fileManager.findAllByCreateUser(userId, sortDataList);
+        if (ESStringUtils.isNotBlank(listFileRequestDTO.getUserId())) {
+            fileList = fileManager.findAllByCreateUser(listFileRequestDTO.getUserId(), listFileRequestDTO.getSortDataList());
         } else {
-            fileList = fileManager.findAll(sortDataList);
+            fileList = fileManager.findAll(listFileRequestDTO.getSortDataList());
         }
         if (CollectionUtils.isNotEmpty(fileList)) {
             for (File file : fileList) {
-                fileListResponse.add(getFilePath(file));
+                fileResponseDTOList.add(generate(file));
             }
         }
-        return fileListResponse;
+        return fileResponseDTOList;
     }
 
     @Override
-    public PageResponseData<File> findAllByUserId(String userId, PageRequestData pageRequestData) {
+    public PageResponseData<FileResponseDTO> page(PageFileRequestDTO pageFileRequestDTO) {
         PageResponseData<File> filePageResponseData;
-        if (ESStringUtils.isNotBlank(userId)) {
-            filePageResponseData= fileManager.findAllByCreateUser(userId, pageRequestData);
+        if (ESStringUtils.isNotBlank(pageFileRequestDTO.getUserId())) {
+            filePageResponseData = fileManager.findAllByCreateUser(pageFileRequestDTO.getUserId(), pageFileRequestDTO.getPageRequestData());
         } else {
-            filePageResponseData= fileManager.findAll(pageRequestData);
+            filePageResponseData = fileManager.findAll(pageFileRequestDTO.getPageRequestData());
         }
-        List<File> fileResponseDTOList = new ArrayList<>();
+        List<FileResponseDTO> fileResponseDTOList = new ArrayList<>();
         List<File> fileList = filePageResponseData.getDataList();
         if (CollectionUtils.isNotEmpty(fileList)) {
             for (File file : fileList) {
-                fileResponseDTOList.add(getFilePath(file));
+                fileResponseDTOList.add(generate(file));
             }
         }
         return new PageResponseData<>(filePageResponseData.getPage(), filePageResponseData.getSize(), filePageResponseData.getTotalPages(), filePageResponseData.getTotalElements(), fileResponseDTOList);
     }
 
-    private File getFilePath(File file) {
+    public FileResponseDTO generate(File file) {
+        FileResponseDTO fileResponseDTO = new FileResponseDTO();
+        ESBeanUtils.copyProperties(file, fileResponseDTO);
+        fileResponseDTO.setId(file.getId());
         switch (file.getUploadType()) {
             case LOCAL:
             {
@@ -153,8 +154,8 @@ public class LocalFileService implements FileService {
                 if (file.getType() == FileType.IMAGE) {
                     imageThumbUrl = localFileClient.getImageThumbUrl(file.getThumbImagePath());
                 }
-                file.setThumbPath(imageThumbUrl);
-                file.setPath(localFileClient.getFileDownloadUrl(file.getLocalPath()));
+                fileResponseDTO.setThumbPath(imageThumbUrl);
+                fileResponseDTO.setPath(localFileClient.getFileDownloadUrl(file.getLocalPath()));
                 break;
             }
             case FASTDFS:
@@ -163,11 +164,13 @@ public class LocalFileService implements FileService {
                 if (file.getType() == FileType.IMAGE) {
                     imageThumbUrl = fastDFSFileClient.getImageThumbUrl(file.getThumbImagePath());
                 }
-                file.setThumbPath(imageThumbUrl);
-                file.setPath(fastDFSFileClient.getFileDownloadUrl(file.getLocalPath()));
+                fileResponseDTO.setThumbPath(imageThumbUrl);
+                fileResponseDTO.setPath(fastDFSFileClient.getFileDownloadUrl(file.getLocalPath()));
                 break;
             }
         }
-        return file;
+        fileResponseDTO.setUploadType(file.getUploadType().name());
+        fileResponseDTO.setType(file.getType().name());
+        return fileResponseDTO;
     }
 }

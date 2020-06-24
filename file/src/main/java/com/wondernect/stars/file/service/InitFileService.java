@@ -1,8 +1,9 @@
 package com.wondernect.stars.file.service;
 
-import com.wondernect.elements.rdb.request.PageRequestData;
-import com.wondernect.elements.rdb.request.SortData;
 import com.wondernect.elements.rdb.response.PageResponseData;
+import com.wondernect.stars.file.dto.FileResponseDTO;
+import com.wondernect.stars.file.dto.ListFileRequestDTO;
+import com.wondernect.stars.file.dto.PageFileRequestDTO;
 import com.wondernect.stars.file.model.File;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,30 +17,35 @@ import java.util.Map;
  * Date: 2019/1/14 17:41
  * Description: wondernect file service
  */
-public interface FileService {
+public interface InitFileService {
 
     /**
      * 上传文件（fileType为IMAGE时默认上传图片文件并生成图片缩略图）
      */
-    File upload(MultipartFile fileMedia, String fileType, Map<String, String> fileMetaData);
+    FileResponseDTO upload(MultipartFile fileMedia, String fileType, Map<String, String> fileMetaData);
 
     /**
      * 删除文件
      */
-    void delete(String fileId);
+    void deleteById(String id);
 
     /**
      * 获取文件信息
      */
-    File findByFileId(String fileId);
+    FileResponseDTO findById(String id);
 
     /**
      * 列表查询文件
      */
-    List<File> findAllByUserId(String userId, List<SortData> sortDataList);
+    List<FileResponseDTO> list(ListFileRequestDTO listFileRequestDTO);
 
     /**
      * 分页查询文件
      */
-    PageResponseData<File> findAllByUserId(String userId, PageRequestData pageRequestData);
+    PageResponseData<FileResponseDTO> page(PageFileRequestDTO pageFileRequestDTO);
+
+    /**
+     * 构造文件响应对象
+     */
+    FileResponseDTO generate(File file);
 }

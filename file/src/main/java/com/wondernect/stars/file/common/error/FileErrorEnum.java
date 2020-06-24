@@ -17,6 +17,7 @@ public enum FileErrorEnum {
     FILE_TYPE_IS_NULL("FILE_TYPE_IS_NULL", "上传文件格式为空,请检查后重试"),
     FILE_TYPE_INVALID("FILE_TYPE_INVALID", "上传文件格式不支持,请检查后重试"),
     FILE_NOT_FOUND("FILE_NOT_FOUND", "文件不存在,请检查后重试"),
+    FILE_DELETE_FAILED("FILE_DELETE_FAILED", "删除文件失败,请检查后重试"),
     FILE_DELETE_NOT_ALLOW("FILE_DELETE_NOT_ALLOW", "没有删除文件的权限,请检查后重试"),
 
     ;
