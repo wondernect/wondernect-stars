@@ -97,7 +97,6 @@ public class AbstractFastDFSFileService implements InitFileService {
                 }
             }
             file.setDeleted(true);
-            file.setLocalPath(null);
             fileManager.save(file);
         }
     }
@@ -150,6 +149,8 @@ public class AbstractFastDFSFileService implements InitFileService {
                 fileResponseDTO.setThumbPath(imageThumbUrl);
                 if (!file.getDeleted()) {
                     fileResponseDTO.setPath(localFileClient.getFileDownloadUrl(file.getLocalPath()));
+                } else {
+                    fileResponseDTO.setLocalPath(null);
                 }
                 break;
             }
@@ -162,6 +163,8 @@ public class AbstractFastDFSFileService implements InitFileService {
                 fileResponseDTO.setThumbPath(imageThumbUrl);
                 if (!file.getDeleted()) {
                     fileResponseDTO.setPath(fastDFSFileClient.getFileDownloadUrl(file.getLocalPath()));
+                } else {
+                    fileResponseDTO.setLocalPath(null);
                 }
                 break;
             }
