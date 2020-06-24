@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.wondernect.stars</groupId>
             <artifactId>rbac-dto</artifactId>
-            <version>${wondernect.stars.version}</version>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- 单元测试相关 -->
