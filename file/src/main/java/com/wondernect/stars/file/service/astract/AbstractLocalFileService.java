@@ -84,9 +84,6 @@ public class AbstractLocalFileService implements InitFileService {
     public void deleteById(String id) {
         File file = fileManager.findById(id);
         if (ESObjectUtils.isNotNull(file)) {
-            file.setDeleted(true);
-            file.setLocalPath(null);
-            fileManager.save(file);
             switch (file.getUploadType()) {
                 case LOCAL:
                 {
@@ -99,6 +96,9 @@ public class AbstractLocalFileService implements InitFileService {
                     break;
                 }
             }
+            file.setDeleted(true);
+            file.setLocalPath(null);
+            fileManager.save(file);
         }
     }
 
