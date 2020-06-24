@@ -56,10 +56,11 @@ public class FastDFSFileController {
     @PostMapping(value = "/wechat/upload")
     public BusinessData<FileResponseDTO> wechatUpload(
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
+            @ApiParam(required = false) @NotBlank(message = "文件获取标识不能为空") @RequestParam(value = "file_key", required = false) String fileKey,
             HttpServletRequest httpServletRequest
     ) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
-        MultipartFile file = multipartHttpServletRequest.getFile("file");
+        MultipartFile file = multipartHttpServletRequest.getFile(fileKey);
         return new BusinessData<>(fastDFSFileService.upload(file, fileType, new HashMap<>()));
     }
 

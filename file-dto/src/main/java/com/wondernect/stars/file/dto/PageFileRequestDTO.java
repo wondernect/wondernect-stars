@@ -27,6 +27,10 @@ public class PageFileRequestDTO {
     @ApiModelProperty(notes = "上传用户id")
     private String userId;
 
+    @JsonProperty("deleted")
+    @ApiModelProperty(notes = "文件是否已删除")
+    private Boolean deleted;
+
     @NotNull(message = "分页请求参数不能为空")
     @JsonProperty("page_request_data")
     @ApiModelProperty(notes = "分页参数")

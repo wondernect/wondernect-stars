@@ -73,7 +73,8 @@ public class AbstractFastDFSFileService implements InitFileService {
                         fileUploadResult.getFileExt(),
                         fileUploadResult.getFilePath(),
                         fileUploadResult.getThumbFilePath(),
-                        ESJSONObjectUtils.jsonObjectToJsonString(fileUploadResult.getMetaData())
+                        ESJSONObjectUtils.jsonObjectToJsonString(fileUploadResult.getMetaData()),
+                        false
                 )
         );
         return generate(file);
@@ -83,7 +84,8 @@ public class AbstractFastDFSFileService implements InitFileService {
     public void deleteById(String id) {
         File file = fileManager.findById(id);
         if (ESObjectUtils.isNotNull(file)) {
-            fileManager.deleteById(id);
+            file.setDeleted(true);
+            fileManager.save(file);
             switch (file.getUploadType()) {
                 case LOCAL:
                 {
@@ -100,10 +102,10 @@ public class AbstractFastDFSFileService implements InitFileService {
     }
 
     @Override
-    public FileResponseDTO findById(String id) {
+    public FileResponseDTO getById(String id) {
         File file = fileManager.findById(id);
         if (ESObjectUtils.isNull(file)) {
-            throw new FileException(FileErrorEnum.FILE_NOT_FOUND);
+            return null;
         }
         return generate(file);
     }
@@ -111,12 +113,7 @@ public class AbstractFastDFSFileService implements InitFileService {
     @Override
     public List<FileResponseDTO> list(ListFileRequestDTO listFileRequestDTO) {
         List<FileResponseDTO> fileResponseDTOList = new ArrayList<>();
-        List<File> fileList;
-        if (ESStringUtils.isNotBlank(listFileRequestDTO.getUserId())) {
-            fileList = fileManager.findAllByCreateUser(listFileRequestDTO.getUserId(), listFileRequestDTO.getSortDataList());
-        } else {
-            fileList = fileManager.findAll(listFileRequestDTO.getSortDataList());
-        }
+        List<File> fileList = fileManager.list(listFileRequestDTO.getUserId(), listFileRequestDTO.getDeleted(), listFileRequestDTO.getSortDataList());
         if (CollectionUtils.isNotEmpty(fileList)) {
             for (File file : fileList) {
                 fileResponseDTOList.add(generate(file));
@@ -127,12 +124,7 @@ public class AbstractFastDFSFileService implements InitFileService {
 
     @Override
     public PageResponseData<FileResponseDTO> page(PageFileRequestDTO pageFileRequestDTO) {
-        PageResponseData<File> filePageResponseData;
-        if (ESStringUtils.isNotBlank(pageFileRequestDTO.getUserId())) {
-            filePageResponseData = fileManager.findAllByCreateUser(pageFileRequestDTO.getUserId(), pageFileRequestDTO.getPageRequestData());
-        } else {
-            filePageResponseData = fileManager.findAll(pageFileRequestDTO.getPageRequestData());
-        }
+        PageResponseData<File> filePageResponseData = fileManager.page(pageFileRequestDTO.getUserId(), pageFileRequestDTO.getDeleted(), pageFileRequestDTO.getPageRequestData());
         List<FileResponseDTO> fileResponseDTOList = new ArrayList<>();
         List<File> fileList = filePageResponseData.getDataList();
         if (CollectionUtils.isNotEmpty(fileList)) {
@@ -155,7 +147,9 @@ public class AbstractFastDFSFileService implements InitFileService {
                     imageThumbUrl = localFileClient.getImageThumbUrl(file.getThumbImagePath());
                 }
                 fileResponseDTO.setThumbPath(imageThumbUrl);
-                fileResponseDTO.setPath(localFileClient.getFileDownloadUrl(file.getLocalPath()));
+                if (!file.getDeleted()) {
+                    fileResponseDTO.setPath(localFileClient.getFileDownloadUrl(file.getLocalPath()));
+                }
                 break;
             }
             case FASTDFS:
@@ -165,7 +159,9 @@ public class AbstractFastDFSFileService implements InitFileService {
                     imageThumbUrl = fastDFSFileClient.getImageThumbUrl(file.getThumbImagePath());
                 }
                 fileResponseDTO.setThumbPath(imageThumbUrl);
-                fileResponseDTO.setPath(fastDFSFileClient.getFileDownloadUrl(file.getLocalPath()));
+                if (!file.getDeleted()) {
+                    fileResponseDTO.setPath(fastDFSFileClient.getFileDownloadUrl(file.getLocalPath()));
+                }
                 break;
             }
         }

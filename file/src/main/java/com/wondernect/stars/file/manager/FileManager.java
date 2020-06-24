@@ -19,15 +19,17 @@ import java.util.List;
 @Service
 public class FileManager extends BaseStringManager<File> {
 
-    public List<File> findAllByCreateUser(String userId, List<SortData> sortDataList) {
+    public List<File> list(String userId, Boolean deleted, List<SortData> sortDataList) {
         Criteria<File> fileCriteria = new Criteria<>();
         fileCriteria.add(Restrictions.eq("createUser", userId));
+        fileCriteria.add(Restrictions.eq("deleted", deleted));
         return super.findAll(fileCriteria, sortDataList);
     }
 
-    public PageResponseData<File> findAllByCreateUser(String userId, PageRequestData pageRequestData) {
+    public PageResponseData<File> page(String userId, Boolean deleted, PageRequestData pageRequestData) {
         Criteria<File> fileCriteria = new Criteria<>();
         fileCriteria.add(Restrictions.eq("createUser", userId));
+        fileCriteria.add(Restrictions.eq("deleted", deleted));
         return super.findAll(fileCriteria, pageRequestData);
     }
 }

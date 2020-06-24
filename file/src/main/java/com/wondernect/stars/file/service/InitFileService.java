@@ -32,7 +32,7 @@ public interface InitFileService {
     /**
      * 获取文件信息
      */
-    FileResponseDTO findById(String id);
+    FileResponseDTO getById(String id);
 
     /**
      * 列表查询文件

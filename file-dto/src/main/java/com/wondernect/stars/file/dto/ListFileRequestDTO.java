@@ -27,6 +27,10 @@ public class ListFileRequestDTO {
     @ApiModelProperty(notes = "上传用户id")
     private String userId;
 
+    @JsonProperty("deleted")
+    @ApiModelProperty(notes = "文件是否已删除")
+    private Boolean deleted;
+
     @JsonProperty("sort_data_list")
     @ApiModelProperty(notes = "列表排序参数")
     private List<SortData> sortDataList;

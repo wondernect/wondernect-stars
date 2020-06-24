@@ -63,4 +63,8 @@ public class FileResponseDTO {
     @JsonProperty("meta_data")
     @ApiModelProperty(notes = "文件元信息")
     private String metaData;
+
+    @JsonProperty("deleted")
+    @ApiModelProperty(notes = "文件是否已删除")
+    private Boolean deleted;
 }
