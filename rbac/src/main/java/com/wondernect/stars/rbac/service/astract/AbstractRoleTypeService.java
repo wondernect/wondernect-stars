@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.service.astract;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.criteria.em.LogicalOperator;
@@ -14,12 +15,10 @@ import com.wondernect.stars.rbac.manager.RoleManager;
 import com.wondernect.stars.rbac.manager.RoleTypeManager;
 import com.wondernect.stars.rbac.model.RoleType;
 import com.wondernect.stars.rbac.service.InitRoleTypeService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ import java.util.List;
  * Date: 2020-02-21 13:52
  * Description:
  */
-public abstract class AbstractRoleTypeService implements InitRoleTypeService {
+public abstract class AbstractRoleTypeService extends BaseStringService<RoleTypeResponseDTO, RoleType> implements InitRoleTypeService {
 
     @Autowired
     private RoleTypeManager roleTypeManager;
@@ -43,13 +42,21 @@ public abstract class AbstractRoleTypeService implements InitRoleTypeService {
         if (ESObjectUtils.isNotNull(roleType)) {
             throw new BusinessException("角色类型已存在");
         }
-        roleType = roleTypeManager.save(new RoleType(saveRoleTypeRequestDTO.getCode(), saveRoleTypeRequestDTO.getName(), saveRoleTypeRequestDTO.getDescription(), saveRoleTypeRequestDTO.getEditable(), saveRoleTypeRequestDTO.getDeletable(), saveRoleTypeRequestDTO.getWeight()));
-        return generate(roleType);
+        return super.save(
+                new RoleType(
+                        saveRoleTypeRequestDTO.getCode(),
+                        saveRoleTypeRequestDTO.getName(),
+                        saveRoleTypeRequestDTO.getDescription(),
+                        saveRoleTypeRequestDTO.getEditable(),
+                        saveRoleTypeRequestDTO.getDeletable(),
+                        saveRoleTypeRequestDTO.getWeight()
+                )
+        );
     }
 
     @Transactional
     public RoleTypeResponseDTO update(String id, SaveRoleTypeRequestDTO saveRoleTypeRequestDTO) {
-        RoleType roleType = roleTypeManager.findById(id);
+        RoleType roleType = super.findEntityById(id);
         if (ESObjectUtils.isNull(roleType)) {
             throw new BusinessException("角色类型不存在");
         }
@@ -63,13 +70,12 @@ public abstract class AbstractRoleTypeService implements InitRoleTypeService {
         if (ESObjectUtils.isNotNull(saveRoleTypeRequestDTO.getWeight())) {
             roleType.setWeight(saveRoleTypeRequestDTO.getWeight());
         }
-        roleType = roleTypeManager.save(roleType);
-        return generate(roleType);
+        return super.save(roleType);
     }
 
     @Transactional
-    public void delete(String id) {
-        RoleType roleType = roleTypeManager.findById(id);
+    public void deleteById(String id) {
+        RoleType roleType = super.findEntityById(id);
         if (ESObjectUtils.isNull(roleType)) {
             throw new BusinessException("角色类型不存在");
         }
@@ -77,19 +83,11 @@ public abstract class AbstractRoleTypeService implements InitRoleTypeService {
             throw new BusinessException("角色类型不可删除");
         }
         roleManager.deleteAllByRoleTypeCode(roleType.getCode());
-        roleTypeManager.deleteById(id);
+        super.deleteById(id);
     }
 
-    public RoleTypeResponseDTO getByCode(String code) {
+    public RoleTypeResponseDTO findByCode(String code) {
         RoleType roleType = roleTypeManager.findByCode(code);
-        if (ESObjectUtils.isNull(roleType)) {
-            return null;
-        }
-        return generate(roleType);
-    }
-
-    public RoleTypeResponseDTO getById(String id) {
-        RoleType roleType = roleTypeManager.findById(id);
         if (ESObjectUtils.isNull(roleType)) {
             return null;
         }
@@ -100,35 +98,14 @@ public abstract class AbstractRoleTypeService implements InitRoleTypeService {
         Criteria<RoleType> roleTypeCriteria = new Criteria<>(LogicalOperator.OR);
         roleTypeCriteria.add(Restrictions.like("code", listRoleTypeRequestDTO.getValue(), MatchMode.ANYWHERE));
         roleTypeCriteria.add(Restrictions.like("name", listRoleTypeRequestDTO.getValue(), MatchMode.ANYWHERE));
-        List<RoleType> roleTypeList = roleTypeManager.findAll(roleTypeCriteria, listRoleTypeRequestDTO.getSortDataList());
-        List<RoleTypeResponseDTO> roleTypeResponseDTOList = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(roleTypeList)) {
-            for (RoleType roleType : roleTypeList) {
-                roleTypeResponseDTOList.add(generate(roleType));
-            }
-        }
-        return roleTypeResponseDTOList;
+        return super.findAll(roleTypeCriteria, listRoleTypeRequestDTO.getSortDataList());
     }
 
     public PageResponseData<RoleTypeResponseDTO> page(PageRoleTypeRequestDTO pageRoleTypeRequestDTO) {
         Criteria<RoleType> roleTypeCriteria = new Criteria<>(LogicalOperator.OR);
         roleTypeCriteria.add(Restrictions.like("code", pageRoleTypeRequestDTO.getValue(), MatchMode.ANYWHERE));
         roleTypeCriteria.add(Restrictions.like("name", pageRoleTypeRequestDTO.getValue(), MatchMode.ANYWHERE));
-        PageResponseData<RoleType> pageResponseData = roleTypeManager.findAll(roleTypeCriteria, pageRoleTypeRequestDTO.getPageRequestData());
-        List<RoleTypeResponseDTO> roleTypeResponseDTOList = new ArrayList<>();
-        List<RoleType> roleTypeList = pageResponseData.getDataList();
-        if (CollectionUtils.isNotEmpty(roleTypeList)) {
-            for (RoleType roleType : roleTypeList) {
-                roleTypeResponseDTOList.add(generate(roleType));
-            }
-        }
-        return new PageResponseData<>(
-                pageResponseData.getPage(),
-                pageResponseData.getSize(),
-                pageResponseData.getTotalPages(),
-                pageResponseData.getTotalElements(),
-                roleTypeResponseDTOList
-        );
+        return super.findAll(roleTypeCriteria, pageRoleTypeRequestDTO.getPageRequestData());
     }
 
     public RoleTypeResponseDTO generate(RoleType roleType) {

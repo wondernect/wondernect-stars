@@ -1,8 +1,5 @@
 package com.wondernect.stars.file.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -41,17 +38,15 @@ public class FastDFSFileController {
     @Autowired
     private FastDFSFileService fastDFSFileService;
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "上传文件", httpMethod = "POST")
     @PostMapping(value = "/upload")
     public BusinessData<FileResponseDTO> upload(
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
             @ApiParam(required = true) @RequestParam(value = "file", required = false) MultipartFile file
     ) {
-        return new BusinessData<>(fastDFSFileService.upload(file, fileType, new HashMap<>()));
+        return new BusinessData<>(fastDFSFileService.upload(file, "", fileType, new HashMap<>()));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
     @PostMapping(value = "/wechat/upload")
     public BusinessData<FileResponseDTO> wechatUpload(
@@ -61,10 +56,9 @@ public class FastDFSFileController {
     ) {
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
         MultipartFile file = multipartHttpServletRequest.getFile(fileKey);
-        return new BusinessData<>(fastDFSFileService.upload(file, fileType, new HashMap<>()));
+        return new BusinessData<>(fastDFSFileService.upload(file, "", fileType, new HashMap<>()));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除文件", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData deleteById(
@@ -74,16 +68,14 @@ public class FastDFSFileController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<FileResponseDTO> getById(
             @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @RequestParam(value = "id", required = false) String id
     ) {
-        return new BusinessData<>(fastDFSFileService.getById(id));
+        return new BusinessData<>(fastDFSFileService.findById(id));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<FileResponseDTO>> list(
@@ -92,7 +84,6 @@ public class FastDFSFileController {
         return new BusinessData<>(fastDFSFileService.list(listFileRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<FileResponseDTO>> page(

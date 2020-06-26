@@ -5,7 +5,6 @@ import com.wondernect.stars.rbac.dto.operation.ListOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.OperationResponseDTO;
 import com.wondernect.stars.rbac.dto.operation.PageOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.SaveOperationRequestDTO;
-import com.wondernect.stars.rbac.model.Operation;
 
 import java.util.List;
 
@@ -31,17 +30,12 @@ public interface InitOperationService {
     /**
      * 删除操作
      */
-    void delete(String id);
-
-    /**
-     * 删除操作
-     */
-    void deleteAllByMenuCode(String menuCode);
+    void deleteById(String id);
 
     /**
      * 获取操作
      */
-    OperationResponseDTO getById(String id);
+    OperationResponseDTO findById(String id);
 
     /**
      * 操作列表
@@ -52,9 +46,4 @@ public interface InitOperationService {
      * 操作分页
      */
     PageResponseData<OperationResponseDTO> page(PageOperationRequestDTO pageOperationRequestDTO);
-
-    /**
-     * 构造操作响应
-     */
-    OperationResponseDTO generate(Operation operation);
 }

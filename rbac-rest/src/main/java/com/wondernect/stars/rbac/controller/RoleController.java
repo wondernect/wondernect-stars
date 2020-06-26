@@ -1,8 +1,5 @@
 package com.wondernect.stars.rbac.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -39,10 +36,6 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private RoleTypeService roleTypeService;
-
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建角色", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<RoleResponseDTO> create(
@@ -51,7 +44,6 @@ public class RoleController {
         return new BusinessData<>(roleService.create(saveRoleRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新角色", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<RoleResponseDTO> update(
@@ -61,26 +53,23 @@ public class RoleController {
         return new BusinessData<>(roleService.update(id, saveRoleRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除角色", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        roleService.delete(id);
+        roleService.deleteById(id);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取角色详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<RoleResponseDTO> get(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        return new BusinessData<>(roleService.getById(id));
+        return new BusinessData<>(roleService.findById(id));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<RoleResponseDTO>> list(
@@ -89,7 +78,6 @@ public class RoleController {
         return new BusinessData<>(roleService.list(listRoleRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleResponseDTO>> page(

@@ -7,7 +7,9 @@ import com.wondernect.elements.rdb.request.SortData;
 import com.wondernect.stars.rbac.model.Operation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,5 +32,17 @@ public class OperationManager extends BaseStringManager<Operation> {
             return null;
         }
         return operationList.get(0);
+    }
+
+    @Transactional
+    public void deleteAllByMenuCode(String menuCode) {
+        Criteria<Operation> operationCriteria = new Criteria<>();
+        operationCriteria.add(Restrictions.eq("menuCode", menuCode));
+        List<Operation> operationList = super.findAll(operationCriteria, new ArrayList<>());
+        if (CollectionUtils.isNotEmpty(operationList)) {
+            for (Operation operation : operationList) {
+                super.deleteById(operation.getId());
+            }
+        }
     }
 }

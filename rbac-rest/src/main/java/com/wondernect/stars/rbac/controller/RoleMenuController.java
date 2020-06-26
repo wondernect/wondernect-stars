@@ -1,8 +1,5 @@
 package com.wondernect.stars.rbac.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
@@ -28,13 +25,12 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping(value = "/v1/{application}/rbac/role_menu")
 @Validated
-@Api(tags = "角色-菜单管理", description = "角色-菜单管理")
+@Api(tags = "角色-菜单", description = "角色-菜单")
 public class RoleMenuController {
 
     @Autowired
     private RoleMenuService roleMenuService;
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData create(
@@ -44,7 +40,6 @@ public class RoleMenuController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "编辑勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/edit")
     public BusinessData update(
@@ -54,7 +49,6 @@ public class RoleMenuController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "取消勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -64,7 +58,6 @@ public class RoleMenuController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色对应菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/tree")
     public BusinessData<RoleMenuTreeResponseDTO> tree(

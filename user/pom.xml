@@ -29,6 +29,19 @@
             <artifactId>redis</artifactId>
         </dependency>
 
+        <!-- elements boot-application -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>boot-application</artifactId>
+        </dependency>
+
+        <!-- user-dto -->
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>user-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- 单元测试相关 -->
         <dependency>
             <groupId>junit</groupId>

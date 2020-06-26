@@ -19,16 +19,20 @@
     <url>http://www.example.com</url>
 
     <modules>
+        <module>session-dto</module>
         <module>session</module>
-        <module>user</module>
+        <module>session-rest</module>
         <module>rbac-dto</module>
         <module>rbac</module>
         <module>rbac-rest</module>
+        <module>file-dto</module>
         <module>file</module>
+        <module>file-rest</module>
+        <module>user-dto</module>
+        <module>user</module>
+        <module>user-rest</module>
         <module>mail</module>
         <module>sms</module>
-        <module>file-dto</module>
-        <module>file-rest</module>
     </modules>
 
     <build>

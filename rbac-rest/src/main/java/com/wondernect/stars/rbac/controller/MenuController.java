@@ -1,8 +1,5 @@
 package com.wondernect.stars.rbac.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -35,7 +32,6 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建菜单", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<MenuResponseDTO> create(
@@ -44,7 +40,6 @@ public class MenuController {
         return new BusinessData<>(menuService.create(saveMenuRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新菜单", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<MenuResponseDTO> update(
@@ -54,26 +49,23 @@ public class MenuController {
         return new BusinessData<>(menuService.update(id, saveMenuRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除菜单", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        menuService.delete(id);
+        menuService.deleteById(id);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取菜单详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<MenuResponseDTO> get(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        return new BusinessData<>(menuService.getById(id));
+        return new BusinessData<>(menuService.findById(id));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "菜单列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<MenuResponseDTO>> list(
@@ -82,7 +74,6 @@ public class MenuController {
         return new BusinessData<>(menuService.list(listMenuRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "菜单分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<MenuResponseDTO>> page(
@@ -91,7 +82,6 @@ public class MenuController {
         return new BusinessData<>(menuService.page(pageMenuRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/{root_menu_code}/tree")
     public BusinessData<MenuTreeResponseDTO> tree(

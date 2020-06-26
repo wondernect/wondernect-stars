@@ -1,6 +1,8 @@
 package com.wondernect.stars.file.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.stars.file.em.FileType;
+import com.wondernect.stars.file.em.FileUploadType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,11 +28,11 @@ public class FileResponseDTO {
 
     @JsonProperty("upload_type")
     @ApiModelProperty(notes = "文件上传类型")
-    private String uploadType;
+    private FileUploadType uploadType;
 
     @JsonProperty("type")
     @ApiModelProperty(notes = "文件类型")
-    private String type;
+    private FileType type;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "文件名称")

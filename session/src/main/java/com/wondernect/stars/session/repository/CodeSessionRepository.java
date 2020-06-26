@@ -10,5 +10,4 @@ import com.wondernect.stars.session.model.CodeSession;
  */
 public interface CodeSessionRepository extends BaseCodeRepository<CodeSession> {
 
-    CodeSession findTopByCreateUserOrderByCreateTimeDesc(String createUser);
 }

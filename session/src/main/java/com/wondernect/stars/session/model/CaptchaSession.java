@@ -48,6 +48,14 @@ public class CaptchaSession extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "验证码图片访问地址")
     private String captchaImageFilePath;
 
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "验证码使用描述")
+    private String description;
+
+    @JsonProperty("expires")
+    @ApiModelProperty(notes = "验证码过期时间(默认1800s)")
+    private Long expires;
+
     @JsonProperty("ip")
     @ApiModelProperty(notes = "客户端ip")
     private String ip;
@@ -60,12 +68,4 @@ public class CaptchaSession extends BaseStringModel implements Serializable {
     @JsonProperty("device_description")
     @ApiModelProperty(notes = "客户端描述")
     private String deviceDescription;
-
-    @JsonProperty("description")
-    @ApiModelProperty(notes = "验证码使用描述")
-    private String description;
-
-    @JsonProperty("expires")
-    @ApiModelProperty(notes = "验证码过期时间(默认1800s)")
-    private Long expires;
 }

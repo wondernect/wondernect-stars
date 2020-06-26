@@ -1,8 +1,5 @@
 package com.wondernect.stars.rbac.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -38,7 +35,6 @@ public class OperationController {
     @Autowired
     private OperationService operationService;
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建操作", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<OperationResponseDTO> create(
@@ -47,7 +43,6 @@ public class OperationController {
         return new BusinessData<>(operationService.create(saveOperationRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<OperationResponseDTO> update(
@@ -57,26 +52,23 @@ public class OperationController {
         return new BusinessData<>(operationService.update(id, saveOperationRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        operationService.delete(id);
+        operationService.deleteById(id);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取操作详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<OperationResponseDTO> get(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        return new BusinessData<>(operationService.getById(id));
+        return new BusinessData<>(operationService.findById(id));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<OperationResponseDTO>> list(
@@ -85,7 +77,6 @@ public class OperationController {
         return new BusinessData<>(operationService.list(listOperationRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<OperationResponseDTO>> page(

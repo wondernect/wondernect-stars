@@ -10,5 +10,4 @@ import com.wondernect.stars.session.model.TokenSession;
  */
 public interface TokenSessionRepository extends BaseTokenRepository<TokenSession> {
 
-    TokenSession findTopByCreateUserOrderByCreateTimeDesc(String createUser);
 }

@@ -31,6 +31,18 @@ public class TokenSession extends BaseTokenModel implements Serializable {
 
     private static final long serialVersionUID = -6815564653309538511L;
 
+    @JsonProperty("user_id")
+    @ApiModelProperty(notes = "用户id")
+    private String userId;
+
+    @JsonProperty("device_identifier")
+    @ApiModelProperty(notes = "客户端唯一标识(移动端可使用该标识进行消息推送)")
+    private String deviceIdentifier;
+
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "会话使用描述")
+    private String description;
+
     @JsonProperty("ip")
     @ApiModelProperty(notes = "客户端ip")
     private String ip;
@@ -43,13 +55,4 @@ public class TokenSession extends BaseTokenModel implements Serializable {
     @JsonProperty("device_description")
     @ApiModelProperty(notes = "客户端描述")
     private String deviceDescription;
-
-    @JsonProperty("device_identifier")
-    @ApiModelProperty(notes = "客户端唯一标识(移动端可使用该标识进行消息推送)")
-    private String deviceIdentifier;
-
-    @NotBlank(message = "会话使用描述不能为空")
-    @JsonProperty("description")
-    @ApiModelProperty(notes = "会话使用描述")
-    private String description;
 }

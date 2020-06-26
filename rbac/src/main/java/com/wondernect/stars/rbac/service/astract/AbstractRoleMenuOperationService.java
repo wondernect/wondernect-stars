@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.service.astract;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -33,7 +34,7 @@ import java.util.List;
  * Date: 2020-02-21 14:06
  * Description:
  */
-public abstract class AbstractRoleMenuOperationService implements InitRoleMenuOperationService {
+public abstract class AbstractRoleMenuOperationService extends BaseStringService<RoleMenuOperationResponseDTO, RoleMenuOperation> implements InitRoleMenuOperationService {
 
     @Autowired
     private RoleManager roleManager;
@@ -63,7 +64,13 @@ public abstract class AbstractRoleMenuOperationService implements InitRoleMenuOp
         }
         RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
         if (ESObjectUtils.isNull(roleMenuOperation)) {
-            roleMenuOperationManager.save(new RoleMenuOperation(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode()));
+            super.save(
+                    new RoleMenuOperation(
+                            roleMenuOperationRequestDTO.getRoleCode(),
+                            roleMenuOperationRequestDTO.getMenuCode(),
+                            roleMenuOperationRequestDTO.getOperationCode()
+                    )
+            );
         }
     }
 
@@ -88,14 +95,14 @@ public abstract class AbstractRoleMenuOperationService implements InitRoleMenuOp
         roleMenuOperation.setLimitable(roleMenuOperationRequestDTO.getLimitable());
         roleMenuOperation.setStartTime(roleMenuOperationRequestDTO.getStartTime());
         roleMenuOperation.setEndTime(roleMenuOperationRequestDTO.getEndTime());
-        roleMenuOperationManager.save(roleMenuOperation);
+        super.save(roleMenuOperation);
     }
 
     @Transactional
     public void delete(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
         if (ESObjectUtils.isNotNull(roleMenuOperation)) {
-            roleMenuOperationManager.deleteById(roleMenuOperation.getId());
+            super.deleteById(roleMenuOperation.getId());
         }
     }
 
@@ -188,6 +195,17 @@ public abstract class AbstractRoleMenuOperationService implements InitRoleMenuOp
                 }
             }
         }
-        return new PageResponseData<>(operationPageResponseData.getPage(), operationPageResponseData.getSize(), operationPageResponseData.getTotalPages(), operationPageResponseData.getTotalElements(), roleMenuOperationResponseDTOList);
+        return new PageResponseData<>(
+                operationPageResponseData.getPage(),
+                operationPageResponseData.getSize(),
+                operationPageResponseData.getTotalPages(),
+                operationPageResponseData.getTotalElements(),
+                roleMenuOperationResponseDTOList
+        );
+    }
+
+    @Override
+    public RoleMenuOperationResponseDTO generate(RoleMenuOperation entity) {
+        return null;
     }
 }

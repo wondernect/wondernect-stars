@@ -2,7 +2,6 @@ package com.wondernect.stars.rbac.service;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.*;
-import com.wondernect.stars.rbac.model.Menu;
 
 import java.util.List;
 
@@ -28,17 +27,17 @@ public interface InitMenuService {
     /**
      * 删除菜单
      */
-    void delete(String id);
+    void deleteById(String id);
 
     /**
      * 获取菜单详情
      */
-    MenuResponseDTO getByCode(String code);
+    MenuResponseDTO findByCode(String code);
 
     /**
      * 获取菜单详情
      */
-    MenuResponseDTO getById(String id);
+    MenuResponseDTO findById(String id);
 
     /**
      * 获取子菜单计数
@@ -59,9 +58,4 @@ public interface InitMenuService {
      * 菜单树形结构
      */
     MenuTreeResponseDTO tree(String code);
-
-    /**
-     * 构造菜单响应结果
-     */
-    MenuResponseDTO generate(Menu menu);
 }

@@ -2,8 +2,8 @@ package com.wondernect.stars.file.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.base.model.BaseStringModel;
-import com.wondernect.stars.file.model.em.FileType;
-import com.wondernect.stars.file.model.em.FileUploadType;
+import com.wondernect.stars.file.em.FileType;
+import com.wondernect.stars.file.em.FileUploadType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "文件")
-public class File extends BaseStringModel implements Serializable{
+public class File extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = 6788863875446323944L;
 
@@ -51,6 +51,10 @@ public class File extends BaseStringModel implements Serializable{
     @JsonProperty("ext")
     @ApiModelProperty(notes = "文件扩展名")
     private String ext;
+
+    @JsonProperty("sub_file_path")
+    @ApiModelProperty(notes = "文件存储根目录下子目录")
+    private String subFilePath;
 
     @JsonProperty("local_path")
     @ApiModelProperty(notes = "文件资源服务器唯一路径")

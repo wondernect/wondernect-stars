@@ -2,8 +2,10 @@ package com.wondernect.stars.rbac.service.astract;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
+import com.wondernect.stars.rbac.dto.RoleMenuResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
 import com.wondernect.stars.rbac.manager.MenuManager;
@@ -28,7 +30,7 @@ import java.util.List;
  * Date: 2020-02-21 14:05
  * Description:
  */
-public abstract class AbstractRoleMenuService implements InitRoleMenuService {
+public abstract class AbstractRoleMenuService extends BaseStringService<RoleMenuResponseDTO, RoleMenu> implements InitRoleMenuService {
 
     @Autowired
     private RoleManager roleManager;
@@ -54,7 +56,12 @@ public abstract class AbstractRoleMenuService implements InitRoleMenuService {
         }
         RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
         if (ESObjectUtils.isNull(roleMenu)) {
-            roleMenuManager.save(new RoleMenu(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode()));
+            super.save(
+                    new RoleMenu(
+                            roleMenuRequestDTO.getRoleCode(),
+                            roleMenuRequestDTO.getMenuCode()
+                    )
+            );
         }
     }
 
@@ -75,7 +82,7 @@ public abstract class AbstractRoleMenuService implements InitRoleMenuService {
         roleMenu.setLimitable(roleMenuRequestDTO.getLimitable());
         roleMenu.setStartTime(roleMenuRequestDTO.getStartTime());
         roleMenu.setEndTime(roleMenuRequestDTO.getEndTime());
-        roleMenuManager.save(roleMenu);
+        super.save(roleMenu);
     }
 
     @Transactional
@@ -83,7 +90,7 @@ public abstract class AbstractRoleMenuService implements InitRoleMenuService {
         RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
         if (ESObjectUtils.isNotNull(roleMenu)) {
             roleMenuOperationManager.deleteAllByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
-            roleMenuManager.deleteById(roleMenu.getId());
+            super.deleteById(roleMenu.getId());
         }
     }
 
@@ -164,5 +171,10 @@ public abstract class AbstractRoleMenuService implements InitRoleMenuService {
             }
         }
         return roleMenuTreeResponseDTO;
+    }
+
+    @Override
+    public RoleMenuResponseDTO generate(RoleMenu entity) {
+        return null;
     }
 }

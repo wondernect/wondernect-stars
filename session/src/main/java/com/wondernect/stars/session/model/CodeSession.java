@@ -31,6 +31,18 @@ public class CodeSession extends BaseCodeModel implements Serializable {
 
     private static final long serialVersionUID = -1056539037703520228L;
 
+    @JsonProperty("user_id")
+    @ApiModelProperty(notes = "用户id")
+    private String userId;
+
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "临时会话使用描述")
+    private String description;
+
+    @JsonProperty("expires")
+    @ApiModelProperty(notes = "临时会话过期时间(默认7200s)")
+    private Long expires;
+
     @JsonProperty("ip")
     @ApiModelProperty(notes = "客户端ip")
     private String ip;
@@ -43,13 +55,4 @@ public class CodeSession extends BaseCodeModel implements Serializable {
     @JsonProperty("device_description")
     @ApiModelProperty(notes = "客户端描述")
     private String deviceDescription;
-
-    @NotBlank(message = "临时会话使用描述不能为空")
-    @JsonProperty("description")
-    @ApiModelProperty(notes = "临时会话使用描述")
-    private String description;
-
-    @JsonProperty("expires")
-    @ApiModelProperty(notes = "临时会话过期时间(默认7200s)")
-    private Long expires;
 }

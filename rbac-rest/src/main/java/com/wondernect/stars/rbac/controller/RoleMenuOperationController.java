@@ -1,8 +1,5 @@
 package com.wondernect.stars.rbac.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -33,13 +30,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/v1/{application}/rbac/role_menu_operation")
 @Validated
-@Api(tags = "角色-菜单-操作管理", description = "角色-菜单-操作管理")
+@Api(tags = "角色-菜单-操作", description = "角色-菜单-操作")
 public class RoleMenuOperationController {
 
     @Autowired
     private RoleMenuOperationService roleMenuOperationService;
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "勾选操作", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData add(
@@ -49,7 +45,6 @@ public class RoleMenuOperationController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "编辑勾选操作", httpMethod = "POST")
     @PostMapping(value = "/edit")
     public BusinessData edit(
@@ -59,7 +54,6 @@ public class RoleMenuOperationController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "取消勾选操作", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -69,7 +63,6 @@ public class RoleMenuOperationController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET", hidden = true)
     @GetMapping(value = "/detail")
     public BusinessData<MenuOperationResponseDTO> getRoleMenuOperation(
@@ -80,7 +73,6 @@ public class RoleMenuOperationController {
         return new BusinessData<>(roleMenuOperationService.getRoleMenuOperation(roleCode, menuCode, operationCode));
     };
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色权限菜单操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<RoleMenuOperationResponseDTO>> list(
@@ -89,7 +81,6 @@ public class RoleMenuOperationController {
         return new BusinessData<>(roleMenuOperationService.list(listRoleMenuOperationRequestDTO));
     }
 
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色权限菜单操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleMenuOperationResponseDTO>> page(

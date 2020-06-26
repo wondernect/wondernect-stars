@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Component
 @Primary
 @PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true, encoding = "UTF-8")
-@ConfigurationProperties(prefix = "wondernect.services.session")
+@ConfigurationProperties(prefix = "wondernect.stars.session")
 public class SessionConfigProperties implements Serializable {
 
     private static final long serialVersionUID = 7429567510622613606L;

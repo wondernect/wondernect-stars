@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.service.astract;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -16,12 +17,10 @@ import com.wondernect.stars.rbac.manager.RoleTypeManager;
 import com.wondernect.stars.rbac.model.Role;
 import com.wondernect.stars.rbac.model.RoleType;
 import com.wondernect.stars.rbac.service.InitRoleService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ import java.util.List;
  * Date: 2020-02-21 13:56
  * Description:
  */
-public abstract class AbstractRoleService implements InitRoleService {
+public abstract class AbstractRoleService extends BaseStringService<RoleResponseDTO, Role> implements InitRoleService {
 
     @Autowired
     private RoleManager roleManager;
@@ -58,8 +57,17 @@ public abstract class AbstractRoleService implements InitRoleService {
         if (ESObjectUtils.isNull(saveRoleRequestDTO.getWeight())) {
             saveRoleRequestDTO.setWeight(0);
         }
-        role = roleManager.save(new Role(saveRoleRequestDTO.getCode(), saveRoleRequestDTO.getName(), saveRoleRequestDTO.getDescription(), saveRoleRequestDTO.getEditable(), saveRoleRequestDTO.getDeletable(), saveRoleRequestDTO.getWeight(), saveRoleRequestDTO.getRoleType()));
-        return generate(role);
+        return super.save(
+                new Role(
+                        saveRoleRequestDTO.getCode(),
+                        saveRoleRequestDTO.getName(),
+                        saveRoleRequestDTO.getDescription(),
+                        saveRoleRequestDTO.getEditable(),
+                        saveRoleRequestDTO.getDeletable(),
+                        saveRoleRequestDTO.getWeight(),
+                        saveRoleRequestDTO.getRoleType()
+                )
+        );
     }
 
     @Transactional
@@ -68,7 +76,7 @@ public abstract class AbstractRoleService implements InitRoleService {
         if (ESObjectUtils.isNull(roleType)) {
             throw new BusinessException("角色类型不存在");
         }
-        Role role = roleManager.findById(id);
+        Role role = super.findEntityById(id);
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
@@ -83,13 +91,12 @@ public abstract class AbstractRoleService implements InitRoleService {
             role.setWeight(saveRoleRequestDTO.getWeight());
         }
         role.setRoleType(saveRoleRequestDTO.getRoleType());
-        role = roleManager.save(role);
-        return generate(role);
+        return super.save(role);
     }
 
     @Transactional
-    public void delete(String id) {
-        Role role = roleManager.findById(id);
+    public void deleteById(String id) {
+        Role role = super.findEntityById(id);
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
@@ -98,19 +105,11 @@ public abstract class AbstractRoleService implements InitRoleService {
         }
         roleMenuManager.deleteAllByRoleCode(role.getCode());
         roleMenuOperationManager.deleteAllByRoleCode(role.getCode());
-        roleManager.deleteById(id);
+        super.deleteById(id);
     }
 
-    public RoleResponseDTO getByCode(String code) {
+    public RoleResponseDTO findByCode(String code) {
         Role role = roleManager.findByCode(code);
-        if (ESObjectUtils.isNull(role)) {
-            return null;
-        }
-        return generate(role);
-    }
-
-    public RoleResponseDTO getById(String id) {
-        Role role = roleManager.findById(id);
         if (ESObjectUtils.isNull(role)) {
             return null;
         }
@@ -128,14 +127,7 @@ public abstract class AbstractRoleService implements InitRoleService {
                         )
                 )
         );
-        List<Role> roleList = roleManager.findAll(roleCriteria, listRoleRequestDTO.getSortDataList());
-        List<RoleResponseDTO> roleResponseDTOList = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(roleList)) {
-            for (Role role : roleList) {
-                roleResponseDTOList.add(generate(role));
-            }
-        }
-        return roleResponseDTOList;
+        return super.findAll(roleCriteria, listRoleRequestDTO.getSortDataList());
     }
 
     public PageResponseData<RoleResponseDTO> page(PageRoleRequestDTO pageRoleRequestDTO) {
@@ -149,21 +141,7 @@ public abstract class AbstractRoleService implements InitRoleService {
                         )
                 )
         );
-        PageResponseData<Role> rolePageResponseData = roleManager.findAll(roleCriteria, pageRoleRequestDTO.getPageRequestData());
-        List<RoleResponseDTO> roleResponseDTOList = new ArrayList<>();
-        List<Role> roleList = rolePageResponseData.getDataList();
-        if (CollectionUtils.isNotEmpty(roleList)) {
-            for (Role role : roleList) {
-                roleResponseDTOList.add(generate(role));
-            }
-        }
-        return new PageResponseData<>(
-                rolePageResponseData.getPage(),
-                rolePageResponseData.getSize(),
-                rolePageResponseData.getTotalPages(),
-                rolePageResponseData.getTotalElements(),
-                roleResponseDTOList
-        );
+        return super.findAll(roleCriteria, pageRoleRequestDTO.getPageRequestData());
     }
 
     public RoleResponseDTO generate(Role role) {

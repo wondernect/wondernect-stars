@@ -47,8 +47,4 @@ public class CodeSessionManager extends BaseCodeManager<CodeSession> {
     public CodeSession findCacheByCode(String code) {
         return codeSessionCache.get(code);
     }
-
-    public void saveExpireCodeCache(CodeSession codeSession) {
-        codeSessionCache.saveExpire(codeSession);
-    }
 }

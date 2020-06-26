@@ -5,7 +5,6 @@ import com.wondernect.stars.rbac.dto.role.ListRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.PageRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.RoleResponseDTO;
 import com.wondernect.stars.rbac.dto.role.SaveRoleRequestDTO;
-import com.wondernect.stars.rbac.model.Role;
 
 import java.util.List;
 
@@ -31,17 +30,17 @@ public interface InitRoleService {
     /**
      * 删除角色
      */
-    void delete(String id);
+    void deleteById(String id);
 
     /**
      * 获取角色详情
      */
-    RoleResponseDTO getByCode(String code);
+    RoleResponseDTO findByCode(String code);
 
     /**
      * 获取角色详情
      */
-    RoleResponseDTO getById(String id);
+    RoleResponseDTO findById(String id);
 
     /**
      * 角色列表
@@ -52,9 +51,4 @@ public interface InitRoleService {
      * 角色分页
      */
     PageResponseData<RoleResponseDTO> page(PageRoleRequestDTO pageRoleRequestDTO);
-
-    /**
-     * 构造角色响应
-     */
-    RoleResponseDTO generate(Role role);
 }

@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.service.astract;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -15,12 +16,10 @@ import com.wondernect.stars.rbac.manager.RoleMenuOperationManager;
 import com.wondernect.stars.rbac.model.Menu;
 import com.wondernect.stars.rbac.model.Operation;
 import com.wondernect.stars.rbac.service.InitOperationService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ import java.util.List;
  * Date: 2020-02-21 14:05
  * Description:
  */
-public abstract class AbstractOperationService implements InitOperationService {
+public abstract class AbstractOperationService extends BaseStringService<OperationResponseDTO, Operation> implements InitOperationService {
 
     @Autowired
     private OperationManager operationManager;
@@ -54,8 +53,17 @@ public abstract class AbstractOperationService implements InitOperationService {
         if (ESObjectUtils.isNull(saveOperationRequestDTO.getWeight())) {
             saveOperationRequestDTO.setWeight(0);
         }
-        operation = operationManager.save(new Operation(saveOperationRequestDTO.getCode(), saveOperationRequestDTO.getName(), saveOperationRequestDTO.getDescription(), saveOperationRequestDTO.getEditable(), saveOperationRequestDTO.getDeletable(), saveOperationRequestDTO.getWeight(), saveOperationRequestDTO.getMenuCode()));
-        return generate(operation);
+        return super.save(
+                new Operation(
+                        saveOperationRequestDTO.getCode(),
+                        saveOperationRequestDTO.getName(),
+                        saveOperationRequestDTO.getDescription(),
+                        saveOperationRequestDTO.getEditable(),
+                        saveOperationRequestDTO.getDeletable(),
+                        saveOperationRequestDTO.getWeight(),
+                        saveOperationRequestDTO.getMenuCode()
+                )
+        );
     }
 
     @Transactional
@@ -64,7 +72,7 @@ public abstract class AbstractOperationService implements InitOperationService {
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        Operation operation = operationManager.findById(id);
+        Operation operation = super.findEntityById(id);
         if (ESObjectUtils.isNull(operation)) {
             throw new BusinessException("操作不存在");
         }
@@ -76,13 +84,12 @@ public abstract class AbstractOperationService implements InitOperationService {
             operation.setWeight(saveOperationRequestDTO.getWeight());
         }
         operation.setMenuCode(saveOperationRequestDTO.getMenuCode());
-        operation = operationManager.save(operation);
-        return generate(operation);
+        return super.save(operation);
     }
 
     @Transactional
-    public void delete(String id) {
-        Operation operation = operationManager.findById(id);
+    public void deleteById(String id) {
+        Operation operation = super.findEntityById(id);
         if (ESObjectUtils.isNull(operation)) {
             throw new BusinessException("操作不存在");
         }
@@ -90,27 +97,7 @@ public abstract class AbstractOperationService implements InitOperationService {
             throw new BusinessException("操作不可删除");
         }
         roleMenuOperationManager.deleteAllByOperationCode(operation.getCode());
-        operationManager.deleteById(id);
-    }
-
-    @Transactional
-    public void deleteAllByMenuCode(String menuCode) {
-        Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(Restrictions.eq("menuCode", menuCode));
-        List<Operation> operationList = operationManager.findAll(operationCriteria, new ArrayList<>());
-        if (CollectionUtils.isNotEmpty(operationList)) {
-            for (Operation operation : operationList) {
-                operationManager.deleteById(operation.getId());
-            }
-        }
-    }
-
-    public OperationResponseDTO getById(String id) {
-        Operation operation = operationManager.findById(id);
-        if (ESObjectUtils.isNull(operation)) {
-            return null;
-        }
-        return generate(operation);
+        super.deleteById(id);
     }
 
     public List<OperationResponseDTO> list(ListOperationRequestDTO listOperationRequestDTO) {
@@ -124,14 +111,7 @@ public abstract class AbstractOperationService implements InitOperationService {
                         )
                 )
         );
-        List<OperationResponseDTO> operationResponseDTOList = new ArrayList<>();
-        List<Operation> operationList = operationManager.findAll(operationCriteria, listOperationRequestDTO.getSortDataList());
-        if (CollectionUtils.isNotEmpty(operationList)) {
-            for (Operation operation : operationList) {
-                operationResponseDTOList.add(generate(operation));
-            }
-        }
-        return operationResponseDTOList;
+        return super.findAll(operationCriteria, listOperationRequestDTO.getSortDataList());
     }
 
     public PageResponseData<OperationResponseDTO> page(PageOperationRequestDTO pageOperationRequestDTO) {
@@ -145,21 +125,7 @@ public abstract class AbstractOperationService implements InitOperationService {
                         )
                 )
         );
-        PageResponseData<Operation> operationPageResponseData = operationManager.findAll(operationCriteria, pageOperationRequestDTO.getPageRequestData());
-        List<OperationResponseDTO> operationResponseDTOList = new ArrayList<>();
-        List<Operation> operationList = operationPageResponseData.getDataList();
-        if (CollectionUtils.isNotEmpty(operationList)) {
-            for (Operation operation : operationList) {
-                operationResponseDTOList.add(generate(operation));
-            }
-        }
-        return new PageResponseData<>(
-                operationPageResponseData.getPage(),
-                operationPageResponseData.getSize(),
-                operationPageResponseData.getTotalPages(),
-                operationPageResponseData.getTotalElements(),
-                operationResponseDTOList
-        );
+        return super.findAll(operationCriteria, pageOperationRequestDTO.getPageRequestData());
     }
 
     public OperationResponseDTO generate(Operation operation) {
