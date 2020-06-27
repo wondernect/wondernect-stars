@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.service;
 
 import com.wondernect.elements.boot.application.event.WondernectBootEvent;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.stars.rbac.config.RBACConfigProperties;
 import com.wondernect.stars.rbac.manager.MenuManager;
 import com.wondernect.stars.rbac.manager.RoleManager;
@@ -45,7 +46,8 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
         switch (wondernectBootEvent.getWondernectBootEventType()) {
             case BOOT:
             {
-                if (ESObjectUtils.isNull(roleTypeManager.findByCode(rbacConfigProperties.getRoleTypeCode()))) {
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleTypeCode()) &&
+                        ESObjectUtils.isNull(roleTypeManager.findByCode(rbacConfigProperties.getRoleTypeCode()))) {
                     roleTypeManager.save(
                             new RoleType(
                                     rbacConfigProperties.getRoleTypeCode(),
@@ -58,7 +60,8 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
                     );
                 }
 
-                if (ESObjectUtils.isNull(roleManager.findByCode(rbacConfigProperties.getRoleCode()))) {
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleCode()) &&
+                        ESObjectUtils.isNull(roleManager.findByCode(rbacConfigProperties.getRoleCode()))) {
                     roleManager.save(
                             new Role(
                                     rbacConfigProperties.getRoleCode(),
@@ -72,7 +75,8 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
                     );
                 }
 
-                if (ESObjectUtils.isNull(menuManager.findByCode(rbacConfigProperties.getMenuCode()))) {
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getMenuCode()) &&
+                        ESObjectUtils.isNull(menuManager.findByCode(rbacConfigProperties.getMenuCode()))) {
                     menuManager.save(
                             new Menu(
                                     rbacConfigProperties.getMenuCode(),
@@ -86,7 +90,9 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
                     );
                 }
 
-                if (ESObjectUtils.isNull(roleMenuManager.findByRoleCodeAndMenuCode(rbacConfigProperties.getRoleCode(), rbacConfigProperties.getMenuCode()))) {
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleCode()) &&
+                        ESStringUtils.isNotBlank(rbacConfigProperties.getMenuCode()) &&
+                        ESObjectUtils.isNull(roleMenuManager.findByRoleCodeAndMenuCode(rbacConfigProperties.getRoleCode(), rbacConfigProperties.getMenuCode()))) {
                     roleMenuManager.save(
                             new RoleMenu(
                                     rbacConfigProperties.getRoleCode(),

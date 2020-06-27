@@ -123,7 +123,7 @@ public abstract class AbstractUserService extends BaseStringService<UserResponse
     public UserResponseDTO generate(User user) {
         UserResponseDTO userResponseDTO = new UserResponseDTO();
         ESBeanUtils.copyProperties(user, userResponseDTO);
-        userResponseDTO.setUserId(user.getId());
+        userResponseDTO.setId(user.getId());
         userResponseDTO.setUserType(user.getUserType().name());
         userResponseDTO.setGender(user.getGender().name());
         return userResponseDTO;

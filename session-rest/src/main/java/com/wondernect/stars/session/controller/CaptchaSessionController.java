@@ -41,35 +41,35 @@ public class CaptchaSessionController {
     }
 
     @ApiOperation(value = "删除(缓存&数据库)", httpMethod = "POST")
-    @PostMapping(value = "/{captcha_session_id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
-            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "captcha_session_id", required = false) String captchaSessionId
+            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "id", required = false) String captchaSessionId
     ) {
         captchaSessionService.deleteById(captchaSessionId);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
     @ApiOperation(value = "获取详情(缓存&数据库)", httpMethod = "GET")
-    @GetMapping(value = "/{captcha_session_id}/detail")
+    @GetMapping(value = "/{id}/detail")
     public BusinessData<CaptchaResponseDTO> detail(
-            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "captcha_session_id", required = false) String captchaSessionId
+            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "id", required = false) String captchaSessionId
     ) {
         return new BusinessData<>(captchaSessionService.findById(captchaSessionId));
     }
 
     @ApiOperation(value = "删除(缓存)", httpMethod = "POST")
-    @PostMapping(value = "/{captcha_session_id}/cache_delete")
+    @PostMapping(value = "/{id}/cache_delete")
     public BusinessData deleteCache(
-            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "captcha_session_id", required = false) String captchaSessionId
+            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "id", required = false) String captchaSessionId
     ) {
         captchaSessionService.deleteCacheById(captchaSessionId);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
     @ApiOperation(value = "获取详情(缓存)", httpMethod = "GET")
-    @GetMapping(value = "/{captcha_session_id}/cache_detail")
+    @GetMapping(value = "/{id}/cache_detail")
     public BusinessData<CaptchaResponseDTO> detailCache(
-            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "captcha_session_id", required = false) String captchaSessionId
+            @ApiParam(required = true) @NotBlank(message = "验证码id不能为空") @PathVariable(value = "id", required = false) String captchaSessionId
     ) {
         return new BusinessData<>(captchaSessionService.findCacheById(captchaSessionId));
     }

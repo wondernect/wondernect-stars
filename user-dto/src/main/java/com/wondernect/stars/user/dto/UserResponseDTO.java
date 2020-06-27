@@ -20,9 +20,9 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "用户响应对象")
 public class UserResponseDTO {
 
-    @JsonProperty("user_id")
+    @JsonProperty("id")
     @ApiModelProperty(notes = "唯一标识")
-    private String userId;
+    private String id;
 
     @JsonProperty("user_type")
     @ApiModelProperty(notes = "用户类型")

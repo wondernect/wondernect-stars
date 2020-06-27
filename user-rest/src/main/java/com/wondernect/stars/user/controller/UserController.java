@@ -44,27 +44,27 @@ public class UserController {
     }
 
     @ApiOperation(value = "更新", httpMethod = "POST")
-    @PostMapping(value = "/{user_id}/update")
+    @PostMapping(value = "/{id}/update")
     public BusinessData<UserResponseDTO> update(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "user_id", required = false) String userId,
+            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
     ) {
         return new BusinessData<>(userService.update(userId, saveUserRequestDTO));
     }
 
     @ApiOperation(value = "删除", httpMethod = "POST")
-    @PostMapping(value = "/{user_id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "user_id", required = false) String userId
+            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     ) {
         userService.deleteById(userId);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/{user_id}/detail")
+    @GetMapping(value = "/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "user_id", required = false) String userId
+            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     ) {
         return new BusinessData<>(userService.findById(userId));
     }

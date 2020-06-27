@@ -20,9 +20,9 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "验证码响应对象")
 public class CaptchaResponseDTO {
 
-    @JsonProperty("captcha_session_id")
+    @JsonProperty("id")
     @ApiModelProperty(notes = "验证码会话id")
-    private String captchaSessionId;
+    private String id;
 
     @JsonProperty("username")
     @ApiModelProperty(notes = "用户名")
