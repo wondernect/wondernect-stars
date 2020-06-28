@@ -8,7 +8,7 @@ import com.wondernect.stars.rbac.dto.rolemenuoperation.ListRoleMenuOperationRequ
 import com.wondernect.stars.rbac.dto.rolemenuoperation.PageRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationResponseDTO;
-import com.wondernect.stars.rbac.service.astract.dfault.RoleMenuOperationService;
+import com.wondernect.stars.rbac.service.rolemenuoperation.RoleMenuOperationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

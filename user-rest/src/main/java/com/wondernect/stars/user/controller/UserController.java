@@ -7,7 +7,7 @@ import com.wondernect.stars.user.dto.ListUserRequestDTO;
 import com.wondernect.stars.user.dto.PageUserRequestDTO;
 import com.wondernect.stars.user.dto.SaveUserRequestDTO;
 import com.wondernect.stars.user.dto.UserResponseDTO;
-import com.wondernect.stars.user.service.astract.dfault.UserService;
+import com.wondernect.stars.user.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

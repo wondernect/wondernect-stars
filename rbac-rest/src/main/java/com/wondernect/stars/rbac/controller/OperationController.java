@@ -7,7 +7,7 @@ import com.wondernect.stars.rbac.dto.operation.ListOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.OperationResponseDTO;
 import com.wondernect.stars.rbac.dto.operation.PageOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.SaveOperationRequestDTO;
-import com.wondernect.stars.rbac.service.astract.dfault.OperationService;
+import com.wondernect.stars.rbac.service.operation.OperationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

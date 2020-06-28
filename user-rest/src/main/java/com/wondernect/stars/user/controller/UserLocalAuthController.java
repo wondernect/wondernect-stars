@@ -5,7 +5,7 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
-import com.wondernect.stars.user.service.astract.dfault.UserLocalAuthService;
+import com.wondernect.stars.user.service.localauth.UserLocalAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

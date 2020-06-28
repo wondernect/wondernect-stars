@@ -6,7 +6,7 @@ import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.FileResponseDTO;
 import com.wondernect.stars.file.dto.ListFileRequestDTO;
 import com.wondernect.stars.file.dto.PageFileRequestDTO;
-import com.wondernect.stars.file.service.astract.dfault.FastDFSFileService;
+import com.wondernect.stars.file.service.fastdfs.FastDFSFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

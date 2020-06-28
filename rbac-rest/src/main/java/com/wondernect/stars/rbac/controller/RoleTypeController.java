@@ -7,7 +7,7 @@ import com.wondernect.stars.rbac.dto.roletype.ListRoleTypeRequestDTO;
 import com.wondernect.stars.rbac.dto.roletype.PageRoleTypeRequestDTO;
 import com.wondernect.stars.rbac.dto.roletype.RoleTypeResponseDTO;
 import com.wondernect.stars.rbac.dto.roletype.SaveRoleTypeRequestDTO;
-import com.wondernect.stars.rbac.service.astract.dfault.RoleTypeService;
+import com.wondernect.stars.rbac.service.roletype.RoleTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

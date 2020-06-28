@@ -6,7 +6,7 @@ import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
 import com.wondernect.stars.file.dto.LocalFilePathResponseDTO;
 import com.wondernect.stars.file.dto.PageLocalFilePathRequestDTO;
 import com.wondernect.stars.file.dto.SaveLocalFilePathRequestDTO;
-import com.wondernect.stars.file.service.astract.dfault.LocalFilePathService;
+import com.wondernect.stars.file.service.localfilepath.LocalFilePathService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

@@ -4,7 +4,7 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.token.*;
-import com.wondernect.stars.session.service.astract.dfault.TokenSessionService;
+import com.wondernect.stars.session.service.token.TokenSessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

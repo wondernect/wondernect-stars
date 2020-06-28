@@ -6,7 +6,7 @@ import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.SaveUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
 import com.wondernect.stars.user.em.AppType;
-import com.wondernect.stars.user.service.astract.dfault.UserThirdAuthService;
+import com.wondernect.stars.user.service.thirdauth.UserThirdAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

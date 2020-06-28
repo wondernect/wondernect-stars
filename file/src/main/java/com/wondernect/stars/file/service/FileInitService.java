@@ -2,14 +2,11 @@ package com.wondernect.stars.file.service;
 
 import com.wondernect.elements.boot.application.event.WondernectBootEvent;
 import com.wondernect.elements.common.utils.ESObjectUtils;
-import com.wondernect.elements.file.client.config.FileClientConfigProperties;
 import com.wondernect.stars.file.model.LocalFilePath;
-import com.wondernect.stars.file.service.astract.dfault.LocalFilePathService;
+import com.wondernect.stars.file.service.localfilepath.LocalFilePathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
 
 /**
  * Copyright (C), 2020, wondernect.com

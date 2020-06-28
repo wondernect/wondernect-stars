@@ -4,7 +4,7 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
-import com.wondernect.stars.rbac.service.astract.dfault.RoleMenuService;
+import com.wondernect.stars.rbac.service.rolemenu.RoleMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
