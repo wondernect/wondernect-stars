@@ -3,7 +3,7 @@ package com.wondernect.stars.rbac.controller;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.MenuOperationResponseDTO;
+import com.wondernect.stars.rbac.dto.OperationAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.ListRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.PageRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationRequestDTO;
@@ -63,14 +63,14 @@ public class RoleMenuOperationController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET", hidden = true)
+    @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
-    public BusinessData<MenuOperationResponseDTO> getRoleMenuOperation(
+    public BusinessData<RoleMenuOperationResponseDTO> getRoleMenuOperation(
             @ApiParam(required = true) @NotBlank(message = "角色不能为空") @RequestParam(value = "role_code", required = false) String roleCode,
             @ApiParam(required = true) @NotBlank(message = "菜单不能为空") @RequestParam(value = "menu_code", required = false) String menuCode,
             @ApiParam(required = true) @NotBlank(message = "操作不能为空") @RequestParam(value = "operation_code", required = false) String operationCode
     ) {
-        return new BusinessData<>(roleMenuOperationService.getRoleMenuOperation(roleCode, menuCode, operationCode));
+        return new BusinessData<>(roleMenuOperationService.findByRoleCodeAndMenuCodeAndOperationCode(roleCode, menuCode, operationCode));
     };
 
     @ApiOperation(value = "角色权限菜单操作列表", httpMethod = "POST")

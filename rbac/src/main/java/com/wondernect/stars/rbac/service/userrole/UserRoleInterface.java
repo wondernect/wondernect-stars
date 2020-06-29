@@ -3,6 +3,7 @@ package com.wondernect.stars.rbac.service.userrole;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.userrole.ListUserRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.userrole.PageUserRoleRequestDTO;
+import com.wondernect.stars.rbac.dto.userrole.UserRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.userrole.UserRoleResponseDTO;
 
 import java.util.List;
@@ -15,27 +16,17 @@ import java.util.List;
 public interface UserRoleInterface {
 
     /**
-     * 创建
+     * 新增
      **/
-    UserRoleResponseDTO add(String userId, String role);
+    void add(UserRoleRequestDTO userRoleRequestDTO);
 
     /**
      * 删除
      **/
-    void delete(String userId, String role);
+    void delete(UserRoleRequestDTO userRoleRequestDTO);
 
     /**
-     * 删除
-     **/
-    void deleteById(String id);
-
-    /**
-     * 获取详细信息
-     **/
-    UserRoleResponseDTO findById(String id);
-
-    /**
-     * 获取详细信息
+     * 获取
      **/
     UserRoleResponseDTO findByUserIdAndRole(String userId, String role);
 

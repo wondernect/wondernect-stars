@@ -22,6 +22,10 @@ import java.util.List;
 @ApiModel(value = "角色对应菜单树形响应对象")
 public class RoleMenuTreeResponseDTO {
 
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "菜单唯一标识")
+    private String id;
+
     @JsonProperty("code")
     @ApiModelProperty(notes = "菜单代码")
     private String code;
@@ -42,7 +46,7 @@ public class RoleMenuTreeResponseDTO {
     @ApiModelProperty(notes = "可见开始时间")
     private Long startTime;
 
-    @JsonProperty("endTime")
+    @JsonProperty("end_time")
     @ApiModelProperty(notes = "可见结束时间")
     private Long endTime;
 

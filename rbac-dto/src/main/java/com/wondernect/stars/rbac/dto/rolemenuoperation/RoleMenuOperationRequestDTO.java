@@ -46,7 +46,7 @@ public class RoleMenuOperationRequestDTO {
     @ApiModelProperty(notes = "可见开始时间")
     private Long startTime;
 
-    @JsonProperty("endTime")
+    @JsonProperty("end_time")
     @ApiModelProperty(notes = "可见结束时间")
     private Long endTime;
 }

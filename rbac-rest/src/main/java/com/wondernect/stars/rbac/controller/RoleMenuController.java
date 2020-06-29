@@ -2,8 +2,7 @@ package com.wondernect.stars.rbac.controller;
 
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
+import com.wondernect.stars.rbac.dto.rolemenu.*;
 import com.wondernect.stars.rbac.service.rolemenu.RoleMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,6 +55,15 @@ public class RoleMenuController {
     ) {
         roleMenuService.delete(roleMenuRequestDTO);
         return new BusinessData(BusinessError.SUCCESS);
+    }
+
+    @ApiOperation(value = "获取角色菜单", httpMethod = "GET")
+    @GetMapping(value = "/detail")
+    public BusinessData<RoleMenuResponseDTO> detail(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_code", required = false) String roleCode,
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "menu_code", required = false) String menuCode
+    ) {
+        return new BusinessData<>(roleMenuService.findByRoleCodeAndMenuCode(roleCode, menuCode));
     }
 
     @ApiOperation(value = "角色对应菜单树形结构", httpMethod = "GET")

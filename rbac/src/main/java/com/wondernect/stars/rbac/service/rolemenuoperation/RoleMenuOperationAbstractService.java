@@ -6,7 +6,6 @@ import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.MenuOperationResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.ListRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.PageRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationRequestDTO;
@@ -48,6 +47,7 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     private RoleMenuOperationManager roleMenuOperationManager;
 
     @Transactional
+    @Override
     public void add(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         Role role = roleManager.findByCode(roleMenuOperationRequestDTO.getRoleCode());
         if (ESObjectUtils.isNull(role)) {
@@ -63,7 +63,7 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
         }
         RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
         if (ESObjectUtils.isNull(roleMenuOperation)) {
-            super.save(
+            super.saveEntity(
                     new RoleMenuOperation(
                             roleMenuOperationRequestDTO.getRoleCode(),
                             roleMenuOperationRequestDTO.getMenuCode(),
@@ -74,6 +74,7 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     }
 
     @Transactional
+    @Override
     public void edit(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         Role role = roleManager.findByCode(roleMenuOperationRequestDTO.getRoleCode());
         if (ESObjectUtils.isNull(role)) {
@@ -94,10 +95,11 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
         roleMenuOperation.setLimitable(roleMenuOperationRequestDTO.getLimitable());
         roleMenuOperation.setStartTime(roleMenuOperationRequestDTO.getStartTime());
         roleMenuOperation.setEndTime(roleMenuOperationRequestDTO.getEndTime());
-        super.save(roleMenuOperation);
+        super.saveEntity(roleMenuOperation);
     }
 
     @Transactional
+    @Override
     public void delete(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
         if (ESObjectUtils.isNotNull(roleMenuOperation)) {
@@ -105,21 +107,37 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
         }
     }
 
-    public MenuOperationResponseDTO getRoleMenuOperation(String roleCode, String menuCode, String operationCode) {
-        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleCode, menuCode, operationCode);
+    @Override
+    public RoleMenuOperationResponseDTO findByRoleCodeAndMenuCodeAndOperationCode(String roleCode, String menuCode, String operationCode) {
         Operation operation = operationManager.findByCode(operationCode, menuCode);
-        if (ESObjectUtils.isNull(roleMenuOperation) || ESObjectUtils.isNull(operation)) {
-            return null;
+        if (ESObjectUtils.isNull(operation)) {
+            throw new BusinessException("操作不存在");
         }
-        return new MenuOperationResponseDTO(
-                operation.getCode(),
-                operation.getName(),
-                roleMenuOperation.getLimitable(),
-                roleMenuOperation.getStartTime(),
-                roleMenuOperation.getEndTime()
-        );
+        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleCode, menuCode, operationCode);
+        if (ESObjectUtils.isNull(roleMenuOperation)) {
+            return new RoleMenuOperationResponseDTO(
+                    operation.getId(),
+                    operation.getCode(),
+                    operation.getName(),
+                    true,
+                    roleMenuOperation.getLimitable(),
+                    roleMenuOperation.getStartTime(),
+                    roleMenuOperation.getEndTime()
+            );
+        } else {
+            return new RoleMenuOperationResponseDTO(
+                    operation.getId(),
+                    operation.getCode(),
+                    operation.getName(),
+                    false,
+                    null,
+                    null,
+                    null
+            );
+        }
     }
 
+    @Override
     public List<RoleMenuOperationResponseDTO> list(ListRoleMenuOperationRequestDTO listRoleMenuOperationRequestDTO) {
         Criteria<Operation> operationCriteria = new Criteria<>();
         operationCriteria.add(Restrictions.eq("menuCode", listRoleMenuOperationRequestDTO.getMenuCode()));
@@ -158,6 +176,7 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
         return roleMenuOperationResponseDTOList;
     }
 
+    @Override
     public PageResponseData<RoleMenuOperationResponseDTO> page(PageRoleMenuOperationRequestDTO pageRoleMenuOperationRequestDTO) {
         Criteria<Operation> operationCriteria = new Criteria<>();
         operationCriteria.add(Restrictions.eq("menuCode", pageRoleMenuOperationRequestDTO.getMenuCode()));
@@ -204,7 +223,7 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     }
 
     @Override
-    public RoleMenuOperationResponseDTO generate(RoleMenuOperation entity) {
+    public RoleMenuOperationResponseDTO generate(RoleMenuOperation roleMenuOperation) {
         return null;
     }
 }

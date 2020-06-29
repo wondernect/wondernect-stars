@@ -1,7 +1,6 @@
 package com.wondernect.stars.rbac.service.userrole;
 
 import com.wondernect.elements.common.exception.BusinessException;
-import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
@@ -9,6 +8,7 @@ import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.userrole.ListUserRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.userrole.PageUserRoleRequestDTO;
+import com.wondernect.stars.rbac.dto.userrole.UserRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.userrole.UserRoleResponseDTO;
 import com.wondernect.stars.rbac.manager.RoleManager;
 import com.wondernect.stars.rbac.manager.UserRoleManager;
@@ -34,23 +34,23 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
 
     @Transactional
     @Override
-    public UserRoleResponseDTO add(String userId, String role) {
-        Role roleEntity = roleManager.findByCode(role);
-        if (ESObjectUtils.isNull(roleEntity)) {
+    public void add(UserRoleRequestDTO userRoleRequestDTO) {
+        Role role = roleManager.findByCode(userRoleRequestDTO.getRole());
+        if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        UserRole userRole = userRoleManager.findByUserIdAndRole(userId, role);
+        UserRole userRole = userRoleManager.findByUserIdAndRole(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRole());
         if (ESObjectUtils.isNotNull(userRole)) {
             throw new BusinessException("用户角色已存在");
         }
-        userRole = new UserRole(userId, roleEntity.getRoleType(), role);
-        return super.save(userRole);
+        userRole = new UserRole(userRoleRequestDTO.getUserId(), role.getRoleType(), userRoleRequestDTO.getRole());
+        super.saveEntity(userRole);
     }
 
     @Transactional
     @Override
-    public void delete(String userId, String role) {
-        UserRole userRole = userRoleManager.findByUserIdAndRole(userId, role);
+    public void delete(UserRoleRequestDTO userRoleRequestDTO) {
+        UserRole userRole = userRoleManager.findByUserIdAndRole(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRole());
         if (ESObjectUtils.isNotNull(userRole)) {
             super.deleteById(userRole.getId());
         }
@@ -81,9 +81,11 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
 
     @Override
     public UserRoleResponseDTO generate(UserRole userRole) {
-        UserRoleResponseDTO userRoleResponseDTO = new UserRoleResponseDTO();
-        ESBeanUtils.copyProperties(userRole, userRoleResponseDTO);
-        userRoleResponseDTO.setId(userRole.getId());
-        return userRoleResponseDTO;
+        Role role = roleManager.findByCode(userRole.getRole());
+        return new UserRoleResponseDTO(
+                role.getId(),
+                role.getCode(),
+                role.getName()
+        );
     }
 }

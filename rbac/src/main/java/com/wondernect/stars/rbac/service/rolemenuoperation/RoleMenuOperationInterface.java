@@ -1,7 +1,6 @@
 package com.wondernect.stars.rbac.service.rolemenuoperation;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.MenuOperationResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.ListRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.PageRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.RoleMenuOperationRequestDTO;
@@ -36,7 +35,7 @@ public interface RoleMenuOperationInterface {
     /**
      * 获取角色菜单对应操作
      */
-    MenuOperationResponseDTO getRoleMenuOperation(String roleCode, String menuCode, String operationCode);
+    RoleMenuOperationResponseDTO findByRoleCodeAndMenuCodeAndOperationCode(String roleCode, String menuCode, String operationCode);
 
     /**
      * 角色菜单操作列表

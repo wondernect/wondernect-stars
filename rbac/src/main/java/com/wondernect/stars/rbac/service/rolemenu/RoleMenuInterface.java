@@ -1,7 +1,6 @@
 package com.wondernect.stars.rbac.service.rolemenu;
 
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
+import com.wondernect.stars.rbac.dto.rolemenu.*;
 
 /**
  * Copyright (C), 2020, wondernect.com
@@ -26,6 +25,11 @@ public interface RoleMenuInterface {
      * 删除角色菜单
      */
     void delete(RoleMenuRequestDTO roleMenuRequestDTO);
+
+    /**
+     * 获取角色菜单
+     */
+    RoleMenuResponseDTO findByRoleCodeAndMenuCode(String roleCode, String menuCode);
 
     /**
      * 角色菜单树

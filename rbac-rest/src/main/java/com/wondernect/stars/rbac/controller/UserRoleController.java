@@ -5,6 +5,7 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.userrole.ListUserRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.userrole.PageUserRoleRequestDTO;
+import com.wondernect.stars.rbac.dto.userrole.UserRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.userrole.UserRoleResponseDTO;
 import com.wondernect.stars.rbac.service.userrole.UserRoleService;
 import io.swagger.annotations.Api;
@@ -26,7 +27,7 @@ import java.util.List;
 @RequestMapping(value = "/v1/{application}/rbac/user_role")
 @RestController
 @Validated
-@Api(tags = "用户角色接口")
+@Api(tags = "用户-角色", description = "用户-角色")
 public class UserRoleController {
 
     @Autowired
@@ -34,38 +35,20 @@ public class UserRoleController {
 
     @ApiOperation(value = "新增", httpMethod = "POST")
     @PostMapping(value = "/add")
-    public BusinessData<UserRoleResponseDTO> create(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @RequestParam(value = "user_id", required = false) String userId,
-            @ApiParam(required = true) @NotBlank(message = "角色代码不能为空") @RequestParam(value = "role", required = false) String role
+    public BusinessData create(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) UserRoleRequestDTO userRoleRequestDTO
     ) {
-        return new BusinessData<>(userRoleService.add(userId, role));
+        userRoleService.add(userRoleRequestDTO);
+        return new BusinessData(BusinessError.SUCCESS);
     }
 
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData update(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @RequestParam(value = "user_id", required = false) String userId,
-            @ApiParam(required = true) @NotBlank(message = "角色代码不能为空") @RequestParam(value = "role", required = false) String role
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) UserRoleRequestDTO userRoleRequestDTO
     ) {
-        userRoleService.delete(userId, role);
+        userRoleService.delete(userRoleRequestDTO);
         return new BusinessData(BusinessError.SUCCESS);
-    }
-
-    @ApiOperation(value = "删除", httpMethod = "POST")
-    @PostMapping(value = "/{id}/delete")
-    public BusinessData delete(
-            @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
-    ) {
-        userRoleService.deleteById(id);
-        return new BusinessData(BusinessError.SUCCESS);
-    }
-
-    @ApiOperation(value = "获取详细信息", httpMethod = "GET")
-    @GetMapping(value = "/{id}/detail")
-    public BusinessData<UserRoleResponseDTO> detail(
-            @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
-    ) {
-        return new BusinessData<>(userRoleService.findById(id));
     }
 
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")

@@ -19,18 +19,14 @@ import lombok.NoArgsConstructor;
 public class UserRoleResponseDTO {
 
     @JsonProperty("id")
-    @ApiModelProperty(notes = "用户角色id")
+    @ApiModelProperty(notes = "角色id")
     private String id;
 
-    @JsonProperty("user_id")
-    @ApiModelProperty(notes = "用户id")
-    private String userId;
+    @JsonProperty("code")
+    @ApiModelProperty(notes = "角色代码")
+    private String code;
 
-    @JsonProperty("role_type")
-    @ApiModelProperty(notes = "角色类型")
-    private String roleType;
-
-    @JsonProperty("role")
-    @ApiModelProperty(notes = "角色")
-    private String role;
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "角色名称")
+    private String name;
 }

@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.dto;
+package com.wondernect.stars.rbac.dto.rolemenu;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -8,25 +8,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Copyright (C), 2017-2019, wondernect.com
- * FileName: MenuOperationResponseDTO
+ * Copyright (C), 2020, wondernect.com
+ * FileName: RoleMenuResponseDTO
  * Author: chenxun
- * Date: 2019/7/3 11:36
+ * Date: 2020-06-29 11:28
  * Description:
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "菜单操作响应对象")
-public class MenuOperationResponseDTO {
+@ApiModel(value = "角色对应菜单响应对象")
+public class RoleMenuResponseDTO {
+
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "菜单唯一标识")
+    private String id;
 
     @JsonProperty("code")
-    @ApiModelProperty(notes = "代码")
+    @ApiModelProperty(notes = "菜单代码")
     private String code;
 
     @JsonProperty("name")
-    @ApiModelProperty(notes = "名称")
+    @ApiModelProperty(notes = "菜单名称")
     private String name;
+
+    @JsonProperty("visible")
+    @ApiModelProperty(notes = "是否可见")
+    private Boolean visible;
 
     @JsonProperty("limitable")
     @ApiModelProperty(notes = "是否限制可见时间")
@@ -36,7 +44,7 @@ public class MenuOperationResponseDTO {
     @ApiModelProperty(notes = "可见开始时间")
     private Long startTime;
 
-    @JsonProperty("endTime")
+    @JsonProperty("end_time")
     @ApiModelProperty(notes = "可见结束时间")
     private Long endTime;
 }

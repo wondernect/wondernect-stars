@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "菜单响应对象")
+@ApiModel(value = "菜单权限响应对象")
 public class MenuAuthorityResponseDTO {
 
     @JsonProperty("code")
@@ -38,11 +38,11 @@ public class MenuAuthorityResponseDTO {
     @ApiModelProperty(notes = "可见开始时间")
     private Long startTime;
 
-    @JsonProperty("endTime")
+    @JsonProperty("end_time")
     @ApiModelProperty(notes = "可见结束时间")
     private Long endTime;
 
     @JsonProperty("operation_list")
     @ApiModelProperty(notes = "操作列表")
-    private List<MenuOperationResponseDTO> operationList;
+    private List<OperationAuthorityResponseDTO> operationList;
 }

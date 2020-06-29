@@ -19,8 +19,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "角色菜单响应对象")
-public class RoleMenuResponseDTO {
+@ApiModel(value = "角色权限响应对象")
+public class RoleAuthorityResponseDTO {
 
     @JsonProperty("code")
     @ApiModelProperty(notes = "代码")
