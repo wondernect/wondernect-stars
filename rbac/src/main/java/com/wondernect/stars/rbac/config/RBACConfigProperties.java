@@ -23,30 +23,34 @@ public class RBACConfigProperties implements Serializable {
 
     private static final long serialVersionUID = -7644913790725972293L;
 
-    private String roleTypeCode; // 平台超级管理员角色类型代码
+    private String roleTypeId; // 平台超级管理员角色类型id
 
     private String roleTypeName; // 平台超级管理员角色类型名称
 
     private String roleTypeDesc; // 平台超级管理员角色类型描述
 
-    private String roleCode; // 平台超级管理员角色代码
+    private String roleId; // 平台超级管理员角色id
 
     private String roleName; // 平台超级管理员角色名称
 
     private String roleDesc; // 平台超级管理员角色描述
 
-    private String menuCode; // 平台超级管理员角色代码
+    private String menuId; // 平台菜单id
 
-    private String menuName; // 平台超级管理员角色名称
+    private String menuName; // 平台菜单名称
 
-    private String menuDesc; // 平台超级管理员角色描述
+    private String menuCode; // 平台菜单代码
 
-    public String getRoleTypeCode() {
-        return roleTypeCode;
+    private String menuRoute; // 平台菜单路由
+
+    private String menuDesc; // 平台菜单描述
+
+    public String getRoleTypeId() {
+        return roleTypeId;
     }
 
-    public void setRoleTypeCode(String roleTypeCode) {
-        this.roleTypeCode = roleTypeCode;
+    public void setRoleTypeId(String roleTypeId) {
+        this.roleTypeId = roleTypeId;
     }
 
     public String getRoleTypeName() {
@@ -65,12 +69,12 @@ public class RBACConfigProperties implements Serializable {
         this.roleTypeDesc = ESStringUtils.transformISOToUTF_8(roleTypeDesc);
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public String getRoleName() {
@@ -89,12 +93,12 @@ public class RBACConfigProperties implements Serializable {
         this.roleDesc = ESStringUtils.transformISOToUTF_8(roleDesc);
     }
 
-    public String getMenuCode() {
-        return menuCode;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setMenuCode(String menuCode) {
-        this.menuCode = menuCode;
+    public void setMenuId(String menuId) {
+        this.menuId = ESStringUtils.transformISOToUTF_8(menuId);
     }
 
     public String getMenuName() {
@@ -103,6 +107,22 @@ public class RBACConfigProperties implements Serializable {
 
     public void setMenuName(String menuName) {
         this.menuName = ESStringUtils.transformISOToUTF_8(menuName);
+    }
+
+    public String getMenuCode() {
+        return menuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        this.menuCode = ESStringUtils.transformISOToUTF_8(menuCode);
+    }
+
+    public String getMenuRoute() {
+        return menuRoute;
+    }
+
+    public void setMenuRoute(String menuRoute) {
+        this.menuRoute = ESStringUtils.transformISOToUTF_8(menuRoute);
     }
 
     public String getMenuDesc() {

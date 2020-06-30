@@ -24,10 +24,7 @@ import java.io.Serializable;
 @Entity
 @Table(
         name = "role_type",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
-        indexes = {
-                @Index(columnList = "code")
-        }
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})}
 )
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -35,10 +32,6 @@ import java.io.Serializable;
 public class RoleType extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = -4445644774483992826L;
-
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "代码")
-    private String code;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
@@ -63,8 +56,7 @@ public class RoleType extends BaseStringModel implements Serializable {
     public RoleType() {
     }
 
-    public RoleType(String code, String name, String description) {
-        this.code = code;
+    public RoleType(String name, String description) {
         this.name = name;
         this.description = description;
         this.editable = true;
@@ -72,8 +64,7 @@ public class RoleType extends BaseStringModel implements Serializable {
         this.weight = 0;
     }
 
-    public RoleType(String code, String name, String description, Boolean editable, Boolean deletable, Integer weight) {
-        this.code = code;
+    public RoleType(String name, String description, Boolean editable, Boolean deletable, Integer weight) {
         this.name = name;
         this.description = description;
         this.editable = ESObjectUtils.isNotNull(editable) ? editable : true;

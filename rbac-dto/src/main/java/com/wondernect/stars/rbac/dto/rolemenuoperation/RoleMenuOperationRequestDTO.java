@@ -23,20 +23,20 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "角色菜单操作请求对象")
 public class RoleMenuOperationRequestDTO {
 
-    @NotBlank(message = "角色代码不能为空")
-    @JsonProperty("role_code")
-    @ApiModelProperty(notes = "角色代码")
-    private String roleCode;
+    @NotBlank(message = "角色id不能为空")
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
-    @NotBlank(message = "菜单代码不能为空")
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "菜单代码")
-    private String menuCode;
+    @NotBlank(message = "菜单id不能为空")
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "菜单id")
+    private String menuId;
 
-    @NotNull(message = "操作代码不能为空")
-    @JsonProperty("operation_code")
-    @ApiModelProperty(notes = "操作代码")
-    private String operationCode;
+    @NotNull(message = "操作id不能为空")
+    @JsonProperty("operation_id")
+    @ApiModelProperty(notes = "操作id")
+    private String operationId;
 
     @JsonProperty("limitable")
     @ApiModelProperty(notes = "是否限制可见时间")

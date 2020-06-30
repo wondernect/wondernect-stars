@@ -59,8 +59,8 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
                         saveUserRequestDTO.getEmail(),
                         saveUserRequestDTO.getLocation(),
                         saveUserRequestDTO.getRemark(),
-                        saveUserRequestDTO.getRoleType(),
-                        saveUserRequestDTO.getRole(),
+                        saveUserRequestDTO.getRoleTypeId(),
+                        saveUserRequestDTO.getRoleId(),
                         saveUserRequestDTO.getEnable(),
                         saveUserRequestDTO.getEditable(),
                         saveUserRequestDTO.getDeletable()
@@ -88,7 +88,7 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
                 !ESRegexUtils.isEmail(saveUserRequestDTO.getEmail())) {
             throw new UserException(UserErrorEnum.USER_EMAIL_INVALID);
         }
-        ESBeanUtils.copyProperties(saveUserRequestDTO, user);
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveUserRequestDTO, user);
         return super.save(user);
     }
 
@@ -103,19 +103,13 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
 
     @Override
     public List<UserResponseDTO> list(ListUserRequestDTO listUserRequestDTO) {
-        Criteria<User> userCriteria = new Criteria<>(LogicalOperator.OR);
-        userCriteria.add(Restrictions.like("username", listUserRequestDTO.getValue(), MatchMode.ANYWHERE));
-        userCriteria.add(Restrictions.like("mobile", listUserRequestDTO.getValue(), MatchMode.ANYWHERE));
-        userCriteria.add(Restrictions.like("email", listUserRequestDTO.getValue(), MatchMode.ANYWHERE));
+        Criteria<User> userCriteria = new Criteria<>();
         return super.findAll(userCriteria, listUserRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<UserResponseDTO> page(PageUserRequestDTO pageUserRequestDTO) {
-        Criteria<User> userCriteria = new Criteria<>(LogicalOperator.OR);
-        userCriteria.add(Restrictions.like("username", pageUserRequestDTO.getValue(), MatchMode.ANYWHERE));
-        userCriteria.add(Restrictions.like("mobile", pageUserRequestDTO.getValue(), MatchMode.ANYWHERE));
-        userCriteria.add(Restrictions.like("email", pageUserRequestDTO.getValue(), MatchMode.ANYWHERE));
+        Criteria<User> userCriteria = new Criteria<>();
         return super.findAll(userCriteria, pageUserRequestDTO.getPageRequestData());
     }
 

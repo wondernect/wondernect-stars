@@ -23,10 +23,10 @@ import java.util.List;
 @Service
 public class RoleMenuManager extends BaseStringManager<RoleMenu> {
 
-    public RoleMenu findByRoleCodeAndMenuCode(String roleCode, String menuCode) {
+    public RoleMenu findByRoleIdAndMenuId(String roleId, String menuId) {
         Criteria<RoleMenu> roleMenuCriteria = new Criteria<>();
-        roleMenuCriteria.add(Restrictions.eq("roleCode", roleCode));
-        roleMenuCriteria.add(Restrictions.eq("menuCode", menuCode));
+        roleMenuCriteria.add(Restrictions.eq("roleId", roleId));
+        roleMenuCriteria.add(Restrictions.eq("menuId", menuId));
         List<RoleMenu> roleMenuList = super.findAll(roleMenuCriteria, Arrays.asList(new SortData("createTime", "DESC")));
         if (CollectionUtils.isEmpty(roleMenuList)) {
             return null;
@@ -35,9 +35,9 @@ public class RoleMenuManager extends BaseStringManager<RoleMenu> {
     }
 
     @Transactional
-    public void deleteAllByRoleCode(String roleCode) {
+    public void deleteAllByRoleId(String roleId) {
         Criteria<RoleMenu> rolePrivilegeCriteria = new Criteria<>();
-        rolePrivilegeCriteria.add(Restrictions.eq("roleCode", roleCode));
+        rolePrivilegeCriteria.add(Restrictions.eq("roleId", roleId));
         List<RoleMenu> roleMenuList = super.findAll(rolePrivilegeCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(roleMenuList)) {
             for (RoleMenu roleMenu : roleMenuList) {
@@ -47,9 +47,9 @@ public class RoleMenuManager extends BaseStringManager<RoleMenu> {
     }
 
     @Transactional
-    public void deleteAllByMenuCode(String menuCode) {
+    public void deleteAllByMenuId(String menuId) {
         Criteria<RoleMenu> rolePrivilegeCriteria = new Criteria<>();
-        rolePrivilegeCriteria.add(Restrictions.eq("menuCode", menuCode));
+        rolePrivilegeCriteria.add(Restrictions.eq("menuId", menuId));
         List<RoleMenu> roleMenuList = super.findAll(rolePrivilegeCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(roleMenuList)) {
             for (RoleMenu roleMenu : roleMenuList) {

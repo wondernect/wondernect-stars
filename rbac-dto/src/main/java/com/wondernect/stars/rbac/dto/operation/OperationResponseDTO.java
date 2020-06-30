@@ -24,13 +24,13 @@ public class OperationResponseDTO {
     @ApiModelProperty(notes = "唯一标识")
     private String id;
 
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "代码")
-    private String code;
-
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
     private String name;
+
+    @JsonProperty("code")
+    @ApiModelProperty(notes = "代码")
+    private String code;
 
     @JsonProperty("description")
     @ApiModelProperty(notes = "描述")
@@ -48,11 +48,19 @@ public class OperationResponseDTO {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "所属菜单代码")
-    private String menuCode;
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "所属菜单id")
+    private String menuId;
 
     @JsonProperty("menu_name")
     @ApiModelProperty(notes = "所属菜单名称")
     private String menuName;
+
+    @JsonProperty("menu_code")
+    @ApiModelProperty(notes = "所属菜单代码")
+    private String menuCode;
+
+    @JsonProperty("menu_route")
+    @ApiModelProperty(notes = "所属菜单路由")
+    private String menuRoute;
 }

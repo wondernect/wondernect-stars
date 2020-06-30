@@ -35,7 +35,7 @@ public interface RoleMenuOperationInterface {
     /**
      * 获取角色菜单对应操作
      */
-    RoleMenuOperationResponseDTO findByRoleCodeAndMenuCodeAndOperationCode(String roleCode, String menuCode, String operationCode);
+    RoleMenuOperationResponseDTO findByRoleIdAndMenuIdAndOperationId(String roleId, String menuId, String operationId);
 
     /**
      * 角色菜单操作列表

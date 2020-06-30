@@ -27,8 +27,8 @@ public class UserRoleRequestDTO {
     @ApiModelProperty(notes = "用户id")
     private String userId;
 
-    @NotBlank(message = "角色不能为空")
-    @JsonProperty("role")
-    @ApiModelProperty(notes = "角色")
-    private String role;
+    @NotBlank(message = "角色id不能为空")
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 }

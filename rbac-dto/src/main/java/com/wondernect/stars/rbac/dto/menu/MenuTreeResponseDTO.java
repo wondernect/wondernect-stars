@@ -26,13 +26,17 @@ public class MenuTreeResponseDTO {
     @ApiModelProperty(notes = "唯一标识")
     private String id;
 
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "名称")
+    private String name;
+
     @JsonProperty("code")
     @ApiModelProperty(notes = "代码")
     private String code;
 
-    @JsonProperty("name")
-    @ApiModelProperty(notes = "名称")
-    private String name;
+    @JsonProperty("route")
+    @ApiModelProperty(notes = "路由")
+    private String route;
 
     @JsonProperty("description")
     @ApiModelProperty(notes = "描述")
@@ -50,13 +54,21 @@ public class MenuTreeResponseDTO {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @JsonProperty("parent_menu_code")
-    @ApiModelProperty(notes = "父级菜单code")
-    private String parentMenuCode;
+    @JsonProperty("parent_menu_id")
+    @ApiModelProperty(notes = "父级菜单id")
+    private String parentMenuId;
 
     @JsonProperty("parent_menu_name")
     @ApiModelProperty(notes = "父级菜单名称")
     private String parentMenuName;
+
+    @JsonProperty("parent_menu_code")
+    @ApiModelProperty(notes = "父级菜单代码")
+    private String parentMenuCode;
+
+    @JsonProperty("parent_menu_route")
+    @ApiModelProperty(notes = "父级菜单路由")
+    private String parentMenuRoute;
 
     @JsonProperty("child_list")
     @ApiModelProperty(notes = "子节点列表")

@@ -23,10 +23,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "角色类型分页请求对象")
 public class PageRoleTypeRequestDTO {
 
-    @JsonProperty("value")
-    @ApiModelProperty(notes = "输入(代码或名称)")
-    private String value;
-
     @NotNull(message = "分页请求参数不能为空")
     @JsonProperty("page_request_data")
     @ApiModelProperty(notes = "分页参数")

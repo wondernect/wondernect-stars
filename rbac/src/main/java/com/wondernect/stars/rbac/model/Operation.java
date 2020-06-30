@@ -27,7 +27,7 @@ import java.io.Serializable;
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
                 @Index(columnList = "code"),
-                @Index(columnList = "menuCode")
+                @Index(columnList = "menuId")
         }
 )
 @Data
@@ -37,13 +37,13 @@ public class Operation extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = -1936002767036011512L;
 
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "代码")
-    private String code;
-
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
     private String name;
+
+    @JsonProperty("code")
+    @ApiModelProperty(notes = "代码")
+    private String code;
 
     @JsonProperty("description")
     @ApiModelProperty(notes = "描述")
@@ -61,30 +61,30 @@ public class Operation extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "所属菜单代码")
-    private String menuCode;
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "所属菜单id")
+    private String menuId;
 
     public Operation() {
     }
 
-    public Operation(String code, String name, String description, String menuCode) {
-        this.code = code;
+    public Operation(String code, String name, String description, String menuId) {
         this.name = name;
+        this.code = code;
         this.description = description;
         this.editable = true;
         this.deletable = true;
         this.weight = 0;
-        this.menuCode = menuCode;
+        this.menuId = menuId;
     }
 
-    public Operation(String code, String name, String description, Boolean editable, Boolean deletable, Integer weight, String menuCode) {
-        this.code = code;
+    public Operation(String code, String name, String description, Boolean editable, Boolean deletable, Integer weight, String menuId) {
         this.name = name;
+        this.code = code;
         this.description = description;
         this.editable = ESObjectUtils.isNotNull(editable) ? editable : true;
         this.deletable = ESObjectUtils.isNotNull(deletable) ? deletable : true;
         this.weight = weight;
-        this.menuCode = menuCode;
+        this.menuId = menuId;
     }
 }

@@ -66,11 +66,11 @@ public class RoleMenuOperationController {
     @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<RoleMenuOperationResponseDTO> getRoleMenuOperation(
-            @ApiParam(required = true) @NotBlank(message = "角色不能为空") @RequestParam(value = "role_code", required = false) String roleCode,
-            @ApiParam(required = true) @NotBlank(message = "菜单不能为空") @RequestParam(value = "menu_code", required = false) String menuCode,
-            @ApiParam(required = true) @NotBlank(message = "操作不能为空") @RequestParam(value = "operation_code", required = false) String operationCode
+            @ApiParam(required = true) @NotBlank(message = "角色不能为空") @RequestParam(value = "role_id", required = false) String roleId,
+            @ApiParam(required = true) @NotBlank(message = "菜单不能为空") @RequestParam(value = "menu_id", required = false) String menuId,
+            @ApiParam(required = true) @NotBlank(message = "操作不能为空") @RequestParam(value = "operation_id", required = false) String operationId
     ) {
-        return new BusinessData<>(roleMenuOperationService.findByRoleCodeAndMenuCodeAndOperationCode(roleCode, menuCode, operationCode));
+        return new BusinessData<>(roleMenuOperationService.findByRoleIdAndMenuIdAndOperationId(roleId, menuId, operationId));
     };
 
     @ApiOperation(value = "角色权限菜单操作列表", httpMethod = "POST")

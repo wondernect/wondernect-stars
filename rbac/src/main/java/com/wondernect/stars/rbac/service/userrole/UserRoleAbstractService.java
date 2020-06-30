@@ -35,30 +35,29 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
     @Transactional
     @Override
     public void add(UserRoleRequestDTO userRoleRequestDTO) {
-        Role role = roleManager.findByCode(userRoleRequestDTO.getRole());
+        Role role = roleManager.findById(userRoleRequestDTO.getRoleId());
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        UserRole userRole = userRoleManager.findByUserIdAndRole(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRole());
+        UserRole userRole = userRoleManager.findByUserIdAndRoleId(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRoleId());
         if (ESObjectUtils.isNotNull(userRole)) {
             throw new BusinessException("用户角色已存在");
         }
-        userRole = new UserRole(userRoleRequestDTO.getUserId(), role.getRoleType(), userRoleRequestDTO.getRole());
-        super.saveEntity(userRole);
+        super.saveEntity(new UserRole(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRoleId()));
     }
 
     @Transactional
     @Override
     public void delete(UserRoleRequestDTO userRoleRequestDTO) {
-        UserRole userRole = userRoleManager.findByUserIdAndRole(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRole());
+        UserRole userRole = userRoleManager.findByUserIdAndRoleId(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRoleId());
         if (ESObjectUtils.isNotNull(userRole)) {
             super.deleteById(userRole.getId());
         }
     }
 
     @Override
-    public UserRoleResponseDTO findByUserIdAndRole(String userId, String role) {
-        UserRole userRole = userRoleManager.findByUserIdAndRole(userId, role);
+    public UserRoleResponseDTO findByUserIdAndRoleId(String userId, String roleId) {
+        UserRole userRole = userRoleManager.findByUserIdAndRoleId(userId, roleId);
         if (ESObjectUtils.isNull(userRole)) {
             return null;
         }
@@ -81,11 +80,11 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
 
     @Override
     public UserRoleResponseDTO generate(UserRole userRole) {
-        Role role = roleManager.findByCode(userRole.getRole());
+        Role role = roleManager.findById(userRole.getRoleId());
         return new UserRoleResponseDTO(
                 role.getId(),
-                role.getCode(),
-                role.getName()
+                role.getName(),
+                role.getDescription()
         );
     }
 }

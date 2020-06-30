@@ -27,7 +27,7 @@ import java.io.Serializable;
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
                 @Index(columnList = "code"),
-                @Index(columnList = "parentMenuCode")
+                @Index(columnList = "parentMenuId")
         }
 )
 @Data
@@ -37,13 +37,17 @@ public class Menu extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = 3413354520318544863L;
 
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "名称")
+    private String name;
+
     @JsonProperty("code")
     @ApiModelProperty(notes = "代码")
     private String code;
 
-    @JsonProperty("name")
-    @ApiModelProperty(notes = "名称")
-    private String name;
+    @JsonProperty("route")
+    @ApiModelProperty(notes = "路由")
+    private String route;
 
     @JsonProperty("description")
     @ApiModelProperty(notes = "描述")
@@ -61,30 +65,32 @@ public class Menu extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @JsonProperty("parent_menu_code")
-    @ApiModelProperty(notes = "父级菜单code")
-    private String parentMenuCode;
+    @JsonProperty("parent_menu_id")
+    @ApiModelProperty(notes = "父级菜单id")
+    private String parentMenuId;
 
     public Menu() {
     }
 
-    public Menu(String code, String name, String description, String parentMenuCode) {
-        this.code = code;
+    public Menu(String name, String code, String route, String description, String parentMenuId) {
         this.name = name;
+        this.code = code;
+        this.route = route;
         this.description = description;
         this.editable = true;
         this.deletable = true;
         this.weight = 0;
-        this.parentMenuCode = parentMenuCode;
+        this.parentMenuId = parentMenuId;
     }
 
-    public Menu(String code, String name, String description, Boolean editable, Boolean deletable, Integer weight, String parentMenuCode) {
-        this.code = code;
+    public Menu(String name, String code, String route, String description, Boolean editable, Boolean deletable, Integer weight, String parentMenuId) {
         this.name = name;
+        this.code = code;
+        this.route = route;
         this.description = description;
         this.editable = ESObjectUtils.isNotNull(editable) ? editable : true;
         this.deletable = ESObjectUtils.isNotNull(deletable) ? deletable : true;
         this.weight = weight;
-        this.parentMenuCode = parentMenuCode;
+        this.parentMenuId = parentMenuId;
     }
 }

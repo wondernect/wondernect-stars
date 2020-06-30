@@ -24,15 +24,15 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "角色菜单分页请求对象")
 public class PageRoleMenuOperationRequestDTO {
 
-    @NotBlank(message = "角色代码不能为空")
+    @NotBlank(message = "角色id不能为空")
     @JsonProperty("role_code")
-    @ApiModelProperty(notes = "角色代码")
-    private String roleCode;
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
-    @NotBlank(message = "菜单代码不能为空")
+    @NotBlank(message = "菜单id不能为空")
     @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "菜单代码")
-    private String menuCode;
+    @ApiModelProperty(notes = "菜单id")
+    private String menuId;
 
     @NotNull(message = "分页请求参数不能为空")
     @JsonProperty("page_request_data")

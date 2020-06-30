@@ -26,8 +26,7 @@ import java.io.Serializable;
         name = "role",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "code"),
-                @Index(columnList = "roleType")
+                @Index(columnList = "roleTypeId")
         }
 )
 @Data
@@ -36,10 +35,6 @@ import java.io.Serializable;
 public class Role extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = -420047983890095875L;
-
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "代码")
-    private String code;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
@@ -61,30 +56,28 @@ public class Role extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @JsonProperty("role_type")
-    @ApiModelProperty(notes = "角色类型")
-    private String roleType;
+    @JsonProperty("role_type_id")
+    @ApiModelProperty(notes = "角色类型id")
+    private String roleTypeId;
 
     public Role() {
     }
 
-    public Role(String code, String name, String description, String roleType) {
-        this.code = code;
+    public Role(String name, String description, String roleTypeId) {
         this.name = name;
         this.description = description;
         this.editable = true;
         this.deletable = true;
         this.weight = 0;
-        this.roleType = roleType;
+        this.roleTypeId = roleTypeId;
     }
 
-    public Role(String code, String name, String description, Boolean editable, Boolean deletable, Integer weight, String roleType) {
-        this.code = code;
+    public Role(String name, String description, Boolean editable, Boolean deletable, Integer weight, String roleTypeId) {
         this.name = name;
         this.description = description;
         this.editable = ESObjectUtils.isNotNull(editable) ? editable : true;
         this.deletable = ESObjectUtils.isNotNull(deletable) ? deletable : true;
         this.weight = weight;
-        this.roleType = roleType;
+        this.roleTypeId = roleTypeId;
     }
 }

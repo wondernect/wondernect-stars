@@ -23,11 +23,11 @@ import java.util.List;
 @Service
 public class RoleMenuOperationManager extends BaseStringManager<RoleMenuOperation> {
 
-    public RoleMenuOperation findByRoleCodeAndMenuCodeAndOperationCode(String roleCode, String menuCode, String operationCode) {
+    public RoleMenuOperation findByRoleIdAndMenuIdAndOperationId(String roleId, String menuId, String operationId) {
         Criteria<RoleMenuOperation> roleMenuOperationCriteria = new Criteria<>();
-        roleMenuOperationCriteria.add(Restrictions.eq("roleCode", roleCode));
-        roleMenuOperationCriteria.add(Restrictions.eq("menuCode", menuCode));
-        roleMenuOperationCriteria.add(Restrictions.eq("operationCode", operationCode));
+        roleMenuOperationCriteria.add(Restrictions.eq("roleId", roleId));
+        roleMenuOperationCriteria.add(Restrictions.eq("menuId", menuId));
+        roleMenuOperationCriteria.add(Restrictions.eq("operationId", operationId));
         List<RoleMenuOperation> roleMenuOperationList = super.findAll(roleMenuOperationCriteria, Arrays.asList(new SortData("createTime", "DESC")));
         if (CollectionUtils.isEmpty(roleMenuOperationList)) {
             return null;
@@ -36,10 +36,10 @@ public class RoleMenuOperationManager extends BaseStringManager<RoleMenuOperatio
     }
 
     @Transactional
-    public void deleteAllByRoleCode(String roleCode) {
-        Criteria<RoleMenuOperation> privilegeMenuCriteria = new Criteria<>();
-        privilegeMenuCriteria.add(Restrictions.eq("roleCode", roleCode));
-        List<RoleMenuOperation> roleMenuOperationList = super.findAll(privilegeMenuCriteria, new ArrayList<>());
+    public void deleteAllByRoleId(String roleId) {
+        Criteria<RoleMenuOperation> roleMenuOperationCriteria = new Criteria<>();
+        roleMenuOperationCriteria.add(Restrictions.eq("roleId", roleId));
+        List<RoleMenuOperation> roleMenuOperationList = super.findAll(roleMenuOperationCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(roleMenuOperationList)) {
             for (RoleMenuOperation roleMenuOperation : roleMenuOperationList) {
                 super.deleteById(roleMenuOperation.getId());
@@ -48,10 +48,10 @@ public class RoleMenuOperationManager extends BaseStringManager<RoleMenuOperatio
     }
 
     @Transactional
-    public void deleteAllByMenuCode(String menuCode) {
-        Criteria<RoleMenuOperation> privilegeMenuCriteria = new Criteria<>();
-        privilegeMenuCriteria.add(Restrictions.eq("menuCode", menuCode));
-        List<RoleMenuOperation> roleMenuOperationList = super.findAll(privilegeMenuCriteria, new ArrayList<>());
+    public void deleteAllByMenuId(String menuId) {
+        Criteria<RoleMenuOperation> roleMenuOperationCriteria = new Criteria<>();
+        roleMenuOperationCriteria.add(Restrictions.eq("menuId", menuId));
+        List<RoleMenuOperation> roleMenuOperationList = super.findAll(roleMenuOperationCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(roleMenuOperationList)) {
             for (RoleMenuOperation roleMenuOperation : roleMenuOperationList) {
                 super.deleteById(roleMenuOperation.getId());
@@ -60,10 +60,10 @@ public class RoleMenuOperationManager extends BaseStringManager<RoleMenuOperatio
     }
 
     @Transactional
-    public void deleteAllByOperationCode(String operationCode) {
-        Criteria<RoleMenuOperation> privilegeMenuCriteria = new Criteria<>();
-        privilegeMenuCriteria.add(Restrictions.eq("operationCode", operationCode));
-        List<RoleMenuOperation> roleMenuOperationList = super.findAll(privilegeMenuCriteria, new ArrayList<>());
+    public void deleteAllByOperationId(String operationId) {
+        Criteria<RoleMenuOperation> roleMenuOperationCriteria = new Criteria<>();
+        roleMenuOperationCriteria.add(Restrictions.eq("operationId", operationId));
+        List<RoleMenuOperation> roleMenuOperationList = super.findAll(roleMenuOperationCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(roleMenuOperationList)) {
             for (RoleMenuOperation roleMenuOperation : roleMenuOperationList) {
                 super.deleteById(roleMenuOperation.getId());
@@ -72,11 +72,11 @@ public class RoleMenuOperationManager extends BaseStringManager<RoleMenuOperatio
     }
 
     @Transactional
-    public void deleteAllByRoleCodeAndMenuCode(String roleCode, String menuCode) {
-        Criteria<RoleMenuOperation> privilegeMenuCriteria = new Criteria<>();
-        privilegeMenuCriteria.add(Restrictions.eq("roleCode", roleCode));
-        privilegeMenuCriteria.add(Restrictions.eq("menuCode", menuCode));
-        List<RoleMenuOperation> roleMenuOperationList = super.findAll(privilegeMenuCriteria, new ArrayList<>());
+    public void deleteAllByRoleIdAndMenuId(String roleId, String menuId) {
+        Criteria<RoleMenuOperation> roleMenuOperationCriteria = new Criteria<>();
+        roleMenuOperationCriteria.add(Restrictions.eq("roleId", roleId));
+        roleMenuOperationCriteria.add(Restrictions.eq("menuId", menuId));
+        List<RoleMenuOperation> roleMenuOperationList = super.findAll(roleMenuOperationCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(roleMenuOperationList)) {
             for (RoleMenuOperation roleMenuOperation : roleMenuOperationList) {
                 super.deleteById(roleMenuOperation.getId());

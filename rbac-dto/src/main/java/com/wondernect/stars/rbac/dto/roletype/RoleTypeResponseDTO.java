@@ -24,10 +24,6 @@ public class RoleTypeResponseDTO {
     @ApiModelProperty(notes = "唯一标识")
     private String id;
 
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "角色代码")
-    private String code;
-
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
     private String name;

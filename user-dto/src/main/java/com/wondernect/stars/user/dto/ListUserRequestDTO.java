@@ -23,10 +23,6 @@ import java.util.List;
 @ApiModel(value = "用户列表请求对象")
 public class ListUserRequestDTO {
 
-    @JsonProperty("value")
-    @ApiModelProperty(notes = "搜索内容")
-    private String value;
-
     @JsonProperty("sort_data_list")
     @ApiModelProperty(notes = "列表排序参数")
     private List<SortData> sortDataList;

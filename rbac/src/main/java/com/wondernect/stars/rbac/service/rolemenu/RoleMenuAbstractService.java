@@ -1,6 +1,7 @@
 package com.wondernect.stars.rbac.service.rolemenu;
 
 import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
@@ -44,20 +45,23 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
     @Transactional
     @Override
     public void add(RoleMenuRequestDTO roleMenuRequestDTO) {
-        Role role = roleManager.findByCode(roleMenuRequestDTO.getRoleCode());
+        Role role = roleManager.findById(roleMenuRequestDTO.getRoleId());
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        Menu menu = menuManager.findByCode(roleMenuRequestDTO.getMenuCode());
+        Menu menu = menuManager.findById(roleMenuRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
+        RoleMenu roleMenu = roleMenuManager.findByRoleIdAndMenuId(roleMenuRequestDTO.getRoleId(), roleMenuRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(roleMenu)) {
             super.saveEntity(
                     new RoleMenu(
-                            roleMenuRequestDTO.getRoleCode(),
-                            roleMenuRequestDTO.getMenuCode()
+                            roleMenuRequestDTO.getRoleId(),
+                            roleMenuRequestDTO.getMenuId(),
+                            roleMenuRequestDTO.getLimitable(),
+                            roleMenuRequestDTO.getStartTime(),
+                            roleMenuRequestDTO.getEndTime()
                     )
             );
         }
@@ -66,46 +70,45 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
     @Transactional
     @Override
     public void edit(RoleMenuRequestDTO roleMenuRequestDTO) {
-        Role role = roleManager.findByCode(roleMenuRequestDTO.getRoleCode());
+        Role role = roleManager.findById(roleMenuRequestDTO.getRoleId());
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        Menu menu = menuManager.findByCode(roleMenuRequestDTO.getMenuCode());
+        Menu menu = menuManager.findById(roleMenuRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
+        RoleMenu roleMenu = roleMenuManager.findByRoleIdAndMenuId(roleMenuRequestDTO.getRoleId(), roleMenuRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(roleMenu)) {
             throw new BusinessException("角色菜单关系不存在");
         }
-        roleMenu.setLimitable(roleMenuRequestDTO.getLimitable());
-        roleMenu.setStartTime(roleMenuRequestDTO.getStartTime());
-        roleMenu.setEndTime(roleMenuRequestDTO.getEndTime());
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(roleMenuRequestDTO, roleMenu);
         super.saveEntity(roleMenu);
     }
 
     @Transactional
     @Override
     public void delete(RoleMenuRequestDTO roleMenuRequestDTO) {
-        RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
+        RoleMenu roleMenu = roleMenuManager.findByRoleIdAndMenuId(roleMenuRequestDTO.getRoleId(), roleMenuRequestDTO.getMenuId());
         if (ESObjectUtils.isNotNull(roleMenu)) {
-            roleMenuOperationManager.deleteAllByRoleCodeAndMenuCode(roleMenuRequestDTO.getRoleCode(), roleMenuRequestDTO.getMenuCode());
+            roleMenuOperationManager.deleteAllByRoleIdAndMenuId(roleMenuRequestDTO.getRoleId(), roleMenuRequestDTO.getMenuId());
             super.deleteById(roleMenu.getId());
         }
     }
 
     @Override
-    public RoleMenuResponseDTO findByRoleCodeAndMenuCode(String roleCode, String menuCode) {
-        Menu menu = menuManager.findByCode(menuCode);
+    public RoleMenuResponseDTO findByRoleIdAndMenuId(String roleId, String menuId) {
+        Menu menu = menuManager.findById(menuId);
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleCode, menuCode);
+        RoleMenu roleMenu = roleMenuManager.findByRoleIdAndMenuId(roleId, menuId);
         if (ESObjectUtils.isNotNull(roleMenu)) {
             return new RoleMenuResponseDTO(
                     menu.getId(),
-                    menu.getCode(),
                     menu.getName(),
+                    menu.getCode(),
+                    menu.getRoute(),
                     true,
                     roleMenu.getLimitable(),
                     roleMenu.getStartTime(),
@@ -114,8 +117,9 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
         } else {
             return new RoleMenuResponseDTO(
                     menu.getId(),
-                    menu.getCode(),
                     menu.getName(),
+                    menu.getCode(),
+                    menu.getRoute(),
                     false,
                     null,
                     null,
@@ -125,22 +129,23 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
     }
 
     @Override
-    public RoleMenuTreeResponseDTO tree(String roleCode, String menuCode) {
-        Role role = roleManager.findByCode(roleCode);
+    public RoleMenuTreeResponseDTO tree(String roleId, String menuId) {
+        Role role = roleManager.findById(roleId);
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        Menu menu = menuManager.findByCode(menuCode);
+        Menu menu = menuManager.findById(menuId);
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleCode, menu.getCode());
+        RoleMenu roleMenu = roleMenuManager.findByRoleIdAndMenuId(roleId, menuId);
         RoleMenuTreeResponseDTO roleMenuTreeResponseDTO;
         if (ESObjectUtils.isNotNull(roleMenu)) {
             roleMenuTreeResponseDTO = new RoleMenuTreeResponseDTO(
                     menu.getId(),
-                    menu.getCode(),
                     menu.getName(),
+                    menu.getCode(),
+                    menu.getRoute(),
                     true,
                     roleMenu.getLimitable(),
                     roleMenu.getStartTime(),
@@ -150,8 +155,9 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
         } else {
             roleMenuTreeResponseDTO = new RoleMenuTreeResponseDTO(
                     menu.getId(),
-                    menu.getCode(),
                     menu.getName(),
+                    menu.getCode(),
+                    menu.getRoute(),
                     false,
                     null,
                     null,
@@ -159,23 +165,24 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
                     null
             );
         }
-        return tree(roleCode, roleMenuTreeResponseDTO.getCode(), roleMenuTreeResponseDTO);
+        return tree(roleId, roleMenuTreeResponseDTO.getCode(), roleMenuTreeResponseDTO);
     }
 
-    private RoleMenuTreeResponseDTO tree(String roleCode, String menuCode, RoleMenuTreeResponseDTO roleMenuTreeResponseDTO) {
+    private RoleMenuTreeResponseDTO tree(String roleId, String menuId, RoleMenuTreeResponseDTO roleMenuTreeResponseDTO) {
         List<RoleMenuTreeResponseDTO> roleMenuTreeResponseDTOList = new ArrayList<>();
         Criteria<Menu> menuCriteria = new Criteria<>();
-        menuCriteria.add(Restrictions.eq("parentMenuCode", menuCode));
+        menuCriteria.add(Restrictions.eq("parentMenuId", menuId));
         List<Menu> menuList = menuManager.findAll(menuCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(menuList)) {
             for (Menu menu : menuList) {
-                RoleMenu roleMenu = roleMenuManager.findByRoleCodeAndMenuCode(roleCode, menu.getCode());
+                RoleMenu roleMenu = roleMenuManager.findByRoleIdAndMenuId(roleId, menu.getId());
                 if (ESObjectUtils.isNotNull(roleMenu)) {
                     roleMenuTreeResponseDTOList.add(
                             new RoleMenuTreeResponseDTO(
                                     menu.getId(),
-                                    menu.getCode(),
                                     menu.getName(),
+                                    menu.getCode(),
+                                    menu.getRoute(),
                                     true,
                                     roleMenu.getLimitable(),
                                     roleMenu.getStartTime(),
@@ -187,8 +194,9 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
                     roleMenuTreeResponseDTOList.add(
                             new RoleMenuTreeResponseDTO(
                                     menu.getId(),
-                                    menu.getCode(),
                                     menu.getName(),
+                                    menu.getCode(),
+                                    menu.getRoute(),
                                     false,
                                     null,
                                     null,
@@ -202,7 +210,7 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
         roleMenuTreeResponseDTO.setChildList(roleMenuTreeResponseDTOList);
         if (CollectionUtils.isNotEmpty(roleMenuTreeResponseDTOList)) {
             for (RoleMenuTreeResponseDTO roleMenuTreeResponseDTOLoop : roleMenuTreeResponseDTOList) {
-                tree(roleCode, roleMenuTreeResponseDTOLoop.getCode(), roleMenuTreeResponseDTOLoop);
+                tree(roleId, roleMenuTreeResponseDTOLoop.getCode(), roleMenuTreeResponseDTOLoop);
             }
         }
         return roleMenuTreeResponseDTO;

@@ -22,11 +22,11 @@ public class UserRoleResponseDTO {
     @ApiModelProperty(notes = "角色id")
     private String id;
 
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "角色代码")
-    private String code;
-
     @JsonProperty("name")
     @ApiModelProperty(notes = "角色名称")
     private String name;
+
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "角色描述")
+    private String description;
 }

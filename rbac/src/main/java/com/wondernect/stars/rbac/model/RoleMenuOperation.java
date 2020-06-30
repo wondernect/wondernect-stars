@@ -26,9 +26,9 @@ import java.io.Serializable;
         name = "role_menu_operation",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "roleCode"),
-                @Index(columnList = "menuCode"),
-                @Index(columnList = "operationCode")
+                @Index(columnList = "roleId"),
+                @Index(columnList = "menuId"),
+                @Index(columnList = "operationId")
         }
 )
 @Data
@@ -38,17 +38,17 @@ public class RoleMenuOperation extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = -5322119641003855703L;
 
-    @JsonProperty("role_code")
-    @ApiModelProperty(notes = "角色代码")
-    private String roleCode;
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "菜单代码")
-    private String menuCode;
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "菜单id")
+    private String menuId;
 
-    @JsonProperty("operation_code")
-    @ApiModelProperty(notes = "操作代码")
-    private String operationCode;
+    @JsonProperty("operation_id")
+    @ApiModelProperty(notes = "操作id")
+    private String operationId;
 
     @JsonProperty("limitable")
     @ApiModelProperty(notes = "是否限制可见时间")
@@ -65,19 +65,19 @@ public class RoleMenuOperation extends BaseStringModel implements Serializable {
     public RoleMenuOperation() {
     }
 
-    public RoleMenuOperation(String roleCode, String menuCode, String operationCode) {
-        this.roleCode = roleCode;
-        this.menuCode = menuCode;
-        this.operationCode = operationCode;
+    public RoleMenuOperation(String roleId, String menuId, String operationId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+        this.operationId = operationId;
         this.limitable = false;
         this.startTime = null;
         this.endTime = null;
     }
 
-    public RoleMenuOperation(String roleCode, String menuCode, String operationCode, Boolean limitable, Long startTime, Long endTime) {
-        this.roleCode = roleCode;
-        this.menuCode = menuCode;
-        this.operationCode = operationCode;
+    public RoleMenuOperation(String roleId, String menuId, String operationId, Boolean limitable, Long startTime, Long endTime) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+        this.operationId = operationId;
         this.limitable = ESObjectUtils.isNotNull(limitable) ? limitable : false;
         this.startTime = startTime;
         this.endTime = endTime;

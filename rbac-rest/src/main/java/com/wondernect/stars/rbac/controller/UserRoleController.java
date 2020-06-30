@@ -55,9 +55,9 @@ public class UserRoleController {
     @GetMapping(value = "/detail")
     public BusinessData<UserRoleResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @RequestParam(value = "user_id", required = false) String userId,
-            @ApiParam(required = true) @NotBlank(message = "角色代码不能为空") @RequestParam(value = "role", required = false) String role
+            @ApiParam(required = true) @NotBlank(message = "角色id不能为空") @RequestParam(value = "role_id", required = false) String roleId
     ) {
-        return new BusinessData<>(userRoleService.findByUserIdAndRole(userId, role));
+        return new BusinessData<>(userRoleService.findByUserIdAndRoleId(userId, roleId));
     }
 
     @ApiOperation(value = "列表", httpMethod = "POST")

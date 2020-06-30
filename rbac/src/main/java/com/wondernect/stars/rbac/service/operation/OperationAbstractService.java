@@ -1,6 +1,7 @@
 package com.wondernect.stars.rbac.service.operation;
 
 import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
@@ -15,7 +16,6 @@ import com.wondernect.stars.rbac.manager.OperationManager;
 import com.wondernect.stars.rbac.manager.RoleMenuOperationManager;
 import com.wondernect.stars.rbac.model.Menu;
 import com.wondernect.stars.rbac.model.Operation;
-import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,33 +41,33 @@ public abstract class OperationAbstractService extends BaseStringService<Operati
 
     @Transactional
     public OperationResponseDTO create(SaveOperationRequestDTO saveOperationRequestDTO) {
-        Menu menu = menuManager.findByCode(saveOperationRequestDTO.getMenuCode());
+        Menu menu = menuManager.findById(saveOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        Operation operation = operationManager.findByCode(saveOperationRequestDTO.getCode(), saveOperationRequestDTO.getMenuCode());
+        Operation operation = operationManager.findByOperationCodeAndMenuId(saveOperationRequestDTO.getCode(), saveOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNotNull(operation)) {
-            throw new BusinessException("菜单下对应操作已存在");
+            throw new BusinessException("菜单下对应操作代码已存在");
         }
         if (ESObjectUtils.isNull(saveOperationRequestDTO.getWeight())) {
             saveOperationRequestDTO.setWeight(0);
         }
         return super.save(
                 new Operation(
-                        saveOperationRequestDTO.getCode(),
                         saveOperationRequestDTO.getName(),
+                        saveOperationRequestDTO.getCode(),
                         saveOperationRequestDTO.getDescription(),
                         saveOperationRequestDTO.getEditable(),
                         saveOperationRequestDTO.getDeletable(),
                         saveOperationRequestDTO.getWeight(),
-                        saveOperationRequestDTO.getMenuCode()
+                        saveOperationRequestDTO.getMenuId()
                 )
         );
     }
 
     @Transactional
     public OperationResponseDTO update(String id, SaveOperationRequestDTO saveOperationRequestDTO) {
-        Menu menu = menuManager.findByCode(saveOperationRequestDTO.getMenuCode());
+        Menu menu = menuManager.findById(saveOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
@@ -75,14 +75,7 @@ public abstract class OperationAbstractService extends BaseStringService<Operati
         if (ESObjectUtils.isNull(operation)) {
             throw new BusinessException("操作不存在");
         }
-        operation.setName(saveOperationRequestDTO.getName());
-        operation.setDescription(saveOperationRequestDTO.getDescription());
-        operation.setEditable(saveOperationRequestDTO.getEditable());
-        operation.setDeletable(saveOperationRequestDTO.getDeletable());
-        if (ESObjectUtils.isNotNull(saveOperationRequestDTO.getWeight())) {
-            operation.setWeight(saveOperationRequestDTO.getWeight());
-        }
-        operation.setMenuCode(saveOperationRequestDTO.getMenuCode());
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveOperationRequestDTO, operation);
         return super.save(operation);
     }
 
@@ -95,50 +88,30 @@ public abstract class OperationAbstractService extends BaseStringService<Operati
         if (!operation.getEditable()) {
             throw new BusinessException("操作不可删除");
         }
-        roleMenuOperationManager.deleteAllByOperationCode(operation.getCode());
+        roleMenuOperationManager.deleteAllByOperationId(operation.getId());
         super.deleteById(id);
     }
 
     public List<OperationResponseDTO> list(ListOperationRequestDTO listOperationRequestDTO) {
         Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(
-                Restrictions.and(
-                        Restrictions.eq("menuCode", listOperationRequestDTO.getMenuCode()),
-                        Restrictions.or(
-                                Restrictions.like("code", listOperationRequestDTO.getValue(), MatchMode.ANYWHERE),
-                                Restrictions.like("name", listOperationRequestDTO.getValue(), MatchMode.ANYWHERE)
-                        )
-                )
-        );
+        operationCriteria.add(Restrictions.eq("menuId", listOperationRequestDTO.getMenuId()));
         return super.findAll(operationCriteria, listOperationRequestDTO.getSortDataList());
     }
 
     public PageResponseData<OperationResponseDTO> page(PageOperationRequestDTO pageOperationRequestDTO) {
         Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(
-                Restrictions.and(
-                        Restrictions.eq("menuCode", pageOperationRequestDTO.getMenuCode()),
-                        Restrictions.or(
-                                Restrictions.like("code", pageOperationRequestDTO.getValue(), MatchMode.ANYWHERE),
-                                Restrictions.like("name", pageOperationRequestDTO.getValue(), MatchMode.ANYWHERE)
-                        )
-                )
-        );
+        operationCriteria.add(Restrictions.eq("menuId", pageOperationRequestDTO.getMenuId()));
         return super.findAll(operationCriteria, pageOperationRequestDTO.getPageRequestData());
     }
 
     public OperationResponseDTO generate(Operation operation) {
-        Menu menu = menuManager.findByCode(operation.getMenuCode());
-        return new OperationResponseDTO(
-                operation.getId(),
-                operation.getCode(),
-                operation.getName(),
-                operation.getDescription(),
-                operation.getEditable(),
-                operation.getDeletable(),
-                operation.getWeight(),
-                operation.getMenuCode(),
-                ESObjectUtils.isNotNull(menu) ? menu.getName() : null
-        );
+        OperationResponseDTO operationResponseDTO = new OperationResponseDTO();
+        ESBeanUtils.copyProperties(operation, operationResponseDTO);
+        operationResponseDTO.setId(operation.getId());
+        Menu menu = menuManager.findById(operation.getMenuId());
+        operationResponseDTO.setMenuName(ESObjectUtils.isNotNull(menu) ? menu.getName() : null);
+        operationResponseDTO.setMenuCode(ESObjectUtils.isNotNull(menu) ? menu.getCode() : null);
+        operationResponseDTO.setMenuRoute(ESObjectUtils.isNotNull(menu) ? menu.getRoute() : null);
+        return operationResponseDTO;
     }
 }

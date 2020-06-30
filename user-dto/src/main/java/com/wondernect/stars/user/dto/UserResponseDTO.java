@@ -56,13 +56,13 @@ public class UserResponseDTO {
     @ApiModelProperty(notes = "个性签名")
     private String remark;
 
-    @JsonProperty("role_type")
+    @JsonProperty("role_type_id")
     @ApiModelProperty(notes = "角色类型")
-    private String roleType;
+    private String roleTypeId;
 
-    @JsonProperty("role")
+    @JsonProperty("role_id")
     @ApiModelProperty(notes = "角色")
-    private String role;
+    private String roleId;
 
     @JsonProperty("enable")
     @ApiModelProperty(notes = "是否可用")

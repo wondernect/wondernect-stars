@@ -23,13 +23,9 @@ import java.util.List;
 @ApiModel(value = "角色列表请求对象")
 public class ListRoleRequestDTO {
 
-    @JsonProperty("value")
-    @ApiModelProperty(notes = "输入(代码或名称)")
-    private String value;
-
-    @JsonProperty("role_type")
-    @ApiModelProperty(notes = "角色类型代码")
-    private String roleType;
+    @JsonProperty("role_type_id")
+    @ApiModelProperty(notes = "角色类型id")
+    private String roleTypeId;
 
     @JsonProperty("sort_data_list")
     @ApiModelProperty(notes = "列表排序参数")

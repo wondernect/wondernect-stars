@@ -63,13 +63,13 @@ public class SaveUserRequestDTO {
     @ApiModelProperty(notes = "个性签名")
     private String remark;
 
-    @JsonProperty("role_type")
-    @ApiModelProperty(notes = "角色类型")
-    private String roleType;
+    @JsonProperty("role_type_id")
+    @ApiModelProperty(notes = "角色类型id")
+    private String roleTypeId;
 
-    @JsonProperty("role")
-    @ApiModelProperty(notes = "角色")
-    private String role;
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
     @JsonProperty("enable")
     @ApiModelProperty(notes = "是否可用")

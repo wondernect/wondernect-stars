@@ -24,15 +24,15 @@ import java.util.List;
 @ApiModel(value = "角色菜单操作列表请求对象")
 public class ListRoleMenuOperationRequestDTO {
 
-    @NotBlank(message = "角色代码不能为空")
+    @NotBlank(message = "角色id不能为空")
     @JsonProperty("role_code")
-    @ApiModelProperty(notes = "角色代码")
-    private String roleCode;
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
-    @NotBlank(message = "菜单代码不能为空")
+    @NotBlank(message = "菜单id不能为空")
     @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "菜单代码")
-    private String menuCode;
+    @ApiModelProperty(notes = "菜单id")
+    private String menuId;
 
     @JsonProperty("sort_data_list")
     @ApiModelProperty(notes = "列表排序参数")

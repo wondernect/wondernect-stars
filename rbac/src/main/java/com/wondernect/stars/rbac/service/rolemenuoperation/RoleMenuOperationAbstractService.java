@@ -49,25 +49,28 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     @Transactional
     @Override
     public void add(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
-        Role role = roleManager.findByCode(roleMenuOperationRequestDTO.getRoleCode());
+        Role role = roleManager.findById(roleMenuOperationRequestDTO.getRoleId());
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        Menu menu = menuManager.findByCode(roleMenuOperationRequestDTO.getMenuCode());
+        Menu menu = menuManager.findById(roleMenuOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        Operation operation = operationManager.findByCode(roleMenuOperationRequestDTO.getOperationCode(), roleMenuOperationRequestDTO.getMenuCode());
+        Operation operation = operationManager.findByOperationIdAndMenuId(roleMenuOperationRequestDTO.getOperationId(), roleMenuOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(operation)) {
             throw new BusinessException("操作不存在");
         }
-        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
+        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleIdAndMenuIdAndOperationId(roleMenuOperationRequestDTO.getRoleId(), roleMenuOperationRequestDTO.getMenuId(), roleMenuOperationRequestDTO.getOperationId());
         if (ESObjectUtils.isNull(roleMenuOperation)) {
             super.saveEntity(
                     new RoleMenuOperation(
-                            roleMenuOperationRequestDTO.getRoleCode(),
-                            roleMenuOperationRequestDTO.getMenuCode(),
-                            roleMenuOperationRequestDTO.getOperationCode()
+                            roleMenuOperationRequestDTO.getRoleId(),
+                            roleMenuOperationRequestDTO.getMenuId(),
+                            roleMenuOperationRequestDTO.getOperationId(),
+                            roleMenuOperationRequestDTO.getLimitable(),
+                            roleMenuOperationRequestDTO.getStartTime(),
+                            roleMenuOperationRequestDTO.getEndTime()
                     )
             );
         }
@@ -76,19 +79,19 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     @Transactional
     @Override
     public void edit(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
-        Role role = roleManager.findByCode(roleMenuOperationRequestDTO.getRoleCode());
+        Role role = roleManager.findById(roleMenuOperationRequestDTO.getRoleId());
         if (ESObjectUtils.isNull(role)) {
             throw new BusinessException("角色不存在");
         }
-        Menu menu = menuManager.findByCode(roleMenuOperationRequestDTO.getMenuCode());
+        Menu menu = menuManager.findById(roleMenuOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        Operation operation = operationManager.findByCode(roleMenuOperationRequestDTO.getOperationCode(), roleMenuOperationRequestDTO.getMenuCode());
+        Operation operation = operationManager.findByOperationIdAndMenuId(roleMenuOperationRequestDTO.getOperationId(), roleMenuOperationRequestDTO.getMenuId());
         if (ESObjectUtils.isNull(operation)) {
             throw new BusinessException("操作不存在");
         }
-        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
+        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleIdAndMenuIdAndOperationId(roleMenuOperationRequestDTO.getRoleId(), roleMenuOperationRequestDTO.getMenuId(), roleMenuOperationRequestDTO.getOperationId());
         if (ESObjectUtils.isNull(roleMenuOperation)) {
             throw new BusinessException("角色菜单操作关系不存在");
         }
@@ -101,19 +104,19 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     @Transactional
     @Override
     public void delete(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
-        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleMenuOperationRequestDTO.getRoleCode(), roleMenuOperationRequestDTO.getMenuCode(), roleMenuOperationRequestDTO.getOperationCode());
+        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleIdAndMenuIdAndOperationId(roleMenuOperationRequestDTO.getRoleId(), roleMenuOperationRequestDTO.getMenuId(), roleMenuOperationRequestDTO.getOperationId());
         if (ESObjectUtils.isNotNull(roleMenuOperation)) {
             super.deleteById(roleMenuOperation.getId());
         }
     }
 
     @Override
-    public RoleMenuOperationResponseDTO findByRoleCodeAndMenuCodeAndOperationCode(String roleCode, String menuCode, String operationCode) {
-        Operation operation = operationManager.findByCode(operationCode, menuCode);
+    public RoleMenuOperationResponseDTO findByRoleIdAndMenuIdAndOperationId(String roleId, String menuId, String operationId) {
+        Operation operation = operationManager.findByOperationIdAndMenuId(operationId, menuId);
         if (ESObjectUtils.isNull(operation)) {
             throw new BusinessException("操作不存在");
         }
-        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(roleCode, menuCode, operationCode);
+        RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleIdAndMenuIdAndOperationId(roleId, menuId, operationId);
         if (ESObjectUtils.isNull(roleMenuOperation)) {
             return new RoleMenuOperationResponseDTO(
                     operation.getId(),
@@ -140,12 +143,12 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     @Override
     public List<RoleMenuOperationResponseDTO> list(ListRoleMenuOperationRequestDTO listRoleMenuOperationRequestDTO) {
         Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(Restrictions.eq("menuCode", listRoleMenuOperationRequestDTO.getMenuCode()));
+        operationCriteria.add(Restrictions.eq("menuId", listRoleMenuOperationRequestDTO.getMenuId()));
         List<Operation> operationList = operationManager.findAll(operationCriteria, new ArrayList<>());
         List<RoleMenuOperationResponseDTO> roleMenuOperationResponseDTOList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(operationList)) {
             for (Operation operation : operationList) {
-                RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(listRoleMenuOperationRequestDTO.getRoleCode(), listRoleMenuOperationRequestDTO.getMenuCode(), operation.getCode());
+                RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleIdAndMenuIdAndOperationId(listRoleMenuOperationRequestDTO.getRoleId(), listRoleMenuOperationRequestDTO.getMenuId(), operation.getId());
                 if (ESObjectUtils.isNotNull(roleMenuOperation)) {
                     roleMenuOperationResponseDTOList.add(
                             new RoleMenuOperationResponseDTO(
@@ -179,13 +182,13 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
     @Override
     public PageResponseData<RoleMenuOperationResponseDTO> page(PageRoleMenuOperationRequestDTO pageRoleMenuOperationRequestDTO) {
         Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(Restrictions.eq("menuCode", pageRoleMenuOperationRequestDTO.getMenuCode()));
+        operationCriteria.add(Restrictions.eq("menuId", pageRoleMenuOperationRequestDTO.getMenuId()));
         PageResponseData<Operation> operationPageResponseData = operationManager.findAll(operationCriteria, pageRoleMenuOperationRequestDTO.getPageRequestData());
         List<RoleMenuOperationResponseDTO> roleMenuOperationResponseDTOList = new ArrayList<>();
         List<Operation> operationList = operationPageResponseData.getDataList();
         if (CollectionUtils.isNotEmpty(operationList)) {
             for (Operation operation : operationList) {
-                RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleCodeAndMenuCodeAndOperationCode(pageRoleMenuOperationRequestDTO.getRoleCode(), pageRoleMenuOperationRequestDTO.getMenuCode(), operation.getCode());
+                RoleMenuOperation roleMenuOperation = roleMenuOperationManager.findByRoleIdAndMenuIdAndOperationId(pageRoleMenuOperationRequestDTO.getRoleId(), pageRoleMenuOperationRequestDTO.getMenuId(), operation.getId());
                 if (ESObjectUtils.isNotNull(roleMenuOperation)) {
                     roleMenuOperationResponseDTOList.add(
                             new RoleMenuOperationResponseDTO(

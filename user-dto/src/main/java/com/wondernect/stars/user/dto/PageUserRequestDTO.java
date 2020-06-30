@@ -23,10 +23,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "用户分页请求对象")
 public class PageUserRequestDTO {
 
-    @JsonProperty("value")
-    @ApiModelProperty(notes = "搜索内容")
-    private String value;
-
     @NotNull(message = "分页请求参数不能为空")
     @JsonProperty("page_request_data")
     @ApiModelProperty(notes = "分页参数")

@@ -35,11 +35,6 @@ public interface RoleInterface {
     /**
      * 获取角色详情
      */
-    RoleResponseDTO findByCode(String code);
-
-    /**
-     * 获取角色详情
-     */
     RoleResponseDTO findById(String id);
 
     /**

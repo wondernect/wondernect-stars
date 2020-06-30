@@ -22,15 +22,15 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "操作创建or更新请求对象")
 public class SaveOperationRequestDTO {
 
-    @NotBlank(message = "操作代码不能为空")
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "菜单代码")
-    private String code;
-
     @NotBlank(message = "操作名称不能为空")
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
     private String name;
+
+    @NotBlank(message = "操作代码不能为空")
+    @JsonProperty("code")
+    @ApiModelProperty(notes = "菜单代码")
+    private String code;
 
     @JsonProperty("description")
     @ApiModelProperty(notes = "描述")
@@ -48,8 +48,8 @@ public class SaveOperationRequestDTO {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @NotBlank(message = "所属菜单代码不能为空")
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "所属菜单代码")
-    private String menuCode;
+    @NotBlank(message = "所属菜单id不能为空")
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "所属菜单id")
+    private String menuId;
 }

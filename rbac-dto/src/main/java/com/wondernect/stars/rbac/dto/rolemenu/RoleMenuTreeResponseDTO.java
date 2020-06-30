@@ -26,13 +26,17 @@ public class RoleMenuTreeResponseDTO {
     @ApiModelProperty(notes = "菜单唯一标识")
     private String id;
 
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "菜单名称")
+    private String name;
+
     @JsonProperty("code")
     @ApiModelProperty(notes = "菜单代码")
     private String code;
 
-    @JsonProperty("name")
-    @ApiModelProperty(notes = "菜单名称")
-    private String name;
+    @JsonProperty("route")
+    @ApiModelProperty(notes = "菜单路由")
+    private String route;
 
     @JsonProperty("visible")
     @ApiModelProperty(notes = "是否可见")

@@ -26,8 +26,8 @@ import java.io.Serializable;
         name = "role_menu",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "roleCode"),
-                @Index(columnList = "menuCode")
+                @Index(columnList = "roleId"),
+                @Index(columnList = "menuId")
         }
 )
 @Data
@@ -37,13 +37,13 @@ public class RoleMenu extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = -4696775970734331693L;
 
-    @JsonProperty("role_code")
-    @ApiModelProperty(notes = "角色代码")
-    private String roleCode;
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "菜单代码")
-    private String menuCode;
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "菜单id")
+    private String menuId;
 
     @JsonProperty("limitable")
     @ApiModelProperty(notes = "是否限制可见时间")
@@ -60,17 +60,17 @@ public class RoleMenu extends BaseStringModel implements Serializable {
     public RoleMenu() {
     }
 
-    public RoleMenu(String roleCode, String menuCode) {
-        this.roleCode = roleCode;
-        this.menuCode = menuCode;
+    public RoleMenu(String roleId, String menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
         this.limitable = false;
         this.startTime = null;
         this.endTime = null;
     }
 
-    public RoleMenu(String roleCode, String menuCode, Boolean limitable, Long startTime, Long endTime) {
-        this.roleCode = roleCode;
-        this.menuCode = menuCode;
+    public RoleMenu(String roleId, String menuId, Boolean limitable, Long startTime, Long endTime) {
+        this.roleId = roleId;
+        this.menuId = menuId;
         this.limitable = ESObjectUtils.isNotNull(limitable) ? limitable : false;
         this.startTime = startTime;
         this.endTime = endTime;

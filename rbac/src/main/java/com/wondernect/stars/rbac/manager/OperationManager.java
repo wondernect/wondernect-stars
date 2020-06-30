@@ -23,10 +23,21 @@ import java.util.List;
 @Service
 public class OperationManager extends BaseStringManager<Operation> {
 
-    public Operation findByCode(String code, String menuCode) {
+    public Operation findByOperationIdAndMenuId(String operationId, String menuId) {
         Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(Restrictions.eq("menuCode", menuCode));
-        operationCriteria.add(Restrictions.eq("code", code));
+        operationCriteria.add(Restrictions.eq("menuId", menuId));
+        operationCriteria.add(Restrictions.eq("operationId", operationId));
+        List<Operation> operationList = super.findAll(operationCriteria, Arrays.asList(new SortData("createTime", "DESC")));
+        if (CollectionUtils.isEmpty(operationList)) {
+            return null;
+        }
+        return operationList.get(0);
+    }
+
+    public Operation findByOperationCodeAndMenuId(String operationCode, String menuId) {
+        Criteria<Operation> operationCriteria = new Criteria<>();
+        operationCriteria.add(Restrictions.eq("menuId", menuId));
+        operationCriteria.add(Restrictions.eq("code", operationCode));
         List<Operation> operationList = super.findAll(operationCriteria, Arrays.asList(new SortData("createTime", "DESC")));
         if (CollectionUtils.isEmpty(operationList)) {
             return null;
@@ -35,9 +46,9 @@ public class OperationManager extends BaseStringManager<Operation> {
     }
 
     @Transactional
-    public void deleteAllByMenuCode(String menuCode) {
+    public void deleteAllByMenuId(String menuId) {
         Criteria<Operation> operationCriteria = new Criteria<>();
-        operationCriteria.add(Restrictions.eq("menuCode", menuCode));
+        operationCriteria.add(Restrictions.eq("menuId", menuId));
         List<Operation> operationList = super.findAll(operationCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(operationList)) {
             for (Operation operation : operationList) {

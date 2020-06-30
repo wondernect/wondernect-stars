@@ -22,11 +22,6 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "角色创建or更新请求对象")
 public class SaveRoleRequestDTO {
 
-    @NotBlank(message = "角色代码不能为空")
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "角色代码")
-    private String code;
-
     @NotBlank(message = "角色名称不能为空")
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
@@ -48,8 +43,8 @@ public class SaveRoleRequestDTO {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @NotBlank(message = "角色类型代码不能为空")
-    @JsonProperty("role_type")
-    @ApiModelProperty(notes = "角色类型代码")
-    private String roleType;
+    @NotBlank(message = "角色类型id不能为空")
+    @JsonProperty("role_type_id")
+    @ApiModelProperty(notes = "角色类型id")
+    private String roleTypeId;
 }

@@ -28,7 +28,7 @@ public interface UserRoleInterface {
     /**
      * 获取
      **/
-    UserRoleResponseDTO findByUserIdAndRole(String userId, String role);
+    UserRoleResponseDTO findByUserIdAndRoleId(String userId, String roleId);
 
     /**
      * 列表

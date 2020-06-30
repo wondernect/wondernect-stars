@@ -21,16 +21,16 @@ import lombok.NoArgsConstructor;
 public class RoleMenuOperationResponseDTO {
 
     @JsonProperty("id")
-    @ApiModelProperty(notes = "唯一标识")
+    @ApiModelProperty(notes = "操作唯一标识")
     private String id;
-
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "操作代码")
-    private String code;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "操作名称")
     private String name;
+
+    @JsonProperty("code")
+    @ApiModelProperty(notes = "操作代码")
+    private String code;
 
     @JsonProperty("visible")
     @ApiModelProperty(notes = "是否可见")

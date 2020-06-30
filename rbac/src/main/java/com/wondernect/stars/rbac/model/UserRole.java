@@ -25,8 +25,7 @@ import java.io.Serializable;
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
                 @Index(columnList = "userId"),
-                @Index(columnList = "roleType"),
-                @Index(columnList = "role")
+                @Index(columnList = "roleId")
         }
 )
 @Data
@@ -42,11 +41,7 @@ public class UserRole extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "用户id")
     private String userId;
 
-    @JsonProperty("role_type")
-    @ApiModelProperty(notes = "角色类型")
-    private String roleType;
-
-    @JsonProperty("role")
-    @ApiModelProperty(notes = "角色")
-    private String role;
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 }

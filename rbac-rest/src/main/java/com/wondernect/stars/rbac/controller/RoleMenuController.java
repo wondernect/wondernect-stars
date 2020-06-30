@@ -60,18 +60,18 @@ public class RoleMenuController {
     @ApiOperation(value = "获取角色菜单", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<RoleMenuResponseDTO> detail(
-            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_code", required = false) String roleCode,
-            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "menu_code", required = false) String menuCode
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_id", required = false) String roleId,
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "menu_id", required = false) String menuId
     ) {
-        return new BusinessData<>(roleMenuService.findByRoleCodeAndMenuCode(roleCode, menuCode));
+        return new BusinessData<>(roleMenuService.findByRoleIdAndMenuId(roleId, menuId));
     }
 
     @ApiOperation(value = "角色对应菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/tree")
     public BusinessData<RoleMenuTreeResponseDTO> tree(
-            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_code", required = false) String roleCode,
-            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "menu_code", required = false) String menuCode
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_id", required = false) String roleId,
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "menu_id", required = false) String menuId
     ) {
-        return new BusinessData<>(roleMenuService.tree(roleCode, menuCode));
+        return new BusinessData<>(roleMenuService.tree(roleId, menuId));
     }
 }

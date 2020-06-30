@@ -29,10 +29,10 @@ public interface RoleMenuInterface {
     /**
      * 获取角色菜单
      */
-    RoleMenuResponseDTO findByRoleCodeAndMenuCode(String roleCode, String menuCode);
+    RoleMenuResponseDTO findByRoleIdAndMenuId(String roleId, String menuId);
 
     /**
      * 角色菜单树
      */
-    RoleMenuTreeResponseDTO tree(String roleCode, String menuCode);
+    RoleMenuTreeResponseDTO tree(String roleId, String menuId);
 }

@@ -46,57 +46,56 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
         switch (wondernectBootEvent.getWondernectBootEventType()) {
             case BOOT:
             {
-                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleTypeCode()) &&
-                        ESObjectUtils.isNull(roleTypeManager.findByCode(rbacConfigProperties.getRoleTypeCode()))) {
-                    roleTypeManager.save(
-                            new RoleType(
-                                    rbacConfigProperties.getRoleTypeCode(),
-                                    rbacConfigProperties.getRoleTypeName(),
-                                    rbacConfigProperties.getRoleTypeDesc(),
-                                    false,
-                                    false,
-                                    0
-                            )
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleTypeId()) &&
+                        ESObjectUtils.isNull(roleTypeManager.findById(rbacConfigProperties.getRoleTypeId()))) {
+                    RoleType roleType = new RoleType(
+                            rbacConfigProperties.getRoleTypeName(),
+                            rbacConfigProperties.getRoleTypeDesc(),
+                            false,
+                            false,
+                            0
                     );
+                    roleType.setId(rbacConfigProperties.getRoleTypeId());
+                    roleTypeManager.save(roleType);
                 }
 
-                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleCode()) &&
-                        ESObjectUtils.isNull(roleManager.findByCode(rbacConfigProperties.getRoleCode()))) {
-                    roleManager.save(
-                            new Role(
-                                    rbacConfigProperties.getRoleCode(),
-                                    rbacConfigProperties.getRoleName(),
-                                    rbacConfigProperties.getRoleDesc(),
-                                    false,
-                                    false,
-                                    0,
-                                    rbacConfigProperties.getRoleTypeCode()
-                            )
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleId()) &&
+                        ESObjectUtils.isNull(roleManager.findById(rbacConfigProperties.getRoleId()))) {
+                    Role role = new Role(
+                            rbacConfigProperties.getRoleName(),
+                            rbacConfigProperties.getRoleDesc(),
+                            false,
+                            false,
+                            0,
+                            rbacConfigProperties.getRoleTypeId()
                     );
+                    role.setId(rbacConfigProperties.getRoleId());
+                    roleManager.save(role);
                 }
 
-                if (ESStringUtils.isNotBlank(rbacConfigProperties.getMenuCode()) &&
-                        ESObjectUtils.isNull(menuManager.findByCode(rbacConfigProperties.getMenuCode()))) {
-                    menuManager.save(
-                            new Menu(
-                                    rbacConfigProperties.getMenuCode(),
-                                    rbacConfigProperties.getMenuName(),
-                                    rbacConfigProperties.getMenuDesc(),
-                                    false,
-                                    false,
-                                    0,
-                                    "-1"
-                            )
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getMenuId()) &&
+                        ESObjectUtils.isNull(menuManager.findByCode(rbacConfigProperties.getMenuId()))) {
+                    Menu menu = new Menu(
+                            rbacConfigProperties.getMenuName(),
+                            rbacConfigProperties.getMenuCode(),
+                            rbacConfigProperties.getMenuRoute(),
+                            rbacConfigProperties.getMenuDesc(),
+                            false,
+                            false,
+                            0,
+                            "-1"
                     );
+                    menu.setId(rbacConfigProperties.getMenuId());
+                    menuManager.save(menu);
                 }
 
-                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleCode()) &&
-                        ESStringUtils.isNotBlank(rbacConfigProperties.getMenuCode()) &&
-                        ESObjectUtils.isNull(roleMenuManager.findByRoleCodeAndMenuCode(rbacConfigProperties.getRoleCode(), rbacConfigProperties.getMenuCode()))) {
+                if (ESStringUtils.isNotBlank(rbacConfigProperties.getRoleId()) &&
+                        ESStringUtils.isNotBlank(rbacConfigProperties.getMenuId()) &&
+                        ESObjectUtils.isNull(roleMenuManager.findByRoleIdAndMenuId(rbacConfigProperties.getRoleId(), rbacConfigProperties.getMenuId()))) {
                     roleMenuManager.save(
                             new RoleMenu(
-                                    rbacConfigProperties.getRoleCode(),
-                                    rbacConfigProperties.getMenuCode(),
+                                    rbacConfigProperties.getRoleId(),
+                                    rbacConfigProperties.getMenuId(),
                                     false,
                                     null,
                                     null

@@ -24,9 +24,9 @@ public class MenuManager extends BaseStringManager<Menu> {
     /**
      * 根据菜单代码获取菜单
      */
-    public Menu findByCode(String code) {
+    public Menu findByCode(String menuCode) {
         Criteria<Menu> menuCriteria = new Criteria<>();
-        menuCriteria.add(Restrictions.eq("code", code));
+        menuCriteria.add(Restrictions.eq("code", menuCode));
         List<Menu> menuList = super.findAll(menuCriteria, Arrays.asList(new SortData("createTime", "DESC")));
         if (CollectionUtils.isEmpty(menuList)) {
             return null;

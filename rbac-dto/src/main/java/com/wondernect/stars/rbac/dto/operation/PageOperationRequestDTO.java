@@ -23,13 +23,9 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "操作分页请求对象")
 public class PageOperationRequestDTO {
 
-    @JsonProperty("value")
-    @ApiModelProperty(notes = "输入(代码或名称)")
-    private String value;
-
-    @JsonProperty("menu_code")
-    @ApiModelProperty(notes = "所属菜单代码")
-    private String menuCode;
+    @JsonProperty("menu_id")
+    @ApiModelProperty(notes = "所属菜单id")
+    private String menuId;
 
     @NotNull(message = "分页请求参数不能为空")
     @JsonProperty("page_request_data")

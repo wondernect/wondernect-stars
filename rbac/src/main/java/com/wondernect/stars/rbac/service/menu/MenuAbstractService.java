@@ -1,6 +1,7 @@
 package com.wondernect.stars.rbac.service.menu;
 
 import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
@@ -13,7 +14,6 @@ import com.wondernect.stars.rbac.manager.RoleMenuManager;
 import com.wondernect.stars.rbac.manager.RoleMenuOperationManager;
 import com.wondernect.stars.rbac.model.Menu;
 import org.apache.commons.collections4.CollectionUtils;
-import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,33 +43,34 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
 
     @Transactional
     public MenuResponseDTO create(SaveMenuRequestDTO saveMenuRequestDTO) {
-        Menu parentMenu = menuManager.findByCode(saveMenuRequestDTO.getParentMenuCode());
+        Menu parentMenu = super.findEntityById(saveMenuRequestDTO.getParentMenuId());
         if (ESObjectUtils.isNull(parentMenu)) {
             throw new BusinessException("父级菜单不存在");
         }
         Menu menu = menuManager.findByCode(saveMenuRequestDTO.getCode());
         if (ESObjectUtils.isNotNull(menu)) {
-            throw new BusinessException("菜单已存在");
+            throw new BusinessException("菜单代码已存在");
         }
         if (ESObjectUtils.isNull(saveMenuRequestDTO.getWeight())) {
             saveMenuRequestDTO.setWeight(0);
         }
         return super.save(
                 new Menu(
-                        saveMenuRequestDTO.getCode(),
                         saveMenuRequestDTO.getName(),
+                        saveMenuRequestDTO.getCode(),
+                        saveMenuRequestDTO.getRoute(),
                         saveMenuRequestDTO.getDescription(),
                         saveMenuRequestDTO.getEditable(),
                         saveMenuRequestDTO.getDeletable(),
                         saveMenuRequestDTO.getWeight(),
-                        saveMenuRequestDTO.getParentMenuCode()
+                        saveMenuRequestDTO.getParentMenuId()
                 )
         );
     }
 
     @Transactional
     public MenuResponseDTO update(String id, SaveMenuRequestDTO saveMenuRequestDTO) {
-        Menu parentMenu = menuManager.findByCode(saveMenuRequestDTO.getParentMenuCode());
+        Menu parentMenu = super.findEntityById(saveMenuRequestDTO.getParentMenuId());
         if (ESObjectUtils.isNull(parentMenu)) {
             throw new BusinessException("父级菜单不存在");
         }
@@ -80,14 +81,7 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
         if (!menu.getEditable()) {
             throw new BusinessException("菜单不可编辑");
         }
-        menu.setName(saveMenuRequestDTO.getName());
-        menu.setDescription(saveMenuRequestDTO.getDescription());
-        menu.setEditable(saveMenuRequestDTO.getEditable());
-        menu.setDeletable(saveMenuRequestDTO.getDeletable());
-        if (ESObjectUtils.isNotNull(saveMenuRequestDTO.getWeight())) {
-            menu.setWeight(saveMenuRequestDTO.getWeight());
-        }
-        menu.setParentMenuCode(saveMenuRequestDTO.getParentMenuCode());
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveMenuRequestDTO, menu);
         return super.save(menu);
     }
 
@@ -100,100 +94,82 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
         if (!menu.getDeletable()) {
             throw new BusinessException("菜单不可删除");
         }
-        if (countByParentMenuCode(menu.getCode()) > 0) {
+        if (countByParentMenuId(menu.getCode()) > 0) {
             throw new BusinessException("请先删除子菜单");
         }
-        operationManager.deleteAllByMenuCode(menu.getCode());
-        roleMenuManager.deleteAllByMenuCode(menu.getCode());
-        roleMenuOperationManager.deleteAllByMenuCode(menu.getCode());
+        operationManager.deleteAllByMenuId(menu.getId());
+        roleMenuManager.deleteAllByMenuId(menu.getId());
+        roleMenuOperationManager.deleteAllByMenuId(menu.getId());
         super.deleteById(id);
     }
 
-    public MenuResponseDTO findByCode(String code) {
-        Menu menu = menuManager.findByCode(code);
-        if (ESObjectUtils.isNull(menu)) {
-            return null;
-        }
-        return generate(menu);
-    }
-
-    public long countByParentMenuCode(String parentMenuCode) {
+    public long countByParentMenuId(String parentMenuId) {
         Criteria<Menu> menuCriteria = new Criteria<>();
-        menuCriteria.add(Restrictions.eq("parentMenuCode", parentMenuCode));
+        menuCriteria.add(Restrictions.eq("parentMenuId", parentMenuId));
         return super.count(menuCriteria);
     }
 
     public List<MenuResponseDTO> list(ListMenuRequestDTO listMenuRequestDTO) {
         Criteria<Menu> menuCriteria = new Criteria<>();
-        menuCriteria.add(
-                Restrictions.and(
-                        Restrictions.eq("parentMenuCode", listMenuRequestDTO.getParentMenuCode()),
-                        Restrictions.or(
-                                Restrictions.like("code", listMenuRequestDTO.getValue(), MatchMode.ANYWHERE),
-                                Restrictions.like("name", listMenuRequestDTO.getValue(), MatchMode.ANYWHERE)
-                        )
-                )
-        );
+        menuCriteria.add(Restrictions.eq("parentMenuId", listMenuRequestDTO.getParentMenuId()));
         return super.findAll(menuCriteria, listMenuRequestDTO.getSortDataList());
     }
 
     public PageResponseData<MenuResponseDTO> page(PageMenuRequestDTO pageMenuRequestDTO) {
         Criteria<Menu> menuCriteria = new Criteria<>();
-        menuCriteria.add(
-                Restrictions.and(
-                        Restrictions.eq("parentMenuCode", pageMenuRequestDTO.getParentMenuCode()),
-                        Restrictions.or(
-                                Restrictions.like("code", pageMenuRequestDTO.getValue(), MatchMode.ANYWHERE),
-                                Restrictions.like("name", pageMenuRequestDTO.getValue(), MatchMode.ANYWHERE)
-                        )
-                )
-        );
+        menuCriteria.add(Restrictions.eq("parentMenuId", pageMenuRequestDTO.getParentMenuId()));
         return super.findAll(menuCriteria, pageMenuRequestDTO.getPageRequestData());
     }
 
-    public MenuTreeResponseDTO tree(String code) {
-        Menu menu = menuManager.findByCode(code);
+    public MenuTreeResponseDTO tree(String id) {
+        Menu menu = super.findEntityById(id);
         if (ESObjectUtils.isNull(menu)) {
             throw new BusinessException("菜单不存在");
         }
-        Menu parentMenu = menuManager.findByCode(menu.getParentMenuCode());
+        Menu parentMenu = super.findEntityById(menu.getParentMenuId());
         if (ESObjectUtils.isNull(parentMenu)) {
             throw new BusinessException("父级菜单不存在");
         }
         MenuTreeResponseDTO menuTreeResponseDTO = new MenuTreeResponseDTO(
                 menu.getId(),
-                menu.getCode(),
                 menu.getName(),
+                menu.getCode(),
+                menu.getRoute(),
                 menu.getDescription(),
                 menu.getEditable(),
                 menu.getDeletable(),
                 menu.getWeight(),
-                menu.getParentMenuCode(),
+                menu.getParentMenuId(),
                 parentMenu.getName(),
+                parentMenu.getCode(),
+                parentMenu.getRoute(),
                 null
         );
-        return tree(menuTreeResponseDTO.getCode(), menuTreeResponseDTO);
+        return tree(menuTreeResponseDTO.getParentMenuId(), menuTreeResponseDTO);
     }
 
-    private MenuTreeResponseDTO tree(String code, MenuTreeResponseDTO menuTreeResponseDTO) {
+    private MenuTreeResponseDTO tree(String parentMenuId, MenuTreeResponseDTO menuTreeResponseDTO) {
         List<MenuTreeResponseDTO> menuTreeResponseDTOList = new ArrayList<>();
         Criteria<Menu> menuCriteria = new Criteria<>();
-        menuCriteria.add(Restrictions.eq("parentMenuCode", code));
+        menuCriteria.add(Restrictions.eq("parentMenuId", parentMenuId));
         List<Menu> menuList = super.findAllEntity(menuCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(menuList)) {
             for (Menu menu : menuList) {
-                Menu parentMenu = menuManager.findByCode(menu.getParentMenuCode());
+                Menu parentMenu = super.findEntityById(menu.getParentMenuId());
                 menuTreeResponseDTOList.add(
                         new MenuTreeResponseDTO(
                                 menu.getId(),
-                                menu.getCode(),
                                 menu.getName(),
+                                menu.getCode(),
+                                menu.getRoute(),
                                 menu.getDescription(),
                                 menu.getEditable(),
                                 menu.getDeletable(),
                                 menu.getWeight(),
-                                menu.getParentMenuCode(),
+                                menu.getParentMenuId(),
                                 parentMenu.getName(),
+                                parentMenu.getCode(),
+                                parentMenu.getRoute(),
                                 null)
                 );
             }
@@ -201,24 +177,20 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
         menuTreeResponseDTO.setChildList(menuTreeResponseDTOList);
         if (CollectionUtils.isNotEmpty(menuTreeResponseDTOList)) {
             for (MenuTreeResponseDTO menuTreeResponseDTOLoop : menuTreeResponseDTOList) {
-                tree(menuTreeResponseDTOLoop.getCode(), menuTreeResponseDTOLoop);
+                tree(menuTreeResponseDTOLoop.getParentMenuId(), menuTreeResponseDTOLoop);
             }
         }
         return menuTreeResponseDTO;
     }
 
     public MenuResponseDTO generate(Menu menu) {
-        Menu parentMenu = menuManager.findByCode(menu.getParentMenuCode());
-        return new MenuResponseDTO(
-                menu.getId(),
-                menu.getCode(),
-                menu.getName(),
-                menu.getDescription(),
-                menu.getEditable(),
-                menu.getDeletable(),
-                menu.getWeight(),
-                menu.getParentMenuCode(),
-                ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getName() : null
-        );
+        MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
+        ESBeanUtils.copyProperties(menu, menuResponseDTO);
+        menuResponseDTO.setId(menu.getId());
+        Menu parentMenu = super.findEntityById(menu.getParentMenuId());
+        menuResponseDTO.setParentMenuName(ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getName() : null);
+        menuResponseDTO.setParentMenuCode(ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getCode() : null);
+        menuResponseDTO.setParentMenuRoute(ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getRoute() : null);
+        return menuResponseDTO;
     }
 }

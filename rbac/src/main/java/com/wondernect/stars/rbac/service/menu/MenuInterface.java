@@ -32,17 +32,12 @@ public interface MenuInterface {
     /**
      * 获取菜单详情
      */
-    MenuResponseDTO findByCode(String code);
-
-    /**
-     * 获取菜单详情
-     */
     MenuResponseDTO findById(String id);
 
     /**
      * 获取子菜单计数
      */
-    long countByParentMenuCode(String parentMenuCode);
+    long countByParentMenuId(String parentMenuId);
 
     /**
      * 菜单列表
@@ -57,5 +52,5 @@ public interface MenuInterface {
     /**
      * 菜单树形结构
      */
-    MenuTreeResponseDTO tree(String code);
+    MenuTreeResponseDTO tree(String id);
 }
