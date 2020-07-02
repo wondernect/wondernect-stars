@@ -87,7 +87,7 @@ public abstract class CaptchaSessionAbstractService extends BaseStringService<Ca
         if (ESObjectUtils.isNull(captchaSession)) {
             throw new SessionException(SessionErrorEnum.CAPTCHA_SESSION_NOT_FOUND);
         }
-        if (ESDateTimeUtils.getCurrentTimestamp() > (captchaSession.getCreateTime() + captchaSession.getExpires())) {
+        if (ESDateTimeUtils.getCurrentTimestamp() > (captchaSession.getCreateTime() + captchaSession.getExpires() * 1000)) {
             throw new SessionException(SessionErrorEnum.CAPTCHA_SESSION_CAPTCHA_EXPIRED);
         }
         if (!captchaAuthRequestDTO.getCaptcha().equalsIgnoreCase(captchaSession.getCaptcha())) {
