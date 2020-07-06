@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.dto.userrole;
+package com.wondernect.stars.user.dto.userrole;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -7,27 +7,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 /**
- * Copyright (C), 2017-2019, wondernect.com
- * FileName: UserRoleRequestDTO
- * Author: chenxun
- * Date: 2019/8/23 10:43
- * Description: 用户角色请求对象
- */
+ * 用户角色响应DTO
+ *
+ * @author chenxun 2020-06-28 21:46:01
+ **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "用户角色请求对象")
-public class UserRoleRequestDTO {
+@ApiModel(value = "用户角色响应对象")
+public class UserRoleResponseDTO {
 
-    @NotBlank(message = "用户id不能为空")
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "唯一标识")
+    private String id;
+
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "用户id")
     private String userId;
 
-    @NotBlank(message = "角色id不能为空")
     @JsonProperty("role_id")
     @ApiModelProperty(notes = "角色id")
     private String roleId;

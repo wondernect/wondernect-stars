@@ -1,7 +1,7 @@
-package com.wondernect.stars.rbac.dao;
+package com.wondernect.stars.user.dao;
 
 import com.wondernect.elements.rdb.base.dao.BaseStringDao;
-import com.wondernect.stars.rbac.model.UserRole;
+import com.wondernect.stars.user.model.UserRole;
 import org.springframework.stereotype.Repository;
 
 /**

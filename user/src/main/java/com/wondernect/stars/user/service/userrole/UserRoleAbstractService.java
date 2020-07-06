@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.service.userrole;
+package com.wondernect.stars.user.service.userrole;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
@@ -6,14 +6,12 @@ import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.userrole.ListUserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.PageUserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.UserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.UserRoleResponseDTO;
-import com.wondernect.stars.rbac.manager.RoleManager;
-import com.wondernect.stars.rbac.manager.UserRoleManager;
-import com.wondernect.stars.rbac.model.Role;
-import com.wondernect.stars.rbac.model.UserRole;
+import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.PageUserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.UserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.UserRoleResponseDTO;
+import com.wondernect.stars.user.manager.UserRoleManager;
+import com.wondernect.stars.user.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,16 +27,9 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
     @Autowired
     private UserRoleManager userRoleManager;
 
-    @Autowired
-    private RoleManager roleManager;
-
     @Transactional
     @Override
     public void add(UserRoleRequestDTO userRoleRequestDTO) {
-        Role role = roleManager.findById(userRoleRequestDTO.getRoleId());
-        if (ESObjectUtils.isNull(role)) {
-            throw new BusinessException("角色不存在");
-        }
         UserRole userRole = userRoleManager.findByUserIdAndRoleId(userRoleRequestDTO.getUserId(), userRoleRequestDTO.getRoleId());
         if (ESObjectUtils.isNotNull(userRole)) {
             throw new BusinessException("用户角色已存在");
@@ -80,11 +71,10 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
 
     @Override
     public UserRoleResponseDTO generate(UserRole userRole) {
-        Role role = roleManager.findById(userRole.getRoleId());
         return new UserRoleResponseDTO(
-                role.getId(),
-                role.getName(),
-                role.getDescription()
+                userRole.getId(),
+                userRole.getUserId(),
+                userRole.getRoleId()
         );
     }
 }

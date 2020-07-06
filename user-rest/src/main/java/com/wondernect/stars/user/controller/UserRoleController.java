@@ -1,13 +1,13 @@
-package com.wondernect.stars.rbac.controller;
+package com.wondernect.stars.user.controller;
 
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.userrole.ListUserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.PageUserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.UserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.UserRoleResponseDTO;
-import com.wondernect.stars.rbac.service.userrole.UserRoleService;
+import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.PageUserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.UserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.UserRoleResponseDTO;
+import com.wondernect.stars.user.service.userrole.UserRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

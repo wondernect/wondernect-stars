@@ -1,10 +1,10 @@
-package com.wondernect.stars.rbac.manager;
+package com.wondernect.stars.user.manager;
 
 import com.wondernect.elements.rdb.base.manager.BaseStringManager;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.request.SortData;
-import com.wondernect.stars.rbac.model.UserRole;
+import com.wondernect.stars.user.model.UserRole;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 

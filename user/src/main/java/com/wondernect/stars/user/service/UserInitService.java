@@ -8,8 +8,10 @@ import com.wondernect.stars.user.em.Gender;
 import com.wondernect.stars.user.em.UserType;
 import com.wondernect.stars.user.manager.UserLocalAuthManager;
 import com.wondernect.stars.user.manager.UserManager;
+import com.wondernect.stars.user.manager.UserRoleManager;
 import com.wondernect.stars.user.model.UserLocalAuth;
 import com.wondernect.stars.user.model.User;
+import com.wondernect.stars.user.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class UserInitService implements ApplicationListener<WondernectBootEvent>
 
     @Autowired
     private UserLocalAuthManager userAuthManager;
+
+    @Autowired
+    private UserRoleManager userRoleManager;
 
     @Autowired
     private UserConfigProperties userConfigProperties;
@@ -52,8 +57,8 @@ public class UserInitService implements ApplicationListener<WondernectBootEvent>
                                         userConfigProperties.getEmail(),
                                         null,
                                         null,
-                                        userConfigProperties.getRoleType(),
-                                        userConfigProperties.getRole(),
+                                        userConfigProperties.getRoleTypeId(),
+                                        userConfigProperties.getRoleId(),
                                         true,
                                         true,
                                         false
@@ -63,6 +68,12 @@ public class UserInitService implements ApplicationListener<WondernectBootEvent>
                                 new UserLocalAuth(
                                         user.getId(),
                                         userConfigProperties.getPassword()
+                                )
+                        );
+                        userRoleManager.save(
+                                new UserRole(
+                                        user.getId(),
+                                        userConfigProperties.getRoleId()
                                 )
                         );
                     }

@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.service.userrole;
+package com.wondernect.stars.user.service.userrole;
 
 import org.springframework.stereotype.Service;
 

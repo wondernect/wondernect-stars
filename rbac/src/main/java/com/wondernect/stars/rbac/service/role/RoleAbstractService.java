@@ -37,9 +37,6 @@ public abstract class RoleAbstractService extends BaseStringService<RoleResponse
     @Autowired
     private RoleMenuOperationManager roleMenuOperationManager;
 
-    @Autowired
-    private UserRoleManager userRoleManager;
-
     @Transactional
     public RoleResponseDTO create(SaveRoleRequestDTO saveRoleRequestDTO) {
         RoleType roleType = roleTypeManager.findById(saveRoleRequestDTO.getRoleTypeId());
@@ -89,7 +86,6 @@ public abstract class RoleAbstractService extends BaseStringService<RoleResponse
         }
         roleMenuManager.deleteAllByRoleId(role.getId());
         roleMenuOperationManager.deleteAllByRoleId(role.getId());
-        userRoleManager.deleteAllByRoleId(role.getId());
         super.deleteById(id);
     }
 

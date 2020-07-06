@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.model;
+package com.wondernect.stars.user.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.base.model.BaseStringModel;
@@ -9,7 +9,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 /**

@@ -1,10 +1,10 @@
-package com.wondernect.stars.rbac.service.userrole;
+package com.wondernect.stars.user.service.userrole;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.userrole.ListUserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.PageUserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.UserRoleRequestDTO;
-import com.wondernect.stars.rbac.dto.userrole.UserRoleResponseDTO;
+import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.PageUserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.UserRoleRequestDTO;
+import com.wondernect.stars.user.dto.userrole.UserRoleResponseDTO;
 
 import java.util.List;
 

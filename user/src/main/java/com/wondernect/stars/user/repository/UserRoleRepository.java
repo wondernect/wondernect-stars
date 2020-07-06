@@ -1,7 +1,7 @@
-package com.wondernect.stars.rbac.repository;
+package com.wondernect.stars.user.repository;
 
 import com.wondernect.elements.rdb.base.repository.BaseStringRepository;
-import com.wondernect.stars.rbac.model.UserRole;
+import com.wondernect.stars.user.model.UserRole;
 
 /**
  * Copyright (C), 2020, wondernect.com

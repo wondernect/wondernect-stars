@@ -35,9 +35,9 @@ public class UserConfigProperties implements Serializable {
 
     private String passwordEncryptSalt; // 平台用户登录密码加密salt
 
-    private String roleType = "super"; // 平台超级管理员角色类型
+    private String roleTypeId; // 平台超级管理员角色类型
 
-    private String role = "super_default"; // 平台超级管理员角色
+    private String roleId; // 平台超级管理员角色
 
     public String getUsername() {
         return username;
@@ -87,19 +87,19 @@ public class UserConfigProperties implements Serializable {
         this.passwordEncryptSalt = passwordEncryptSalt;
     }
 
-    public String getRoleType() {
-        return roleType;
+    public String getRoleTypeId() {
+        return roleTypeId;
     }
 
-    public void setRoleType(String roleType) {
-        this.roleType = roleType;
+    public void setRoleTypeId(String roleTypeId) {
+        this.roleTypeId = roleTypeId;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 }

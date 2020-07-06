@@ -1,4 +1,4 @@
-package com.wondernect.stars.rbac.dto.userrole;
+package com.wondernect.stars.user.dto.userrole;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.request.PageRequestData;
