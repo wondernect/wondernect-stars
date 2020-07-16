@@ -48,7 +48,7 @@ public abstract class UserLocalAuthAbstractService extends BaseService<UserLocal
         if (ESObjectUtils.isNull(userLocalAuth)) {
             throw new UserException(UserErrorEnum.USER_LOCAL_AUTH_NOT_FOUND);
         }
-        if (!userLocalAuth.getPassword().equals(encryptUserLocalAuthPassword(authUserLocalAuthRequestDTO.getPassword()))) {
+        if (!userLocalAuth.getPassword().equals(authUserLocalAuthRequestDTO.getPassword())) {
             throw new UserException(UserErrorEnum.USER_LOCAL_AUTH_PASSWORD_FAILED);
         }
         return generate(userLocalAuth);
