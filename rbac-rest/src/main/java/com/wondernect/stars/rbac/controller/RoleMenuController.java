@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.controller;
 
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.*;
 import com.wondernect.stars.rbac.service.rolemenu.RoleMenuService;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Copyright (C), 2020, wondernect.com
@@ -73,5 +75,13 @@ public class RoleMenuController {
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "menu_id", required = false) String menuId
     ) {
         return new BusinessData<>(roleMenuService.tree(roleId, menuId));
+    }
+
+    @ApiOperation(value = "角色对应权限", httpMethod = "POST")
+    @GetMapping(value = "/authority")
+    public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_id_list", required = false) List<String> roleIdList
+    ) {
+        return new BusinessData<>(roleMenuService.roleAuthority(roleIdList));
     }
 }
