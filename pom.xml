@@ -28,6 +28,7 @@
         <module>file-dto</module>
         <module>file</module>
         <module>file-rest</module>
+        <module>file-server-sdk</module>
         <module>user-dto</module>
         <module>user</module>
         <module>user-rest</module>
