@@ -1,6 +1,5 @@
 package com.wondernect.stars.user.service.user;
 
-import com.wondernect.stars.user.service.user.UserAbstractService;
 import org.springframework.stereotype.Service;
 
 /**

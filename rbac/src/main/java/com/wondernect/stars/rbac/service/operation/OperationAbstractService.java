@@ -3,6 +3,7 @@ package com.wondernect.stars.rbac.service.operation;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -113,5 +114,10 @@ public abstract class OperationAbstractService extends BaseStringService<Operati
         operationResponseDTO.setMenuCode(ESObjectUtils.isNotNull(menu) ? menu.getCode() : null);
         operationResponseDTO.setMenuRoute(ESObjectUtils.isNotNull(menu) ? menu.getRoute() : null);
         return operationResponseDTO;
+    }
+
+    @Override
+    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
+        return null;
     }
 }

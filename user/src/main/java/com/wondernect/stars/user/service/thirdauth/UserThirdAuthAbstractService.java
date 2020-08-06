@@ -1,6 +1,7 @@
 package com.wondernect.stars.user.service.thirdauth;
 
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.stars.user.common.error.UserErrorEnum;
 import com.wondernect.stars.user.common.exception.UserException;
@@ -12,6 +13,8 @@ import com.wondernect.stars.user.manager.UserThirdAuthManager;
 import com.wondernect.stars.user.model.UserThirdAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Copyright (C), 2020, wondernect.com
@@ -102,5 +105,10 @@ public abstract class UserThirdAuthAbstractService extends BaseStringService<Use
                 userThirdAuth.getAppUserName(),
                 userThirdAuth.getAppUserAvatar()
         );
+    }
+
+    @Override
+    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
+        return null;
     }
 }

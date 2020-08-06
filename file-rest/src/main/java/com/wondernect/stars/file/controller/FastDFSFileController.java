@@ -1,5 +1,6 @@
 package com.wondernect.stars.file.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -30,7 +31,7 @@ import java.util.List;
  * Description: local file controller
  */
 @RestController
-@RequestMapping(value = "/v1/{application}/file/fast_dfs")
+@RequestMapping(value = "/v1/wondernect/file/fast_dfs")
 @Validated
 @Api(tags = "FastDFS文件服务", description = "FastDFS文件服务")
 public class FastDFSFileController {
@@ -38,6 +39,7 @@ public class FastDFSFileController {
     @Autowired
     private FastDFSFileService fastDFSFileService;
 
+    @AuthorizeServer
     @ApiOperation(value = "上传文件", httpMethod = "POST")
     @PostMapping(value = "/upload")
     public BusinessData<FileResponseDTO> upload(
@@ -47,6 +49,7 @@ public class FastDFSFileController {
         return new BusinessData<>(fastDFSFileService.upload(file, "", fileType, new HashMap<>()));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
     @PostMapping(value = "/wechat/upload")
     public BusinessData<FileResponseDTO> wechatUpload(
@@ -59,6 +62,7 @@ public class FastDFSFileController {
         return new BusinessData<>(fastDFSFileService.upload(file, "", fileType, new HashMap<>()));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除文件", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData deleteById(
@@ -68,6 +72,7 @@ public class FastDFSFileController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<FileResponseDTO> getById(
@@ -76,6 +81,7 @@ public class FastDFSFileController {
         return new BusinessData<>(fastDFSFileService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<FileResponseDTO>> list(
@@ -84,6 +90,7 @@ public class FastDFSFileController {
         return new BusinessData<>(fastDFSFileService.list(listFileRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<FileResponseDTO>> page(

@@ -1,5 +1,6 @@
 package com.wondernect.stars.session.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -26,12 +27,13 @@ import java.util.List;
 @Api(tags = "永久会话", description = "永久会话")
 @Validated
 @RestController
-@RequestMapping(value = "/v1/{application}/token")
+@RequestMapping(value = "/v1/wondernect/session/token")
 public class TokenSessionController {
 
     @Autowired
     private TokenSessionService tokenSessionService;
 
+    @AuthorizeServer
     @ApiOperation(value = "请求令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/request")
     public BusinessData<TokenResponseDTO> request(
@@ -40,6 +42,7 @@ public class TokenSessionController {
         return new BusinessData<>(tokenSessionService.requestTokenSession(tokenRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{token}/delete")
     public BusinessData delete(
@@ -49,6 +52,7 @@ public class TokenSessionController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取令牌(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{token}/detail")
     public BusinessData<TokenResponseDTO> get(
@@ -57,6 +61,7 @@ public class TokenSessionController {
         return new BusinessData<>(tokenSessionService.findByToken(token));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "刷新令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/refresh")
     public BusinessData<TokenResponseDTO> refresh(
@@ -65,6 +70,7 @@ public class TokenSessionController {
         return new BusinessData<>(tokenSessionService.refreshTokenSession(tokenRefreshRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "验证令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/auth")
     public BusinessData<TokenResponseDTO> auth(
@@ -73,6 +79,7 @@ public class TokenSessionController {
         return new BusinessData<>(tokenSessionService.authTokenSession(tokenAuthRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "临时会话列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<TokenResponseDTO>> list(
@@ -81,6 +88,7 @@ public class TokenSessionController {
         return new BusinessData<>(tokenSessionService.list(listTokenRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "临时会话分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<TokenResponseDTO>> page(

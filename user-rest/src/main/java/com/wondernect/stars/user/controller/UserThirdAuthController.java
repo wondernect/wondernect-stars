@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
@@ -27,12 +28,13 @@ import javax.validation.constraints.NotNull;
 @Api(tags = "用户第三方认证", description = "用户第三方认证")
 @Validated
 @RestController
-@RequestMapping(value = "/v1/{application}/user_third_auth")
+@RequestMapping(value = "/v1/wondernect/user/third_auth")
 public class UserThirdAuthController {
 
     @Autowired
     private UserThirdAuthService userThirdAuthService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/{id}/create")
     public BusinessData<UserThirdAuthResponseDTO> create(
@@ -42,6 +44,7 @@ public class UserThirdAuthController {
         return new BusinessData<>(userThirdAuthService.create(userId, saveUserThirdAuthRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserThirdAuthResponseDTO> update(
@@ -51,6 +54,7 @@ public class UserThirdAuthController {
         return new BusinessData<>(userThirdAuthService.update(userId, saveUserThirdAuthRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -61,6 +65,7 @@ public class UserThirdAuthController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserThirdAuthResponseDTO> detail(
@@ -70,6 +75,7 @@ public class UserThirdAuthController {
         return new BusinessData<>(userThirdAuthService.findByUserIdAndAppType(userId, appType));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserThirdAuthResponseDTO> detailByAppTypeAndAppUserId(
@@ -79,6 +85,7 @@ public class UserThirdAuthController {
         return new BusinessData<>(userThirdAuthService.findByAppTypeAndAppUserId(appType, appUserId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "认证", httpMethod = "POST")
     @PostMapping(value = "/auth")
     public BusinessData<UserThirdAuthResponseDTO> list(

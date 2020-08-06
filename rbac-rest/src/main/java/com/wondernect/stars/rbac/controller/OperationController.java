@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -27,7 +28,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/{application}/rbac/operation")
+@RequestMapping(value = "/v1/wondernect/rbac/operation")
 @Validated
 @Api(tags = "操作", description = "操作")
 public class OperationController {
@@ -35,6 +36,7 @@ public class OperationController {
     @Autowired
     private OperationService operationService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建操作", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<OperationResponseDTO> create(
@@ -43,6 +45,7 @@ public class OperationController {
         return new BusinessData<>(operationService.create(saveOperationRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<OperationResponseDTO> update(
@@ -52,6 +55,7 @@ public class OperationController {
         return new BusinessData<>(operationService.update(id, saveOperationRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -61,6 +65,7 @@ public class OperationController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取操作详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<OperationResponseDTO> get(
@@ -69,6 +74,7 @@ public class OperationController {
         return new BusinessData<>(operationService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<OperationResponseDTO>> list(
@@ -77,6 +83,7 @@ public class OperationController {
         return new BusinessData<>(operationService.list(listOperationRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<OperationResponseDTO>> page(

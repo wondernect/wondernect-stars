@@ -2,6 +2,7 @@ package com.wondernect.stars.session.service.code;
 
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseCodeService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -112,5 +113,10 @@ public abstract class CodeSessionAbstractService extends BaseCodeService<CodeRes
         codeResponseDTO.setCode(codeSession.getCode());
         codeResponseDTO.setCreateTime(codeSession.getCreateTime());
         return codeResponseDTO;
+    }
+
+    @Override
+    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author chenxun 2020-06-28 21:46:03
  **/
-@RequestMapping(value = "/v1/{application}/rbac/user_role")
+@RequestMapping(value = "/v1/wondernect/user/role")
 @RestController
 @Validated
 @Api(tags = "用户-角色", description = "用户-角色")
@@ -33,6 +34,7 @@ public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
 
+    @AuthorizeServer
     @ApiOperation(value = "新增", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData create(
@@ -42,6 +44,7 @@ public class UserRoleController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData update(
@@ -51,6 +54,7 @@ public class UserRoleController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserRoleResponseDTO> detail(
@@ -60,6 +64,7 @@ public class UserRoleController {
         return new BusinessData<>(userRoleService.findByUserIdAndRoleId(userId, roleId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserRoleResponseDTO>> list(
@@ -68,6 +73,7 @@ public class UserRoleController {
         return new BusinessData<>(userRoleService.list(listUserRoleRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserRoleResponseDTO>> page(

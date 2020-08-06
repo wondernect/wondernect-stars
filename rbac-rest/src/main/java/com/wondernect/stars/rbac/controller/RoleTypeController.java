@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -27,7 +28,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/{application}/rbac/role_type")
+@RequestMapping(value = "/v1/wondernect/rbac/role_type")
 @Validated
 @Api(tags = "角色类型", description = "角色类型")
 public class RoleTypeController {
@@ -35,6 +36,7 @@ public class RoleTypeController {
     @Autowired
     private RoleTypeService roleTypeService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建角色类型", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<RoleTypeResponseDTO> create(
@@ -43,6 +45,7 @@ public class RoleTypeController {
         return new BusinessData<>(roleTypeService.create(saveRoleTypeRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新角色类型", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<RoleTypeResponseDTO> update(
@@ -52,6 +55,7 @@ public class RoleTypeController {
         return new BusinessData<>(roleTypeService.update(id, saveRoleTypeRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除角色类型", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -61,6 +65,7 @@ public class RoleTypeController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取角色类型", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<RoleTypeResponseDTO> get(
@@ -69,6 +74,7 @@ public class RoleTypeController {
         return new BusinessData<>(roleTypeService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "角色类型列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<RoleTypeResponseDTO>> page(
@@ -77,6 +83,7 @@ public class RoleTypeController {
         return new BusinessData<>(roleTypeService.list(listRoleTypeRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "角色类型分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleTypeResponseDTO>> page(

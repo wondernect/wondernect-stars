@@ -1,5 +1,6 @@
 package com.wondernect.stars.session.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -26,12 +27,13 @@ import java.util.List;
 @Api(tags = "验证码会话", description = "验证码会话")
 @Validated
 @RestController
-@RequestMapping(value = "/v1/{application}/captcha")
+@RequestMapping(value = "/v1/wondernect/session/captcha")
 public class CaptchaSessionController {
 
     @Autowired
     private CaptchaSessionService captchaSessionService;
 
+    @AuthorizeServer
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/request")
     public BusinessData<CaptchaResponseDTO> request(
@@ -40,6 +42,7 @@ public class CaptchaSessionController {
         return new BusinessData<>(captchaSessionService.requestCaptchaSession(captchaRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -49,6 +52,7 @@ public class CaptchaSessionController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<CaptchaResponseDTO> detail(
@@ -57,6 +61,7 @@ public class CaptchaSessionController {
         return new BusinessData<>(captchaSessionService.findById(captchaSessionId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除(缓存)", httpMethod = "POST")
     @PostMapping(value = "/{id}/cache_delete")
     public BusinessData deleteCache(
@@ -66,6 +71,7 @@ public class CaptchaSessionController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情(缓存)", httpMethod = "GET")
     @GetMapping(value = "/{id}/cache_detail")
     public BusinessData<CaptchaResponseDTO> detailCache(
@@ -74,6 +80,7 @@ public class CaptchaSessionController {
         return new BusinessData<>(captchaSessionService.findCacheById(captchaSessionId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "验证(缓存)", httpMethod = "POST")
     @PostMapping(value = "/cache_auth")
     public BusinessData<CaptchaResponseDTO> authCache(
@@ -82,6 +89,7 @@ public class CaptchaSessionController {
         return new BusinessData<>(captchaSessionService.authCacheCaptchaSession(captchaAuthRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<CaptchaResponseDTO>> list(
@@ -90,6 +98,7 @@ public class CaptchaSessionController {
         return new BusinessData<>(captchaSessionService.list(listCaptchaRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<CaptchaResponseDTO>> page(

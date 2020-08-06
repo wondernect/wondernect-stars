@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
@@ -26,12 +27,13 @@ import javax.validation.constraints.NotNull;
 @Api(tags = "用户本地认证", description = "用户本地认证")
 @Validated
 @RestController
-@RequestMapping(value = "/v1/{application}/user_local_auth")
+@RequestMapping(value = "/v1/wondernect/user/local_auth")
 public class UserLocalAuthController {
 
     @Autowired
     private UserLocalAuthService userLocalAuthService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/{id}/create")
     public BusinessData<UserLocalAuthResponseDTO> create(
@@ -41,6 +43,7 @@ public class UserLocalAuthController {
         return new BusinessData<>(userLocalAuthService.create(userId, saveUserLocalAuthRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserLocalAuthResponseDTO> update(
@@ -50,6 +53,7 @@ public class UserLocalAuthController {
         return new BusinessData<>(userLocalAuthService.update(userId, saveUserLocalAuthRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -59,6 +63,7 @@ public class UserLocalAuthController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserLocalAuthResponseDTO> detail(
@@ -67,6 +72,7 @@ public class UserLocalAuthController {
         return new BusinessData<>(userLocalAuthService.findById(userId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "认证", httpMethod = "POST")
     @PostMapping(value = "/{id}/auth")
     public BusinessData<UserLocalAuthResponseDTO> list(

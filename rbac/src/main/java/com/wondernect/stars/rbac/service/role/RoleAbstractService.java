@@ -3,6 +3,7 @@ package com.wondernect.stars.rbac.service.role;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -109,5 +110,10 @@ public abstract class RoleAbstractService extends BaseStringService<RoleResponse
         roleResponseDTO.setRoleTypeId(ESObjectUtils.isNotNull(roleType) ? roleType.getId() : null);
         roleResponseDTO.setRoleTypeName(ESObjectUtils.isNotNull(roleType) ? roleType.getName() : null);
         return roleResponseDTO;
+    }
+
+    @Override
+    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
+        return null;
     }
 }

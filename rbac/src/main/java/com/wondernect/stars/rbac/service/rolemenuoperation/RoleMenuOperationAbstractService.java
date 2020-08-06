@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.service.rolemenuoperation;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -227,6 +228,11 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
 
     @Override
     public RoleMenuOperationResponseDTO generate(RoleMenuOperation roleMenuOperation) {
+        return null;
+    }
+
+    @Override
+    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
         return null;
     }
 }

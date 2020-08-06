@@ -1,5 +1,6 @@
 package com.wondernect.stars.file.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
@@ -35,7 +36,7 @@ import java.util.List;
  * Description: local file controller
  */
 @RestController
-@RequestMapping(value = "/v1/{application}/file/local")
+@RequestMapping(value = "/v1/wondernect/file/local")
 @Validated
 @Api(tags = "本地文件服务", description = "本地文件服务")
 public class LocalFileController {
@@ -46,6 +47,7 @@ public class LocalFileController {
     @Autowired
     private LocalFilePathService localFilePathService;
 
+    @AuthorizeServer
     @ApiOperation(value = "上传文件", httpMethod = "POST")
     @PostMapping(value = "/upload")
     public BusinessData<FileResponseDTO> upload(
@@ -63,12 +65,13 @@ public class LocalFileController {
         return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
     @PostMapping(value = "/wechat/upload")
     public BusinessData<FileResponseDTO> wechatUpload(
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
             @ApiParam(required = true) @NotBlank(message = "文件存储路径id不能为空") @RequestParam(value = "path_id", required = false) String pathId,
-            @ApiParam(required = false) @NotBlank(message = "文件获取标识不能为空") @RequestParam(value = "file_key", required = false) String fileKey,
+            @ApiParam(required = true) @NotBlank(message = "文件获取标识不能为空") @RequestParam(value = "file_key", required = false) String fileKey,
             HttpServletRequest httpServletRequest
     ) {
         LocalFilePathResponseDTO localFilePathResponseDTO = localFilePathService.findById(pathId);
@@ -83,6 +86,7 @@ public class LocalFileController {
         return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除文件", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData deleteById(
@@ -92,6 +96,7 @@ public class LocalFileController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<FileResponseDTO> getById(
@@ -100,6 +105,7 @@ public class LocalFileController {
         return new BusinessData<>(localFileService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<FileResponseDTO>> list(
@@ -108,6 +114,7 @@ public class LocalFileController {
         return new BusinessData<>(localFileService.list(listFileRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<FileResponseDTO>> page(

@@ -1,5 +1,6 @@
 package com.wondernect.stars.file.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
@@ -26,7 +27,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/{application}/file/path")
+@RequestMapping(value = "/v1/wondernect/file/path")
 @Validated
 @Api(tags = "本地文件存储路径", description = "本地文件存储路径")
 public class LocalFilePathController {
@@ -34,6 +35,7 @@ public class LocalFilePathController {
     @Autowired
     private LocalFilePathService localFilePathService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<LocalFilePathResponseDTO> create(
@@ -42,6 +44,7 @@ public class LocalFilePathController {
         return new BusinessData<>(localFilePathService.create(saveLocalFilePathRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<LocalFilePathResponseDTO> get(
@@ -50,6 +53,7 @@ public class LocalFilePathController {
         return new BusinessData<>(localFilePathService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<LocalFilePathResponseDTO>> page(
@@ -58,6 +62,7 @@ public class LocalFilePathController {
         return new BusinessData<>(localFilePathService.list(listLocalFilePathRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<LocalFilePathResponseDTO>> page(

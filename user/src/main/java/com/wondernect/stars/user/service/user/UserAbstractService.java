@@ -4,6 +4,7 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESRegexUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
+import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -120,5 +121,10 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         userResponseDTO.setUserType(user.getUserType().name());
         userResponseDTO.setGender(user.getGender().name());
         return userResponseDTO;
+    }
+
+    @Override
+    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
+        return null;
     }
 }

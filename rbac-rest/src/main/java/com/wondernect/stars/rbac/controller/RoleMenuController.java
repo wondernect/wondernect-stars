@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
@@ -24,7 +25,7 @@ import java.util.List;
  * Description:
  */
 @RestController
-@RequestMapping(value = "/v1/{application}/rbac/role_menu")
+@RequestMapping(value = "/v1/wondernect/rbac/role_menu")
 @Validated
 @Api(tags = "角色-菜单", description = "角色-菜单")
 public class RoleMenuController {
@@ -32,6 +33,7 @@ public class RoleMenuController {
     @Autowired
     private RoleMenuService roleMenuService;
 
+    @AuthorizeServer
     @ApiOperation(value = "勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData create(
@@ -41,6 +43,7 @@ public class RoleMenuController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "编辑勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/edit")
     public BusinessData update(
@@ -50,6 +53,7 @@ public class RoleMenuController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "取消勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -59,6 +63,7 @@ public class RoleMenuController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取角色菜单", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<RoleMenuResponseDTO> detail(
@@ -68,6 +73,7 @@ public class RoleMenuController {
         return new BusinessData<>(roleMenuService.findByRoleIdAndMenuId(roleId, menuId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "角色对应菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/tree")
     public BusinessData<RoleMenuTreeResponseDTO> tree(
@@ -77,6 +83,7 @@ public class RoleMenuController {
         return new BusinessData<>(roleMenuService.tree(roleId, menuId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "角色对应权限", httpMethod = "POST")
     @GetMapping(value = "/authority")
     public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(

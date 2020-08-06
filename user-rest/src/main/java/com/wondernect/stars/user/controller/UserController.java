@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -29,12 +30,13 @@ import java.util.List;
 @Api(tags = "用户", description = "用户")
 @Validated
 @RestController
-@RequestMapping(value = "/v1/{application}/user")
+@RequestMapping(value = "/v1/wondernect/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<UserResponseDTO> create(
@@ -43,6 +45,7 @@ public class UserController {
         return new BusinessData<>(userService.create(saveUserRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserResponseDTO> update(
@@ -52,6 +55,7 @@ public class UserController {
         return new BusinessData<>(userService.update(userId, saveUserRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -61,6 +65,7 @@ public class UserController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
@@ -69,6 +74,7 @@ public class UserController {
         return new BusinessData<>(userService.findById(userId));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserResponseDTO> detailByUsername(
@@ -77,6 +83,7 @@ public class UserController {
         return new BusinessData<>(userService.findByUsername(username));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserResponseDTO>> list(
@@ -85,6 +92,7 @@ public class UserController {
         return new BusinessData<>(userService.list(listUserRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserResponseDTO>> page(
