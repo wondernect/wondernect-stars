@@ -22,9 +22,11 @@
         <module>session-dto</module>
         <module>session</module>
         <module>session-rest</module>
+        <module>session-server-sdk</module>
         <module>rbac-dto</module>
         <module>rbac</module>
         <module>rbac-rest</module>
+        <module>rbac-server-sdk</module>
         <module>file-dto</module>
         <module>file</module>
         <module>file-rest</module>
@@ -32,6 +34,7 @@
         <module>user-dto</module>
         <module>user</module>
         <module>user-rest</module>
+        <module>user-server-sdk</module>
         <module>mail</module>
         <module>sms</module>
     </modules>
