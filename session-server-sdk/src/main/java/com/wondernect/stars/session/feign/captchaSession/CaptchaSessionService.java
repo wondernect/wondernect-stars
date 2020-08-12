@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Service
-public class MenuServerService {
+public class CaptchaSessionService {
 
     @Autowired
     private CaptchaSessionClient captchaSessionClient;
