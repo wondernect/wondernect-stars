@@ -15,13 +15,13 @@ import java.util.List;
  */
 
 @Service
-public class CaptchaSessionService {
+public class CaptchaSessionServerService {
 
     @Autowired
-    private CaptchaSessionClient captchaSessionClient;
+    private CaptchaSessionFeignClient captchaSessionFeignClient;
 
     public CaptchaResponseDTO request(CaptchaRequestDTO captchaRequestDTO){
-        BusinessData<CaptchaResponseDTO> businessData = captchaSessionClient.request(captchaRequestDTO);
+        BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.request(captchaRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -29,12 +29,12 @@ public class CaptchaSessionService {
     }
 
     public boolean delete(String captchaSessionId) {
-        BusinessData businessData = captchaSessionClient.delete(captchaSessionId);
+        BusinessData businessData = captchaSessionFeignClient.delete(captchaSessionId);
         return businessData.success();
     }
 
     public CaptchaResponseDTO detail(String captchaSessionId){
-        BusinessData<CaptchaResponseDTO> businessData = captchaSessionClient.detail(captchaSessionId);
+        BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.detail(captchaSessionId);
         if (!businessData.success()) {
             return null;
         }
@@ -42,12 +42,12 @@ public class CaptchaSessionService {
     }
 
     public boolean deleteCache(String captchaSessionId) {
-        BusinessData businessData = captchaSessionClient.deleteCache(captchaSessionId);
+        BusinessData businessData = captchaSessionFeignClient.deleteCache(captchaSessionId);
         return businessData.success();
     }
 
     public CaptchaResponseDTO detailCache(String captchaSessionId){
-        BusinessData<CaptchaResponseDTO> businessData = captchaSessionClient.detailCache(captchaSessionId);
+        BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.detailCache(captchaSessionId);
         if (!businessData.success()) {
             return null;
         }
@@ -55,7 +55,7 @@ public class CaptchaSessionService {
     }
 
     public CaptchaResponseDTO authCache(CaptchaAuthRequestDTO captchaAuthRequestDTO){
-        BusinessData<CaptchaResponseDTO> businessData = captchaSessionClient.authCache(captchaAuthRequestDTO);
+        BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.authCache(captchaAuthRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -63,7 +63,7 @@ public class CaptchaSessionService {
     }
 
     public List<CaptchaResponseDTO> list(ListCaptchaRequestDTO listCaptchaRequestDTO){
-        BusinessData<List<CaptchaResponseDTO>> businessData = captchaSessionClient.list(listCaptchaRequestDTO);
+        BusinessData<List<CaptchaResponseDTO>> businessData = captchaSessionFeignClient.list(listCaptchaRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -71,7 +71,7 @@ public class CaptchaSessionService {
     }
 
     public PageResponseData<CaptchaResponseDTO> page(PageCaptchaRequestDTO pageCaptchaRequestDTO){
-        BusinessData<PageResponseData<CaptchaResponseDTO>> businessData = captchaSessionClient.page(pageCaptchaRequestDTO);
+        BusinessData<PageResponseData<CaptchaResponseDTO>> businessData = captchaSessionFeignClient.page(pageCaptchaRequestDTO);
         if (!businessData.success()) {
             return null;
         }

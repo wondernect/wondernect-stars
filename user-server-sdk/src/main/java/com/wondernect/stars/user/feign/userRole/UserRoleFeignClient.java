@@ -27,7 +27,7 @@ import java.util.List;
  * @Version 1.0
  */
 @FeignClient(value = "wondernect-stars-user", configuration = WondernectUserFeignConfiguration.class)
-public interface UserRoleClient {
+public interface UserRoleFeignClient {
 
     @ApiOperation(value = "新增", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/user/role/add")

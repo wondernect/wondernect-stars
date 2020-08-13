@@ -28,7 +28,7 @@ import java.util.List;
  * @Version 1.0
  */
 @FeignClient(value = "wondernect-stars-user", configuration = WondernectUserFeignConfiguration.class)
-public interface UserThirdAuthClient {
+public interface UserThirdAuthFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/{id}/create")

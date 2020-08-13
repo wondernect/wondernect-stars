@@ -18,13 +18,13 @@ import java.util.List;
  */
 
 @Service
-public class UserService {
+public class UserServerService {
 
     @Autowired
-    private UserClient userClient;
+    private UserFeignClient userFeignClient;
 
     public UserResponseDTO create(SaveUserRequestDTO saveUserRequestDTO){
-        BusinessData<UserResponseDTO> businessData = userClient.create(saveUserRequestDTO);
+        BusinessData<UserResponseDTO> businessData = userFeignClient.create(saveUserRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public UserResponseDTO update(String userId,SaveUserRequestDTO saveUserRequestDTO){
-        BusinessData<UserResponseDTO> businessData = userClient.update(userId,saveUserRequestDTO);
+        BusinessData<UserResponseDTO> businessData = userFeignClient.update(userId,saveUserRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -40,12 +40,12 @@ public class UserService {
     }
 
     public boolean delete(String userId) {
-        BusinessData businessData = userClient.delete(userId);
+        BusinessData businessData = userFeignClient.delete(userId);
         return businessData.success();
     }
 
     public UserResponseDTO detail(String userId){
-        BusinessData<UserResponseDTO> businessData = userClient.detail(userId);
+        BusinessData<UserResponseDTO> businessData = userFeignClient.detail(userId);
         if (!businessData.success()) {
             return null;
         }
@@ -54,7 +54,7 @@ public class UserService {
 
 
     public UserResponseDTO detailByUsername(String username){
-        BusinessData<UserResponseDTO> businessData = userClient.detailByUsername(username);
+        BusinessData<UserResponseDTO> businessData = userFeignClient.detailByUsername(username);
         if (!businessData.success()) {
             return null;
         }
@@ -62,7 +62,7 @@ public class UserService {
     }
 
     public List<UserResponseDTO> list(ListUserRequestDTO listUserRequestDTO){
-        BusinessData<List<UserResponseDTO>> businessData = userClient.list(listUserRequestDTO);
+        BusinessData<List<UserResponseDTO>> businessData = userFeignClient.list(listUserRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -70,7 +70,7 @@ public class UserService {
     }
 
     public PageResponseData<UserResponseDTO> page(PageUserRequestDTO pageUserRequestDTO){
-        BusinessData<PageResponseData<UserResponseDTO>> businessData = userClient.page(pageUserRequestDTO);
+        BusinessData<PageResponseData<UserResponseDTO>> businessData = userFeignClient.page(pageUserRequestDTO);
         if (!businessData.success()) {
             return null;
         }

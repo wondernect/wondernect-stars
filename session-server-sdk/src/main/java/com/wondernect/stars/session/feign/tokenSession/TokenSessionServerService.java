@@ -2,9 +2,7 @@ package com.wondernect.stars.session.feign.tokenSession;
 
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.session.dto.code.*;
 import com.wondernect.stars.session.dto.token.*;
-import com.wondernect.stars.session.feign.codeSession.CodeSessionClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +15,13 @@ import java.util.List;
  */
 
 @Service
-public class TokenSessionService {
+public class TokenSessionServerService {
 
     @Autowired
-    private TokenSessionClient tokenSessionClient;
+    private TokenSessionFeignClient tokenSessionFeignClient;
 
     public TokenResponseDTO request(TokenRequestDTO tokenRequestDTO){
-        BusinessData<TokenResponseDTO> businessData = tokenSessionClient.request(tokenRequestDTO);
+        BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.request(tokenRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -31,12 +29,12 @@ public class TokenSessionService {
     }
 
     public boolean delete(String token) {
-        BusinessData businessData = tokenSessionClient.delete(token);
+        BusinessData businessData = tokenSessionFeignClient.delete(token);
         return businessData.success();
     }
 
     public TokenResponseDTO get(String token){
-        BusinessData<TokenResponseDTO> businessData = tokenSessionClient.get(token);
+        BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.get(token);
         if (!businessData.success()) {
             return null;
         }
@@ -44,7 +42,7 @@ public class TokenSessionService {
     }
 
     public TokenResponseDTO refresh(TokenRefreshRequestDTO tokenRefreshRequestDTO) {
-        BusinessData<TokenResponseDTO> businessData = tokenSessionClient.refresh(tokenRefreshRequestDTO);
+        BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.refresh(tokenRefreshRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -52,7 +50,7 @@ public class TokenSessionService {
     }
 
     public TokenResponseDTO auth(TokenAuthRequestDTO tokenAuthRequestDTO){
-        BusinessData<TokenResponseDTO> businessData = tokenSessionClient.auth(tokenAuthRequestDTO);
+        BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.auth(tokenAuthRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -60,7 +58,7 @@ public class TokenSessionService {
     }
 
     public List<TokenResponseDTO> list(ListTokenRequestDTO listTokenRequestDTO){
-        BusinessData<List<TokenResponseDTO>> businessData = tokenSessionClient.list(listTokenRequestDTO);
+        BusinessData<List<TokenResponseDTO>> businessData = tokenSessionFeignClient.list(listTokenRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -68,7 +66,7 @@ public class TokenSessionService {
     }
 
     public PageResponseData<TokenResponseDTO> page(PageTokenRequestDTO pageTokenRequestDTO){
-        BusinessData<PageResponseData<TokenResponseDTO>> businessData = tokenSessionClient.page(pageTokenRequestDTO);
+        BusinessData<PageResponseData<TokenResponseDTO>> businessData = tokenSessionFeignClient.page(pageTokenRequestDTO);
         if (!businessData.success()) {
             return null;
         }

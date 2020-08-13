@@ -26,7 +26,7 @@ import java.util.List;
  * Description: 部门服务
  */
 @FeignClient(value = "wondernect-stars-session", configuration = WondernectSessionFeignConfiguration.class)
-public interface CaptchaSessionClient {
+public interface CaptchaSessionFeignClient {
 
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/session/captcha/request")

@@ -2,9 +2,7 @@ package com.wondernect.stars.session.feign.codeSession;
 
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.session.dto.captcha.*;
 import com.wondernect.stars.session.dto.code.*;
-import com.wondernect.stars.session.feign.captchaSession.CaptchaSessionClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +15,13 @@ import java.util.List;
  */
 
 @Service
-public class CodeSessionService {
+public class CodeSessionServerService {
 
     @Autowired
-    private CodeSessionClient codeSessionClient;
+    private CodeSessionFeignClient codeSessionFeignClient;
 
     public CodeResponseDTO request(CodeRequestDTO codeRequestDTO){
-        BusinessData<CodeResponseDTO> businessData = codeSessionClient.request(codeRequestDTO);
+        BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.request(codeRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -31,12 +29,12 @@ public class CodeSessionService {
     }
 
     public boolean delete(String code) {
-        BusinessData businessData = codeSessionClient.delete(code);
+        BusinessData businessData = codeSessionFeignClient.delete(code);
         return businessData.success();
     }
 
     public CodeResponseDTO detail(String code){
-        BusinessData<CodeResponseDTO> businessData = codeSessionClient.detail(code);
+        BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.detail(code);
         if (!businessData.success()) {
             return null;
         }
@@ -44,12 +42,12 @@ public class CodeSessionService {
     }
 
     public boolean deleteCache(String code) {
-        BusinessData businessData = codeSessionClient.deleteCache(code);
+        BusinessData businessData = codeSessionFeignClient.deleteCache(code);
         return businessData.success();
     }
 
     public CodeResponseDTO detailCache(String code){
-        BusinessData<CodeResponseDTO> businessData = codeSessionClient.detailCache(code);
+        BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.detailCache(code);
         if (!businessData.success()) {
             return null;
         }
@@ -57,7 +55,7 @@ public class CodeSessionService {
     }
 
     public CodeResponseDTO refresh(CodeRefreshRequestDTO codeRefreshRequestDTO){
-        BusinessData<CodeResponseDTO> businessData = codeSessionClient.refresh(codeRefreshRequestDTO);
+        BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.refresh(codeRefreshRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -65,7 +63,7 @@ public class CodeSessionService {
     }
 
     public CodeResponseDTO authCache(CodeAuthRequestDTO codeAuthRequestDTO){
-        BusinessData<CodeResponseDTO> businessData = codeSessionClient.authCache(codeAuthRequestDTO);
+        BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.authCache(codeAuthRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -73,7 +71,7 @@ public class CodeSessionService {
     }
 
     public List<CodeResponseDTO> list(ListCodeRequestDTO listCodeRequestDTO){
-        BusinessData<List<CodeResponseDTO>> businessData = codeSessionClient.list(listCodeRequestDTO);
+        BusinessData<List<CodeResponseDTO>> businessData = codeSessionFeignClient.list(listCodeRequestDTO);
         if (!businessData.success()) {
             return null;
         }
@@ -81,7 +79,7 @@ public class CodeSessionService {
     }
 
     public PageResponseData<CodeResponseDTO> page(PageCodeRequestDTO pageCodeRequestDTO){
-        BusinessData<PageResponseData<CodeResponseDTO>> businessData = codeSessionClient.page(pageCodeRequestDTO);
+        BusinessData<PageResponseData<CodeResponseDTO>> businessData = codeSessionFeignClient.page(pageCodeRequestDTO);
         if (!businessData.success()) {
             return null;
         }

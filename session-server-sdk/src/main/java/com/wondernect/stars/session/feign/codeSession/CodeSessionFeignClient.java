@@ -24,7 +24,7 @@ import java.util.List;
  * @Version 1.0
  */
 @FeignClient(value = "wondernect-stars-session", configuration = WondernectSessionFeignConfiguration.class)
-public interface CodeSessionClient {
+public interface CodeSessionFeignClient {
 
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/session/code/request")

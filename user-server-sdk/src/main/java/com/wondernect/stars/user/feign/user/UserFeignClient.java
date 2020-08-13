@@ -1,4 +1,4 @@
-package com.wondernect.stars.user.feign.userLocalAuth;
+package com.wondernect.stars.user.feign.user;
 
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
@@ -7,9 +7,6 @@ import com.wondernect.stars.user.dto.ListUserRequestDTO;
 import com.wondernect.stars.user.dto.PageUserRequestDTO;
 import com.wondernect.stars.user.dto.SaveUserRequestDTO;
 import com.wondernect.stars.user.dto.UserResponseDTO;
-import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
-import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
-import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
 import com.wondernect.stars.user.feign.config.WondernectUserFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,38 +24,48 @@ import java.util.List;
  * @Version 1.0
  */
 @FeignClient(value = "wondernect-stars-user", configuration = WondernectUserFeignConfiguration.class)
-public interface UserLocalAuthClient {
+public interface UserFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/local_auth/{id}/create")
-    public BusinessData<UserLocalAuthResponseDTO> create(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserLocalAuthRequestDTO saveUserLocalAuthRequestDTO
+    @PostMapping(value = "/v1/wondernect/user/create")
+    public BusinessData<UserResponseDTO> create(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
     );
 
     @ApiOperation(value = "更新", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/local_auth/{id}/update")
-    public BusinessData<UserLocalAuthResponseDTO> update(
+    @PostMapping(value = "/v1/wondernect/user/{id}/update")
+    public BusinessData<UserResponseDTO> update(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserLocalAuthRequestDTO saveUserLocalAuthRequestDTO
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
     );
 
     @ApiOperation(value = "删除", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/local_auth/{id}/delete")
+    @PostMapping(value = "/v1/wondernect/user/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     );
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/user/local_auth/{id}/detail")
-    public BusinessData<UserLocalAuthResponseDTO> detail(
+    @GetMapping(value = "/{id}/detail")
+    public BusinessData<UserResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     );
 
-    @ApiOperation(value = "认证", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/local_auth/{id}/auth")
-    public BusinessData<UserLocalAuthResponseDTO> list(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO
+    @ApiOperation(value = "获取详情", httpMethod = "GET")
+    @GetMapping(value = "/v1/wondernect/user/detail")
+    public BusinessData<UserResponseDTO> detailByUsername(
+            @ApiParam(required = true) @NotBlank(message = "用户username不能为空") @RequestParam(value = "username", required = false) String username
+    );
+
+    @ApiOperation(value = "列表", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/user/list")
+    public BusinessData<List<UserResponseDTO>> list(
+            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody ListUserRequestDTO listUserRequestDTO
+    );
+
+    @ApiOperation(value = "分页", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/user/page")
+    public BusinessData<PageResponseData<UserResponseDTO>> page(
+            @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody PageUserRequestDTO pageUserRequestDTO
     );
 }
