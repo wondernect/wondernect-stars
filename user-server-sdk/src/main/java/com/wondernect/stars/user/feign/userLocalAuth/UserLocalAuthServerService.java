@@ -48,8 +48,8 @@ public class UserLocalAuthServerService {
         return businessData.getData();
     }
 
-    public UserLocalAuthResponseDTO list(String userId,AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO){
-        BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.list(userId,authUserLocalAuthRequestDTO);
+    public UserLocalAuthResponseDTO auth(String userId,AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO){
+        BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.auth(userId,authUserLocalAuthRequestDTO);
         if (!businessData.success()) {
             return null;
         }
