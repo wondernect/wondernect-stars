@@ -46,7 +46,7 @@ public interface UserFeignClient {
     );
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/{id}/detail")
+    @GetMapping(value = "/v1/wondernect/user/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     );

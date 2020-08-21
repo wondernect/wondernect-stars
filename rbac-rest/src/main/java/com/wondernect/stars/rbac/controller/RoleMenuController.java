@@ -87,7 +87,7 @@ public class RoleMenuController {
     @ApiOperation(value = "角色对应权限", httpMethod = "POST")
     @GetMapping(value = "/authority")
     public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(
-            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_id_list", required = false) List<String> roleIdList
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @RequestParam(value = "role_id_list", required = false) List<String> roleIdList
     ) {
         return new BusinessData<>(roleMenuService.roleAuthority(roleIdList));
     }
