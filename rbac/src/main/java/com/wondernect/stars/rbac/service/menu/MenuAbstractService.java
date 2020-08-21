@@ -146,7 +146,7 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
                 parentMenu.getRoute(),
                 null
         );
-        return tree(menuTreeResponseDTO.getParentMenuId(), menuTreeResponseDTO);
+        return tree(menuTreeResponseDTO.getId(), menuTreeResponseDTO);
     }
 
     private MenuTreeResponseDTO tree(String parentMenuId, MenuTreeResponseDTO menuTreeResponseDTO) {
@@ -178,7 +178,7 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
         menuTreeResponseDTO.setChildList(menuTreeResponseDTOList);
         if (CollectionUtils.isNotEmpty(menuTreeResponseDTOList)) {
             for (MenuTreeResponseDTO menuTreeResponseDTOLoop : menuTreeResponseDTOList) {
-                tree(menuTreeResponseDTOLoop.getParentMenuId(), menuTreeResponseDTOLoop);
+                tree(menuTreeResponseDTOLoop.getId(), menuTreeResponseDTOLoop);
             }
         }
         return menuTreeResponseDTO;
