@@ -166,7 +166,7 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
                     null
             );
         }
-        return tree(roleId, roleMenuTreeResponseDTO.getCode(), roleMenuTreeResponseDTO);
+        return tree(roleId, roleMenuTreeResponseDTO.getId(), roleMenuTreeResponseDTO);
     }
 
     private RoleMenuTreeResponseDTO tree(String roleId, String menuId, RoleMenuTreeResponseDTO roleMenuTreeResponseDTO) {
@@ -211,7 +211,7 @@ public abstract class RoleMenuAbstractService extends BaseStringService<RoleMenu
         roleMenuTreeResponseDTO.setChildList(roleMenuTreeResponseDTOList);
         if (CollectionUtils.isNotEmpty(roleMenuTreeResponseDTOList)) {
             for (RoleMenuTreeResponseDTO roleMenuTreeResponseDTOLoop : roleMenuTreeResponseDTOList) {
-                tree(roleId, roleMenuTreeResponseDTOLoop.getCode(), roleMenuTreeResponseDTOLoop);
+                tree(roleId, roleMenuTreeResponseDTOLoop.getId(), roleMenuTreeResponseDTOLoop);
             }
         }
         return roleMenuTreeResponseDTO;
