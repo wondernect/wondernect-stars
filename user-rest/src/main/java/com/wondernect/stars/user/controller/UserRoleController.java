@@ -47,7 +47,7 @@ public class UserRoleController {
     @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/delete")
-    public BusinessData update(
+    public BusinessData delete(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) UserRoleRequestDTO userRoleRequestDTO
     ) {
         userRoleService.delete(userRoleRequestDTO);

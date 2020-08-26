@@ -28,8 +28,8 @@ public class UserRoleServerService {
         return businessData.success();
     }
 
-    public boolean update(UserRoleRequestDTO userRoleRequestDTO){
-        BusinessData businessData = userRoleFeignClient.update(userRoleRequestDTO);
+    public boolean delete(UserRoleRequestDTO userRoleRequestDTO){
+        BusinessData businessData = userRoleFeignClient.delete(userRoleRequestDTO);
         return businessData.success();
     }
 

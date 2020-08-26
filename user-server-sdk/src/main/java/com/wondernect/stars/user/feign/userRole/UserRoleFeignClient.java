@@ -37,7 +37,7 @@ public interface UserRoleFeignClient {
 
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/user/role/delete")
-    public BusinessData update(
+    public BusinessData delete(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) UserRoleRequestDTO userRoleRequestDTO
     );
 
