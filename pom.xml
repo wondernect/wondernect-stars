@@ -37,6 +37,7 @@
         <module>user-server-sdk</module>
         <module>mail</module>
         <module>sms</module>
+        <module>session-client-rest</module>
     </modules>
 
     <build>
