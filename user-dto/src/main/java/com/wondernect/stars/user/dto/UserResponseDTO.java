@@ -28,13 +28,17 @@ public class UserResponseDTO {
     @ApiModelProperty(notes = "用户类型")
     private String userType;
 
-    @JsonProperty("gender")
-    @ApiModelProperty(notes = "性别")
-    private String gender;
+    @JsonProperty("username")
+    @ApiModelProperty(notes = "用户登录名")
+    private String username;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "姓名")
     private String name;
+
+    @JsonProperty("gender")
+    @ApiModelProperty(notes = "性别")
+    private String gender;
 
     @JsonProperty("avatar")
     @ApiModelProperty(notes = "头像")
