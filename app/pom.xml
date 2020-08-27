@@ -10,29 +10,23 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>file</artifactId>
+    <artifactId>app</artifactId>
     <packaging>jar</packaging>
 
-    <name>file</name>
+    <name>app</name>
     <url>http://www.example.com</url>
 
     <dependencies>
-        <!-- common -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>common</artifactId>
-        </dependency>
-
-        <!-- file-client -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>file-client</artifactId>
-        </dependency>
-
         <!-- rdb -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
             <artifactId>rdb</artifactId>
+        </dependency>
+
+        <!-- redis -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>redis</artifactId>
         </dependency>
 
         <!-- elements boot-application -->
@@ -41,13 +35,7 @@
             <artifactId>boot-application</artifactId>
         </dependency>
 
-        <!-- file-dto -->
-        <dependency>
-            <groupId>com.wondernect.stars</groupId>
-            <artifactId>file-dto</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
+        <!-- 单元测试相关 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

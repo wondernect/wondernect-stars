@@ -1,6 +1,7 @@
 package com.wondernect.stars.session.controller;
 
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -34,6 +35,7 @@ public class CaptchaSessionController {
     private CaptchaSessionService captchaSessionService;
 
     @AuthorizeServer
+    @AuthorizeUserRole()
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/request")
     public BusinessData<CaptchaResponseDTO> request(
