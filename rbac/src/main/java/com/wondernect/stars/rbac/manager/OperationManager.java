@@ -26,7 +26,7 @@ public class OperationManager extends BaseStringManager<Operation> {
     public Operation findByOperationIdAndMenuId(String operationId, String menuId) {
         Criteria<Operation> operationCriteria = new Criteria<>();
         operationCriteria.add(Restrictions.eq("menuId", menuId));
-        operationCriteria.add(Restrictions.eq("operationId", operationId));
+        operationCriteria.add(Restrictions.eq("id", operationId));
         List<Operation> operationList = super.findAll(operationCriteria, Arrays.asList(new SortData("createTime", "DESC")));
         if (CollectionUtils.isEmpty(operationList)) {
             return null;
