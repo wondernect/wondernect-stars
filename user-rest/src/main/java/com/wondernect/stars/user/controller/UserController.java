@@ -1,6 +1,9 @@
 package com.wondernect.stars.user.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -37,6 +40,16 @@ public class UserController {
     private UserService userService;
 
     @AuthorizeServer
+    @ApiOperation(value = "自主注册", httpMethod = "POST")
+    @PostMapping(value = "/regist")
+    public BusinessData<UserResponseDTO> regist(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
+    ) {
+        return new BusinessData<>(userService.create(saveUserRequestDTO));
+    }
+
+    @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<UserResponseDTO> create(
@@ -46,6 +59,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserResponseDTO> update(
@@ -56,6 +70,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -66,6 +81,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
@@ -75,6 +91,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserResponseDTO> detailByUsername(
@@ -84,6 +101,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserResponseDTO>> list(
@@ -93,6 +111,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserResponseDTO>> page(

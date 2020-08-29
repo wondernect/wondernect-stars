@@ -1,6 +1,9 @@
 package com.wondernect.stars.session.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -43,6 +46,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{token}/delete")
     public BusinessData delete(
@@ -53,6 +57,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取令牌(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{token}/detail")
     public BusinessData<TokenResponseDTO> get(
@@ -62,6 +67,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "刷新令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/refresh")
     public BusinessData<TokenResponseDTO> refresh(
@@ -80,7 +86,8 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @ApiOperation(value = "临时会话列表(数据库)", httpMethod = "POST")
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<TokenResponseDTO>> list(
             @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody ListTokenRequestDTO listTokenRequestDTO
@@ -89,7 +96,8 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @ApiOperation(value = "临时会话分页(数据库)", httpMethod = "POST")
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<TokenResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody PageTokenRequestDTO pageTokenRequestDTO

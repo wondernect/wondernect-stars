@@ -1,6 +1,9 @@
 package com.wondernect.stars.user.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
@@ -35,6 +38,17 @@ public class UserThirdAuthController {
     private UserThirdAuthService userThirdAuthService;
 
     @AuthorizeServer
+    @ApiOperation(value = "自主注册", httpMethod = "POST")
+    @PostMapping(value = "/{id}/regist")
+    public BusinessData<UserThirdAuthResponseDTO> regist(
+            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserThirdAuthRequestDTO saveUserThirdAuthRequestDTO
+    ) {
+        return new BusinessData<>(userThirdAuthService.create(userId, saveUserThirdAuthRequestDTO));
+    }
+
+    @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/{id}/create")
     public BusinessData<UserThirdAuthResponseDTO> create(
@@ -45,6 +59,7 @@ public class UserThirdAuthController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserThirdAuthResponseDTO> update(
@@ -55,6 +70,7 @@ public class UserThirdAuthController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -66,6 +82,7 @@ public class UserThirdAuthController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserThirdAuthResponseDTO> detail(
@@ -76,6 +93,7 @@ public class UserThirdAuthController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserThirdAuthResponseDTO> detailByAppTypeAndAppUserId(

@@ -1,6 +1,9 @@
 package com.wondernect.stars.rbac.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -37,6 +40,7 @@ public class RoleTypeController {
     private RoleTypeService roleTypeService;
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建角色类型", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<RoleTypeResponseDTO> create(
@@ -46,6 +50,7 @@ public class RoleTypeController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新角色类型", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<RoleTypeResponseDTO> update(
@@ -56,6 +61,7 @@ public class RoleTypeController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除角色类型", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -66,6 +72,7 @@ public class RoleTypeController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取角色类型", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<RoleTypeResponseDTO> get(
@@ -75,6 +82,7 @@ public class RoleTypeController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色类型列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<RoleTypeResponseDTO>> list(
@@ -84,6 +92,7 @@ public class RoleTypeController {
     }
 
     @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色类型分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleTypeResponseDTO>> page(
