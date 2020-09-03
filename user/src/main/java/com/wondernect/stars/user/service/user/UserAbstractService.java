@@ -111,6 +111,10 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
     @Override
     public PageResponseData<UserResponseDTO> page(PageUserRequestDTO pageUserRequestDTO) {
         Criteria<User> userCriteria = new Criteria<>();
+        userCriteria.add(Restrictions.eq("username", pageUserRequestDTO.getUsername()));
+        userCriteria.add(Restrictions.eq("roleTypeId", pageUserRequestDTO.getRoleTypeId()));
+        userCriteria.add(Restrictions.eq("roleId", pageUserRequestDTO.getRoleId()));
+        userCriteria.add(Restrictions.eq("enable", pageUserRequestDTO.getEnable()));
         return super.findAll(userCriteria, pageUserRequestDTO.getPageRequestData());
     }
 
