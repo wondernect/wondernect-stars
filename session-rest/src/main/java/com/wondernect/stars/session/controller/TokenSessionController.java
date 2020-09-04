@@ -46,7 +46,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{token}/delete")
     public BusinessData delete(
@@ -57,7 +57,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取令牌(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{token}/detail")
     public BusinessData<TokenResponseDTO> get(
@@ -67,7 +67,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "刷新令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/refresh")
     public BusinessData<TokenResponseDTO> refresh(
@@ -86,7 +86,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<TokenResponseDTO>> list(
@@ -96,7 +96,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<TokenResponseDTO>> page(

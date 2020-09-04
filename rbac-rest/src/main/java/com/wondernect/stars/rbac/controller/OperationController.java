@@ -40,7 +40,7 @@ public class OperationController {
     private OperationService operationService;
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建操作", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<OperationResponseDTO> create(
@@ -50,7 +50,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<OperationResponseDTO> update(
@@ -61,7 +61,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -72,7 +72,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取操作详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<OperationResponseDTO> get(
@@ -82,7 +82,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<OperationResponseDTO>> list(
@@ -92,7 +92,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<OperationResponseDTO>> page(

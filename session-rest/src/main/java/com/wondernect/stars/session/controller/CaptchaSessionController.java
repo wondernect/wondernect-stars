@@ -46,7 +46,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -57,7 +57,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<CaptchaResponseDTO> detail(
@@ -67,7 +67,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除(缓存)", httpMethod = "POST")
     @PostMapping(value = "/{id}/cache_delete")
     public BusinessData deleteCache(
@@ -78,7 +78,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情(缓存)", httpMethod = "GET")
     @GetMapping(value = "/{id}/cache_detail")
     public BusinessData<CaptchaResponseDTO> detailCache(
@@ -97,7 +97,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<CaptchaResponseDTO>> list(
@@ -107,7 +107,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<CaptchaResponseDTO>> page(

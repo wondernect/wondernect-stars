@@ -51,7 +51,7 @@ public class LocalFileController {
     private LocalFilePathService localFilePathService;
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "上传文件", httpMethod = "POST")
     @PostMapping(value = "/upload")
     public BusinessData<FileResponseDTO> upload(
@@ -70,7 +70,7 @@ public class LocalFileController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
     @PostMapping(value = "/wechat/upload")
     public BusinessData<FileResponseDTO> wechatUpload(
@@ -92,7 +92,7 @@ public class LocalFileController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除文件", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData deleteById(
@@ -103,7 +103,7 @@ public class LocalFileController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<FileResponseDTO> getById(
@@ -113,7 +113,7 @@ public class LocalFileController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<FileResponseDTO>> list(
@@ -123,7 +123,7 @@ public class LocalFileController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<FileResponseDTO>> page(

@@ -47,7 +47,7 @@ public class UserLocalAuthController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/{id}/create")
     public BusinessData<UserLocalAuthResponseDTO> create(
@@ -58,7 +58,7 @@ public class UserLocalAuthController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserLocalAuthResponseDTO> update(
@@ -69,7 +69,7 @@ public class UserLocalAuthController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -80,7 +80,7 @@ public class UserLocalAuthController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserLocalAuthResponseDTO> detail(

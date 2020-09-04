@@ -41,7 +41,7 @@ public class RoleMenuOperationController {
     private RoleMenuOperationService roleMenuOperationService;
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "勾选操作", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData add(
@@ -52,7 +52,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "编辑勾选操作", httpMethod = "POST")
     @PostMapping(value = "/edit")
     public BusinessData edit(
@@ -63,7 +63,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "取消勾选操作", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -74,7 +74,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<RoleMenuOperationResponseDTO> getRoleMenuOperation(
@@ -86,7 +86,7 @@ public class RoleMenuOperationController {
     };
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色权限菜单操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<RoleMenuOperationResponseDTO>> list(
@@ -96,7 +96,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色权限菜单操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleMenuOperationResponseDTO>> page(

@@ -46,7 +46,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{code}/delete")
     public BusinessData delete(
@@ -57,7 +57,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{code}/detail")
     public BusinessData<CodeResponseDTO> detail(
@@ -67,7 +67,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除(缓存)", httpMethod = "POST")
     @PostMapping(value = "/{code}/cache_delete")
     public BusinessData deleteCache(
@@ -78,7 +78,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取(缓存)", httpMethod = "GET")
     @GetMapping(value = "/{code}/cache_detail")
     public BusinessData<CodeResponseDTO> detailCache(
@@ -88,7 +88,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "续约/刷新(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/refresh")
     public BusinessData<CodeResponseDTO> refresh(
@@ -107,7 +107,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<CodeResponseDTO>> list(
@@ -117,7 +117,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.UNLIMITED_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<CodeResponseDTO>> page(
