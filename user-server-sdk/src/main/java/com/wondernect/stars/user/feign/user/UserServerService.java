@@ -31,6 +31,17 @@ public class UserServerService {
         return businessData.getData();
     }
 
+    public boolean enable(String userId) {
+        BusinessData businessData = userFeignClient.enable(userId);
+        return businessData.success();
+    }
+
+    public boolean disable(String userId) {
+        BusinessData businessData = userFeignClient.disable(userId);
+        return businessData.success();
+    }
+
+
     public UserResponseDTO update(String userId,SaveUserRequestDTO saveUserRequestDTO){
         BusinessData<UserResponseDTO> businessData = userFeignClient.update(userId,saveUserRequestDTO);
         if (!businessData.success()) {

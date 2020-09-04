@@ -50,6 +50,28 @@ public class UserController {
 
     @AuthorizeServer
     @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @ApiOperation(value = "激活", httpMethod = "POST")
+    @PostMapping(value = "/{id}/enable")
+    public BusinessData enable(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
+    ) {
+        userService.enable(id, true);
+        return new BusinessData(BusinessError.SUCCESS);
+    }
+
+    @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @ApiOperation(value = "禁用", httpMethod = "POST")
+    @PostMapping(value = "/{id}/disable")
+    public BusinessData disable(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
+    ) {
+        userService.enable(id, false);
+        return new BusinessData(BusinessError.SUCCESS);
+    }
+
+    @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<UserResponseDTO> create(

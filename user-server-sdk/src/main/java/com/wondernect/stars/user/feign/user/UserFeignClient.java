@@ -32,6 +32,18 @@ public interface UserFeignClient {
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
     );
 
+    @ApiOperation(value = "激活", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/user/{id}/enable")
+    public BusinessData enable(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
+    );
+
+    @ApiOperation(value = "禁用", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/user/{id}/disable")
+    public BusinessData disable(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
+    );
+
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/user/{id}/update")
     public BusinessData<UserResponseDTO> update(
