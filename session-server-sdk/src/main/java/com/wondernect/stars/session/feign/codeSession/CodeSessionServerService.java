@@ -1,5 +1,6 @@
 package com.wondernect.stars.session.feign.codeSession;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.code.*;
@@ -28,9 +29,11 @@ public class CodeSessionServerService {
         return businessData.getData();
     }
 
-    public boolean delete(String code) {
+    public void delete(String code) {
         BusinessData businessData = codeSessionFeignClient.delete(code);
-        return businessData.success();
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public CodeResponseDTO detail(String code){
@@ -41,9 +44,11 @@ public class CodeSessionServerService {
         return businessData.getData();
     }
 
-    public boolean deleteCache(String code) {
+    public void deleteCache(String code) {
         BusinessData businessData = codeSessionFeignClient.deleteCache(code);
-        return businessData.success();
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public CodeResponseDTO detailCache(String code){
@@ -57,7 +62,7 @@ public class CodeSessionServerService {
     public CodeResponseDTO refresh(CodeRefreshRequestDTO codeRefreshRequestDTO){
         BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.refresh(codeRefreshRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -65,7 +70,7 @@ public class CodeSessionServerService {
     public CodeResponseDTO authCache(CodeAuthRequestDTO codeAuthRequestDTO){
         BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.authCache(codeAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

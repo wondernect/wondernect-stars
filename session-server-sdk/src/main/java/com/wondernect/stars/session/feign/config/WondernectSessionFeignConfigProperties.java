@@ -27,7 +27,7 @@ public class WondernectSessionFeignConfigProperties implements Serializable {
 
     private String appId; // 应用id
 
-    private String appSecretPropertyName = "Authorization"; // 传递加密内容的头部key
+    private String appSecretPropertyName = "APPSECRET"; // 传递加密内容的头部key
 
     private String appSecret; // 密钥
 

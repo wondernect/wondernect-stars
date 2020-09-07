@@ -1,5 +1,6 @@
 package com.wondernect.stars.session.feign.tokenSession;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.token.*;
@@ -28,9 +29,11 @@ public class TokenSessionServerService {
         return businessData.getData();
     }
 
-    public boolean delete(String token) {
+    public void delete(String token) {
         BusinessData businessData = tokenSessionFeignClient.delete(token);
-        return businessData.success();
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public TokenResponseDTO get(String token){
@@ -44,7 +47,7 @@ public class TokenSessionServerService {
     public TokenResponseDTO refresh(TokenRefreshRequestDTO tokenRefreshRequestDTO) {
         BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.refresh(tokenRefreshRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -52,7 +55,7 @@ public class TokenSessionServerService {
     public TokenResponseDTO auth(TokenAuthRequestDTO tokenAuthRequestDTO){
         BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.auth(tokenAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

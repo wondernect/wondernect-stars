@@ -1,5 +1,6 @@
 package com.wondernect.stars.session.feign.captchaSession;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.captcha.*;
@@ -28,9 +29,11 @@ public class CaptchaSessionServerService {
         return businessData.getData();
     }
 
-    public boolean delete(String captchaSessionId) {
+    public void delete(String captchaSessionId) {
         BusinessData businessData = captchaSessionFeignClient.delete(captchaSessionId);
-        return businessData.success();
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public CaptchaResponseDTO detail(String captchaSessionId){
@@ -41,9 +44,11 @@ public class CaptchaSessionServerService {
         return businessData.getData();
     }
 
-    public boolean deleteCache(String captchaSessionId) {
+    public void deleteCache(String captchaSessionId) {
         BusinessData businessData = captchaSessionFeignClient.deleteCache(captchaSessionId);
-        return businessData.success();
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public CaptchaResponseDTO detailCache(String captchaSessionId){
@@ -57,7 +62,7 @@ public class CaptchaSessionServerService {
     public CaptchaResponseDTO authCache(CaptchaAuthRequestDTO captchaAuthRequestDTO){
         BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.authCache(captchaAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
