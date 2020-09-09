@@ -3,10 +3,13 @@ package com.wondernect.stars.file.feign.config;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,6 +32,11 @@ public class WondernectFileFeignConfiguration implements RequestInterceptor {
 
     @Autowired
     private WondernectFileFeignConfigProperties wondernectFileFeignConfigProperties;
+
+    @Bean
+    public Encoder feignFormEncoder() {
+        return new SpringFormEncoder();
+    }
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
