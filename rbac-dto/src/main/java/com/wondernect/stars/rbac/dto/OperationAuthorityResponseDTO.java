@@ -28,6 +28,10 @@ public class OperationAuthorityResponseDTO {
     @ApiModelProperty(notes = "名称")
     private String name;
 
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "描述")
+    private String description;
+
     @JsonProperty("limitable")
     @ApiModelProperty(notes = "是否限制可见时间")
     private Boolean limitable;

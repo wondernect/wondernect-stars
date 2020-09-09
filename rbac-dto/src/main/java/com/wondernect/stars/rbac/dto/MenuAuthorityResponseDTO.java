@@ -30,6 +30,14 @@ public class MenuAuthorityResponseDTO {
     @ApiModelProperty(notes = "名称")
     private String name;
 
+    @JsonProperty("route")
+    @ApiModelProperty(notes = "路由")
+    private String route;
+
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "描述")
+    private String description;
+
     @JsonProperty("limitable")
     @ApiModelProperty(notes = "是否限制可见时间")
     private Boolean limitable;

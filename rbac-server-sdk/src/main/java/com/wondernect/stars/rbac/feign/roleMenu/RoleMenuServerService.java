@@ -2,6 +2,7 @@ package com.wondernect.stars.rbac.feign.roleMenu;
 
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
+import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.role.RoleResponseDTO;
 import com.wondernect.stars.rbac.dto.role.SaveRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
@@ -53,6 +54,14 @@ public class RoleMenuServerService {
 
     public RoleMenuTreeResponseDTO tree(String roleId, String menuId) {
         BusinessData<RoleMenuTreeResponseDTO> businessData = roleMenuFeignClient.tree(roleId, menuId);
+        if (!businessData.success()){
+            return null;
+        }
+        return businessData.getData();
+    }
+
+    public RoleAuthorityResponseDTO roleAuthority(String roleId) {
+        BusinessData<RoleAuthorityResponseDTO> businessData = roleMenuFeignClient.roleAuthority(roleId);
         if (!businessData.success()){
             return null;
         }

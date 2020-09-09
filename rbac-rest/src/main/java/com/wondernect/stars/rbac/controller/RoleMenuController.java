@@ -7,6 +7,7 @@ import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
+import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.*;
 import com.wondernect.stars.rbac.service.rolemenu.RoleMenuService;
 import io.swagger.annotations.Api;
@@ -94,7 +95,17 @@ public class RoleMenuController {
     @AuthorizeServer
     @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "角色对应权限", httpMethod = "POST")
-    @GetMapping(value = "/authority")
+    @PostMapping(value = "/{role_id}/authority")
+    public BusinessData<RoleAuthorityResponseDTO> roleAuthority(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @PathVariable(value = "role_id", required = false) String roleId
+    ) {
+        return new BusinessData<>(roleMenuService.roleAuthority(roleId));
+    }
+
+    @AuthorizeServer
+    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
+    @ApiOperation(value = "角色对应权限", httpMethod = "POST")
+    @PostMapping(value = "/authority")
     public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @RequestParam(value = "role_id_list", required = false) List<String> roleIdList
     ) {

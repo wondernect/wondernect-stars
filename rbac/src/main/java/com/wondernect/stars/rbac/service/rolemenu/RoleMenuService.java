@@ -1,17 +1,18 @@
 package com.wondernect.stars.rbac.service.rolemenu;
 
+import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESDateTimeUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.OperationAuthorityResponseDTO;
-import com.wondernect.stars.rbac.model.Menu;
-import com.wondernect.stars.rbac.model.Operation;
-import com.wondernect.stars.rbac.model.RoleMenu;
-import com.wondernect.stars.rbac.model.RoleMenuOperation;
+import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
+import com.wondernect.stars.rbac.model.*;
 import com.wondernect.stars.rbac.service.menu.MenuService;
 import com.wondernect.stars.rbac.service.operation.OperationService;
+import com.wondernect.stars.rbac.service.role.RoleService;
 import com.wondernect.stars.rbac.service.rolemenuoperation.RoleMenuOperationService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,6 +37,9 @@ public class RoleMenuService extends RoleMenuAbstractService {
     private static final Logger logger = LoggerFactory.getLogger(RoleMenuService.class);
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private MenuService menuService;
 
     @Autowired
@@ -42,6 +47,18 @@ public class RoleMenuService extends RoleMenuAbstractService {
 
     @Autowired
     private RoleMenuOperationService roleMenuOperationService;
+
+    public RoleAuthorityResponseDTO roleAuthority(String roleId) {
+        Role role = roleService.findEntityById(roleId);
+        if (ESObjectUtils.isNull(role)) {
+            throw new BusinessException("用户角色不存在,不可登录");
+        }
+        RoleAuthorityResponseDTO roleAuthorityResponseDTO = new RoleAuthorityResponseDTO();
+        ESBeanUtils.copyProperties(role, roleAuthorityResponseDTO);
+        roleAuthorityResponseDTO.setRoleId(roleId);
+        roleAuthorityResponseDTO.setMenuList(roleAuthority(Arrays.asList(roleId)));
+        return roleAuthorityResponseDTO;
+    }
 
     public List<MenuAuthorityResponseDTO> roleAuthority(List<String> roleIdList) {
         Long currentTime = ESDateTimeUtils.getCurrentTimestamp();
@@ -79,6 +96,8 @@ public class RoleMenuService extends RoleMenuAbstractService {
             menuAuthorityResponseDTOMenu = new MenuAuthorityResponseDTO();
             menuAuthorityResponseDTOMenu.setCode(menu.getCode());
             menuAuthorityResponseDTOMenu.setName(menu.getName());
+            menuAuthorityResponseDTOMenu.setRoute(menu.getRoute());
+            menuAuthorityResponseDTOMenu.setDescription(menu.getDescription());
             menuAuthorityResponseDTOMenu.setLimitable(roleMenu.getLimitable());
             menuAuthorityResponseDTOMenu.setStartTime(roleMenu.getStartTime());
             menuAuthorityResponseDTOMenu.setEndTime(roleMenu.getEndTime());
@@ -121,6 +140,7 @@ public class RoleMenuService extends RoleMenuAbstractService {
             operationAuthorityResponseDTO = new OperationAuthorityResponseDTO();
             operationAuthorityResponseDTO.setCode(operation.getCode());
             operationAuthorityResponseDTO.setName(operation.getName());
+            operationAuthorityResponseDTO.setDescription(operation.getDescription());
             operationAuthorityResponseDTO.setLimitable(roleMenuOperation.getLimitable());
             operationAuthorityResponseDTO.setStartTime(roleMenuOperation.getStartTime());
             operationAuthorityResponseDTO.setEndTime(roleMenuOperation.getEndTime());

@@ -4,6 +4,7 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
+import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.role.ListRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.PageRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.RoleResponseDTO;
@@ -65,7 +66,13 @@ public interface RoleMenuFeignClient {
     );
 
     @ApiOperation(value = "角色对应权限", httpMethod = "POST")
-    @GetMapping(value = "/v1/wondernect/rbac/role_menu/authority")
+    @PostMapping(value = "/v1/wondernect/rbac/role_menu/{role_id}/authority")
+    public BusinessData<RoleAuthorityResponseDTO> roleAuthority(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @PathVariable(value = "role_id", required = false) String roleId
+    );
+
+    @ApiOperation(value = "角色对应权限", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/rbac/role_menu/authority")
     public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "role_id_list", required = false) List<String> roleIdList
     );

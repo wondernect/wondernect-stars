@@ -22,13 +22,21 @@ import java.util.List;
 @ApiModel(value = "角色权限响应对象")
 public class RoleAuthorityResponseDTO {
 
-    @JsonProperty("code")
-    @ApiModelProperty(notes = "代码")
-    private String code;
+    @JsonProperty("role_type_id")
+    @ApiModelProperty(notes = "角色类型id")
+    private String roleTypeId;
+
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色id")
+    private String roleId;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
     private String name;
+
+    @JsonProperty("description")
+    @ApiModelProperty(notes = "描述")
+    private String description;
 
     @JsonProperty("menu_list")
     @ApiModelProperty(notes = "菜单列表")
