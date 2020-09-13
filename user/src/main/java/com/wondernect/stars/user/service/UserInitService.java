@@ -43,27 +43,27 @@ public class UserInitService implements ApplicationListener<WondernectBootEvent>
         switch (wondernectBootEvent.getWondernectBootEventType()) {
             case BOOT:
             {
-                if (ESStringUtils.isNotBlank(userConfigProperties.getUsername())) {
-                    User user = userManager.findByUsername(userConfigProperties.getUsername());
+                if (ESStringUtils.isNotBlank(userConfigProperties.getUserId())) {
+                    User user = userManager.findById(userConfigProperties.getUserId());
                     if (ESObjectUtils.isNull(user)) {
-                        user = userManager.save(
-                                new User(
-                                        UserType.LOCAL,
-                                        userConfigProperties.getUsername(),
-                                        userConfigProperties.getName(),
-                                        Gender.UNKNOWN,
-                                        null,
-                                        userConfigProperties.getMobile(),
-                                        userConfigProperties.getEmail(),
-                                        null,
-                                        null,
-                                        userConfigProperties.getRoleTypeId(),
-                                        userConfigProperties.getRoleId(),
-                                        true,
-                                        true,
-                                        false
-                                )
+                        user = new User(
+                                UserType.LOCAL,
+                                userConfigProperties.getUsername(),
+                                userConfigProperties.getName(),
+                                Gender.UNKNOWN,
+                                null,
+                                userConfigProperties.getMobile(),
+                                userConfigProperties.getEmail(),
+                                null,
+                                null,
+                                userConfigProperties.getRoleTypeId(),
+                                userConfigProperties.getRoleId(),
+                                true,
+                                true,
+                                false
                         );
+                        user.setId(userConfigProperties.getUserId());
+                        user = userManager.save(user);
                         userAuthManager.save(
                                 new UserLocalAuth(
                                         user.getId(),

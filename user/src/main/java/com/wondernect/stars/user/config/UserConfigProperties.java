@@ -23,6 +23,8 @@ public class UserConfigProperties implements Serializable {
 
     private static final long serialVersionUID = -7644913790725972293L;
 
+    private String userId; // 平台超级管理员id
+
     private String username; // 平台超级管理员登录名
 
     private String name; // 平台超级管理员姓名或昵称
@@ -38,6 +40,14 @@ public class UserConfigProperties implements Serializable {
     private String roleTypeId; // 平台超级管理员角色类型
 
     private String roleId; // 平台超级管理员角色
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUsername() {
         return username;

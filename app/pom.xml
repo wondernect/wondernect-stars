@@ -35,6 +35,13 @@
             <artifactId>boot-application</artifactId>
         </dependency>
 
+        <!-- app-dto -->
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>app-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- 单元测试相关 -->
         <dependency>
             <groupId>junit</groupId>
