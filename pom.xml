@@ -38,6 +38,9 @@
         <module>mail</module>
         <module>sms</module>
         <module>app</module>
+        <module>app-dto</module>
+        <module>app-rest</module>
+        <module>app-server-sdk</module>
     </modules>
 
     <build>

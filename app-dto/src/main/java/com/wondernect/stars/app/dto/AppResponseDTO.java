@@ -1,30 +1,26 @@
-package com.wondernect.stars.app.model;
+package com.wondernect.stars.app.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wondernect.elements.rdb.base.model.BaseStringModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
- * Created on 2017/10/6.
- * wondernect.com
- * @author sunbeam
- */
-@Entity
-@Table(name = "app")
+ * 应用响应DTO
+ *
+ * @author chenxun 2020-09-13 23:02:00
+ **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "应用")
-public class App extends BaseStringModel {
+@ApiModel(value = "应用响应对象")
+public class AppResponseDTO {
+
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "应用id")
+    private String id;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
