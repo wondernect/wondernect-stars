@@ -78,7 +78,7 @@ public class Operation extends BaseStringModel implements Serializable {
         this.menuId = menuId;
     }
 
-    public Operation(String code, String name, String description, Boolean editable, Boolean deletable, Integer weight, String menuId) {
+    public Operation(String name, String code, String description, Boolean editable, Boolean deletable, Integer weight, String menuId) {
         this.name = name;
         this.code = code;
         this.description = description;
