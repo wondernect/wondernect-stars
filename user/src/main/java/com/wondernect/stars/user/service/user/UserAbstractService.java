@@ -49,24 +49,26 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
                 !ESRegexUtils.isEmail(saveUserRequestDTO.getEmail())) {
             throw new UserException(UserErrorEnum.USER_EMAIL_INVALID);
         }
-        return super.save(
-                new User(
-                        saveUserRequestDTO.getUserType(),
-                        saveUserRequestDTO.getUsername(),
-                        saveUserRequestDTO.getName(),
-                        saveUserRequestDTO.getGender(),
-                        saveUserRequestDTO.getAvatar(),
-                        saveUserRequestDTO.getMobile(),
-                        saveUserRequestDTO.getEmail(),
-                        saveUserRequestDTO.getLocation(),
-                        saveUserRequestDTO.getRemark(),
-                        saveUserRequestDTO.getRoleTypeId(),
-                        saveUserRequestDTO.getRoleId(),
-                        saveUserRequestDTO.getEnable(),
-                        saveUserRequestDTO.getEditable(),
-                        saveUserRequestDTO.getDeletable()
-                )
+        user = new User(
+                saveUserRequestDTO.getUserType(),
+                saveUserRequestDTO.getUsername(),
+                saveUserRequestDTO.getName(),
+                saveUserRequestDTO.getGender(),
+                saveUserRequestDTO.getAvatar(),
+                saveUserRequestDTO.getMobile(),
+                saveUserRequestDTO.getEmail(),
+                saveUserRequestDTO.getLocation(),
+                saveUserRequestDTO.getRemark(),
+                saveUserRequestDTO.getRoleTypeId(),
+                saveUserRequestDTO.getRoleId(),
+                saveUserRequestDTO.getEnable(),
+                saveUserRequestDTO.getEditable(),
+                saveUserRequestDTO.getDeletable()
         );
+        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getId())) {
+            user.setId(saveUserRequestDTO.getId());
+        }
+        return super.save(user);
     }
 
     @Override

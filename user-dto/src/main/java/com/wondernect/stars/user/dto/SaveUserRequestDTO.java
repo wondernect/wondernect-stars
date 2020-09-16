@@ -25,6 +25,10 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "用户创建/更新请求对象")
 public class SaveUserRequestDTO {
 
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "唯一标识")
+    private String id;
+
     @NotNull(message = "用户类型不能为空")
     @JsonProperty("user_type")
     @ApiModelProperty(notes = "用户类型", allowableValues = "LOCAL, THIRD")
