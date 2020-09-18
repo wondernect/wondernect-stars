@@ -46,7 +46,6 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{token}/delete")
     public BusinessData delete(
