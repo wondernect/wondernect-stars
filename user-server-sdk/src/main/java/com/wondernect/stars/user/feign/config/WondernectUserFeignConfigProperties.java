@@ -23,6 +23,8 @@ public class WondernectUserFeignConfigProperties implements Serializable {
 
     private static final long serialVersionUID = -8120698783277706219L;
 
+    private String userIdPropertyName = "USERID"; // 用户标识
+
     private String appIdPropertyName = "APPID"; // 应用标识
 
     private String appId; // 应用id
@@ -30,6 +32,14 @@ public class WondernectUserFeignConfigProperties implements Serializable {
     private String appSecretPropertyName = "APPSECRET"; // 传递加密内容的头部key
 
     private String appSecret; // 密钥
+
+    public String getUserIdPropertyName() {
+        return userIdPropertyName;
+    }
+
+    public void setUserIdPropertyName(String userIdPropertyName) {
+        this.userIdPropertyName = userIdPropertyName;
+    }
 
     public String getAppIdPropertyName() {
         return appIdPropertyName;

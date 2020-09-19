@@ -42,10 +42,12 @@ public class WondernectRbacFeignConfiguration implements RequestInterceptor {
                     String value = request.getHeader(name);
                     requestTemplate.header(name, value);
                 }
-                logger.debug("feign拦截器头部信息:{}", requestTemplate);
+            }
+            Object value = request.getAttribute(wondernectRbacFeignConfigProperties.getUserIdPropertyName());
+            if (ESObjectUtils.isNotNull(value)) {
+                requestTemplate.header(wondernectRbacFeignConfigProperties.getUserIdPropertyName(), value.toString());
             }
         }
-        // 添加自定义头部信息
         requestTemplate.header(wondernectRbacFeignConfigProperties.getAppIdPropertyName(), wondernectRbacFeignConfigProperties.getAppId());
         requestTemplate.header(wondernectRbacFeignConfigProperties.getAppSecretPropertyName(), wondernectRbacFeignConfigProperties.getAppSecret());
     }
