@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>wondernect-stars</artifactId>
         <groupId>com.wondernect.stars</groupId>
+        <artifactId>wondernect-stars</artifactId>
         <version>1.0.0</version>
     </parent>
 

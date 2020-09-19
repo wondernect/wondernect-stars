@@ -33,12 +33,12 @@ public class AppServerService {
         return businessData.getData();
     }
 
-    public AppResponseDTO auth(String id, AuthAppRequestDTO authAppRequestDTO) {
-        BusinessData<AppResponseDTO> businessData = appFeignClient.auth(id, authAppRequestDTO);
+    public boolean auth(String id, AuthAppRequestDTO authAppRequestDTO) {
+        BusinessData businessData = appFeignClient.auth(id, authAppRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }
-        return businessData.getData();
+        return true;
     }
 
     public List<AppResponseDTO> list(ListAppRequestDTO listAppRequestDTO) {

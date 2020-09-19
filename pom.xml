@@ -41,6 +41,11 @@
         <module>app-dto</module>
         <module>app-rest</module>
         <module>app-server-sdk</module>
+        <module>app-server</module>
+        <module>user-server</module>
+        <module>file-server</module>
+        <module>rbac-server</module>
+        <module>session-server</module>
     </modules>
 
     <build>

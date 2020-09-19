@@ -51,15 +51,14 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
     }
 
     @Override
-    public AppResponseDTO auth(String id, AuthAppRequestDTO authAppRequestDTO) {
-        AppResponseDTO appResponseDTO = super.findById(id);
-        if (ESObjectUtils.isNull(appResponseDTO)) {
+    public void auth(String id, AuthAppRequestDTO authAppRequestDTO) {
+        App app = super.findEntityById(id);
+        if (ESObjectUtils.isNull(app)) {
             throw new BusinessException("应用不存在");
         }
-        if (ESStringUtils.equals(authAppRequestDTO.getEncryptSecret(), appResponseDTO.getSecret())) {
+        if (!ESStringUtils.equals(authAppRequestDTO.getEncryptSecret(), app.getSecret())) {
             throw new BusinessException("应用密钥认证失败");
         }
-        return appResponseDTO;
     }
 
     @Override

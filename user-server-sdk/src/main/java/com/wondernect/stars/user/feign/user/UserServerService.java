@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.feign.user;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.ListUserRequestDTO;
@@ -58,7 +59,7 @@ public class UserServerService {
     public UserResponseDTO detail(String userId){
         BusinessData<UserResponseDTO> businessData = userFeignClient.detail(userId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -67,7 +68,7 @@ public class UserServerService {
     public UserResponseDTO detailByUsername(String username){
         BusinessData<UserResponseDTO> businessData = userFeignClient.detailByUsername(username);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

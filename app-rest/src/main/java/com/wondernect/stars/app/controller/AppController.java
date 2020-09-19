@@ -74,11 +74,12 @@ public class AppController {
 
     @ApiOperation(value = "认证应用密钥", httpMethod = "POST")
     @PostMapping(value = "/{id}/auth")
-    public BusinessData<AppResponseDTO> auth(
+    public BusinessData auth(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
             @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody(required = false) AuthAppRequestDTO authAppRequestDTO
     ) {
-        return new BusinessData<>(appService.auth(id, authAppRequestDTO));
+        appService.auth(id, authAppRequestDTO);
+        return new BusinessData(BusinessError.SUCCESS);
     }
 
     @AuthorizeServer
