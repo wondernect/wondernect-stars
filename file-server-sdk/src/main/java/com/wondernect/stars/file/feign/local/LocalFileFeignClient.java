@@ -4,9 +4,18 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.*;
 import com.wondernect.stars.file.feign.config.WondernectFileFeignConfiguration;
+import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.support.SpringEncoder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,11 +31,22 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(value = "wondernect-stars-file", configuration = WondernectFileFeignConfiguration.class)
+@FeignClient(value = "wondernect-stars-file", configuration = {WondernectFileFeignConfiguration.class, LocalFileFeignClient.MultipartSupportConfig.class})
 public interface LocalFileFeignClient {
 
+    @Configuration
+    class MultipartSupportConfig {
+        @Autowired
+        private ObjectFactory<HttpMessageConverters> messageConverters;
+
+        @Bean
+        public Encoder feignFormEncoder() {
+            return new SpringFormEncoder(new SpringEncoder(messageConverters));
+        }
+    }
+
     @ApiOperation(value = "上传文件", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/file/local/upload")
+    @PostMapping(value = "/v1/wondernect/file/local/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BusinessData<FileResponseDTO> upload(
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
             @ApiParam(required = true) @NotBlank(message = "文件存储路径id不能为空") @RequestParam(value = "path_id", required = false) String pathId,
