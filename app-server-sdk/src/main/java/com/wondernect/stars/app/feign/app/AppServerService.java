@@ -1,8 +1,10 @@
 package com.wondernect.stars.app.feign.app;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.AppResponseDTO;
+import com.wondernect.stars.app.dto.AuthAppRequestDTO;
 import com.wondernect.stars.app.dto.ListAppRequestDTO;
 import com.wondernect.stars.app.dto.PageAppRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,14 @@ public class AppServerService {
         BusinessData<AppResponseDTO> businessData = appFeignClient.detail(id);
         if (!businessData.success()) {
             return null;
+        }
+        return businessData.getData();
+    }
+
+    public AppResponseDTO auth(String id, AuthAppRequestDTO authAppRequestDTO) {
+        BusinessData<AppResponseDTO> businessData = appFeignClient.auth(id, authAppRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

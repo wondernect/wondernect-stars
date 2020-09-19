@@ -3,6 +3,7 @@ package com.wondernect.stars.app.feign.app;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.AppResponseDTO;
+import com.wondernect.stars.app.dto.AuthAppRequestDTO;
 import com.wondernect.stars.app.dto.ListAppRequestDTO;
 import com.wondernect.stars.app.dto.PageAppRequestDTO;
 import com.wondernect.stars.app.feign.config.WondernectAppFeignConfiguration;
@@ -33,6 +34,13 @@ public interface AppFeignClient {
     @GetMapping(value = "/v1/wondernect/app/{id}/detail")
     public BusinessData<AppResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
+    );
+
+    @ApiOperation(value = "认证应用密钥", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/app/{id}/auth")
+    public BusinessData<AppResponseDTO> auth(
+            @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
+            @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody(required = false) AuthAppRequestDTO authAppRequestDTO
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")

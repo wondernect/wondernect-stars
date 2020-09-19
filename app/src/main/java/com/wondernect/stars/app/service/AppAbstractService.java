@@ -3,6 +3,7 @@ package com.wondernect.stars.app.service;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
@@ -10,10 +11,7 @@ import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.app.dto.AppResponseDTO;
-import com.wondernect.stars.app.dto.ListAppRequestDTO;
-import com.wondernect.stars.app.dto.PageAppRequestDTO;
-import com.wondernect.stars.app.dto.SaveAppRequestDTO;
+import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.model.App;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -50,6 +48,18 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
         }
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveAppRequestDTO, app);
         return super.save(app);
+    }
+
+    @Override
+    public AppResponseDTO auth(String id, AuthAppRequestDTO authAppRequestDTO) {
+        AppResponseDTO appResponseDTO = super.findById(id);
+        if (ESObjectUtils.isNull(appResponseDTO)) {
+            throw new BusinessException("应用不存在");
+        }
+        if (ESStringUtils.equals(authAppRequestDTO.getEncryptSecret(), appResponseDTO.getSecret())) {
+            throw new BusinessException("应用密钥认证失败");
+        }
+        return appResponseDTO;
     }
 
     @Override

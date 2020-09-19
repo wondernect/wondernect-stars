@@ -1,9 +1,6 @@
 package com.wondernect.stars.session.controller;
 
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeRoleType;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeType;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeUserRole;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -46,7 +43,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{code}/delete")
     public BusinessData delete(
@@ -57,7 +53,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{code}/detail")
     public BusinessData<CodeResponseDTO> detail(
@@ -67,7 +62,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "删除(缓存)", httpMethod = "POST")
     @PostMapping(value = "/{code}/cache_delete")
     public BusinessData deleteCache(
@@ -78,7 +72,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "获取(缓存)", httpMethod = "GET")
     @GetMapping(value = "/{code}/cache_detail")
     public BusinessData<CodeResponseDTO> detailCache(
@@ -88,7 +81,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "续约/刷新(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/refresh")
     public BusinessData<CodeResponseDTO> refresh(
@@ -107,7 +99,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<CodeResponseDTO>> list(
@@ -117,7 +108,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @AuthorizeUserRole(authorizeType = AuthorizeType.EXPIRES_TOKEN, authorizeRoleType = AuthorizeRoleType.ONLY_AUTHORIZE)
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<CodeResponseDTO>> page(

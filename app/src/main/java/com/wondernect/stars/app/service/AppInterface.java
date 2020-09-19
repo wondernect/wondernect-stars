@@ -2,10 +2,7 @@ package com.wondernect.stars.app.service;
 
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.app.dto.AppResponseDTO;
-import com.wondernect.stars.app.dto.ListAppRequestDTO;
-import com.wondernect.stars.app.dto.PageAppRequestDTO;
-import com.wondernect.stars.app.dto.SaveAppRequestDTO;
+import com.wondernect.stars.app.dto.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +34,11 @@ public interface AppInterface {
      * 获取详细信息
      **/
     AppResponseDTO findById(String id);
+
+    /**
+     * 认证密钥
+     */
+    AppResponseDTO auth(String id, AuthAppRequestDTO authAppRequestDTO);
 
     /**
      * 列表
