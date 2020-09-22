@@ -1,8 +1,10 @@
 package com.wondernect.stars.file.server;
 
+import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.boot.application.event.WondernectBootEvent;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.stars.file.model.LocalFilePath;
+import com.wondernect.stars.file.server.config.FileConfigProperties;
 import com.wondernect.stars.file.service.localfilepath.LocalFilePathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -19,6 +21,12 @@ import org.springframework.stereotype.Service;
 public class FileInitService implements ApplicationListener<WondernectBootEvent> {
 
     @Autowired
+    private FileConfigProperties fileConfigProperties;
+
+    @Autowired
+    private WondernectCommonContext wondernectCommonContext;
+
+    @Autowired
     private LocalFilePathService localFilePathService;
 
     @Override
@@ -27,7 +35,7 @@ public class FileInitService implements ApplicationListener<WondernectBootEvent>
             case BOOT:
             {
                 // 初始化根节点
-                if (ESObjectUtils.isNull(localFilePathService.findEntityById("ROOT_FILE_PATH"))) {
+                if (ESObjectUtils.isNull(localFilePathService.findEntityById(fileConfigProperties.getRootFileId()))) {
                     LocalFilePath localFilePath = new LocalFilePath(
                             "文件存储根节点",
                             "文件存储根节点",
@@ -35,20 +43,21 @@ public class FileInitService implements ApplicationListener<WondernectBootEvent>
                             "",
                             "-1"
                     );
-                    localFilePath.setId("ROOT_FILE_PATH");
+                    localFilePath.setId(fileConfigProperties.getRootFileId());
                     localFilePathService.save(localFilePath);
                 }
+                wondernectCommonContext.getAuthorizeData().setAppId(fileConfigProperties.getUmsAppId());
+                wondernectCommonContext.getAuthorizeData().setUserId(fileConfigProperties.getUmsAppUserId());
                 // 初始化UMS根节点
-                if (ESObjectUtils.isNull(localFilePathService.findEntityById("UMS_FILE_PATH"))) {
+                if (ESObjectUtils.isNull(localFilePathService.findEntityById(fileConfigProperties.getUmsFileId()))) {
                     LocalFilePath localFilePath = new LocalFilePath(
                             "UMS文件存储根节点",
                             "UMS文件存储根节点",
-                            "ums",
-                            "ums",
-                            "-1"
+                            fileConfigProperties.getUmsFilePath(),
+                            fileConfigProperties.getUmsFilePath(),
+                            fileConfigProperties.getRootFileId()
                     );
-                    localFilePath.setId("UMS_FILE_PATH");
-                    localFilePath.setCreateApp("UMS");
+                    localFilePath.setId(fileConfigProperties.getUmsFileId());
                     localFilePathService.save(localFilePath);
                 }
                 break;

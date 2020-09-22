@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.server;
 
+import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.boot.application.event.WondernectBootEvent;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.stars.user.em.Gender;
@@ -8,6 +9,7 @@ import com.wondernect.stars.user.manager.UserLocalAuthManager;
 import com.wondernect.stars.user.manager.UserManager;
 import com.wondernect.stars.user.model.User;
 import com.wondernect.stars.user.model.UserLocalAuth;
+import com.wondernect.stars.user.server.config.UserConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,12 @@ import org.springframework.stereotype.Service;
 public class UserInitService implements ApplicationListener<WondernectBootEvent> {
 
     @Autowired
+    private UserConfigProperties userConfigProperties;
+
+    @Autowired
+    private WondernectCommonContext wondernectCommonContext;
+
+    @Autowired
     private UserManager userManager;
 
     @Autowired
@@ -33,31 +41,32 @@ public class UserInitService implements ApplicationListener<WondernectBootEvent>
         switch (wondernectBootEvent.getWondernectBootEventType()) {
             case BOOT:
             {
+                wondernectCommonContext.getAuthorizeData().setAppId(userConfigProperties.getAppId());
+                wondernectCommonContext.getAuthorizeData().setUserId(userConfigProperties.getUserId());
                 // 初始化UMS应用管理员
-                if (ESObjectUtils.isNull(userManager.findById("10001"))) {
+                if (ESObjectUtils.isNull(userManager.findById(userConfigProperties.getUserId()))) {
                     User user = new User(
                             UserType.LOCAL,
-                            "admin",
-                            "UMS应用管理员",
+                            userConfigProperties.getUsername(),
+                            "UMS管理员",
                             Gender.UNKNOWN,
                             null,
-                            "15860746397",
-                            "sunbeamhome@163.com",
+                            "",
+                            "",
                             null,
                             null,
-                            "APP_ADMIN_TYPE",
-                            "APP_ADMIN",
+                            userConfigProperties.getRoleTypeId(),
+                            userConfigProperties.getRoleId(),
                             true,
                             true,
                             false
                     );
-                    user.setId("10001");
-                    user.setCreateApp("UMS");
-                    user = userManager.save(user);
+                    user.setId(userConfigProperties.getUserId());
+                    userManager.save(user);
                     userAuthManager.save(
                             new UserLocalAuth(
-                                    user.getId(),
-                                    "d7c6c07a0a04ba4e65921e2f90726384"
+                                    userConfigProperties.getUserId(),
+                                    userConfigProperties.getPassword()
                             )
                     );
                 }
