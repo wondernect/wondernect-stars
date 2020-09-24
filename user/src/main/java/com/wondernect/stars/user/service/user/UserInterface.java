@@ -28,6 +28,11 @@ public interface UserInterface {
     UserResponseDTO update(String userId, SaveUserRequestDTO saveUserRequestDTO);
 
     /**
+     * 激活/禁用
+     */
+    void enable(String userId, Boolean enable);
+
+    /**
      * 删除
      */
     void deleteById(String userId);

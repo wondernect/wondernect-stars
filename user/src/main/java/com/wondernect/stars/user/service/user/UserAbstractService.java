@@ -1,5 +1,8 @@
 package com.wondernect.stars.user.service.user;
 
+import com.wondernect.elements.authorize.context.WondernectCommonContext;
+import com.wondernect.elements.common.error.BusinessError;
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESRegexUtils;
@@ -20,6 +23,7 @@ import com.wondernect.stars.user.manager.UserManager;
 import com.wondernect.stars.user.model.User;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,11 +37,14 @@ import java.util.List;
 public abstract class UserAbstractService extends BaseStringService<UserResponseDTO, User> implements UserInterface {
 
     @Autowired
+    private WondernectCommonContext wondernectCommonContext;
+
+    @Autowired
     private UserManager userManager;
 
     @Override
     public UserResponseDTO create(SaveUserRequestDTO saveUserRequestDTO) {
-        User user = userManager.findByUsername(saveUserRequestDTO.getUsername());
+        User user = userManager.findByUsername(saveUserRequestDTO.getUsername(), wondernectCommonContext.getAuthorizeData().getAppId());
         if (ESObjectUtils.isNotNull(user)) {
             throw new UserException(UserErrorEnum.USER_USERNAME_HAS_REGIST);
         }
@@ -77,9 +84,12 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         if (ESObjectUtils.isNull(user)) {
             throw new UserException(UserErrorEnum.USER_NOT_FOUND);
         }
+        if (!ESStringUtils.equals(user.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
+            throw new BusinessException(BusinessError.INVALID_APP_USER_DATA);
+        }
         if (ESStringUtils.isNotBlank(saveUserRequestDTO.getUsername()) &&
                 !ESStringUtils.equalsIgnoreCase(saveUserRequestDTO.getUsername(), user.getUsername())) {
-            if (ESObjectUtils.isNotNull(userManager.findByUsername(saveUserRequestDTO.getUsername()))) {
+            if (ESObjectUtils.isNotNull(userManager.findByUsername(saveUserRequestDTO.getUsername(), wondernectCommonContext.getAuthorizeData().getAppId()))) {
                 throw new UserException(UserErrorEnum.USER_USERNAME_HAS_REGIST);
             }
         }
@@ -95,10 +105,29 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         return super.save(user);
     }
 
+    @Transactional
+    public void enable(String userId, Boolean enable) {
+        User user = super.findEntityById(userId);
+        if (ESObjectUtils.isNull(user)) {
+            throw new UserException(UserErrorEnum.USER_NOT_FOUND);
+        }
+        if (!ESStringUtils.equals(user.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
+            throw new BusinessException(BusinessError.INVALID_APP_USER_DATA);
+        }
+        if (ESObjectUtils.isNotNull(user.getEditable()) && !user.getEditable()) {
+            throw new BusinessException("用户不可编辑");
+        }
+        user.setEnable(enable);
+        super.saveEntity(user);
+    }
+
     @Override
     public UserResponseDTO findByUsername(String username) {
-        User user = userManager.findByUsername(username);
+        User user = userManager.findByUsername(username, wondernectCommonContext.getAuthorizeData().getAppId());
         if (ESObjectUtils.isNull(user)) {
+            return null;
+        }
+        if (!ESStringUtils.equals(user.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
             return null;
         }
         return generate(user);
@@ -107,6 +136,11 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
     @Override
     public List<UserResponseDTO> list(ListUserRequestDTO listUserRequestDTO) {
         Criteria<User> userCriteria = new Criteria<>();
+        userCriteria.add(Restrictions.eq("username", listUserRequestDTO.getUsername()));
+        userCriteria.add(Restrictions.eq("roleTypeId", listUserRequestDTO.getRoleTypeId()));
+        userCriteria.add(Restrictions.eq("roleId", listUserRequestDTO.getRoleId()));
+        userCriteria.add(Restrictions.eq("enable", listUserRequestDTO.getEnable()));
+        userCriteria.add(Restrictions.eq("createApp", wondernectCommonContext.getAuthorizeData().getAppId()));
         return super.findAll(userCriteria, listUserRequestDTO.getSortDataList());
     }
 
@@ -117,6 +151,7 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         userCriteria.add(Restrictions.eq("roleTypeId", pageUserRequestDTO.getRoleTypeId()));
         userCriteria.add(Restrictions.eq("roleId", pageUserRequestDTO.getRoleId()));
         userCriteria.add(Restrictions.eq("enable", pageUserRequestDTO.getEnable()));
+        userCriteria.add(Restrictions.eq("createApp", wondernectCommonContext.getAuthorizeData().getAppId()));
         return super.findAll(userCriteria, pageUserRequestDTO.getPageRequestData());
     }
 

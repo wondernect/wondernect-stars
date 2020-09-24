@@ -23,6 +23,22 @@ import java.util.List;
 @ApiModel(value = "用户列表请求对象")
 public class ListUserRequestDTO {
 
+    @JsonProperty("username")
+    @ApiModelProperty(notes = "用户登录名")
+    private String username;
+
+    @JsonProperty("role_type_id")
+    @ApiModelProperty(notes = "角色类型")
+    private String roleTypeId;
+
+    @JsonProperty("role_id")
+    @ApiModelProperty(notes = "角色")
+    private String roleId;
+
+    @JsonProperty("enable")
+    @ApiModelProperty(notes = "是否可用")
+    private Boolean enable;
+
     @JsonProperty("sort_data_list")
     @ApiModelProperty(notes = "列表排序参数")
     private List<SortData> sortDataList;

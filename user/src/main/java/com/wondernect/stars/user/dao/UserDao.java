@@ -20,30 +20,30 @@ public class UserDao extends BaseStringDao<User> {
     @Autowired
     private UserRepository userRepository;
 
-    public User findByMobile(String mobile) {
+    public User findByMobile(String mobile, String appId) {
         User user;
         try {
-            user = userRepository.findByMobile(mobile);
+            user = userRepository.findByMobileAndCreateApp(mobile, appId);
         } catch (RuntimeException e) {
             throw new RDBException(RDBErrorEnum.RDB_GET_FAILED);
         }
         return user;
     }
 
-    public User findByEmail(String email) {
+    public User findByEmail(String email, String appId) {
         User user;
         try {
-            user = userRepository.findByEmail(email);
+            user = userRepository.findByEmailAndCreateApp(email, appId);
         } catch (RuntimeException e) {
             throw new RDBException(RDBErrorEnum.RDB_GET_FAILED);
         }
         return user;
     }
 
-    public User findByUsername(String username) {
+    public User findByUsername(String username, String appId) {
         User user;
         try {
-            user = userRepository.findByUsername(username);
+            user = userRepository.findByUsernameAndCreateApp(username, appId);
         } catch (RuntimeException e) {
             throw new RDBException(RDBErrorEnum.RDB_GET_FAILED);
         }
