@@ -37,8 +37,8 @@
         <module>user-server-sdk</module>
         <module>mail</module>
         <module>sms</module>
-        <module>app</module>
         <module>app-dto</module>
+        <module>app</module>
         <module>app-rest</module>
         <module>app-server-sdk</module>
         <module>app-server</module>
