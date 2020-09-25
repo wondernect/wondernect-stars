@@ -1,1 +1,0 @@
-# wondernect-stars-session-rest
