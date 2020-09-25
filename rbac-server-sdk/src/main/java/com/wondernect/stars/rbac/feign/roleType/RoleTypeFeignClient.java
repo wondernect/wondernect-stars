@@ -1,12 +1,7 @@
 package com.wondernect.stars.rbac.feign.roleType;
 
-import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuResponseDTO;
-import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
 import com.wondernect.stars.rbac.dto.roletype.ListRoleTypeRequestDTO;
 import com.wondernect.stars.rbac.dto.roletype.PageRoleTypeRequestDTO;
 import com.wondernect.stars.rbac.dto.roletype.RoleTypeResponseDTO;
@@ -29,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(value = "wondernect-stars-rbac", configuration = WondernectRbacFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", configuration = WondernectRbacFeignConfiguration.class)
 public interface RoleTypeFeignClient {
 
     @ApiOperation(value = "创建角色类型", httpMethod = "POST")

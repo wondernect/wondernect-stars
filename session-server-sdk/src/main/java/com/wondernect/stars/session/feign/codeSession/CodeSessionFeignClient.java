@@ -23,7 +23,7 @@ import java.util.List;
  * @Date: 2020/8/12 11:21
  * @Version 1.0
  */
-@FeignClient(value = "wondernect-stars-session", configuration = WondernectSessionFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.session.feign.name}", url = "${wondernect.stars.session.feign.url}", configuration = WondernectSessionFeignConfiguration.class)
 public interface CodeSessionFeignClient {
 
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")

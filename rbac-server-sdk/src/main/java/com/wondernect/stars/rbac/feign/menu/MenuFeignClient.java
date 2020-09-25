@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(value = "wondernect-stars-rbac", configuration = WondernectRbacFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", configuration = WondernectRbacFeignConfiguration.class)
 public interface MenuFeignClient {
 
     @ApiOperation(value = "创建菜单", httpMethod = "POST")

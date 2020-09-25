@@ -25,7 +25,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(value = "wondernect-stars-session", configuration = WondernectSessionFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.session.feign.name}", url = "${wondernect.stars.session.feign.url}", configuration = WondernectSessionFeignConfiguration.class)
 public interface CaptchaSessionFeignClient {
 
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")

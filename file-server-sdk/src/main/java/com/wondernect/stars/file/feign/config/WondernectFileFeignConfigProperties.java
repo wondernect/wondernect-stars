@@ -23,6 +23,10 @@ public class WondernectFileFeignConfigProperties implements Serializable {
 
     private static final long serialVersionUID = 2063732733149304087L;
 
+    private String name = "wondernect-stars-file"; // 远程服务name
+
+    private String url = ""; // 远程服务url
+
     private String userIdPropertyName = "USERID"; // 用户标识
 
     private String appIdPropertyName = "APPID"; // 应用标识
@@ -32,6 +36,22 @@ public class WondernectFileFeignConfigProperties implements Serializable {
     private String appSecretPropertyName = "APPSECRET"; // 传递加密内容的头部key
 
     private String appSecret; // 密钥
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getUserIdPropertyName() {
         return userIdPropertyName;

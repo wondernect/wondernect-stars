@@ -23,8 +23,10 @@ import java.util.List;
  * Author: chenxun
  * Date: 2020-09-13 23:23
  * Description:
+ * 当@FeignClient有name和url还有configuration时，取值为url的地址,name只是为一个名称而已(无意义)
+ * 当@FeignClient只有name和configuration时，name的取值为注册中心项目的名称即虚拟地址
  */
-@FeignClient(value = "wondernect-stars-app", configuration = WondernectAppFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.app.feign.name}", url = "${wondernect.stars.app.feign.url}", configuration = WondernectAppFeignConfiguration.class)
 public interface AppFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

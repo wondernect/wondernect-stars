@@ -23,7 +23,7 @@ import java.util.List;
  * @Date: 2020/8/12 11:21
  * @Version 1.0
  */
-@FeignClient(value = "wondernect-stars-user", configuration = WondernectUserFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", configuration = WondernectUserFeignConfiguration.class)
 public interface UserFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

@@ -27,7 +27,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(value = "wondernect-stars-file", configuration = WondernectFileFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", configuration = WondernectFileFeignConfiguration.class)
 public interface LocalFilePathFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")
