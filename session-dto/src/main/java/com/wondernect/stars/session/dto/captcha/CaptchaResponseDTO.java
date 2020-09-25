@@ -1,10 +1,12 @@
 package com.wondernect.stars.session.dto.captcha;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -15,14 +17,11 @@ import lombok.NoArgsConstructor;
  * Description:
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "验证码响应对象")
-public class CaptchaResponseDTO {
-
-    @JsonProperty("id")
-    @ApiModelProperty(notes = "验证码会话id")
-    private String id;
+public class CaptchaResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("username")
     @ApiModelProperty(notes = "用户名")

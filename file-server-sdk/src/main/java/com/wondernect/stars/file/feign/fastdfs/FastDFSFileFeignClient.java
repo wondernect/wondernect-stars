@@ -17,11 +17,9 @@ import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -52,14 +50,6 @@ public interface FastDFSFileFeignClient {
     public BusinessData<FileResponseDTO> upload(
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
             @ApiParam(required = true) @RequestPart(value = "file", required = false) MultipartFile file
-    );
-
-    @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/file/fast_dfs/wechat/upload")
-    public BusinessData<FileResponseDTO> wechatUpload(
-            @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
-            @ApiParam(required = false) @NotBlank(message = "文件获取标识不能为空") @RequestParam(value = "file_key", required = false) String fileKey,
-            HttpServletRequest httpServletRequest
     );
 
     @ApiOperation(value = "删除文件", httpMethod = "POST")

@@ -1,10 +1,12 @@
 package com.wondernect.stars.rbac.dto.rolemenuoperation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -15,14 +17,15 @@ import lombok.NoArgsConstructor;
  * Description:
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "角色对应菜单对应操作响应对象")
-public class RoleMenuOperationResponseDTO {
+public class RoleMenuOperationResponseDTO extends BaseStringResponseDTO {
 
-    @JsonProperty("id")
+    @JsonProperty("operation_id")
     @ApiModelProperty(notes = "操作唯一标识")
-    private String id;
+    private String operationId;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "操作名称")

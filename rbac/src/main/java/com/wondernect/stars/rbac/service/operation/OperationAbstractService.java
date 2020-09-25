@@ -108,7 +108,6 @@ public abstract class OperationAbstractService extends BaseStringService<Operati
     public OperationResponseDTO generate(Operation operation) {
         OperationResponseDTO operationResponseDTO = new OperationResponseDTO();
         ESBeanUtils.copyProperties(operation, operationResponseDTO);
-        operationResponseDTO.setId(operation.getId());
         Menu menu = menuManager.findById(operation.getMenuId());
         operationResponseDTO.setMenuName(ESObjectUtils.isNotNull(menu) ? menu.getName() : null);
         operationResponseDTO.setMenuCode(ESObjectUtils.isNotNull(menu) ? menu.getCode() : null);

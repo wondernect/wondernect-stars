@@ -82,7 +82,6 @@ public abstract class RoleTypeAbstractService extends BaseStringService<RoleType
     public RoleTypeResponseDTO generate(RoleType roleType) {
         RoleTypeResponseDTO roleTypeResponseDTO = new RoleTypeResponseDTO();
         ESBeanUtils.copyProperties(roleType, roleTypeResponseDTO);
-        roleTypeResponseDTO.setId(roleType.getId());
         return roleTypeResponseDTO;
     }
 

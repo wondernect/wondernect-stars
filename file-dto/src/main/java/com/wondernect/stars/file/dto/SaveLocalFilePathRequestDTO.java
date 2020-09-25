@@ -36,7 +36,6 @@ public class SaveLocalFilePathRequestDTO {
     @ApiModelProperty(notes = "路径")
     private String path;
 
-    @NotBlank(message = "父级路径不能为空")
     @JsonProperty("parent_path_id")
     @ApiModelProperty(notes = "父级路径id")
     private String parentPathId;

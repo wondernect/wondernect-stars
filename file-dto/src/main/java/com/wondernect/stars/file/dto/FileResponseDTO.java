@@ -1,12 +1,14 @@
 package com.wondernect.stars.file.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import com.wondernect.stars.file.em.FileType;
 import com.wondernect.stars.file.em.FileUploadType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -17,14 +19,11 @@ import lombok.NoArgsConstructor;
  * Description:
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "文件响应对象")
-public class FileResponseDTO {
-
-    @JsonProperty("id")
-    @ApiModelProperty(notes = "唯一标识")
-    private String id;
+public class FileResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("upload_type")
     @ApiModelProperty(notes = "文件上传类型")

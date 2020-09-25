@@ -80,7 +80,6 @@ public abstract class FileAbstractService extends BaseStringService<FileResponse
     public FileResponseDTO generate(File file) {
         FileResponseDTO fileResponseDTO = new FileResponseDTO();
         ESBeanUtils.copyProperties(file, fileResponseDTO);
-        fileResponseDTO.setId(file.getId());
         String imageThumbUrl = null;
         if (file.getType() == FileType.IMAGE) {
             imageThumbUrl = getImageThumbUrl(file.getThumbImagePath(), file.getSubFilePath());

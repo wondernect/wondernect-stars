@@ -1,11 +1,13 @@
 package com.wondernect.stars.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.request.ListRequestDTO;
 import com.wondernect.elements.rdb.request.SortData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -18,10 +20,11 @@ import java.util.List;
  * Description:
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "用户列表请求对象")
-public class ListUserRequestDTO {
+public class ListUserRequestDTO extends ListRequestDTO {
 
     @JsonProperty("username")
     @ApiModelProperty(notes = "用户登录名")
@@ -38,8 +41,5 @@ public class ListUserRequestDTO {
     @JsonProperty("enable")
     @ApiModelProperty(notes = "是否可用")
     private Boolean enable;
-
-    @JsonProperty("sort_data_list")
-    @ApiModelProperty(notes = "列表排序参数")
-    private List<SortData> sortDataList;
 }
+

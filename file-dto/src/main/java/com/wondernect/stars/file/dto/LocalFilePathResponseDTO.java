@@ -1,10 +1,12 @@
 package com.wondernect.stars.file.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -15,14 +17,11 @@ import lombok.NoArgsConstructor;
  * Description:
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "本地文件路径响应对象")
-public class LocalFilePathResponseDTO {
-
-    @JsonProperty("id")
-    @ApiModelProperty(notes = "唯一标识")
-    private String id;
+public class LocalFilePathResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")

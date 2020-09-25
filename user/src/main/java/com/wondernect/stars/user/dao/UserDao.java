@@ -3,10 +3,12 @@ package com.wondernect.stars.user.dao;
 import com.wondernect.elements.rdb.base.dao.BaseStringDao;
 import com.wondernect.elements.rdb.common.error.RDBErrorEnum;
 import com.wondernect.elements.rdb.common.exception.RDBException;
+import com.wondernect.elements.rdb.config.AppFilter;
 import com.wondernect.stars.user.model.User;
 import com.wondernect.stars.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created on 2018/4/4.
@@ -20,30 +22,36 @@ public class UserDao extends BaseStringDao<User> {
     @Autowired
     private UserRepository userRepository;
 
-    public User findByMobile(String mobile, String appId) {
+    @AppFilter
+    @Transactional
+    public User findByMobile(String mobile) {
         User user;
         try {
-            user = userRepository.findByMobileAndCreateApp(mobile, appId);
+            user = userRepository.findByMobile(mobile);
         } catch (RuntimeException e) {
             throw new RDBException(RDBErrorEnum.RDB_GET_FAILED);
         }
         return user;
     }
 
-    public User findByEmail(String email, String appId) {
+    @AppFilter
+    @Transactional
+    public User findByEmail(String email) {
         User user;
         try {
-            user = userRepository.findByEmailAndCreateApp(email, appId);
+            user = userRepository.findByEmail(email);
         } catch (RuntimeException e) {
             throw new RDBException(RDBErrorEnum.RDB_GET_FAILED);
         }
         return user;
     }
 
-    public User findByUsername(String username, String appId) {
+    @AppFilter
+    @Transactional
+    public User findByUsername(String username) {
         User user;
         try {
-            user = userRepository.findByUsernameAndCreateApp(username, appId);
+            user = userRepository.findByUsername(username);
         } catch (RuntimeException e) {
             throw new RDBException(RDBErrorEnum.RDB_GET_FAILED);
         }

@@ -110,21 +110,6 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
                     role.setId(rbacConfigProperties.getUmsUserRoleId());
                     roleManager.save(role);
                 }
-                // UMS根节点菜单
-                if (ESObjectUtils.isNull(menuManager.findById(rbacConfigProperties.getUmsRootMenuId()))) {
-                    Menu menu = new Menu(
-                            "UMS根节点菜单",
-                            rbacConfigProperties.getUmsRootMenuId(),
-                            "",
-                            "UMS根节点菜单",
-                            true,
-                            false,
-                            0,
-                            rbacConfigProperties.getRootMenuId()
-                    );
-                    menu.setId(rbacConfigProperties.getUmsRootMenuId());
-                    menuManager.save(menu);
-                }
                 break;
             }
             default:

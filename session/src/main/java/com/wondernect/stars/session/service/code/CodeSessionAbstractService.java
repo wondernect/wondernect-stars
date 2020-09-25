@@ -110,8 +110,6 @@ public abstract class CodeSessionAbstractService extends BaseCodeService<CodeRes
     public CodeResponseDTO generate(CodeSession codeSession) {
         CodeResponseDTO codeResponseDTO = new CodeResponseDTO();
         ESBeanUtils.copyProperties(codeSession, codeResponseDTO);
-        codeResponseDTO.setCode(codeSession.getCode());
-        codeResponseDTO.setCreateTime(codeSession.getCreateTime());
         return codeResponseDTO;
     }
 

@@ -1,6 +1,7 @@
 package com.wondernect.stars.user.service.userrole;
 
 import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
@@ -72,11 +73,9 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
 
     @Override
     public UserRoleResponseDTO generate(UserRole userRole) {
-        return new UserRoleResponseDTO(
-                userRole.getId(),
-                userRole.getUserId(),
-                userRole.getRoleId()
-        );
+        UserRoleResponseDTO userRoleResponseDTO = new UserRoleResponseDTO();
+        ESBeanUtils.copyProperties(userRole, userRoleResponseDTO);
+        return userRoleResponseDTO;
     }
 
     @Override

@@ -32,8 +32,6 @@ public class RBACConfigProperties implements Serializable {
 
     private String umsUserRoleId = "UMS_USER"; // 应用注册用户角色id
 
-    private String umsRootMenuId = "UMS_MENU"; // 应用根节点菜单id
-
     private String umsAppId = "UMS"; // 应用id
 
     private String umsAppUserId = "10001"; // 管理员id
@@ -76,14 +74,6 @@ public class RBACConfigProperties implements Serializable {
 
     public void setUmsUserRoleId(String umsUserRoleId) {
         this.umsUserRoleId = umsUserRoleId;
-    }
-
-    public String getUmsRootMenuId() {
-        return umsRootMenuId;
-    }
-
-    public void setUmsRootMenuId(String umsRootMenuId) {
-        this.umsRootMenuId = umsRootMenuId;
     }
 
     public String getUmsAppId() {

@@ -78,8 +78,6 @@ public abstract class TokenSessionAbstractService extends BaseTokenService<Token
     public TokenResponseDTO generate(TokenSession tokenSession) {
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
         ESBeanUtils.copyProperties(tokenSession, tokenResponseDTO);
-        tokenResponseDTO.setToken(tokenSession.getToken());
-        tokenResponseDTO.setCreateTime(tokenSession.getCreateTime());
         return tokenResponseDTO;
     }
 

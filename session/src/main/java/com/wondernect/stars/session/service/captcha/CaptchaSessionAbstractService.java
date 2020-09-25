@@ -115,8 +115,6 @@ public abstract class CaptchaSessionAbstractService extends BaseStringService<Ca
     public CaptchaResponseDTO generate(CaptchaSession captchaSession) {
         CaptchaResponseDTO captchaResponseDTO = new CaptchaResponseDTO();
         ESBeanUtils.copyProperties(captchaSession, captchaResponseDTO);
-        captchaResponseDTO.setId(captchaSession.getId());
-        captchaResponseDTO.setCreateTime(captchaSession.getCreateTime());
         return captchaResponseDTO;
     }
 

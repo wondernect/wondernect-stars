@@ -10,9 +10,9 @@ import com.wondernect.stars.user.model.User;
  */
 public interface UserRepository extends BaseStringRepository<User> {
 
-    User findByMobileAndCreateApp(String mobile, String appId);
+    User findByMobile(String mobile);
 
-    User findByEmailAndCreateApp(String email, String appId);
+    User findByEmail(String email);
 
-    User findByUsernameAndCreateApp(String username, String appId);
+    User findByUsername(String username);
 }

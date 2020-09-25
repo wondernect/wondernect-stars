@@ -22,9 +22,9 @@ public class FileConfigProperties implements Serializable {
 
     private static final long serialVersionUID = 3260656889942519185L;
 
-    private String rootFileId = "ROOT_FILE_PATH"; // 文件存储根节点id
+    private String rootFilePathId = "ROOT_FILE_PATH"; // 文件存储根节点id
 
-    private String umsFileId = "UMS_FILE_PATH"; // ums文件存储根节点id
+    private String umsFilePathId = "UMS_FILE_PATH"; // ums文件存储根节点id
 
     private String umsFilePath = "ums"; // ums文件存储根节点id
 
@@ -32,20 +32,20 @@ public class FileConfigProperties implements Serializable {
 
     private String umsAppUserId = "10001"; // ums管理员id
 
-    public String getRootFileId() {
-        return rootFileId;
+    public String getRootFilePathId() {
+        return rootFilePathId;
     }
 
-    public void setRootFileId(String rootFileId) {
-        this.rootFileId = rootFileId;
+    public void setRootFilePathId(String rootFilePathId) {
+        this.rootFilePathId = rootFilePathId;
     }
 
-    public String getUmsFileId() {
-        return umsFileId;
+    public String getUmsFilePathId() {
+        return umsFilePathId;
     }
 
-    public void setUmsFileId(String umsFileId) {
-        this.umsFileId = umsFileId;
+    public void setUmsFilePathId(String umsFilePathId) {
+        this.umsFilePathId = umsFilePathId;
     }
 
     public String getUmsFilePath() {

@@ -35,7 +35,7 @@ public class FileInitService implements ApplicationListener<WondernectBootEvent>
             case BOOT:
             {
                 // 初始化根节点
-                if (ESObjectUtils.isNull(localFilePathService.findEntityById(fileConfigProperties.getRootFileId()))) {
+                if (ESObjectUtils.isNull(localFilePathService.findEntityById(fileConfigProperties.getRootFilePathId()))) {
                     LocalFilePath localFilePath = new LocalFilePath(
                             "文件存储根节点",
                             "文件存储根节点",
@@ -43,21 +43,21 @@ public class FileInitService implements ApplicationListener<WondernectBootEvent>
                             "",
                             "-1"
                     );
-                    localFilePath.setId(fileConfigProperties.getRootFileId());
+                    localFilePath.setId(fileConfigProperties.getRootFilePathId());
                     localFilePathService.save(localFilePath);
                 }
                 wondernectCommonContext.getAuthorizeData().setAppId(fileConfigProperties.getUmsAppId());
                 wondernectCommonContext.getAuthorizeData().setUserId(fileConfigProperties.getUmsAppUserId());
                 // 初始化UMS根节点
-                if (ESObjectUtils.isNull(localFilePathService.findEntityById(fileConfigProperties.getUmsFileId()))) {
+                if (ESObjectUtils.isNull(localFilePathService.findEntityById(fileConfigProperties.getUmsFilePathId()))) {
                     LocalFilePath localFilePath = new LocalFilePath(
                             "UMS文件存储根节点",
                             "UMS文件存储根节点",
                             fileConfigProperties.getUmsFilePath(),
                             fileConfigProperties.getUmsFilePath(),
-                            fileConfigProperties.getRootFileId()
+                            fileConfigProperties.getRootFilePathId()
                     );
-                    localFilePath.setId(fileConfigProperties.getUmsFileId());
+                    localFilePath.setId(fileConfigProperties.getUmsFilePathId());
                     localFilePathService.save(localFilePath);
                 }
                 break;

@@ -1,10 +1,12 @@
 package com.wondernect.stars.user.dto.auth.third;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -15,10 +17,11 @@ import lombok.NoArgsConstructor;
  * Description: 用户第三方认证响应对象
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "用户第三方认证响应对象")
-public class UserThirdAuthResponseDTO {
+public class UserThirdAuthResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "唯一标识")

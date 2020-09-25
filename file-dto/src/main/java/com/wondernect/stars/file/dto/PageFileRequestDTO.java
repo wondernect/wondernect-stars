@@ -1,11 +1,13 @@
 package com.wondernect.stars.file.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.request.PageRequestDTO;
 import com.wondernect.elements.rdb.request.PageRequestData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
@@ -18,10 +20,11 @@ import javax.validation.constraints.NotNull;
  * Description:
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "文件分页请求对象")
-public class PageFileRequestDTO {
+public class PageFileRequestDTO extends PageRequestDTO {
 
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "上传用户id")
@@ -30,9 +33,4 @@ public class PageFileRequestDTO {
     @JsonProperty("deleted")
     @ApiModelProperty(notes = "文件是否已删除")
     private Boolean deleted;
-
-    @NotNull(message = "分页请求参数不能为空")
-    @JsonProperty("page_request_data")
-    @ApiModelProperty(notes = "分页参数")
-    private PageRequestData pageRequestData;
 }

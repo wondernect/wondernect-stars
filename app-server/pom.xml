@@ -61,10 +61,10 @@
 			<artifactId>swagger-api</artifactId>
 		</dependency>
 
-		<!-- stars app-rest -->
+		<!-- stars app -->
 		<dependency>
 			<groupId>com.wondernect.stars</groupId>
-			<artifactId>app-rest</artifactId>
+			<artifactId>app</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

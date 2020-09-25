@@ -187,7 +187,6 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
     public MenuResponseDTO generate(Menu menu) {
         MenuResponseDTO menuResponseDTO = new MenuResponseDTO();
         ESBeanUtils.copyProperties(menu, menuResponseDTO);
-        menuResponseDTO.setId(menu.getId());
         Menu parentMenu = super.findEntityById(menu.getParentMenuId());
         menuResponseDTO.setParentMenuName(ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getName() : null);
         menuResponseDTO.setParentMenuCode(ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getCode() : null);

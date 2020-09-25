@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,14 +24,6 @@ public class LocalFileServerService {
 
     public FileResponseDTO upload(String fileType, String pathId, MultipartFile file) {
         BusinessData<FileResponseDTO> businessData = localFileFeignClient.upload(fileType, pathId, file);
-        if (!businessData.success()) {
-            return null;
-        }
-        return businessData.getData();
-    }
-
-    public FileResponseDTO wechatUpload(String fileType, String pathId, String fileKey, HttpServletRequest httpServletRequest) {
-        BusinessData<FileResponseDTO> businessData = localFileFeignClient.wechatUpload(fileType, pathId, fileKey, httpServletRequest);
         if (!businessData.success()) {
             return null;
         }

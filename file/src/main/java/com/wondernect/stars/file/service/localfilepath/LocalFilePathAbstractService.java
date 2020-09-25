@@ -1,6 +1,7 @@
 package com.wondernect.stars.file.service.localfilepath;
 
 import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
@@ -70,14 +71,9 @@ public abstract class LocalFilePathAbstractService extends BaseStringService<Loc
 
     @Override
     public LocalFilePathResponseDTO generate(LocalFilePath localFilePath) {
-        return new LocalFilePathResponseDTO(
-                localFilePath.getId(),
-                localFilePath.getName(),
-                localFilePath.getDescription(),
-                localFilePath.getPath(),
-                localFilePath.getSubFilePath(),
-                localFilePath.getParentPathId()
-        );
+        LocalFilePathResponseDTO localFilePathResponseDTO = new LocalFilePathResponseDTO();
+        ESBeanUtils.copyProperties(localFilePath, localFilePathResponseDTO);
+        return localFilePathResponseDTO;
     }
 
     @Override

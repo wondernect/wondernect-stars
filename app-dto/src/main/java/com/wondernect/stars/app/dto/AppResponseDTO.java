@@ -1,10 +1,12 @@
 package com.wondernect.stars.app.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -13,14 +15,11 @@ import lombok.NoArgsConstructor;
  * @author chenxun 2020-09-13 23:02:00
  **/
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "应用响应对象")
-public class AppResponseDTO {
-
-    @JsonProperty("id")
-    @ApiModelProperty(notes = "应用id")
-    private String id;
+public class AppResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")

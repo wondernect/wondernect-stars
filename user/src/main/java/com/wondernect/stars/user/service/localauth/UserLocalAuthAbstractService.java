@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.service.localauth;
 
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseService;
@@ -61,10 +62,9 @@ public abstract class UserLocalAuthAbstractService extends BaseService<UserLocal
 
     @Override
     public UserLocalAuthResponseDTO generate(UserLocalAuth userLocalAuth) {
-        return new UserLocalAuthResponseDTO(
-                userLocalAuth.getUserId(),
-                userLocalAuth.getPassword()
-        );
+        UserLocalAuthResponseDTO userLocalAuthResponseDTO = new UserLocalAuthResponseDTO();
+        ESBeanUtils.copyProperties(userLocalAuth, userLocalAuthResponseDTO);
+        return userLocalAuthResponseDTO;
     }
 
     @Override

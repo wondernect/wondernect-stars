@@ -61,10 +61,10 @@
             <artifactId>swagger-api</artifactId>
         </dependency>
 
-        <!-- stars rbac-rest -->
+        <!-- stars rbac -->
         <dependency>
             <groupId>com.wondernect.stars</groupId>
-            <artifactId>rbac-rest</artifactId>
+            <artifactId>rbac</artifactId>
             <version>${project.version}</version>
         </dependency>
 

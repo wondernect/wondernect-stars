@@ -1,14 +1,13 @@
 package com.wondernect.stars.user.dto.userrole;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wondernect.elements.rdb.request.SortData;
+import com.wondernect.elements.rdb.request.ListRequestDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 /**
  * 用户角色列表请求DTO
@@ -16,16 +15,13 @@ import java.util.List;
  * @author chenxun 2020-06-28 21:46:02
  **/
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "用户角色列表请求对象")
-public class ListUserRoleRequestDTO {
+public class ListUserRoleRequestDTO extends ListRequestDTO {
 
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "用户id")
     private String userId;
-
-    @JsonProperty("sort_data_list")
-    @ApiModelProperty(notes = "列表请求参数")
-    private List<SortData> sortDataList;
 }

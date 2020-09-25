@@ -52,7 +52,6 @@ public class SaveMenuRequestDTO {
     @ApiModelProperty(notes = "权重")
     private Integer weight;
 
-    @NotBlank(message = "父级菜单id不能为空")
     @JsonProperty("parent_menu_id")
     @ApiModelProperty(notes = "父级菜单id")
     private String parentMenuId;

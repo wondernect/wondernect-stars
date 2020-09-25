@@ -46,15 +46,15 @@ public class UserManager extends BaseStringManager<User> {
         return user;
     }
 
-    public User findByMobile(String mobile, String appId) {
-        return userDao.findByMobile(mobile, appId);
+    public User findByMobile(String mobile) {
+        return userDao.findByMobile(mobile);
     }
 
-    public User findByEmail(String email, String appId) {
-        return userDao.findByEmail(email, appId);
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email);
     }
 
-    public User findByUsername(String username, String appId) {
-        return userDao.findByUsername(username, appId);
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 }

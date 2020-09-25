@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,14 +24,6 @@ public class FastDFSServerService {
 
     public FileResponseDTO upload(String fileType, MultipartFile file) {
         BusinessData<FileResponseDTO> businessData = fastDFSFileFeignClient.upload(fileType, file);
-        if (!businessData.success()) {
-            return null;
-        }
-        return businessData.getData();
-    }
-
-    public FileResponseDTO wechatUpload(String fileType, String fileKey, HttpServletRequest httpServletRequest) {
-        BusinessData<FileResponseDTO> businessData = fastDFSFileFeignClient.wechatUpload(fileType, fileKey, httpServletRequest);
         if (!businessData.success()) {
             return null;
         }

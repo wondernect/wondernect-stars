@@ -105,7 +105,6 @@ public abstract class RoleAbstractService extends BaseStringService<RoleResponse
     public RoleResponseDTO generate(Role role) {
         RoleResponseDTO roleResponseDTO = new RoleResponseDTO();
         ESBeanUtils.copyProperties(role, roleResponseDTO);
-        roleResponseDTO.setId(role.getId());
         RoleType roleType = roleTypeManager.findById(role.getRoleTypeId());
         roleResponseDTO.setRoleTypeId(ESObjectUtils.isNotNull(roleType) ? roleType.getId() : null);
         roleResponseDTO.setRoleTypeName(ESObjectUtils.isNotNull(roleType) ? roleType.getName() : null);

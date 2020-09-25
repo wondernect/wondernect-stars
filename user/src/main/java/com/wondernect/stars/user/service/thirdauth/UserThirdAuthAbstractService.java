@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.service.thirdauth;
 
+import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
@@ -98,13 +99,9 @@ public abstract class UserThirdAuthAbstractService extends BaseStringService<Use
 
     @Override
     public UserThirdAuthResponseDTO generate(UserThirdAuth userThirdAuth) {
-        return new UserThirdAuthResponseDTO(
-                userThirdAuth.getUserId(),
-                userThirdAuth.getAppType().name(),
-                userThirdAuth.getAppUserId(),
-                userThirdAuth.getAppUserName(),
-                userThirdAuth.getAppUserAvatar()
-        );
+        UserThirdAuthResponseDTO userThirdAuthResponseDTO = new UserThirdAuthResponseDTO();
+        ESBeanUtils.copyProperties(userThirdAuth, userThirdAuthResponseDTO);
+        return userThirdAuthResponseDTO;
     }
 
     @Override

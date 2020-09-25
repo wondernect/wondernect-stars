@@ -66,26 +66,26 @@ public class LocalFileController {
         return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
     }
 
-    @AuthorizeServer
-    @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
-    @PostMapping(value = "/wechat/upload")
-    public BusinessData<FileResponseDTO> wechatUpload(
-            @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
-            @ApiParam(required = true) @NotBlank(message = "文件存储路径id不能为空") @RequestParam(value = "path_id", required = false) String pathId,
-            @ApiParam(required = true) @NotBlank(message = "文件获取标识不能为空") @RequestParam(value = "file_key", required = false) String fileKey,
-            HttpServletRequest httpServletRequest
-    ) {
-        LocalFilePathResponseDTO localFilePathResponseDTO = localFilePathService.findById(pathId);
-        if (ESObjectUtils.isNull(localFilePathResponseDTO)) {
-            throw new BusinessException("文件存储路径不存在");
-        }
-        if (ESStringUtils.isBlank(localFilePathResponseDTO.getSubFilePath())) {
-            throw new BusinessException("文件存储路径为空");
-        }
-        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
-        MultipartFile file = multipartHttpServletRequest.getFile(fileKey);
-        return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
-    }
+    // @AuthorizeServer
+    // @ApiOperation(value = "上传文件(微信小程序)", httpMethod = "POST")
+    // @PostMapping(value = "/wechat/upload")
+    // public BusinessData<FileResponseDTO> wechatUpload(
+    //         @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
+    //         @ApiParam(required = true) @NotBlank(message = "文件存储路径id不能为空") @RequestParam(value = "path_id", required = false) String pathId,
+    //         @ApiParam(required = true) @NotBlank(message = "文件获取标识不能为空") @RequestParam(value = "file_key", required = false) String fileKey,
+    //         HttpServletRequest httpServletRequest
+    // ) {
+    //     LocalFilePathResponseDTO localFilePathResponseDTO = localFilePathService.findById(pathId);
+    //     if (ESObjectUtils.isNull(localFilePathResponseDTO)) {
+    //         throw new BusinessException("文件存储路径不存在");
+    //     }
+    //     if (ESStringUtils.isBlank(localFilePathResponseDTO.getSubFilePath())) {
+    //         throw new BusinessException("文件存储路径为空");
+    //     }
+    //     MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
+    //     MultipartFile file = multipartHttpServletRequest.getFile(fileKey);
+    //     return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
+    // }
 
     @AuthorizeServer
     @ApiOperation(value = "删除文件", httpMethod = "POST")
