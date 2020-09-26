@@ -16,8 +16,10 @@ import com.wondernect.stars.user.dto.ListUserRequestDTO;
 import com.wondernect.stars.user.dto.PageUserRequestDTO;
 import com.wondernect.stars.user.dto.SaveUserRequestDTO;
 import com.wondernect.stars.user.dto.UserResponseDTO;
+import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.manager.UserManager;
 import com.wondernect.stars.user.model.User;
+import com.wondernect.stars.user.service.localauth.UserLocalAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,10 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
     @Autowired
     private UserManager userManager;
 
+    @Autowired
+    private UserLocalAuthService userLocalAuthService;
+
+    @Transactional
     @Override
     public UserResponseDTO create(SaveUserRequestDTO saveUserRequestDTO) {
         User user = userManager.findByUsername(saveUserRequestDTO.getUsername());
@@ -68,7 +74,11 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         if (ESStringUtils.isNotBlank(saveUserRequestDTO.getId())) {
             user.setId(saveUserRequestDTO.getId());
         }
-        return super.save(user);
+        UserResponseDTO userResponseDTO = super.save(user);
+        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getPassword())) {
+            userLocalAuthService.create(userResponseDTO.getId(), new SaveUserLocalAuthRequestDTO(saveUserRequestDTO.getPassword()));
+        }
+        return userResponseDTO;
     }
 
     @Override

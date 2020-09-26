@@ -1,6 +1,7 @@
 package com.wondernect.stars.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.i18n.validator.ESPassword;
 import com.wondernect.stars.user.em.Gender;
 import com.wondernect.stars.user.em.UserType;
 import io.swagger.annotations.ApiModel;
@@ -32,7 +33,7 @@ public class SaveUserRequestDTO {
     @NotNull(message = "用户类型不能为空")
     @JsonProperty("user_type")
     @ApiModelProperty(notes = "用户类型", allowableValues = "LOCAL, THIRD")
-    private UserType userType;
+    private UserType userType = UserType.LOCAL;
 
     @NotBlank(message = "用户登录名不能为空")
     @JsonProperty("username")
@@ -74,6 +75,11 @@ public class SaveUserRequestDTO {
     @JsonProperty("role_id")
     @ApiModelProperty(notes = "角色id")
     private String roleId;
+
+    @ESPassword(emptyValidate = false)
+    @JsonProperty("password")
+    @ApiModelProperty(notes = "两次确认后密码(明文传输，服务端需要校验密码复杂度)")
+    private String password;
 
     @JsonProperty("enable")
     @ApiModelProperty(notes = "是否可用")
