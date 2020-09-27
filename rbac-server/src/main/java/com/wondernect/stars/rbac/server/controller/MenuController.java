@@ -119,11 +119,7 @@ public class MenuController {
     public BusinessData<MenuTreeResponseDTO> tree(
             @ApiParam(required = false) @RequestParam(value = "root_menu_id", required = false) String rootMenuId
     ) {
-        Menu menu = menuService.findEntityById(rootMenuId);
-        if (ESObjectUtils.isNull(menu)) {
-            throw new BusinessException("菜单信息不存在");
-        }
-        if (!ESStringUtils.equals(menu.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
+        if (ESStringUtils.isBlank(rootMenuId)) {
             Criteria<Menu> menuCriteria = new Criteria<>();
             menuCriteria.add(Restrictions.eq("parentMenuId", rbacConfigProperties.getRootMenuId()));
             menuCriteria.add(Restrictions.eq("createApp", wondernectCommonContext.getAuthorizeData().getAppId()));
@@ -132,6 +128,21 @@ public class MenuController {
                 return null;
             }
             rootMenuId = menuRoot.getId();
+        } else {
+            Menu menu = menuService.findEntityById(rootMenuId);
+            if (ESObjectUtils.isNull(menu)) {
+                throw new BusinessException("菜单信息不存在");
+            }
+            if (!ESStringUtils.equals(menu.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
+                Criteria<Menu> menuCriteria = new Criteria<>();
+                menuCriteria.add(Restrictions.eq("parentMenuId", rbacConfigProperties.getRootMenuId()));
+                menuCriteria.add(Restrictions.eq("createApp", wondernectCommonContext.getAuthorizeData().getAppId()));
+                Menu menuRoot = menuService.findOneEntity(menuCriteria, new ArrayList<>());
+                if (ESObjectUtils.isNull(menuRoot)) {
+                    return null;
+                }
+                rootMenuId = menuRoot.getId();
+            }
         }
         return new BusinessData<>(menuService.tree(rootMenuId));
     }
