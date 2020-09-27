@@ -125,7 +125,7 @@ public class MenuController {
             menuCriteria.add(Restrictions.eq("createApp", wondernectCommonContext.getAuthorizeData().getAppId()));
             Menu menuRoot = menuService.findOneEntity(menuCriteria, new ArrayList<>());
             if (ESObjectUtils.isNull(menuRoot)) {
-                return null;
+                return new BusinessData<>(BusinessError.SUCCESS);
             }
             rootMenuId = menuRoot.getId();
         } else {
@@ -139,7 +139,7 @@ public class MenuController {
                 menuCriteria.add(Restrictions.eq("createApp", wondernectCommonContext.getAuthorizeData().getAppId()));
                 Menu menuRoot = menuService.findOneEntity(menuCriteria, new ArrayList<>());
                 if (ESObjectUtils.isNull(menuRoot)) {
-                    return null;
+                    return new BusinessData<>(BusinessError.SUCCESS);
                 }
                 rootMenuId = menuRoot.getId();
             }
