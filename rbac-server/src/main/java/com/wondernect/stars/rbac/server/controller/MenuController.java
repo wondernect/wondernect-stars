@@ -120,6 +120,9 @@ public class MenuController {
             @ApiParam(required = false) @RequestParam(value = "root_menu_id", required = false) String rootMenuId
     ) {
         Menu menu = menuService.findEntityById(rootMenuId);
+        if (ESObjectUtils.isNull(menu)) {
+            throw new BusinessException("菜单信息不存在");
+        }
         if (!ESStringUtils.equals(menu.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
             Criteria<Menu> menuCriteria = new Criteria<>();
             menuCriteria.add(Restrictions.eq("parentMenuId", rbacConfigProperties.getRootMenuId()));
