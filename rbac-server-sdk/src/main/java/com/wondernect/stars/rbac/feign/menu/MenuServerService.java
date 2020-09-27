@@ -68,8 +68,8 @@ public class MenuServerService {
         return businessData.getData();
     }
 
-    public MenuTreeResponseDTO tree(String rootMenuCode){
-        BusinessData<MenuTreeResponseDTO> businessData = menuFeignClient.tree(rootMenuCode);
+    public MenuTreeResponseDTO tree(String rootMenuId){
+        BusinessData<MenuTreeResponseDTO> businessData = menuFeignClient.tree(rootMenuId);
         if (!businessData.success()) {
             return null;
         }
