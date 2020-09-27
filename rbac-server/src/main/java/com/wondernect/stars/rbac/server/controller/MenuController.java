@@ -1,17 +1,11 @@
 package com.wondernect.stars.rbac.server.controller;
 
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
-import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
-import com.wondernect.elements.rdb.criteria.Criteria;
-import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.*;
-import com.wondernect.stars.rbac.model.Menu;
 import com.wondernect.stars.rbac.server.config.RBACConfigProperties;
 import com.wondernect.stars.rbac.service.menu.MenuService;
 import io.swagger.annotations.Api;
@@ -23,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,9 +31,6 @@ import java.util.List;
 @Validated
 @Api(tags = "菜单", description = "菜单")
 public class MenuController {
-
-    @Autowired
-    private WondernectCommonContext wondernectCommonContext;
 
     @Autowired
     private RBACConfigProperties rbacConfigProperties;
@@ -115,21 +105,10 @@ public class MenuController {
 
     @AuthorizeServer
     @ApiOperation(value = "菜单树形结构", httpMethod = "GET")
-    @GetMapping(value = "/tree")
+    @GetMapping(value = "/{root_menu_id}/tree")
     public BusinessData<MenuTreeResponseDTO> tree(
-            @ApiParam(required = false) @RequestParam(value = "root_menu_id", required = false) String rootMenuId
+            @ApiParam(required = true) @NotBlank(message = "根节点菜单不能为空") @RequestParam(value = "root_menu_id", required = false) String rootMenuId
     ) {
-        if (ESStringUtils.isBlank(rootMenuId)) {
-            rootMenuId = rbacConfigProperties.getRootMenuId();
-        } else {
-            Menu menu = menuService.findEntityById(rootMenuId);
-            if (ESObjectUtils.isNull(menu)) {
-                throw new BusinessException("菜单信息不存在");
-            }
-            if (!ESStringUtils.equals(menu.getCreateApp(), wondernectCommonContext.getAuthorizeData().getAppId())) {
-                rootMenuId = rbacConfigProperties.getRootMenuId();
-            }
-        }
         return new BusinessData<>(menuService.tree(rootMenuId));
     }
 }
