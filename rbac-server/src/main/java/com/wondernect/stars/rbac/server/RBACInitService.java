@@ -45,13 +45,27 @@ public class RBACInitService implements ApplicationListener<WondernectBootEvent>
             case BOOT:
             {
                 // 根节点菜单
+                if (ESObjectUtils.isNull(menuManager.findById("-1"))) {
+                    Menu menu = new Menu(
+                            "根节点父菜单",
+                            "-1",
+                            "",
+                            "根节点父菜单",
+                            false,
+                            false,
+                            0,
+                            ""
+                    );
+                    menu.setId("-1");
+                    menuManager.save(menu);
+                }
                 if (ESObjectUtils.isNull(menuManager.findById(rbacConfigProperties.getRootMenuId()))) {
                     Menu menu = new Menu(
                             "根节点菜单",
                             rbacConfigProperties.getRootMenuId(),
                             "",
                             "根节点菜单",
-                            true,
+                            false,
                             false,
                             0,
                             "-1"
