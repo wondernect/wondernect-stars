@@ -42,6 +42,7 @@ public abstract class TokenSessionAbstractService extends BaseTokenService<Token
         if (ESObjectUtils.isNull(tokenSession)) {
             throw new SessionException(SessionErrorEnum.TOKEN_SESSION_NOT_FOUND);
         } else {
+            super.deleteByToken(tokenRefreshRequestDTO.getToken());
             return super.save(
                     new TokenSession(
                             tokenRefreshRequestDTO.getUserId(),

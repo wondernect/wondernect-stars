@@ -24,7 +24,7 @@ public class TokenSessionServerService {
     public TokenResponseDTO request(TokenRequestDTO tokenRequestDTO){
         BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.request(tokenRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

@@ -70,6 +70,7 @@ public abstract class CodeSessionAbstractService extends BaseCodeService<CodeRes
         if (ESObjectUtils.isNull(codeSession)) {
             throw new SessionException(SessionErrorEnum.CODE_SESSION_NOT_FOUND);
         } else {
+            codeSessionManager.deleteCacheByCode(codeRefreshRequestDTO.getCode());
             Long expires = codeRefreshRequestDTO.getExpires();
             if (ESObjectUtils.isNull(expires) || expires <= 0L) {
                 expires = sessionConfigProperties.getCodeExpires();

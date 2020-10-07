@@ -24,7 +24,7 @@ public class CodeSessionServerService {
     public CodeResponseDTO request(CodeRequestDTO codeRequestDTO){
         BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.request(codeRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
