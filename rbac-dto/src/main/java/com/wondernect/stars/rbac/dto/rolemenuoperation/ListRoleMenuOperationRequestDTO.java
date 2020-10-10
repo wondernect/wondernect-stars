@@ -26,12 +26,12 @@ import javax.validation.constraints.NotBlank;
 public class ListRoleMenuOperationRequestDTO extends ListRequestDTO {
 
     @NotBlank(message = "角色id不能为空")
-    @JsonProperty("role_code")
+    @JsonProperty("role_id")
     @ApiModelProperty(notes = "角色id")
     private String roleId;
 
     @NotBlank(message = "菜单id不能为空")
-    @JsonProperty("menu_code")
+    @JsonProperty("menu_id")
     @ApiModelProperty(notes = "菜单id")
     private String menuId;
 }
