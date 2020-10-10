@@ -52,6 +52,14 @@ public class MenuServerService {
         return businessData.getData();
     }
 
+    public MenuResponseDTO root() {
+        BusinessData<MenuResponseDTO> businessData = menuFeignClient.root();
+        if (!businessData.success()) {
+            return null;
+        }
+        return businessData.getData();
+    }
+
     public List<MenuResponseDTO> list(ListMenuRequestDTO listMenuRequestDTO){
         BusinessData<List<MenuResponseDTO>> businessData = menuFeignClient.list(listMenuRequestDTO);
         if (!businessData.success()) {

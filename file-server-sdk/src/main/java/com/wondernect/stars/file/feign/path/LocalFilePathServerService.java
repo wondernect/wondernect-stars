@@ -40,6 +40,14 @@ public class LocalFilePathServerService {
         return businessData.getData();
     }
 
+    public LocalFilePathResponseDTO root() {
+        BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.root();
+        if (!businessData.success()) {
+            return null;
+        }
+        return businessData.getData();
+    }
+
     public List<LocalFilePathResponseDTO> list(ListLocalFilePathRequestDTO listLocalFilePathRequestDTO) {
         BusinessData<List<LocalFilePathResponseDTO>> businessData = localFilePathFeignClient.list(listLocalFilePathRequestDTO);
         if (!businessData.success()) {

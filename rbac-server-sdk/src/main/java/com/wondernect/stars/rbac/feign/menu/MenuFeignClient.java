@@ -52,6 +52,10 @@ public interface MenuFeignClient {
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 
+    @ApiOperation(value = "获取菜单根节点", httpMethod = "GET")
+    @GetMapping(value = "/v1/wondernect/rbac/menu/root")
+    public BusinessData<MenuResponseDTO> root();
+
     @ApiOperation(value = "菜单列表", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/rbac/menu/list")
     public BusinessData<List<MenuResponseDTO>> list(

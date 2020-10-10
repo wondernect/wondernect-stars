@@ -11,6 +11,7 @@ import com.wondernect.stars.rbac.service.menu.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,19 @@ public class MenuController {
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
         return new BusinessData<>(menuService.findById(id));
+    }
+
+    @AuthorizeServer
+    @ApiOperation(value = "获取菜单根节点", httpMethod = "GET")
+    @GetMapping(value = "/root")
+    public BusinessData<MenuResponseDTO> root() {
+        ListMenuRequestDTO listMenuRequestDTO = new ListMenuRequestDTO();
+        listMenuRequestDTO.setParentMenuId(rbacConfigProperties.getRootMenuId());
+        List<MenuResponseDTO> menuResponseDTOList = menuService.list(listMenuRequestDTO);
+        if (CollectionUtils.isEmpty(menuResponseDTOList)) {
+            return new BusinessData<>(BusinessError.SUCCESS);
+        }
+        return new BusinessData<>(menuResponseDTOList.get(0));
     }
 
     @AuthorizeServer

@@ -42,6 +42,10 @@ public interface LocalFilePathFeignClient {
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 
+    @ApiOperation(value = "获取根节点", httpMethod = "GET")
+    @GetMapping(value = "/v1/wondernect/file/path/root")
+    public BusinessData<LocalFilePathResponseDTO> root();
+
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/file/path/list")
     public BusinessData<List<LocalFilePathResponseDTO>> list(
