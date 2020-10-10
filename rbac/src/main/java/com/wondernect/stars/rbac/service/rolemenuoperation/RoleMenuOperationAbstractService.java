@@ -121,8 +121,8 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
         if (ESObjectUtils.isNull(roleMenuOperation)) {
             return new RoleMenuOperationResponseDTO(
                     operation.getId(),
-                    operation.getCode(),
                     operation.getName(),
+                    operation.getCode(),
                     true,
                     roleMenuOperation.getLimitable(),
                     roleMenuOperation.getStartTime(),
@@ -131,8 +131,8 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
         } else {
             return new RoleMenuOperationResponseDTO(
                     operation.getId(),
-                    operation.getCode(),
                     operation.getName(),
+                    operation.getCode(),
                     false,
                     null,
                     null,
@@ -154,8 +154,8 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
                     roleMenuOperationResponseDTOList.add(
                             new RoleMenuOperationResponseDTO(
                                     operation.getId(),
-                                    operation.getCode(),
                                     operation.getName(),
+                                    operation.getCode(),
                                     true,
                                     roleMenuOperation.getLimitable(),
                                     roleMenuOperation.getStartTime(),
@@ -166,8 +166,8 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
                     roleMenuOperationResponseDTOList.add(
                             new RoleMenuOperationResponseDTO(
                                     operation.getId(),
-                                    operation.getCode(),
                                     operation.getName(),
+                                    operation.getCode(),
                                     false,
                                     null,
                                     null,
@@ -194,8 +194,8 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
                     roleMenuOperationResponseDTOList.add(
                             new RoleMenuOperationResponseDTO(
                                     operation.getId(),
-                                    operation.getCode(),
                                     operation.getName(),
+                                    operation.getCode(),
                                     true,
                                     roleMenuOperation.getLimitable(),
                                     roleMenuOperation.getStartTime(),
@@ -206,8 +206,8 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
                     roleMenuOperationResponseDTOList.add(
                             new RoleMenuOperationResponseDTO(
                                     operation.getId(),
-                                    operation.getCode(),
                                     operation.getName(),
+                                    operation.getCode(),
                                     false,
                                     null,
                                     null,
