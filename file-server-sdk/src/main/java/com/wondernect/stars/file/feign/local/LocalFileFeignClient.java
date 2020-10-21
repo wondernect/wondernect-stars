@@ -55,13 +55,13 @@ public interface LocalFileFeignClient {
     @ApiOperation(value = "删除文件", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/file/local/{id}/delete")
     public BusinessData deleteById(
-            @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @RequestParam(value = "id", required = false) String id
+            @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/v1/wondernect/file/local/{id}/detail")
     public BusinessData<FileResponseDTO> getById(
-            @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @RequestParam(value = "id", required = false) String id
+            @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")
