@@ -76,7 +76,7 @@ public class SaveUserRequestDTO {
     @ApiModelProperty(notes = "角色id")
     private String roleId;
 
-    @ESPassword(emptyValidate = false)
+    @ESPassword(emptyValidate = false, strong = false)
     @JsonProperty("password")
     @ApiModelProperty(notes = "两次确认后密码(明文传输，服务端需要校验密码复杂度)")
     private String password;
