@@ -63,9 +63,17 @@ public class UserResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "角色类型")
     private String roleTypeId;
 
+    @JsonProperty("role_type_name")
+    @ApiModelProperty(notes = "角色类型名称")
+    private String roleTypeName;
+
     @JsonProperty("role_id")
     @ApiModelProperty(notes = "角色")
     private String roleId;
+
+    @JsonProperty("role_name")
+    @ApiModelProperty(notes = "角色名称")
+    private String roleName;
 
     @JsonProperty("enable")
     @ApiModelProperty(notes = "是否可用")
