@@ -4,8 +4,11 @@ import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.em.AppType;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -78,9 +81,16 @@ public class UserServerService {
         return businessData.getData();
     }
 
-
     public UserResponseDTO detailByUsername(String username){
         BusinessData<UserResponseDTO> businessData = userFeignClient.detailByUsername(username);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public UserResponseDTO detailByAppTypeAndAppUserId(AppType appType, String appUserId) {
+        BusinessData<UserResponseDTO> businessData = userFeignClient.detailByAppTypeAndAppUserId(appType, appUserId);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

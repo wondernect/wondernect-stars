@@ -3,6 +3,7 @@ package com.wondernect.stars.user.feign.user;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.em.AppType;
 import com.wondernect.stars.user.feign.config.WondernectUserFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -69,6 +70,13 @@ public interface UserFeignClient {
     @GetMapping(value = "/v1/wondernect/user/detail")
     public BusinessData<UserResponseDTO> detailByUsername(
             @ApiParam(required = true) @NotBlank(message = "用户username不能为空") @RequestParam(value = "username", required = false) String username
+    );
+
+    @ApiOperation(value = "获取第三方用户详情", httpMethod = "GET")
+    @GetMapping(value = "/v1/wondernect/user/detail_third_user")
+    public BusinessData<UserResponseDTO> detailByAppTypeAndAppUserId(
+            @ApiParam(required = true) @NotNull(message = "第三方应用类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
+            @ApiParam(required = true) @NotBlank(message = "第三方应用用户id不能为空") @RequestParam(value = "app_user_id", required = false) String appUserId
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")
