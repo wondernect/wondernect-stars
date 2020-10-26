@@ -1,12 +1,8 @@
 package com.wondernect.stars.user.feign.user;
 
-import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.user.dto.ListUserRequestDTO;
-import com.wondernect.stars.user.dto.PageUserRequestDTO;
-import com.wondernect.stars.user.dto.SaveUserRequestDTO;
-import com.wondernect.stars.user.dto.UserResponseDTO;
+import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.feign.config.WondernectUserFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,10 +22,16 @@ import java.util.List;
 @FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", configuration = WondernectUserFeignConfiguration.class)
 public interface UserFeignClient {
 
-    @ApiOperation(value = "创建", httpMethod = "POST")
+    @ApiOperation(value = "创建local user", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/user/create")
     public BusinessData<UserResponseDTO> create(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveLocalUserRequestDTO saveLocalUserRequestDTO
+    );
+
+    @ApiOperation(value = "创建third user", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/user/create_third_user")
+    public BusinessData<UserResponseDTO> createThirdUser(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveThirdUserRequestDTO saveThirdUserRequestDTO
     );
 
     @ApiOperation(value = "激活", httpMethod = "POST")
@@ -48,7 +50,7 @@ public interface UserFeignClient {
     @PostMapping(value = "/v1/wondernect/user/{id}/update")
     public BusinessData<UserResponseDTO> update(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserRequestDTO saveUserRequestDTO
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveLocalUserRequestDTO saveLocalUserRequestDTO
     );
 
     @ApiOperation(value = "删除", httpMethod = "POST")

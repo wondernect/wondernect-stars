@@ -30,6 +30,11 @@ public interface UserThirdAuthInterface {
     void deleteByUserIdAndAppType(String userId, AppType appType);
 
     /**
+     * 删除
+     */
+    void deleteByUserId(String userId);
+
+    /**
      * 获取
      */
     UserThirdAuthResponseDTO findByUserIdAndAppType(String userId, AppType appType);

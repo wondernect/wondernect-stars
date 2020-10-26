@@ -4,6 +4,8 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
+import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.stars.user.common.error.UserErrorEnum;
 import com.wondernect.stars.user.common.exception.UserException;
 import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
@@ -12,9 +14,11 @@ import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
 import com.wondernect.stars.user.em.AppType;
 import com.wondernect.stars.user.manager.UserThirdAuthManager;
 import com.wondernect.stars.user.model.UserThirdAuth;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +72,18 @@ public abstract class UserThirdAuthAbstractService extends BaseStringService<Use
             throw new UserException(UserErrorEnum.USER_THIRD_AUTH_NOT_FOUND);
         }
         super.deleteById(userThirdAuth.getId());
+    }
+
+    @Override
+    public void deleteByUserId(String userId) {
+        Criteria<UserThirdAuth> userThirdAuthCriteria = new Criteria<>();
+        userThirdAuthCriteria.add(Restrictions.eq("userId", userId));
+        List<UserThirdAuth> userThirdAuthList = super.findAllEntity(userThirdAuthCriteria, new ArrayList<>());
+        if (CollectionUtils.isNotEmpty(userThirdAuthList)) {
+            for (UserThirdAuth userThirdAuth : userThirdAuthList) {
+                super.deleteById(userThirdAuth.getId());
+            }
+        }
     }
 
     @Override

@@ -3,10 +3,7 @@ package com.wondernect.stars.user.feign.user;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.user.dto.ListUserRequestDTO;
-import com.wondernect.stars.user.dto.PageUserRequestDTO;
-import com.wondernect.stars.user.dto.SaveUserRequestDTO;
-import com.wondernect.stars.user.dto.UserResponseDTO;
+import com.wondernect.stars.user.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,35 +21,52 @@ public class UserServerService {
     @Autowired
     private UserFeignClient userFeignClient;
 
-    public UserResponseDTO create(SaveUserRequestDTO saveUserRequestDTO){
-        BusinessData<UserResponseDTO> businessData = userFeignClient.create(saveUserRequestDTO);
+    public UserResponseDTO create(SaveLocalUserRequestDTO saveLocalUserRequestDTO){
+        BusinessData<UserResponseDTO> businessData = userFeignClient.create(saveLocalUserRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public UserResponseDTO createThirdUser(SaveThirdUserRequestDTO saveThirdUserRequestDTO){
+        BusinessData<UserResponseDTO> businessData = userFeignClient.createThirdUser(saveThirdUserRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean enable(String userId) {
         BusinessData businessData = userFeignClient.enable(userId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public boolean disable(String userId) {
         BusinessData businessData = userFeignClient.disable(userId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
 
-    public UserResponseDTO update(String userId,SaveUserRequestDTO saveUserRequestDTO){
-        BusinessData<UserResponseDTO> businessData = userFeignClient.update(userId,saveUserRequestDTO);
+    public UserResponseDTO update(String userId, SaveLocalUserRequestDTO saveLocalUserRequestDTO){
+        BusinessData<UserResponseDTO> businessData = userFeignClient.update(userId, saveLocalUserRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String userId) {
         BusinessData businessData = userFeignClient.delete(userId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
@@ -76,7 +90,7 @@ public class UserServerService {
     public List<UserResponseDTO> list(ListUserRequestDTO listUserRequestDTO){
         BusinessData<List<UserResponseDTO>> businessData = userFeignClient.list(listUserRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -84,7 +98,7 @@ public class UserServerService {
     public PageResponseData<UserResponseDTO> page(PageUserRequestDTO pageUserRequestDTO){
         BusinessData<PageResponseData<UserResponseDTO>> businessData = userFeignClient.page(pageUserRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

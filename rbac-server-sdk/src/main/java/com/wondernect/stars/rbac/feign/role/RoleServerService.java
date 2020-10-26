@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.feign.role;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.MenuResponseDTO;
@@ -32,7 +33,7 @@ public class RoleServerService {
     public RoleResponseDTO create(SaveRoleRequestDTO saveRoleRequestDTO){
         BusinessData<RoleResponseDTO> businessData = roleFeignClient.create(saveRoleRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -40,20 +41,23 @@ public class RoleServerService {
     public RoleResponseDTO update(String id,SaveRoleRequestDTO saveRoleRequestDTO){
         BusinessData<RoleResponseDTO> businessData = roleFeignClient.update(id,saveRoleRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String id) {
         BusinessData businessData = roleFeignClient.delete(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public RoleResponseDTO get(String id){
         BusinessData<RoleResponseDTO> businessData = roleFeignClient.get(id);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -61,7 +65,7 @@ public class RoleServerService {
     public List<RoleResponseDTO> list(ListRoleRequestDTO listRoleRequestDTO){
         BusinessData<List<RoleResponseDTO>> businessData = roleFeignClient.list(listRoleRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -69,7 +73,7 @@ public class RoleServerService {
     public PageResponseData<RoleResponseDTO> page(PageRoleRequestDTO pageRoleRequestDTO){
         BusinessData<PageResponseData<RoleResponseDTO>> businessData = roleFeignClient.page(pageRoleRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

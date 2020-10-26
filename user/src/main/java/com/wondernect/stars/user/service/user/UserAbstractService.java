@@ -16,14 +16,15 @@ import com.wondernect.stars.rbac.feign.role.RoleServerService;
 import com.wondernect.stars.rbac.feign.roleType.RoleTypeServerService;
 import com.wondernect.stars.user.common.error.UserErrorEnum;
 import com.wondernect.stars.user.common.exception.UserException;
-import com.wondernect.stars.user.dto.ListUserRequestDTO;
-import com.wondernect.stars.user.dto.PageUserRequestDTO;
-import com.wondernect.stars.user.dto.SaveUserRequestDTO;
-import com.wondernect.stars.user.dto.UserResponseDTO;
+import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.third.SaveUserThirdAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
+import com.wondernect.stars.user.em.AppType;
 import com.wondernect.stars.user.manager.UserManager;
 import com.wondernect.stars.user.model.User;
 import com.wondernect.stars.user.service.localauth.UserLocalAuthService;
+import com.wondernect.stars.user.service.thirdauth.UserThirdAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,9 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
     private UserLocalAuthService userLocalAuthService;
 
     @Autowired
+    private UserThirdAuthService userThirdAuthService;
+
+    @Autowired
     private RoleTypeServerService roleTypeServerService;
 
     @Autowired
@@ -52,66 +56,112 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
 
     @Transactional
     @Override
-    public UserResponseDTO create(SaveUserRequestDTO saveUserRequestDTO) {
-        User user = userManager.findByUsername(saveUserRequestDTO.getUsername());
+    public UserResponseDTO createLocalUser(SaveLocalUserRequestDTO saveLocalUserRequestDTO) {
+        User user = userManager.findByUsername(saveLocalUserRequestDTO.getUsername());
         if (ESObjectUtils.isNotNull(user)) {
             throw new UserException(UserErrorEnum.USER_USERNAME_HAS_REGIST);
         }
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getMobile()) &&
-                !ESRegexUtils.isMobile(saveUserRequestDTO.getMobile())) {
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getMobile()) &&
+                !ESRegexUtils.isMobile(saveLocalUserRequestDTO.getMobile())) {
             throw new UserException(UserErrorEnum.USER_MOBILE_INVALID);
         }
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getEmail()) &&
-                !ESRegexUtils.isEmail(saveUserRequestDTO.getEmail())) {
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getEmail()) &&
+                !ESRegexUtils.isEmail(saveLocalUserRequestDTO.getEmail())) {
             throw new UserException(UserErrorEnum.USER_EMAIL_INVALID);
         }
         user = new User(
-                saveUserRequestDTO.getUserType(),
-                saveUserRequestDTO.getUsername(),
-                saveUserRequestDTO.getName(),
-                saveUserRequestDTO.getGender(),
-                saveUserRequestDTO.getAvatar(),
-                saveUserRequestDTO.getMobile(),
-                saveUserRequestDTO.getEmail(),
-                saveUserRequestDTO.getLocation(),
-                saveUserRequestDTO.getRemark(),
-                saveUserRequestDTO.getRoleTypeId(),
-                saveUserRequestDTO.getRoleId(),
-                saveUserRequestDTO.getEnable(),
-                saveUserRequestDTO.getEditable(),
-                saveUserRequestDTO.getDeletable()
+                saveLocalUserRequestDTO.getUserType(),
+                saveLocalUserRequestDTO.getUsername(),
+                saveLocalUserRequestDTO.getName(),
+                saveLocalUserRequestDTO.getGender(),
+                saveLocalUserRequestDTO.getAvatar(),
+                saveLocalUserRequestDTO.getMobile(),
+                saveLocalUserRequestDTO.getEmail(),
+                saveLocalUserRequestDTO.getLocation(),
+                saveLocalUserRequestDTO.getRemark(),
+                saveLocalUserRequestDTO.getRoleTypeId(),
+                saveLocalUserRequestDTO.getRoleId(),
+                saveLocalUserRequestDTO.getEnable(),
+                saveLocalUserRequestDTO.getEditable(),
+                saveLocalUserRequestDTO.getDeletable()
         );
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getId())) {
-            user.setId(saveUserRequestDTO.getId());
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getId())) {
+            user.setId(saveLocalUserRequestDTO.getId());
         }
         UserResponseDTO userResponseDTO = super.save(user);
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getPassword())) {
-            userLocalAuthService.create(userResponseDTO.getId(), new SaveUserLocalAuthRequestDTO(saveUserRequestDTO.getPassword()));
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getPassword())) {
+            userLocalAuthService.create(userResponseDTO.getId(), new SaveUserLocalAuthRequestDTO(saveLocalUserRequestDTO.getPassword()));
         }
         return userResponseDTO;
     }
 
     @Override
-    public UserResponseDTO update(String userId, SaveUserRequestDTO saveUserRequestDTO) {
+    public UserResponseDTO createThirdUser(SaveThirdUserRequestDTO saveThirdUserRequestDTO) {
+        UserThirdAuthResponseDTO userThirdAuthResponseDTO = userThirdAuthService.findByAppTypeAndAppUserId(saveThirdUserRequestDTO.getAppType(), saveThirdUserRequestDTO.getAppUserId());
+        if (ESObjectUtils.isNotNull(userThirdAuthResponseDTO)) {
+            throw new UserException(UserErrorEnum.USER_APP_HAS_REGIST);
+        }
+        if (ESStringUtils.isNotBlank(saveThirdUserRequestDTO.getMobile()) &&
+                !ESRegexUtils.isMobile(saveThirdUserRequestDTO.getMobile())) {
+            throw new UserException(UserErrorEnum.USER_MOBILE_INVALID);
+        }
+        if (ESStringUtils.isNotBlank(saveThirdUserRequestDTO.getEmail()) &&
+                !ESRegexUtils.isEmail(saveThirdUserRequestDTO.getEmail())) {
+            throw new UserException(UserErrorEnum.USER_EMAIL_INVALID);
+        }
+        String name = saveThirdUserRequestDTO.getName();
+        if (ESStringUtils.isBlank(name)) {
+            name = saveThirdUserRequestDTO.getAppUserName();
+        }
+        String avatar = saveThirdUserRequestDTO.getAvatar();
+        if (ESStringUtils.isBlank(avatar)) {
+            avatar = saveThirdUserRequestDTO.getAppUserAvatar();
+        }
+        User user = new User(
+                saveThirdUserRequestDTO.getUserType(),
+                null,
+                name,
+                saveThirdUserRequestDTO.getGender(),
+                avatar,
+                saveThirdUserRequestDTO.getMobile(),
+                saveThirdUserRequestDTO.getEmail(),
+                saveThirdUserRequestDTO.getLocation(),
+                saveThirdUserRequestDTO.getRemark(),
+                saveThirdUserRequestDTO.getRoleTypeId(),
+                saveThirdUserRequestDTO.getRoleId(),
+                saveThirdUserRequestDTO.getEnable(),
+                saveThirdUserRequestDTO.getEditable(),
+                saveThirdUserRequestDTO.getDeletable()
+        );
+        if (ESStringUtils.isNotBlank(saveThirdUserRequestDTO.getId())) {
+            user.setId(saveThirdUserRequestDTO.getId());
+        }
+        UserResponseDTO userResponseDTO = super.save(user);
+        userThirdAuthService.create(userResponseDTO.getId(), new SaveUserThirdAuthRequestDTO(saveThirdUserRequestDTO.getAppType(), saveThirdUserRequestDTO.getAppUserId(), saveThirdUserRequestDTO.getAppUserName(), saveThirdUserRequestDTO.getAppUserAvatar()));
+        return userResponseDTO;
+    }
+
+    @Override
+    public UserResponseDTO update(String userId, SaveLocalUserRequestDTO saveLocalUserRequestDTO) {
         User user = super.findEntityById(userId);
         if (ESObjectUtils.isNull(user)) {
             throw new UserException(UserErrorEnum.USER_NOT_FOUND);
         }
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getUsername()) &&
-                !ESStringUtils.equalsIgnoreCase(saveUserRequestDTO.getUsername(), user.getUsername())) {
-            if (ESObjectUtils.isNotNull(userManager.findByUsername(saveUserRequestDTO.getUsername()))) {
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getUsername()) &&
+                !ESStringUtils.equalsIgnoreCase(saveLocalUserRequestDTO.getUsername(), user.getUsername())) {
+            if (ESObjectUtils.isNotNull(userManager.findByUsername(saveLocalUserRequestDTO.getUsername()))) {
                 throw new UserException(UserErrorEnum.USER_USERNAME_HAS_REGIST);
             }
         }
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getMobile()) &&
-                !ESRegexUtils.isMobile(saveUserRequestDTO.getMobile())) {
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getMobile()) &&
+                !ESRegexUtils.isMobile(saveLocalUserRequestDTO.getMobile())) {
             throw new UserException(UserErrorEnum.USER_MOBILE_INVALID);
         }
-        if (ESStringUtils.isNotBlank(saveUserRequestDTO.getEmail()) &&
-                !ESRegexUtils.isEmail(saveUserRequestDTO.getEmail())) {
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getEmail()) &&
+                !ESRegexUtils.isEmail(saveLocalUserRequestDTO.getEmail())) {
             throw new UserException(UserErrorEnum.USER_EMAIL_INVALID);
         }
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveUserRequestDTO, user);
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveLocalUserRequestDTO, user);
         return super.save(user);
     }
 
@@ -135,6 +185,18 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
             throw new UserException(UserErrorEnum.USER_NOT_FOUND);
         }
         super.deleteById(userId);
+        switch (user.getUserType()) {
+            case LOCAL:
+            {
+                userLocalAuthService.deleteById(userId);
+                break;
+            }
+            case THIRD:
+            {
+                userThirdAuthService.deleteByUserId(userId);
+                break;
+            }
+        }
     }
 
     @Override
@@ -149,6 +211,19 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
     @Override
     public UserResponseDTO findByUsername(String username) {
         User user = userManager.findByUsername(username);
+        if (ESObjectUtils.isNull(user)) {
+            return null;
+        }
+        return generate(user);
+    }
+
+    @Override
+    public UserResponseDTO findByAppTypeAndAppUserId(AppType appType, String appUserId) {
+        UserThirdAuthResponseDTO userThirdAuthResponseDTO = userThirdAuthService.findByAppTypeAndAppUserId(appType, appUserId);
+        if (ESObjectUtils.isNull(userThirdAuthResponseDTO)) {
+            return null;
+        }
+        User user = userManager.findById(userThirdAuthResponseDTO.getUserId());
         if (ESObjectUtils.isNull(user)) {
             return null;
         }

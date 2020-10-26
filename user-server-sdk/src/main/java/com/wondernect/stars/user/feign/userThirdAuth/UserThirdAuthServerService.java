@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.feign.userThirdAuth;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.SaveUserThirdAuthRequestDTO;
@@ -23,7 +24,7 @@ public class UserThirdAuthServerService {
     public UserThirdAuthResponseDTO create(String userId, SaveUserThirdAuthRequestDTO saveUserThirdAuthRequestDTO){
         BusinessData<UserThirdAuthResponseDTO> businessData = userThirdAuthFeignClient.create(userId,saveUserThirdAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -31,20 +32,23 @@ public class UserThirdAuthServerService {
     public UserThirdAuthResponseDTO update(String userId,SaveUserThirdAuthRequestDTO saveUserThirdAuthRequestDTO){
         BusinessData<UserThirdAuthResponseDTO> businessData = userThirdAuthFeignClient.update(userId,saveUserThirdAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String userId, AppType appType) {
         BusinessData businessData = userThirdAuthFeignClient.delete(userId,appType);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public UserThirdAuthResponseDTO detail(String userId,AppType appType){
         BusinessData<UserThirdAuthResponseDTO> businessData = userThirdAuthFeignClient.detail(userId,appType);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -53,7 +57,7 @@ public class UserThirdAuthServerService {
     public UserThirdAuthResponseDTO detailByAppTypeAndAppUserId(AppType appType,String appUserId){
         BusinessData<UserThirdAuthResponseDTO> businessData = userThirdAuthFeignClient.detailByAppTypeAndAppUserId(appType,appUserId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -61,7 +65,7 @@ public class UserThirdAuthServerService {
     public UserThirdAuthResponseDTO list(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO){
         BusinessData<UserThirdAuthResponseDTO> businessData = userThirdAuthFeignClient.list(authUserThirdAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

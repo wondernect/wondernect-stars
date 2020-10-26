@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.feign.roleMenu;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
@@ -31,47 +32,56 @@ public class RoleMenuServerService {
 
     public boolean create(RoleMenuRequestDTO roleMenuRequestDTO) {
         BusinessData businessData = roleMenuFeignClient.create(roleMenuRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public boolean update(RoleMenuRequestDTO roleMenuRequestDTO) {
         BusinessData businessData = roleMenuFeignClient.update(roleMenuRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public boolean delete(RoleMenuRequestDTO roleMenuRequestDTO) {
         BusinessData businessData = roleMenuFeignClient.delete(roleMenuRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public RoleMenuResponseDTO detail(String roleId, String menuId) {
         BusinessData<RoleMenuResponseDTO> businessData = roleMenuFeignClient.detail(roleId, menuId);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public RoleMenuTreeResponseDTO tree(String roleId, String menuId) {
         BusinessData<RoleMenuTreeResponseDTO> businessData = roleMenuFeignClient.tree(roleId, menuId);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public RoleAuthorityResponseDTO roleAuthority(String roleId) {
         BusinessData<RoleAuthorityResponseDTO> businessData = roleMenuFeignClient.roleAuthority(roleId);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public List<MenuAuthorityResponseDTO> roleAuthority(List<String> roleIdList){
         BusinessData<List<MenuAuthorityResponseDTO>> businessData = roleMenuFeignClient.roleAuthority(roleIdList);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

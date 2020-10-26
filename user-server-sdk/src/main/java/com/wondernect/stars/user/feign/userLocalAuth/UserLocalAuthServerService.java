@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.feign.userLocalAuth;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
@@ -22,7 +23,7 @@ public class UserLocalAuthServerService {
     public UserLocalAuthResponseDTO create(String userId, SaveUserLocalAuthRequestDTO saveUserLocalAuthRequestDTO){
         BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.create(userId,saveUserLocalAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -30,20 +31,23 @@ public class UserLocalAuthServerService {
     public UserLocalAuthResponseDTO update(String userId, SaveUserLocalAuthRequestDTO saveUserLocalAuthRequestDTO){
         BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.update(userId,saveUserLocalAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String userId) {
         BusinessData businessData = userLocalAuthFeignClient.delete(userId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public UserLocalAuthResponseDTO detail(String userId){
         BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.detail(userId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -51,7 +55,7 @@ public class UserLocalAuthServerService {
     public UserLocalAuthResponseDTO auth(String userId,AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO){
         BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.auth(userId,authUserLocalAuthRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

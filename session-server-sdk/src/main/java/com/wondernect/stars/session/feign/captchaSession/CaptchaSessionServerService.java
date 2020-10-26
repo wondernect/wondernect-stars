@@ -24,7 +24,7 @@ public class CaptchaSessionServerService {
     public CaptchaResponseDTO request(CaptchaRequestDTO captchaRequestDTO){
         BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.request(captchaRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -39,7 +39,7 @@ public class CaptchaSessionServerService {
     public CaptchaResponseDTO detail(String captchaSessionId){
         BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.detail(captchaSessionId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -54,7 +54,7 @@ public class CaptchaSessionServerService {
     public CaptchaResponseDTO detailCache(String captchaSessionId){
         BusinessData<CaptchaResponseDTO> businessData = captchaSessionFeignClient.detailCache(captchaSessionId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -70,7 +70,7 @@ public class CaptchaSessionServerService {
     public List<CaptchaResponseDTO> list(ListCaptchaRequestDTO listCaptchaRequestDTO){
         BusinessData<List<CaptchaResponseDTO>> businessData = captchaSessionFeignClient.list(listCaptchaRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -78,7 +78,7 @@ public class CaptchaSessionServerService {
     public PageResponseData<CaptchaResponseDTO> page(PageCaptchaRequestDTO pageCaptchaRequestDTO){
         BusinessData<PageResponseData<CaptchaResponseDTO>> businessData = captchaSessionFeignClient.page(pageCaptchaRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

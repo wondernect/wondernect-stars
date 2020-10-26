@@ -1,12 +1,6 @@
 package com.wondernect.stars.user.feign.userLocalAuth;
 
-import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.user.dto.ListUserRequestDTO;
-import com.wondernect.stars.user.dto.PageUserRequestDTO;
-import com.wondernect.stars.user.dto.SaveUserRequestDTO;
-import com.wondernect.stars.user.dto.UserResponseDTO;
 import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
@@ -19,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * @Author:王威

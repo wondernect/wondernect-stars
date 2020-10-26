@@ -28,7 +28,7 @@ public class AppServerService {
     public AppResponseDTO detail(String id) {
         BusinessData<AppResponseDTO> businessData = appFeignClient.detail(id);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -44,7 +44,7 @@ public class AppServerService {
     public List<AppResponseDTO> list(ListAppRequestDTO listAppRequestDTO) {
         BusinessData<List<AppResponseDTO>> businessData = appFeignClient.list(listAppRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -52,7 +52,7 @@ public class AppServerService {
     public PageResponseData<AppResponseDTO> page(PageAppRequestDTO pageAppRequestDTO) {
         BusinessData<PageResponseData<AppResponseDTO>> businessData = appFeignClient.page(pageAppRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

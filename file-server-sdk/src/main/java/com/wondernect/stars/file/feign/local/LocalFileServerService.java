@@ -1,5 +1,6 @@
 package com.wondernect.stars.file.feign.local;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.*;
@@ -25,20 +26,23 @@ public class LocalFileServerService {
     public FileResponseDTO upload(String fileType, String pathId, MultipartFile file) {
         BusinessData<FileResponseDTO> businessData = localFileFeignClient.upload(fileType, pathId, file);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean deleteById(String id) {
         BusinessData businessData = localFileFeignClient.deleteById(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public FileResponseDTO getById(String id) {
         BusinessData<FileResponseDTO> businessData = localFileFeignClient.getById(id);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -46,7 +50,7 @@ public class LocalFileServerService {
     public List<FileResponseDTO> list(ListFileRequestDTO listFileRequestDTO) {
         BusinessData<List<FileResponseDTO>> businessData = localFileFeignClient.list(listFileRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -54,7 +58,7 @@ public class LocalFileServerService {
     public PageResponseData<FileResponseDTO> page(PageFileRequestDTO pageFileRequestDTO) {
         BusinessData<PageResponseData<FileResponseDTO>> businessData = localFileFeignClient.page(pageFileRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

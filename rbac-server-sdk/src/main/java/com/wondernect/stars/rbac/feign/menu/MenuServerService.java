@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.feign.menu;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.*;
@@ -26,7 +27,7 @@ public class MenuServerService {
     public MenuResponseDTO create(SaveMenuRequestDTO saveMenuRequestDTO){
         BusinessData<MenuResponseDTO> businessData = menuFeignClient.create(saveMenuRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -34,20 +35,23 @@ public class MenuServerService {
     public MenuResponseDTO update(String id,SaveMenuRequestDTO saveMenuRequestDTO){
         BusinessData<MenuResponseDTO> businessData = menuFeignClient.update(id,saveMenuRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String id) {
         BusinessData businessData = menuFeignClient.delete(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public MenuResponseDTO get(String id){
         BusinessData<MenuResponseDTO> businessData = menuFeignClient.get(id);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -55,7 +59,7 @@ public class MenuServerService {
     public MenuResponseDTO root() {
         BusinessData<MenuResponseDTO> businessData = menuFeignClient.root();
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -63,7 +67,7 @@ public class MenuServerService {
     public List<MenuResponseDTO> list(ListMenuRequestDTO listMenuRequestDTO){
         BusinessData<List<MenuResponseDTO>> businessData = menuFeignClient.list(listMenuRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -71,7 +75,7 @@ public class MenuServerService {
     public PageResponseData<MenuResponseDTO> page(PageMenuRequestDTO pageMenuRequestDTO){
         BusinessData<PageResponseData<MenuResponseDTO>> businessData = menuFeignClient.page(pageMenuRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -79,7 +83,7 @@ public class MenuServerService {
     public MenuTreeResponseDTO tree(String rootMenuId){
         BusinessData<MenuTreeResponseDTO> businessData = menuFeignClient.tree(rootMenuId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

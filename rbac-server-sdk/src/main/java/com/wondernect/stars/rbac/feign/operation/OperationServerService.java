@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.feign.operation;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.ListMenuRequestDTO;
@@ -31,7 +32,7 @@ public class OperationServerService {
     public OperationResponseDTO create(SaveOperationRequestDTO saveOperationRequestDTO){
         BusinessData<OperationResponseDTO> businessData = operationFeignClient.create(saveOperationRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -39,20 +40,23 @@ public class OperationServerService {
     public OperationResponseDTO update(String id,SaveOperationRequestDTO saveOperationRequestDTO){
         BusinessData<OperationResponseDTO> businessData = operationFeignClient.update(id, saveOperationRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String id) {
         BusinessData businessData = operationFeignClient.delete(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public OperationResponseDTO get(String id){
         BusinessData<OperationResponseDTO> businessData = operationFeignClient.get(id);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -60,7 +64,7 @@ public class OperationServerService {
     public List<OperationResponseDTO> list(ListOperationRequestDTO listOperationRequestDTO){
         BusinessData<List<OperationResponseDTO>> businessData = operationFeignClient.list(listOperationRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -68,7 +72,7 @@ public class OperationServerService {
     public PageResponseData<OperationResponseDTO> page(PageOperationRequestDTO pageOperationRequestDTO){
         BusinessData<PageResponseData<OperationResponseDTO>> businessData = operationFeignClient.page(pageOperationRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

@@ -1,5 +1,6 @@
 package com.wondernect.stars.user.feign.userRole;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
@@ -25,18 +26,24 @@ public class UserRoleServerService {
 
     public boolean create(UserRoleRequestDTO userRoleRequestDTO){
         BusinessData businessData = userRoleFeignClient.create(userRoleRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public boolean delete(UserRoleRequestDTO userRoleRequestDTO){
         BusinessData businessData = userRoleFeignClient.delete(userRoleRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public UserRoleResponseDTO detail(String userId, String roleId){
         BusinessData<UserRoleResponseDTO> businessData = userRoleFeignClient.detail(userId,roleId);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -44,7 +51,7 @@ public class UserRoleServerService {
     public List<UserRoleResponseDTO> list(ListUserRoleRequestDTO listUserRoleRequestDTO){
         BusinessData<List<UserRoleResponseDTO>> businessData = userRoleFeignClient.list(listUserRoleRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -52,7 +59,7 @@ public class UserRoleServerService {
     public PageResponseData<UserRoleResponseDTO> page(PageUserRoleRequestDTO pageUserRoleRequestDTO){
         BusinessData<PageResponseData<UserRoleResponseDTO>> businessData = userRoleFeignClient.page(pageUserRoleRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

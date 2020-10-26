@@ -39,7 +39,7 @@ public class TokenSessionServerService {
     public TokenResponseDTO get(String token){
         BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.get(token);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -63,7 +63,7 @@ public class TokenSessionServerService {
     public List<TokenResponseDTO> list(ListTokenRequestDTO listTokenRequestDTO){
         BusinessData<List<TokenResponseDTO>> businessData = tokenSessionFeignClient.list(listTokenRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -71,7 +71,7 @@ public class TokenSessionServerService {
     public PageResponseData<TokenResponseDTO> page(PageTokenRequestDTO pageTokenRequestDTO){
         BusinessData<PageResponseData<TokenResponseDTO>> businessData = tokenSessionFeignClient.page(pageTokenRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

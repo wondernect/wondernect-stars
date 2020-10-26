@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.feign.roleMenuOperation;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
@@ -29,39 +30,48 @@ public class RoleMenuOperationServerService {
 
     public boolean add(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         BusinessData businessData = roleMenuOperationFeignClient.add(roleMenuOperationRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public boolean edit(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         BusinessData businessData = roleMenuOperationFeignClient.edit(roleMenuOperationRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public boolean delete(RoleMenuOperationRequestDTO roleMenuOperationRequestDTO) {
         BusinessData businessData = roleMenuOperationFeignClient.delete(roleMenuOperationRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public RoleMenuOperationResponseDTO getRoleMenuOperation(String roleId, String menuId, String operationId) {
         BusinessData<RoleMenuOperationResponseDTO> businessData = roleMenuOperationFeignClient.getRoleMenuOperation(roleId, menuId,operationId);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public List<RoleMenuOperationResponseDTO> list(ListRoleMenuOperationRequestDTO listRoleMenuOperationRequestDTO) {
         BusinessData<List<RoleMenuOperationResponseDTO>> businessData = roleMenuOperationFeignClient.list(listRoleMenuOperationRequestDTO);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public PageResponseData<RoleMenuOperationResponseDTO> page(PageRoleMenuOperationRequestDTO pageRoleMenuOperationRequestDTO){
         BusinessData<PageResponseData<RoleMenuOperationResponseDTO>> businessData = roleMenuOperationFeignClient.page(pageRoleMenuOperationRequestDTO);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

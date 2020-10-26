@@ -1,5 +1,6 @@
 package com.wondernect.stars.rbac.feign.roleType;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.MenuResponseDTO;
@@ -33,7 +34,7 @@ public class RoleTypeServerService {
     public RoleTypeResponseDTO create(SaveRoleTypeRequestDTO saveRoleTypeRequestDTO){
         BusinessData<RoleTypeResponseDTO> businessData = roleTypeFeignClient.create(saveRoleTypeRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -41,36 +42,39 @@ public class RoleTypeServerService {
     public RoleTypeResponseDTO update(String id,SaveRoleTypeRequestDTO saveRoleTypeRequestDTO){
         BusinessData<RoleTypeResponseDTO> businessData = roleTypeFeignClient.update(id,saveRoleTypeRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public boolean delete(String id) {
         BusinessData businessData = roleTypeFeignClient.delete(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
         return businessData.success();
     }
 
     public RoleTypeResponseDTO get(String id) {
         BusinessData<RoleTypeResponseDTO> businessData = roleTypeFeignClient.get(id);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public List<RoleTypeResponseDTO> list(ListRoleTypeRequestDTO listRoleTypeRequestDTO) {
         BusinessData<List<RoleTypeResponseDTO>> businessData = roleTypeFeignClient.list(listRoleTypeRequestDTO);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
     public PageResponseData<RoleTypeResponseDTO> page(PageRoleTypeRequestDTO pageRoleTypeRequestDTO){
         BusinessData<PageResponseData<RoleTypeResponseDTO>> businessData = roleTypeFeignClient.page(pageRoleTypeRequestDTO);
-        if (!businessData.success()){
-            return null;
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

@@ -1,10 +1,8 @@
 package com.wondernect.stars.user.service.user;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.user.dto.ListUserRequestDTO;
-import com.wondernect.stars.user.dto.PageUserRequestDTO;
-import com.wondernect.stars.user.dto.SaveUserRequestDTO;
-import com.wondernect.stars.user.dto.UserResponseDTO;
+import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.em.AppType;
 
 import java.util.List;
 
@@ -18,14 +16,19 @@ import java.util.List;
 public interface UserInterface {
 
     /**
-     * 创建
+     * 创建 local user
      */
-    UserResponseDTO create(SaveUserRequestDTO saveUserRequestDTO);
+    UserResponseDTO createLocalUser(SaveLocalUserRequestDTO saveLocalUserRequestDTO);
+
+    /**
+     * 创建 third user
+     */
+    UserResponseDTO createThirdUser(SaveThirdUserRequestDTO saveThirdUserRequestDTO);
 
     /**
      * 更新
      */
-    UserResponseDTO update(String userId, SaveUserRequestDTO saveUserRequestDTO);
+    UserResponseDTO update(String userId, SaveLocalUserRequestDTO saveUserRequestDTO);
 
     /**
      * 激活/禁用
@@ -46,6 +49,11 @@ public interface UserInterface {
      * 获取
      */
     UserResponseDTO findByUsername(String username);
+
+    /**
+     * 获取
+     */
+    UserResponseDTO findByAppTypeAndAppUserId(AppType appType, String appUserId);
 
     /**
      * 列表

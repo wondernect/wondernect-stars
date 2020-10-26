@@ -39,7 +39,7 @@ public class CodeSessionServerService {
     public CodeResponseDTO detail(String code){
         BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.detail(code);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -54,7 +54,7 @@ public class CodeSessionServerService {
     public CodeResponseDTO detailCache(String code){
         BusinessData<CodeResponseDTO> businessData = codeSessionFeignClient.detailCache(code);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -78,7 +78,7 @@ public class CodeSessionServerService {
     public List<CodeResponseDTO> list(ListCodeRequestDTO listCodeRequestDTO){
         BusinessData<List<CodeResponseDTO>> businessData = codeSessionFeignClient.list(listCodeRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -86,7 +86,7 @@ public class CodeSessionServerService {
     public PageResponseData<CodeResponseDTO> page(PageCodeRequestDTO pageCodeRequestDTO){
         BusinessData<PageResponseData<CodeResponseDTO>> businessData = codeSessionFeignClient.page(pageCodeRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }

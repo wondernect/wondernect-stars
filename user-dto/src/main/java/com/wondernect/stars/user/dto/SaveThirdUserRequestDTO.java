@@ -2,6 +2,7 @@ package com.wondernect.stars.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.i18n.validator.ESPassword;
+import com.wondernect.stars.user.em.AppType;
 import com.wondernect.stars.user.em.Gender;
 import com.wondernect.stars.user.em.UserType;
 import io.swagger.annotations.ApiModel;
@@ -24,7 +25,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "用户创建/更新请求对象")
-public class SaveUserRequestDTO {
+public class SaveThirdUserRequestDTO {
 
     @JsonProperty("id")
     @ApiModelProperty(notes = "唯一标识")
@@ -32,13 +33,8 @@ public class SaveUserRequestDTO {
 
     @NotNull(message = "用户类型不能为空")
     @JsonProperty("user_type")
-    @ApiModelProperty(notes = "用户类型", allowableValues = "LOCAL, THIRD")
-    private UserType userType = UserType.LOCAL;
-
-    @NotBlank(message = "用户登录名不能为空")
-    @JsonProperty("username")
-    @ApiModelProperty(notes = "用户登录名")
-    private String username;
+    @ApiModelProperty(notes = "用户类型", allowableValues = "THIRD")
+    private UserType userType = UserType.THIRD;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "姓名")
@@ -76,10 +72,23 @@ public class SaveUserRequestDTO {
     @ApiModelProperty(notes = "角色id")
     private String roleId;
 
-    @ESPassword(emptyValidate = false, strong = false)
-    @JsonProperty("password")
-    @ApiModelProperty(notes = "两次确认后密码(明文传输，服务端需要校验密码复杂度)")
-    private String password;
+    @NotNull(message = "第三方注册类型不能为空")
+    @JsonProperty("app_type")
+    @ApiModelProperty(notes = "第三方注册类型")
+    private AppType appType = AppType.WECHAT;
+
+    @NotBlank(message = "第三方注册用户id不能为空")
+    @JsonProperty("app_user_id")
+    @ApiModelProperty(notes = "第三方注册用户id")
+    private String appUserId;
+
+    @JsonProperty("app_user_name")
+    @ApiModelProperty(notes = "第三方注册用户name")
+    private String appUserName;
+
+    @JsonProperty("app_user_avatar")
+    @ApiModelProperty(notes = "第三方注册用户头像")
+    private String appUserAvatar;
 
     @JsonProperty("enable")
     @ApiModelProperty(notes = "是否可用")

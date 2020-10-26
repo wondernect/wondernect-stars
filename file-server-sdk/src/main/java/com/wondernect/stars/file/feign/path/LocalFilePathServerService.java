@@ -1,5 +1,6 @@
 package com.wondernect.stars.file.feign.path;
 
+import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
@@ -27,7 +28,7 @@ public class LocalFilePathServerService {
     public LocalFilePathResponseDTO create(SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO) {
         BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.create(saveLocalFilePathRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -35,7 +36,7 @@ public class LocalFilePathServerService {
     public LocalFilePathResponseDTO get(String id) {
         BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.get(id);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -43,7 +44,7 @@ public class LocalFilePathServerService {
     public LocalFilePathResponseDTO root() {
         BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.root();
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -51,7 +52,7 @@ public class LocalFilePathServerService {
     public List<LocalFilePathResponseDTO> list(ListLocalFilePathRequestDTO listLocalFilePathRequestDTO) {
         BusinessData<List<LocalFilePathResponseDTO>> businessData = localFilePathFeignClient.list(listLocalFilePathRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
@@ -59,7 +60,7 @@ public class LocalFilePathServerService {
     public PageResponseData<LocalFilePathResponseDTO> page(PageLocalFilePathRequestDTO pageLocalFilePathRequestDTO) {
         BusinessData<PageResponseData<LocalFilePathResponseDTO>> businessData = localFilePathFeignClient.page(pageLocalFilePathRequestDTO);
         if (!businessData.success()) {
-            return null;
+            throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
