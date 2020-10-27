@@ -35,16 +35,6 @@ public class UserThirdAuthController {
     private UserThirdAuthService userThirdAuthService;
 
     @AuthorizeServer
-    @ApiOperation(value = "自主注册", httpMethod = "POST")
-    @PostMapping(value = "/{id}/regist")
-    public BusinessData<UserThirdAuthResponseDTO> regist(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserThirdAuthRequestDTO saveUserThirdAuthRequestDTO
-    ) {
-        return new BusinessData<>(userThirdAuthService.create(userId, saveUserThirdAuthRequestDTO));
-    }
-
-    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/{id}/create")
     public BusinessData<UserThirdAuthResponseDTO> create(

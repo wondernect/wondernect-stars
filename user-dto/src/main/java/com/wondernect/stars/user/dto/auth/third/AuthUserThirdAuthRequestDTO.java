@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Copyright (C), 2017-2019, wondernect.com
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "第三方用户认证认证请求对象")
 public class AuthUserThirdAuthRequestDTO {
 
-    @NotBlank(message = "第三方注册类型不能为空")
+    @NotNull(message = "第三方注册类型不能为空")
     @JsonProperty("app_type")
     @ApiModelProperty(notes = "第三方注册类型")
     private AppType appType;
