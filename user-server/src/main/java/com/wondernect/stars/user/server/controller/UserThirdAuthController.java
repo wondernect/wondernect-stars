@@ -59,7 +59,7 @@ public class UserThirdAuthController {
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotBlank(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType
+            @ApiParam(required = true) @NotNull(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType
     ) {
         userThirdAuthService.deleteByUserIdAndAppType(userId, appType);
         return new BusinessData(BusinessError.SUCCESS);
@@ -70,7 +70,7 @@ public class UserThirdAuthController {
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserThirdAuthResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotBlank(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType
+            @ApiParam(required = true) @NotNull(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType
     ) {
         return new BusinessData<>(userThirdAuthService.findByUserIdAndAppType(userId, appType));
     }
@@ -79,7 +79,7 @@ public class UserThirdAuthController {
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserThirdAuthResponseDTO> detailByAppTypeAndAppUserId(
-            @ApiParam(required = true) @NotBlank(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
+            @ApiParam(required = true) @NotNull(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @RequestParam(value = "app_user_id", required = false) String appUserId
     ) {
         return new BusinessData<>(userThirdAuthService.findByAppTypeAndAppUserId(appType, appUserId));
