@@ -31,42 +31,42 @@ import java.util.List;
 public interface UserThirdAuthFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")
-    @PostMapping(value = "/{id}/create")
+    @PostMapping(value = "/v1/wondernect/user/third_auth/{id}/create")
     public BusinessData<UserThirdAuthResponseDTO> create(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserThirdAuthRequestDTO saveUserThirdAuthRequestDTO
     );
 
     @ApiOperation(value = "更新", httpMethod = "POST")
-    @PostMapping(value = "/{id}/update")
+    @PostMapping(value = "/v1/wondernect/user/third_auth/{id}/update")
     public BusinessData<UserThirdAuthResponseDTO> update(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveUserThirdAuthRequestDTO saveUserThirdAuthRequestDTO
     );
 
     @ApiOperation(value = "删除", httpMethod = "POST")
-    @PostMapping(value = "/{id}/delete")
+    @PostMapping(value = "/v1/wondernect/user/third_auth/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
             @ApiParam(required = true) @NotBlank(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType
     );
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/{id}/detail")
+    @GetMapping(value = "/v1/wondernect/user/third_auth/{id}/detail")
     public BusinessData<UserThirdAuthResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
             @ApiParam(required = true) @NotBlank(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType
     );
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/detail")
+    @GetMapping(value = "/v1/wondernect/user/third_auth/detail")
     public BusinessData<UserThirdAuthResponseDTO> detailByAppTypeAndAppUserId(
             @ApiParam(required = true) @NotBlank(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @RequestParam(value = "app_user_id", required = false) String appUserId
     );
 
     @ApiOperation(value = "认证", httpMethod = "POST")
-    @PostMapping(value = "/auth")
+    @PostMapping(value = "/v1/wondernect/user/third_auth/auth")
     public BusinessData<UserThirdAuthResponseDTO> list(
             @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO
     );
