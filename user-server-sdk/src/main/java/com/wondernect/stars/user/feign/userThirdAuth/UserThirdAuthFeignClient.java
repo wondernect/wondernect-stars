@@ -67,7 +67,7 @@ public interface UserThirdAuthFeignClient {
 
     @ApiOperation(value = "认证", httpMethod = "POST")
     @PostMapping(value = "/v1/wondernect/user/third_auth/auth")
-    public BusinessData<UserThirdAuthResponseDTO> list(
+    public BusinessData<UserThirdAuthResponseDTO> auth(
             @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO
     );
 }
