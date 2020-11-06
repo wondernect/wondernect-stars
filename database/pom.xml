@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>wondernect-stars</artifactId>
+        <groupId>com.wondernect.stars</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>database</artifactId>
+    <packaging>jar</packaging>
+
+    <name>database</name>
+    <url>http://www.example.com</url>
+
+    <dependencies>
+        <!-- common -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+
+        <!-- jdbc-client -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>jdbc-client</artifactId>
+        </dependency>
+
+        <!-- rdb -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>rdb</artifactId>
+        </dependency>
+
+        <!-- elements boot-application -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>boot-application</artifactId>
+        </dependency>
+
+        <!-- database-dto -->
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>database-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--添加QueryDSL插件支持-->
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+                <version>1.1.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources/java</outputDirectory>
+                            <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
