@@ -3,10 +3,7 @@ package com.wondernect.stars.file.feign.path;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.LocalFilePathResponseDTO;
-import com.wondernect.stars.file.dto.PageLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.SaveLocalFilePathRequestDTO;
+import com.wondernect.stars.file.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +28,21 @@ public class LocalFilePathServerService {
             throw new BusinessException(businessData);
         }
         return businessData.getData();
+    }
+
+    public LocalFilePathResponseDTO update(String id, SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO) {
+        BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.update(id, saveLocalFilePathRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public void delete(String id) {
+        BusinessData businessData = localFilePathFeignClient.delete(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public LocalFilePathResponseDTO get(String id) {
@@ -59,6 +71,14 @@ public class LocalFilePathServerService {
 
     public PageResponseData<LocalFilePathResponseDTO> page(PageLocalFilePathRequestDTO pageLocalFilePathRequestDTO) {
         BusinessData<PageResponseData<LocalFilePathResponseDTO>> businessData = localFilePathFeignClient.page(pageLocalFilePathRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public LocalFilePathTreeResponseDTO tree(String rootFilePathId) {
+        BusinessData<LocalFilePathTreeResponseDTO> businessData = localFilePathFeignClient.tree(rootFilePathId);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

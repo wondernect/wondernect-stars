@@ -2,10 +2,7 @@ package com.wondernect.stars.file.feign.path;
 
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.LocalFilePathResponseDTO;
-import com.wondernect.stars.file.dto.PageLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.SaveLocalFilePathRequestDTO;
+import com.wondernect.stars.file.dto.*;
 import com.wondernect.stars.file.feign.config.WondernectFileFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -36,6 +33,19 @@ public interface LocalFilePathFeignClient {
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO
     );
 
+    @ApiOperation(value = "更新", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/file/path/{id}/update")
+    public BusinessData<LocalFilePathResponseDTO> update(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id,
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO
+    );
+
+    @ApiOperation(value = "删除", httpMethod = "POST")
+    @PostMapping(value = "/v1/wondernect/file/path/{id}/delete")
+    public BusinessData delete(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
+    );
+
     @ApiOperation(value = "获取", httpMethod = "GET")
     @GetMapping(value = "/v1/wondernect/file/path/{id}/detail")
     public BusinessData<LocalFilePathResponseDTO> get(
@@ -56,5 +66,11 @@ public interface LocalFilePathFeignClient {
     @PostMapping(value = "/v1/wondernect/file/path/page")
     public BusinessData<PageResponseData<LocalFilePathResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) PageLocalFilePathRequestDTO pageLocalFilePathRequestDTO
+    );
+
+    @ApiOperation(value = "树形结构", httpMethod = "GET")
+    @GetMapping(value = "/v1/wondernect/file/path/{root_file_path_id}/tree")
+    public BusinessData<LocalFilePathTreeResponseDTO> tree(
+            @ApiParam(required = true) @NotBlank(message = "根节点文件路径不能为空") @PathVariable(value = "root_file_path_id", required = false) String rootFilePathId
     );
 }
