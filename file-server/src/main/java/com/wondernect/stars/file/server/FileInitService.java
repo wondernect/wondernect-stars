@@ -41,7 +41,8 @@ public class FileInitService implements ApplicationListener<WondernectBootEvent>
                             "文件存储根节点",
                             "",
                             "",
-                            "-1"
+                            "-1",
+                            false
                     );
                     localFilePath.setId(fileConfigProperties.getRootFilePathId());
                     localFilePathService.save(localFilePath);
@@ -55,7 +56,8 @@ public class FileInitService implements ApplicationListener<WondernectBootEvent>
                             "UMS文件存储根节点",
                             fileConfigProperties.getUmsFilePath(),
                             fileConfigProperties.getUmsFilePath(),
-                            fileConfigProperties.getRootFilePathId()
+                            fileConfigProperties.getRootFilePathId(),
+                            false
                     );
                     localFilePath.setId(fileConfigProperties.getUmsFilePathId());
                     localFilePathService.save(localFilePath);
