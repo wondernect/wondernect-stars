@@ -1,13 +1,13 @@
 package com.wondernect.stars.file.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * Copyright (C), 2017-2019, wondernect.com
@@ -17,11 +17,14 @@ import lombok.NoArgsConstructor;
  * Description:
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "本地文件路径响应对象")
-public class LocalFilePathResponseDTO extends BaseStringResponseDTO {
+@ApiModel(value = "本地文件路径树形响应对象")
+public class LocalFilePathTreeResponseDTO {
+
+    @JsonProperty("id")
+    @ApiModelProperty(notes = "唯一标识")
+    private String id;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
@@ -58,4 +61,8 @@ public class LocalFilePathResponseDTO extends BaseStringResponseDTO {
     @JsonProperty("is_deleted")
     @ApiModelProperty(notes = "是否删除")
     private Boolean isDeleted;
+
+    @JsonProperty("child_list")
+    @ApiModelProperty(notes = "子节点列表")
+    private List<LocalFilePathTreeResponseDTO> childList;
 }

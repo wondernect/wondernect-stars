@@ -1,10 +1,7 @@
 package com.wondernect.stars.file.service.localfilepath;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.LocalFilePathResponseDTO;
-import com.wondernect.stars.file.dto.PageLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.SaveLocalFilePathRequestDTO;
+import com.wondernect.stars.file.dto.*;
 
 import java.util.List;
 
@@ -23,9 +20,19 @@ public interface LocalFilePathInterface {
     LocalFilePathResponseDTO create(SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO);
 
     /**
+     * 创建
+     */
+    LocalFilePathResponseDTO update(String id, SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO);
+
+    /**
      * 获取
      */
     LocalFilePathResponseDTO findById(String id);
+
+    /**
+     * 删除
+     */
+    void deleteById(String id);
 
     /**
      * 列表
@@ -36,4 +43,9 @@ public interface LocalFilePathInterface {
      * 分页
      */
     PageResponseData<LocalFilePathResponseDTO> page(PageLocalFilePathRequestDTO pageLocalFilePathRequestDTO);
+
+    /**
+     * 树形结构
+     */
+    LocalFilePathTreeResponseDTO tree(String id);
 }

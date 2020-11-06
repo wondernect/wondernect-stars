@@ -35,10 +35,6 @@ public class CodeResponseDTO extends BaseCodeResponseDTO {
     @ApiModelProperty(notes = "令牌过期时间(默认7200s)")
     private Long expires;
 
-    @JsonProperty("create_time")
-    @ApiModelProperty(notes = "创建时间")
-    private Long createTime;
-
     @JsonProperty("ip")
     @ApiModelProperty(notes = "客户端ip")
     private String ip;

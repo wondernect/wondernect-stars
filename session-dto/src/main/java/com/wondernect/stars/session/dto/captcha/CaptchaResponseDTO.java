@@ -47,10 +47,6 @@ public class CaptchaResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "验证码过期时间(默认60s)")
     private Long expires;
 
-    @JsonProperty("create_time")
-    @ApiModelProperty(notes = "创建时间")
-    private Long createTime;
-
     @JsonProperty("ip")
     @ApiModelProperty(notes = "客户端ip")
     private String ip;

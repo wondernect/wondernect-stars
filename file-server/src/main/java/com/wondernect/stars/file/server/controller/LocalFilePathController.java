@@ -5,10 +5,7 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.file.dto.ListLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.LocalFilePathResponseDTO;
-import com.wondernect.stars.file.dto.PageLocalFilePathRequestDTO;
-import com.wondernect.stars.file.dto.SaveLocalFilePathRequestDTO;
+import com.wondernect.stars.file.dto.*;
 import com.wondernect.stars.file.server.config.FileConfigProperties;
 import com.wondernect.stars.file.service.localfilepath.LocalFilePathService;
 import io.swagger.annotations.Api;
@@ -55,6 +52,29 @@ public class LocalFilePathController {
     }
 
     @AuthorizeServer
+    @ApiOperation(value = "更新", httpMethod = "POST")
+    @PostMapping(value = "/{id}/update")
+    public BusinessData<LocalFilePathResponseDTO> update(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id,
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveLocalFilePathRequestDTO saveLocalFilePathRequestDTO
+    ) {
+        if (ESStringUtils.isBlank(saveLocalFilePathRequestDTO.getParentPathId())) {
+            saveLocalFilePathRequestDTO.setParentPathId(fileConfigProperties.getRootFilePathId());
+        }
+        return new BusinessData<>(localFilePathService.update(id, saveLocalFilePathRequestDTO));
+    }
+
+    @AuthorizeServer
+    @ApiOperation(value = "删除", httpMethod = "POST")
+    @PostMapping(value = "/{id}/delete")
+    public BusinessData delete(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
+    ) {
+        localFilePathService.deleteById(id);
+        return new BusinessData(BusinessError.SUCCESS);
+    }
+
+    @AuthorizeServer
     @ApiOperation(value = "获取", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<LocalFilePathResponseDTO> get(
@@ -69,6 +89,7 @@ public class LocalFilePathController {
     public BusinessData<LocalFilePathResponseDTO> root() {
         ListLocalFilePathRequestDTO listLocalFilePathRequestDTO = new ListLocalFilePathRequestDTO();
         listLocalFilePathRequestDTO.setParentPathId(fileConfigProperties.getRootFilePathId());
+        listLocalFilePathRequestDTO.setIsDeleted(false);
         List<LocalFilePathResponseDTO> localFilePathResponseDTOList = localFilePathService.list(listLocalFilePathRequestDTO);
         if (CollectionUtils.isEmpty(localFilePathResponseDTOList)) {
             return new BusinessData<>(BusinessError.SUCCESS);
@@ -98,5 +119,14 @@ public class LocalFilePathController {
             pageLocalFilePathRequestDTO.setParentPathId(fileConfigProperties.getRootFilePathId());
         }
         return new BusinessData<>(localFilePathService.page(pageLocalFilePathRequestDTO));
+    }
+
+    @AuthorizeServer
+    @ApiOperation(value = "树形结构", httpMethod = "GET")
+    @GetMapping(value = "/{root_file_path_id}/tree")
+    public BusinessData<LocalFilePathTreeResponseDTO> tree(
+            @ApiParam(required = true) @NotBlank(message = "根节点文件路径不能为空") @PathVariable(value = "root_file_path_id", required = false) String rootFilePathId
+    ) {
+        return new BusinessData<>(localFilePathService.tree(rootFilePathId));
     }
 }

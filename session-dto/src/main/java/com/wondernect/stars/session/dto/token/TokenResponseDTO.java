@@ -35,10 +35,6 @@ public class TokenResponseDTO extends BaseTokenResponseDTO {
     @ApiModelProperty(notes = "令牌使用描述")
     private String description;
 
-    @JsonProperty("create_time")
-    @ApiModelProperty(notes = "创建时间")
-    private Long createTime;
-
     @JsonProperty("ip")
     @ApiModelProperty(notes = "客户端ip")
     private String ip;

@@ -50,4 +50,8 @@ public class LocalFilePath extends BaseStringModel implements Serializable {
     @JsonProperty("parent_path_id")
     @ApiModelProperty(notes = "父级路径id")
     private String parentPathId;
+
+    @JsonProperty("is_deleted")
+    @ApiModelProperty(notes = "是否删除")
+    private Boolean isDeleted = false;
 }
