@@ -23,9 +23,9 @@ public class WondernectAppFeignConfigProperties implements Serializable {
 
     private static final long serialVersionUID = -8120698783277706219L;
 
-    private String name = "wondernect-stars-app"; // 远程服务name
+    private String name; // 远程服务name
 
-    private String url = ""; // 远程服务url
+    private String url; // 远程服务url
 
     private String userIdPropertyName = "USERID"; // 用户标识
 

@@ -20,73 +20,73 @@ import java.util.List;
  * @Date: 2020/8/12 11:21
  * @Version 1.0
  */
-@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", configuration = WondernectUserFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", path = "/v1/wondernect/user", configuration = WondernectUserFeignConfiguration.class)
 public interface UserFeignClient {
 
     @ApiOperation(value = "创建local user", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/create")
+    @PostMapping(value = "/create")
     public BusinessData<UserResponseDTO> create(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveLocalUserRequestDTO saveLocalUserRequestDTO
     );
 
     @ApiOperation(value = "创建third user", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/create_third_user")
+    @PostMapping(value = "/create_third_user")
     public BusinessData<UserResponseDTO> createThirdUser(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveThirdUserRequestDTO saveThirdUserRequestDTO
     );
 
     @ApiOperation(value = "激活", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/{id}/enable")
+    @PostMapping(value = "/{id}/enable")
     public BusinessData enable(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "禁用", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/{id}/disable")
+    @PostMapping(value = "/{id}/disable")
     public BusinessData disable(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "更新", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/{id}/update")
+    @PostMapping(value = "/{id}/update")
     public BusinessData<UserResponseDTO> update(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody SaveLocalUserRequestDTO saveLocalUserRequestDTO
     );
 
     @ApiOperation(value = "删除", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/{id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     );
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/user/{id}/detail")
+    @GetMapping(value = "/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     );
 
     @ApiOperation(value = "获取详情", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/user/detail")
+    @GetMapping(value = "/detail")
     public BusinessData<UserResponseDTO> detailByUsername(
             @ApiParam(required = true) @NotBlank(message = "用户username不能为空") @RequestParam(value = "username", required = false) String username
     );
 
     @ApiOperation(value = "获取第三方用户详情", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/user/detail_third_user")
+    @GetMapping(value = "/detail_third_user")
     public BusinessData<UserResponseDTO> detailByAppTypeAndAppUserId(
             @ApiParam(required = true) @NotNull(message = "第三方应用类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
             @ApiParam(required = true) @NotBlank(message = "第三方应用用户id不能为空") @RequestParam(value = "app_user_id", required = false) String appUserId
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/list")
+    @PostMapping(value = "/list")
     public BusinessData<List<UserResponseDTO>> list(
             @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody ListUserRequestDTO listUserRequestDTO
     );
 
     @ApiOperation(value = "分页", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/user/page")
+    @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody PageUserRequestDTO pageUserRequestDTO
     );
