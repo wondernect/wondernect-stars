@@ -24,42 +24,42 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", configuration = WondernectRbacFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", path = "/v1/wondernect/rbac/role_type", configuration = WondernectRbacFeignConfiguration.class)
 public interface RoleTypeFeignClient {
 
     @ApiOperation(value = "创建角色类型", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/rbac/role_type/create")
+    @PostMapping(value = "/create")
     public BusinessData<RoleTypeResponseDTO> create(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveRoleTypeRequestDTO saveRoleTypeRequestDTO
     );
 
     @ApiOperation(value = "更新角色类型", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/rbac/role_type/{id}/update")
+    @PostMapping(value = "/{id}/update")
     public BusinessData<RoleTypeResponseDTO> update(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveRoleTypeRequestDTO saveRoleTypeRequestDTO
     );
 
     @ApiOperation(value = "删除角色类型", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/rbac/role_type/{id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "获取角色类型", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/rbac/role_type/{id}/detail")
+    @GetMapping(value = "/{id}/detail")
     public BusinessData<RoleTypeResponseDTO> get(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "角色类型列表", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/rbac/role_type/list")
+    @PostMapping(value = "/list")
     public BusinessData<List<RoleTypeResponseDTO>> list(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) ListRoleTypeRequestDTO listRoleTypeRequestDTO
     );
 
     @ApiOperation(value = "角色类型分页", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/rbac/role_type/page")
+    @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleTypeResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) PageRoleTypeRequestDTO pageRoleTypeRequestDTO
     );

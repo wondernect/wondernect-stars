@@ -26,49 +26,49 @@ import java.util.List;
  * 当@FeignClient有name和url还有configuration时，取值为url的地址,name只是为一个名称而已(无意义)
  * 当@FeignClient只有name和configuration时，name的取值为注册中心项目的名称即虚拟地址
  */
-@FeignClient(name = "${wondernect.stars.app.feign.name}", url = "${wondernect.stars.app.feign.url}", configuration = WondernectAppFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.app.feign.name}", url = "${wondernect.stars.app.feign.url}", path = "/v1/wondernect/app", configuration = WondernectAppFeignConfiguration.class)
 public interface AppFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/app/create")
+    @PostMapping(value = "/create")
     public BusinessData<AppResponseDTO> create(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveAppRequestDTO saveAppRequestDTO
     );
 
     @ApiOperation(value = "更新", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/app/{id}/update")
+    @PostMapping(value = "/{id}/update")
     public BusinessData<AppResponseDTO> update(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveAppRequestDTO saveAppRequestDTO
     );
 
     @ApiOperation(value = "删除", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/app/{id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/app/{id}/detail")
+    @GetMapping(value = "/{id}/detail")
     public BusinessData<AppResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "认证应用密钥", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/app/{id}/auth")
+    @PostMapping(value = "/{id}/auth")
     public BusinessData auth(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
             @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody(required = false) AuthAppRequestDTO authAppRequestDTO
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/app/list")
+    @PostMapping(value = "/list")
     public BusinessData<List<AppResponseDTO>> list(
             @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListAppRequestDTO listAppRequestDTO
     );
 
     @ApiOperation(value = "分页", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/app/page")
+    @PostMapping(value = "/page")
     public BusinessData<PageResponseData<AppResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody(required = false) PageAppRequestDTO pageAppRequestDTO
     );

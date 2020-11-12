@@ -31,7 +31,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", configuration = {WondernectFileFeignConfiguration.class, LocalFileFeignClient.MultipartSupportConfig.class})
+@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", path = "/v1/wondernect/file/fast_dfs", configuration = {WondernectFileFeignConfiguration.class, LocalFileFeignClient.MultipartSupportConfig.class})
 public interface FastDFSFileFeignClient {
 
     @Configuration
@@ -46,32 +46,32 @@ public interface FastDFSFileFeignClient {
     }
 
     @ApiOperation(value = "上传文件", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/file/fast_dfs/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public BusinessData<FileResponseDTO> upload(
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
             @ApiParam(required = true) @RequestPart(value = "file", required = false) MultipartFile file
     );
 
     @ApiOperation(value = "删除文件", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/file/fast_dfs/{id}/delete")
+    @PostMapping(value = "/{id}/delete")
     public BusinessData deleteById(
             @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
-    @GetMapping(value = "/v1/wondernect/file/fast_dfs/{id}/detail")
+    @GetMapping(value = "/{id}/detail")
     public BusinessData<FileResponseDTO> getById(
             @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/file/fast_dfs/list")
+    @PostMapping(value = "/list")
     public BusinessData<List<FileResponseDTO>> list(
             @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @RequestBody(required = false) ListFileRequestDTO listFileRequestDTO
     );
 
     @ApiOperation(value = "分页", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/file/fast_dfs/page")
+    @PostMapping(value = "/page")
     public BusinessData<PageResponseData<FileResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @RequestBody(required = false) PageFileRequestDTO pageFileRequestDTO
     );
