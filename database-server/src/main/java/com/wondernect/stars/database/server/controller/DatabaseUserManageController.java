@@ -4,7 +4,6 @@ import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.jdbc.client.response.JDBCResult;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.*;
 import com.wondernect.stars.database.service.DatabaseUserManageService;
@@ -116,7 +115,7 @@ public class DatabaseUserManageController {
     public BusinessData<DatabaseUserManageResponseDTO> giveRights(
             @ApiParam(required = true) @NotNull(message = "1-只读权限，2-所有权限") @PathVariable(value = "type", required = false) Integer type,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
-    ){
+    ) {
         return new BusinessData<>(databaseUserManageService.giveRights(type, databaseUserRequestDTO));
     }
 
@@ -125,7 +124,7 @@ public class DatabaseUserManageController {
     @PostMapping(value = "/revoke_rights")
     public BusinessData<DatabaseUserManageResponseDTO> revokeRights(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
-    ){
+    ) {
         return new BusinessData<>(databaseUserManageService.revokeRights(databaseUserRequestDTO));
     }
 
@@ -134,7 +133,7 @@ public class DatabaseUserManageController {
     @PostMapping(value = "/test_connect")
     public BusinessData<TestConnectResponseDTO> testConnect(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseConnectRequestDTO databaseConnectRequestDTO
-    ){
+    ) {
         return new BusinessData<>(databaseUserManageService.testConnect(databaseConnectRequestDTO));
     }
 
@@ -143,7 +142,7 @@ public class DatabaseUserManageController {
     @PostMapping(value = "/modify_password")
     public BusinessData<DatabaseUserManageResponseDTO> modifyPassword(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO
-    ){
+    ) {
         return new BusinessData<>(databaseUserManageService.modifyPassword(databaseModifyPasswordRequestDTO));
     }
 

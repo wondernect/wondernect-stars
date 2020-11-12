@@ -5,11 +5,9 @@ import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
-import com.wondernect.elements.jdbc.client.config.JDBCClientConfigProperties;
-import com.wondernect.elements.jdbc.client.util.JDBCClient;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -28,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 数据库用户服务抽象实现类
@@ -46,7 +43,7 @@ public abstract class DatabaseUserManageAbstractService extends BaseStringServic
     public DatabaseUserManageResponseDTO create(SaveDatabaseUserManageRequestDTO saveDatabaseUserManageRequestDTO) {
 //TODO:判断对象是否存在
         AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (ESObjectUtils.isNull(authorizeData)){
+        if (ESStringUtils.isRealEmpty(authorizeData.getUserId())) {
             throw new BusinessException("没有登录用户");
         }
         String appId = authorizeData.getAppId();//appId
@@ -61,7 +58,7 @@ public abstract class DatabaseUserManageAbstractService extends BaseStringServic
         DatabaseUserManage databaseUserManage = new DatabaseUserManage();
 //        ESBeanUtils.copyProperties(saveDatabaseUserManageRequestDTO, databaseUserManage);
         databaseUserManage.setDatabaseManageId(saveDatabaseUserManageRequestDTO.getDatabaseManageId());
-        databaseUserManage.setUserName(appId+"_"+saveDatabaseUserManageRequestDTO.getUserName());
+        databaseUserManage.setUserName(appId + "_" + saveDatabaseUserManageRequestDTO.getUserName());
         databaseUserManage.setPassword(saveDatabaseUserManageRequestDTO.getPassword());
         databaseUserManage.setRightsState(0);
         databaseUserManage.setRightsMessage("尚未赋予权限");

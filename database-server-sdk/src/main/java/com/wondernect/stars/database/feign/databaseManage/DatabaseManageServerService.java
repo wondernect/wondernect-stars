@@ -18,7 +18,7 @@ public class DatabaseManageServerService {
     @Autowired
     private DatabaseManageFeignClient databaseManageFeignClient;
 
-    public DatabaseManageResponseDTO create(SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO){
+    public DatabaseManageResponseDTO create(SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO) {
         BusinessData<DatabaseManageResponseDTO> businessData = databaseManageFeignClient.create(saveDatabaseManageRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
@@ -26,15 +26,15 @@ public class DatabaseManageServerService {
         return businessData.getData();
     }
 
-    public DatabaseManageResponseDTO update(String id,SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO){
-        BusinessData<DatabaseManageResponseDTO> businessData = databaseManageFeignClient.update(id,saveDatabaseManageRequestDTO);
+    public DatabaseManageResponseDTO update(String id, SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO) {
+        BusinessData<DatabaseManageResponseDTO> businessData = databaseManageFeignClient.update(id, saveDatabaseManageRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }
         return businessData.getData();
     }
 
-    public boolean delete(String id){
+    public boolean delete(String id) {
         BusinessData businessData = databaseManageFeignClient.delete(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
@@ -42,7 +42,7 @@ public class DatabaseManageServerService {
         return businessData.success();
     }
 
-    public DatabaseManageResponseDTO detail(String id){
+    public DatabaseManageResponseDTO detail(String id) {
         BusinessData<DatabaseManageResponseDTO> businessData = databaseManageFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
@@ -50,7 +50,7 @@ public class DatabaseManageServerService {
         return businessData.getData();
     }
 
-    public List<DatabaseManageResponseDTO> list(ListDatabaseManageRequestDTO listDatabaseManageRequestDTO){
+    public List<DatabaseManageResponseDTO> list(ListDatabaseManageRequestDTO listDatabaseManageRequestDTO) {
         BusinessData<List<DatabaseManageResponseDTO>> businessData = databaseManageFeignClient.list(listDatabaseManageRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
@@ -58,7 +58,7 @@ public class DatabaseManageServerService {
         return businessData.getData();
     }
 
-    public PageResponseData<DatabaseManageResponseDTO> page(PageDatabaseManageRequestDTO pageDatabaseManageRequestDTO){
+    public PageResponseData<DatabaseManageResponseDTO> page(PageDatabaseManageRequestDTO pageDatabaseManageRequestDTO) {
         BusinessData<PageResponseData<DatabaseManageResponseDTO>> businessData = databaseManageFeignClient.page(pageDatabaseManageRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
@@ -66,7 +66,7 @@ public class DatabaseManageServerService {
         return businessData.getData();
     }
 
-    public DatabaseManageResponseDTO initDatabase(String id){
+    public DatabaseManageResponseDTO initDatabase(String id) {
         BusinessData<DatabaseManageResponseDTO> businessData = databaseManageFeignClient.initDatabase(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);

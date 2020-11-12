@@ -22,9 +22,9 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
     private JDBCClient jdbcClient;
 
     @Transactional
-    public DatabaseManageResponseDTO initDatabase(String id){
+    public DatabaseManageResponseDTO initDatabase(String id) {
         DatabaseManage databaseManage = super.findEntityById(id);
-        if (ESObjectUtils.isNull(databaseManage)){
+        if (ESObjectUtils.isNull(databaseManage)) {
             throw new BusinessException("要初始化的数据库不存在");
         }
         JDBCResult jdbcResult = jdbcClient.initDatabase(databaseManage.getDatabaseName());

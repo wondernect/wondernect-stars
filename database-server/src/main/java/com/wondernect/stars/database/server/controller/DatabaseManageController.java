@@ -117,7 +117,7 @@ public class DatabaseManageController {
     @PostMapping(value = "/init_database")
     public BusinessData<DatabaseManageResponseDTO> initDatabase(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "id", required = false) String id
-    ){
+    ) {
         return new BusinessData<>(databaseManageService.initDatabase(id));
     }
 }

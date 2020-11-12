@@ -8,9 +8,7 @@ import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
 import com.wondernect.elements.jdbc.client.config.JDBCClientConfigProperties;
-import com.wondernect.elements.jdbc.client.util.JDBCClient;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -29,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 数据库服务抽象实现类
@@ -50,15 +47,15 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
     public DatabaseManageResponseDTO create(SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO) {
 //TODO:判断对象是否存在
         AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (ESStringUtils.isRealEmpty(authorizeData.getUserId())){
+        if (ESStringUtils.isRealEmpty(authorizeData.getUserId())) {
             throw new BusinessException("没有登录用户");
         }
         String appId = authorizeData.getAppId();//appId
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
         databaseManageCriteria.add(Restrictions.eq("createApp", appId));
-        databaseManageCriteria.add(Restrictions.eq("databaseName", appId+"_"+saveDatabaseManageRequestDTO.getDatabaseName()));
+        databaseManageCriteria.add(Restrictions.eq("databaseName", appId + "_" + saveDatabaseManageRequestDTO.getDatabaseName()));
         List<DatabaseManage> databaseManageList = super.findAllEntity(databaseManageCriteria, new ArrayList<>());
-        if (CollectionUtils.isNotEmpty(databaseManageList)){
+        if (CollectionUtils.isNotEmpty(databaseManageList)) {
             throw new BusinessException("该app已经存在该数据库，请重新输入一个数据库名称进行创建");
         }
         String jdbcClientConfigPropertiesUrl = jdbcClientConfigProperties.getUrl();
@@ -68,7 +65,7 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
         DatabaseManage databaseManage = new DatabaseManage();
 //        ESBeanUtils.copyProperties(saveDatabaseManageRequestDTO, databaseManage);
         databaseManage.setDatabaseName(appId + "_" + saveDatabaseManageRequestDTO.getDatabaseName());
-        databaseManage.setUrl("jdbc:mysql://"+ipPort+"/"+appId+"_"+saveDatabaseManageRequestDTO.getDatabaseName()+"?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+        databaseManage.setUrl("jdbc:mysql://" + ipPort + "/" + appId + "_" + saveDatabaseManageRequestDTO.getDatabaseName() + "?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
         databaseManage.setInitState(false);
         databaseManage.setInitMessage("数据库尚未初始化");
         return super.save(databaseManage);
