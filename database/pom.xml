@@ -27,7 +27,6 @@
         <dependency>
             <groupId>com.wondernect.elements</groupId>
             <artifactId>jdbc-client</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <!-- rdb -->
