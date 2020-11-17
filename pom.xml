@@ -39,12 +39,16 @@
         <module>database-dto</module>
         <module>database</module>
         <module>database-server-sdk</module>
+        <module>office-dto</module>
+        <module>office</module>
+        <module>office-server-sdk</module>
         <module>app-server</module>
         <module>user-server</module>
         <module>file-server</module>
         <module>rbac-server</module>
         <module>session-server</module>
         <module>database-server</module>
+        <module>office-server</module>
     </modules>
 
     <build>

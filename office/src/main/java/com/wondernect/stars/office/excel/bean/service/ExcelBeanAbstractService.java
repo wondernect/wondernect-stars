@@ -1,0 +1,77 @@
+package com.wondernect.stars.office.excel.bean.service;
+
+import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.utils.ESBeanUtils;
+import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.base.service.BaseStringService;
+import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.response.PageResponseData;
+import com.wondernect.stars.office.excel.bean.model.ExcelBean;
+import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
+import com.wondernect.stars.office.excel.dto.bean.ListExcelBeanRequestDTO;
+import com.wondernect.stars.office.excel.dto.bean.PageExcelBeanRequestDTO;
+import com.wondernect.stars.office.excel.dto.bean.SaveExcelBeanRequestDTO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * excel导入导出实体类服务抽象实现类
+ *
+ * @author chenxun 2020-11-17 16:18:30
+ **/
+@Service
+public abstract class ExcelBeanAbstractService extends BaseStringService<ExcelBeanResponseDTO, ExcelBean> implements ExcelBeanInterface {
+
+    @Transactional
+    @Override
+    public ExcelBeanResponseDTO create(SaveExcelBeanRequestDTO saveExcelBeanRequestDTO) {
+//TODO:判断对象是否存在
+
+        ExcelBean excelBean = new ExcelBean();
+        ESBeanUtils.copyProperties(saveExcelBeanRequestDTO, excelBean);
+        return super.save(excelBean);
+    }
+
+    @Transactional
+    @Override
+    public ExcelBeanResponseDTO update(String id, SaveExcelBeanRequestDTO saveExcelBeanRequestDTO) {
+        ExcelBean excelBean = super.findEntityById(id);
+        if (ESObjectUtils.isNull(excelBean)) {
+            throw new BusinessException("excel导入导出实体类不存在");
+        }
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveExcelBeanRequestDTO, excelBean);
+        return super.save(excelBean);
+    }
+
+    @Override
+    public List<ExcelBeanResponseDTO> list(ListExcelBeanRequestDTO listExcelBeanRequestDTO) {
+        Criteria<ExcelBean> excelBeanCriteria = new Criteria<>();
+//TODO:添加列表筛选条件
+
+        return super.findAll(excelBeanCriteria, listExcelBeanRequestDTO.getSortDataList());
+    }
+
+    @Override
+    public PageResponseData<ExcelBeanResponseDTO> page(PageExcelBeanRequestDTO pageExcelBeanRequestDTO) {
+        Criteria<ExcelBean> excelBeanCriteria = new Criteria<>();
+//TODO:添加分页筛选条件
+
+        return super.findAll(excelBeanCriteria, pageExcelBeanRequestDTO.getPageRequestData());
+    }
+
+    @Override
+    public ExcelBeanResponseDTO generate(ExcelBean excelBean) {
+        ExcelBeanResponseDTO excelBeanResponseDTO = new ExcelBeanResponseDTO();
+        ESBeanUtils.copyProperties(excelBean, excelBeanResponseDTO);
+        return excelBeanResponseDTO;
+    }
+
+    @Override
+    public ExcelBean generate(ExcelBeanResponseDTO excelBeanResponseDTO) {
+        ExcelBean excelBean = new ExcelBean();
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(excelBeanResponseDTO, excelBean);
+        return excelBean;
+    }
+}
