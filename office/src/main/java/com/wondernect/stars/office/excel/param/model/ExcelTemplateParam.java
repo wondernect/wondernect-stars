@@ -48,7 +48,7 @@ public class ExcelTemplateParam extends BaseStringModel {
     @ApiModelProperty(notes = "属性导入导出标题")
     private String title;
 
-    @JsonProperty("order")
+    @JsonProperty("order_num")
     @ApiModelProperty(notes = "排序")
-    private int order = 0;
+    private int orderNum = 0;
 }

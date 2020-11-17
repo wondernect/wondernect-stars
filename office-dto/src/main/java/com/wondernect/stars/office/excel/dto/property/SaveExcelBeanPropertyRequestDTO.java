@@ -34,9 +34,9 @@ public class SaveExcelBeanPropertyRequestDTO {
     @ApiModelProperty(notes = "属性导入导出标题")
     private String title;
 
-    @JsonProperty("order")
+    @JsonProperty("order_num")
     @ApiModelProperty(notes = "排序")
-    private int order;
+    private int orderNum = 0;
 
     @JsonProperty("get_method_name")
     @ApiModelProperty(notes = "属性get方法名")
