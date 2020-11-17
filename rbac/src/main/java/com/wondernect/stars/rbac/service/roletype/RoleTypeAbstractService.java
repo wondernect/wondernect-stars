@@ -84,9 +84,4 @@ public abstract class RoleTypeAbstractService extends BaseStringService<RoleType
         ESBeanUtils.copyProperties(roleType, roleTypeResponseDTO);
         return roleTypeResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

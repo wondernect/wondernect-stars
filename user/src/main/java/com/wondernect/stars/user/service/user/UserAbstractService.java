@@ -261,9 +261,4 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         userResponseDTO.setRoleName(ESObjectUtils.isNotNull(roleResponseDTO) ? roleResponseDTO.getName() : null);
         return userResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

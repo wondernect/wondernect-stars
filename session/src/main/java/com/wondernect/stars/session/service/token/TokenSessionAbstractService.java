@@ -81,9 +81,4 @@ public abstract class TokenSessionAbstractService extends BaseTokenService<Token
         ESBeanUtils.copyProperties(tokenSession, tokenResponseDTO);
         return tokenResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

@@ -77,9 +77,4 @@ public abstract class UserRoleAbstractService extends BaseStringService<UserRole
         ESBeanUtils.copyProperties(userRole, userRoleResponseDTO);
         return userRoleResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

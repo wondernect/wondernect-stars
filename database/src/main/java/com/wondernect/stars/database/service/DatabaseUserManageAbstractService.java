@@ -6,8 +6,6 @@ import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -22,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,28 +89,9 @@ public abstract class DatabaseUserManageAbstractService extends BaseStringServic
     }
 
     @Override
-    public List<ESExcelItem> excelItemList() {
-        return super.excelItemList(DatabaseUserManageResponseDTO.class);
-    }
-
-    @Override
-    public void excelDataExport(String exportServiceIdentifier, ListDatabaseUserManageRequestDTO listDatabaseUserManageRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataExport(exportServiceIdentifier, excelItemList(), list(listDatabaseUserManageRequestDTO), "数据库用户信息导出", "数据库用户信息导出", "数据库用户信息导出", request, response);
-    }
-
-    @Override
     public DatabaseUserManageResponseDTO generate(DatabaseUserManage databaseUserManage) {
         DatabaseUserManageResponseDTO databaseUserManageResponseDTO = new DatabaseUserManageResponseDTO();
         ESBeanUtils.copyProperties(databaseUserManage, databaseUserManageResponseDTO);
         return databaseUserManageResponseDTO;
-    }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        switch (exportServiceIdentifier) {
-            default: {
-                return new ArrayList<>();
-            }
-        }
     }
 }

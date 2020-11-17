@@ -95,11 +95,6 @@ public abstract class FileAbstractService extends BaseStringService<FileResponse
         return fileResponseDTO;
     }
 
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
-
     public abstract String getImageThumbUrl(String thumbImagePath, String subFilePath);
 
     public abstract String getFileDownloadUrl(String localPath, String subFilePath);

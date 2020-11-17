@@ -4,24 +4,16 @@ import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.model.App;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 应用服务抽象实现类
@@ -76,29 +68,10 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
     }
 
     @Override
-    public List<ESExcelItem> excelItemList() {
-        return super.excelItemList(AppResponseDTO.class);
-    }
-
-    @Override
-    public void excelDataExport(String exportServiceIdentifier, ListAppRequestDTO listAppRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataExport(exportServiceIdentifier, excelItemList(), list(listAppRequestDTO), "应用信息导出", "应用信息导出", "应用信息导出", request, response);
-    }
-
-    @Override
     public AppResponseDTO generate(App app) {
         AppResponseDTO appResponseDTO = new AppResponseDTO();
         ESBeanUtils.copyProperties(app, appResponseDTO);
         appResponseDTO.setId(app.getId());
         return appResponseDTO;
-    }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        switch (exportServiceIdentifier) {
-            default: {
-                return new ArrayList<>();
-            }
-        }
     }
 }

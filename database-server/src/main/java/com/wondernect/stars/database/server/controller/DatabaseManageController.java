@@ -3,7 +3,6 @@ package com.wondernect.stars.database.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.DatabaseManageResponseDTO;
 import com.wondernect.stars.database.dto.ListDatabaseManageRequestDTO;
@@ -17,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -91,25 +88,6 @@ public class DatabaseManageController {
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody(required = false) PageDatabaseManageRequestDTO pageDatabaseManageRequestDTO
     ) {
         return new BusinessData<>(databaseManageService.page(pageDatabaseManageRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "获取excel的所有可用列名、类型、描述、get方法、set方法", httpMethod = "GET")
-    @GetMapping(value = "/excel_item_list")
-    public BusinessData<List<ESExcelItem>> excelItemList() {
-        return new BusinessData<>(databaseManageService.excelItemList());
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "excel导出", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_export")
-    public void excelDataExport(
-            @ApiParam(required = true) @NotBlank(message = "excel导出服务id不能为空") @RequestParam(value = "export_service_identifier", required = false) String exportServiceIdentifier,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListDatabaseManageRequestDTO listDatabaseManageRequestDTO,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) {
-        databaseManageService.excelDataExport(exportServiceIdentifier, listDatabaseManageRequestDTO, request, response);
     }
 
     @AuthorizeServer

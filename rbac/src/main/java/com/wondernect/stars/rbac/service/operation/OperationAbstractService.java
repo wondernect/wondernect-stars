@@ -114,9 +114,4 @@ public abstract class OperationAbstractService extends BaseStringService<Operati
         operationResponseDTO.setMenuRoute(ESObjectUtils.isNotNull(menu) ? menu.getRoute() : null);
         return operationResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

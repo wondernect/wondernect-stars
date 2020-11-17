@@ -113,9 +113,4 @@ public abstract class CodeSessionAbstractService extends BaseCodeService<CodeRes
         ESBeanUtils.copyProperties(codeSession, codeResponseDTO);
         return codeResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

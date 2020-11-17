@@ -172,9 +172,4 @@ public abstract class LocalFilePathAbstractService extends BaseStringService<Loc
         localFilePathResponseDTO.setParentSubFilePath(ESObjectUtils.isNotNull(parentLocalFilePath) ? parentLocalFilePath.getSubFilePath() : null);
         return localFilePathResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

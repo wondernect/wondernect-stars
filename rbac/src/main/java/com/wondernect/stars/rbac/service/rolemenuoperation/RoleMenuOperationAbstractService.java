@@ -225,14 +225,4 @@ public abstract class RoleMenuOperationAbstractService extends BaseStringService
                 roleMenuOperationResponseDTOList
         );
     }
-
-    @Override
-    public RoleMenuOperationResponseDTO generate(RoleMenuOperation roleMenuOperation) {
-        return null;
-    }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

@@ -119,9 +119,4 @@ public abstract class UserThirdAuthAbstractService extends BaseStringService<Use
         ESBeanUtils.copyProperties(userThirdAuth, userThirdAuthResponseDTO);
         return userThirdAuthResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

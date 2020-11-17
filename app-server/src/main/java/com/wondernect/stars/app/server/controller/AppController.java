@@ -3,7 +3,6 @@ package com.wondernect.stars.app.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.service.AppService;
@@ -14,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -98,24 +95,5 @@ public class AppController {
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody(required = false) PageAppRequestDTO pageAppRequestDTO
     ) {
         return new BusinessData<>(appService.page(pageAppRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "获取excel的所有可用列名、类型、描述、get方法、set方法", httpMethod = "GET")
-    @GetMapping(value = "/excel_item_list")
-    public BusinessData<List<ESExcelItem>> excelItemList() {
-        return new BusinessData<>(appService.excelItemList());
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "excel导出", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_export")
-    public void excelDataExport(
-            @ApiParam(required = true) @NotBlank(message = "excel导出服务id不能为空") @RequestParam(value = "export_service_identifier", required = false) String exportServiceIdentifier,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListAppRequestDTO listAppRequestDTO,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) {
-        appService.excelDataExport(exportServiceIdentifier, listAppRequestDTO, request, response);
     }
 }

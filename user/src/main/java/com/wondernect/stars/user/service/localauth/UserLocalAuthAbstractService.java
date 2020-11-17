@@ -66,9 +66,4 @@ public abstract class UserLocalAuthAbstractService extends BaseService<UserLocal
         ESBeanUtils.copyProperties(userLocalAuth, userLocalAuthResponseDTO);
         return userLocalAuthResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

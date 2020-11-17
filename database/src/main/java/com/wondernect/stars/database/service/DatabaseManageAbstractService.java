@@ -6,8 +6,6 @@ import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
 import com.wondernect.elements.jdbc.client.config.JDBCClientConfigProperties;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
@@ -23,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,28 +95,9 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
     }
 
     @Override
-    public List<ESExcelItem> excelItemList() {
-        return super.excelItemList(DatabaseManageResponseDTO.class);
-    }
-
-    @Override
-    public void excelDataExport(String exportServiceIdentifier, ListDatabaseManageRequestDTO listDatabaseManageRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataExport(exportServiceIdentifier, excelItemList(), list(listDatabaseManageRequestDTO), "数据库信息导出", "数据库信息导出", "数据库信息导出", request, response);
-    }
-
-    @Override
     public DatabaseManageResponseDTO generate(DatabaseManage databaseManage) {
         DatabaseManageResponseDTO databaseManageResponseDTO = new DatabaseManageResponseDTO();
         ESBeanUtils.copyProperties(databaseManage, databaseManageResponseDTO);
         return databaseManageResponseDTO;
-    }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        switch (exportServiceIdentifier) {
-            default: {
-                return new ArrayList<>();
-            }
-        }
     }
 }

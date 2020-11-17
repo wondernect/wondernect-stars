@@ -117,9 +117,4 @@ public abstract class CaptchaSessionAbstractService extends BaseStringService<Ca
         ESBeanUtils.copyProperties(captchaSession, captchaResponseDTO);
         return captchaResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

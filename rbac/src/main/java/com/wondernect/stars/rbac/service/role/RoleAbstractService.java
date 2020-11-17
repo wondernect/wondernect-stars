@@ -110,9 +110,4 @@ public abstract class RoleAbstractService extends BaseStringService<RoleResponse
         roleResponseDTO.setRoleTypeName(ESObjectUtils.isNotNull(roleType) ? roleType.getName() : null);
         return roleResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }

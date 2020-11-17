@@ -193,9 +193,4 @@ public abstract class MenuAbstractService extends BaseStringService<MenuResponse
         menuResponseDTO.setParentMenuRoute(ESObjectUtils.isNotNull(parentMenu) ? parentMenu.getRoute() : null);
         return menuResponseDTO;
     }
-
-    @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        return null;
-    }
 }
