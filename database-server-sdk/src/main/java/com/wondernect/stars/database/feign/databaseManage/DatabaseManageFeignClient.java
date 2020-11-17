@@ -13,8 +13,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -57,15 +55,6 @@ public interface DatabaseManageFeignClient {
     @PostMapping(value = "/v1/wondernect/database_manage/page")
     BusinessData<PageResponseData<DatabaseManageResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody(required = false) PageDatabaseManageRequestDTO pageDatabaseManageRequestDTO
-    );
-
-    @ApiOperation(value = "excel导出", httpMethod = "POST")
-    @PostMapping(value = "/v1/wondernect/database_manage/excel_data_export")
-    void excelDataExport(
-            @ApiParam(required = true) @NotBlank(message = "excel导出服务id不能为空") @RequestParam(value = "export_service_identifier", required = false) String exportServiceIdentifier,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListDatabaseManageRequestDTO listDatabaseManageRequestDTO,
-            HttpServletRequest request,
-            HttpServletResponse response
     );
 
     @ApiOperation(value = "初始化数据库", httpMethod = "POST")
