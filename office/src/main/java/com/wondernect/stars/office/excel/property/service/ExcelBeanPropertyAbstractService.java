@@ -5,6 +5,7 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
 import com.wondernect.stars.office.excel.dto.property.ListExcelBeanPropertyRequestDTO;
@@ -48,16 +49,16 @@ public abstract class ExcelBeanPropertyAbstractService extends BaseStringService
     @Override
     public List<ExcelBeanPropertyResponseDTO> list(ListExcelBeanPropertyRequestDTO listExcelBeanPropertyRequestDTO) {
         Criteria<ExcelBeanProperty> excelBeanPropertyCriteria = new Criteria<>();
-//TODO:添加列表筛选条件
-
+        excelBeanPropertyCriteria.add(Restrictions.eq("beanId", listExcelBeanPropertyRequestDTO.getBeanId()));
+        excelBeanPropertyCriteria.add(Restrictions.eq("name", listExcelBeanPropertyRequestDTO.getName()));
         return super.findAll(excelBeanPropertyCriteria, listExcelBeanPropertyRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<ExcelBeanPropertyResponseDTO> page(PageExcelBeanPropertyRequestDTO pageExcelBeanPropertyRequestDTO) {
         Criteria<ExcelBeanProperty> excelBeanPropertyCriteria = new Criteria<>();
-//TODO:添加分页筛选条件
-
+        excelBeanPropertyCriteria.add(Restrictions.eq("beanId", pageExcelBeanPropertyRequestDTO.getBeanId()));
+        excelBeanPropertyCriteria.add(Restrictions.eq("name", pageExcelBeanPropertyRequestDTO.getName()));
         return super.findAll(excelBeanPropertyCriteria, pageExcelBeanPropertyRequestDTO.getPageRequestData());
     }
 

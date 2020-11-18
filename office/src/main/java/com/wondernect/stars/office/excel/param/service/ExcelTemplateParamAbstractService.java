@@ -5,6 +5,7 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.office.excel.dto.param.ExcelTemplateParamResponseDTO;
 import com.wondernect.stars.office.excel.dto.param.ListExcelTemplateParamRequestDTO;
@@ -27,8 +28,6 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
     @Transactional
     @Override
     public ExcelTemplateParamResponseDTO create(SaveExcelTemplateParamRequestDTO saveExcelTemplateParamRequestDTO) {
-//TODO:判断对象是否存在
-
         ExcelTemplateParam excelTemplateParam = new ExcelTemplateParam();
         ESBeanUtils.copyProperties(saveExcelTemplateParamRequestDTO, excelTemplateParam);
         return super.save(excelTemplateParam);
@@ -48,16 +47,16 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
     @Override
     public List<ExcelTemplateParamResponseDTO> list(ListExcelTemplateParamRequestDTO listExcelTemplateParamRequestDTO) {
         Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
-//TODO:添加列表筛选条件
-
+        excelTemplateParamCriteria.add(Restrictions.eq("templateId", listExcelTemplateParamRequestDTO.getTemplateId()));
+        excelTemplateParamCriteria.add(Restrictions.eq("name", listExcelTemplateParamRequestDTO.getName()));
         return super.findAll(excelTemplateParamCriteria, listExcelTemplateParamRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<ExcelTemplateParamResponseDTO> page(PageExcelTemplateParamRequestDTO pageExcelTemplateParamRequestDTO) {
         Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
-//TODO:添加分页筛选条件
-
+        excelTemplateParamCriteria.add(Restrictions.eq("templateId", pageExcelTemplateParamRequestDTO.getTemplateId()));
+        excelTemplateParamCriteria.add(Restrictions.eq("name", pageExcelTemplateParamRequestDTO.getName()));
         return super.findAll(excelTemplateParamCriteria, pageExcelTemplateParamRequestDTO.getPageRequestData());
     }
 

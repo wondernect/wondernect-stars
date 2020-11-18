@@ -7,8 +7,10 @@ import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
 import com.wondernect.stars.office.excel.dto.bean.ListExcelBeanRequestDTO;
 import com.wondernect.stars.office.excel.dto.bean.PageExcelBeanRequestDTO;
 import com.wondernect.stars.office.excel.dto.bean.SaveExcelBeanRequestDTO;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -50,6 +52,14 @@ public class ExcelBeanServerService {
 
     public ExcelBeanResponseDTO detail(String id) {
         BusinessData<ExcelBeanResponseDTO> businessData = excelBeanFeignClient.detail(id);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public ExcelBeanResponseDTO detailByBean(String bean) {
+        BusinessData<ExcelBeanResponseDTO> businessData = excelBeanFeignClient.detailByBean(bean);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

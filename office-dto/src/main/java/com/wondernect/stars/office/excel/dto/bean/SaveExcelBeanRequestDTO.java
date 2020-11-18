@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * excel导入导出实体类请求DTO
  *
@@ -18,10 +20,12 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "excel导入导出实体类请求对象")
 public class SaveExcelBeanRequestDTO {
 
+    @NotBlank(message = "实体类不能为空")
     @JsonProperty("bean")
     @ApiModelProperty(notes = "实体类")
     private String bean;
 
+    @NotBlank(message = "实体类名称不能为空")
     @JsonProperty("name")
     @ApiModelProperty(notes = "实体类名称")
     private String name;

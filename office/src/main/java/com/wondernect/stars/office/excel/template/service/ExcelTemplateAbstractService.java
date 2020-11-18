@@ -5,12 +5,14 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.office.excel.dto.template.ExcelTemplateResponseDTO;
 import com.wondernect.stars.office.excel.dto.template.ListExcelTemplateRequestDTO;
 import com.wondernect.stars.office.excel.dto.template.PageExcelTemplateRequestDTO;
 import com.wondernect.stars.office.excel.dto.template.SaveExcelTemplateRequestDTO;
 import com.wondernect.stars.office.excel.template.model.ExcelTemplate;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +29,6 @@ public abstract class ExcelTemplateAbstractService extends BaseStringService<Exc
     @Transactional
     @Override
     public ExcelTemplateResponseDTO create(SaveExcelTemplateRequestDTO saveExcelTemplateRequestDTO) {
-//TODO:判断对象是否存在
-
         ExcelTemplate excelTemplate = new ExcelTemplate();
         ESBeanUtils.copyProperties(saveExcelTemplateRequestDTO, excelTemplate);
         return super.save(excelTemplate);
@@ -48,16 +48,14 @@ public abstract class ExcelTemplateAbstractService extends BaseStringService<Exc
     @Override
     public List<ExcelTemplateResponseDTO> list(ListExcelTemplateRequestDTO listExcelTemplateRequestDTO) {
         Criteria<ExcelTemplate> excelTemplateCriteria = new Criteria<>();
-//TODO:添加列表筛选条件
-
+        excelTemplateCriteria.add(Restrictions.like("name", listExcelTemplateRequestDTO.getName(), MatchMode.ANYWHERE));
         return super.findAll(excelTemplateCriteria, listExcelTemplateRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<ExcelTemplateResponseDTO> page(PageExcelTemplateRequestDTO pageExcelTemplateRequestDTO) {
         Criteria<ExcelTemplate> excelTemplateCriteria = new Criteria<>();
-//TODO:添加分页筛选条件
-
+        excelTemplateCriteria.add(Restrictions.like("name", pageExcelTemplateRequestDTO.getName(), MatchMode.ANYWHERE));
         return super.findAll(excelTemplateCriteria, pageExcelTemplateRequestDTO.getPageRequestData());
     }
 

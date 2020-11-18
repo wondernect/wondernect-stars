@@ -67,6 +67,14 @@ public class ExcelBeanController {
         return new BusinessData<>(excelBeanService.findById(id));
     }
 
+    @ApiOperation(value = "获取详细信息", httpMethod = "GET")
+    @GetMapping(value = "/detail_by_bean")
+    public BusinessData<ExcelBeanResponseDTO> detailByBean(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "bean", required = false) String bean
+    ) {
+        return new BusinessData<>(excelBeanService.findByBean(bean));
+    }
+
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<ExcelBeanResponseDTO>> list(

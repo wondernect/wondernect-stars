@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * excel导入导出模板请求DTO
  *
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "excel导入导出模板请求对象")
 public class SaveExcelTemplateRequestDTO {
 
+    @NotBlank(message = "模板名称不能为空")
     @JsonProperty("name")
     @ApiModelProperty(notes = "模板名称")
     private String name;

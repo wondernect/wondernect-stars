@@ -11,10 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -53,6 +50,12 @@ public interface ExcelBeanFeignClient {
     @GetMapping(value = "/{id}/detail")
     public BusinessData<ExcelBeanResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
+    );
+
+    @ApiOperation(value = "获取详细信息", httpMethod = "GET")
+    @GetMapping(value = "/detail_by_bean")
+    public BusinessData<ExcelBeanResponseDTO> detailByBean(
+            @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "bean", required = false) String bean
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")
