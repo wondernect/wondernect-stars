@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author liyafei 2020-11-09 15:57:45
  **/
-@RequestMapping(value = "/v1/wondernect/database_manage")
+@RequestMapping(value = "/v1/wondernect/database/database_manage")
 @RestController
 @Validated
 @Api(tags = "数据库接口")
