@@ -28,7 +28,7 @@ public class WondernectDatabaseFeignConfiguration implements RequestInterceptor 
     private static final Logger logger = LoggerFactory.getLogger(WondernectDatabaseFeignConfiguration.class);
 
     @Autowired
-    private WondernectDatabaseFeignConfigProperties wondernectFileFeignConfigProperties;
+    private WondernectDatabaseFeignConfigProperties wondernectDatabaseFeignConfigProperties;
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
@@ -43,12 +43,12 @@ public class WondernectDatabaseFeignConfiguration implements RequestInterceptor 
                     requestTemplate.header(name, value);
                 }
             }
-            Object value = request.getAttribute(wondernectFileFeignConfigProperties.getUserIdPropertyName());
+            Object value = request.getAttribute(wondernectDatabaseFeignConfigProperties.getUserIdPropertyName());
             if (ESObjectUtils.isNotNull(value)) {
-                requestTemplate.header(wondernectFileFeignConfigProperties.getUserIdPropertyName(), value.toString());
+                requestTemplate.header(wondernectDatabaseFeignConfigProperties.getUserIdPropertyName(), value.toString());
             }
         }
-        requestTemplate.header(wondernectFileFeignConfigProperties.getAppIdPropertyName(), wondernectFileFeignConfigProperties.getAppId());
-        requestTemplate.header(wondernectFileFeignConfigProperties.getAppSecretPropertyName(), wondernectFileFeignConfigProperties.getAppSecret());
+        requestTemplate.header(wondernectDatabaseFeignConfigProperties.getAppIdPropertyName(), wondernectDatabaseFeignConfigProperties.getAppId());
+        requestTemplate.header(wondernectDatabaseFeignConfigProperties.getAppSecretPropertyName(), wondernectDatabaseFeignConfigProperties.getAppSecret());
     }
 }
