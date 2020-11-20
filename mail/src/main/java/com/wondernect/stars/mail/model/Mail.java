@@ -53,4 +53,12 @@ public class Mail extends BaseStringModel implements Serializable {
     @JsonProperty("send_result_message")
     @ApiModelProperty(notes = "发送结果描述")
     private String sendResultMessage;
+
+    @JsonProperty("mail_server_id")
+    @ApiModelProperty("邮件服务器id")
+    private String mailServerId;
+
+    @JsonProperty("mail_template_id")
+    @ApiModelProperty("邮件模板id")
+    private String mailTemplateId;
 }

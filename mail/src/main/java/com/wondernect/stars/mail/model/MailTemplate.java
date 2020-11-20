@@ -40,13 +40,13 @@ public class MailTemplate extends BaseStringModel implements Serializable {
     @ApiModelProperty("模板名称")
     private String name;
 
-    @JsonProperty("subject")
-    @ApiModelProperty("主题")
-    private String subject;
-
     @JsonProperty("personal")
     @ApiModelProperty("邮件用户名定制")
     private String personal;
+
+    @JsonProperty("subject")
+    @ApiModelProperty("主题")
+    private String subject;
 
     @Lob
     @JsonProperty("name")
