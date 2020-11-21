@@ -261,4 +261,11 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         userResponseDTO.setRoleName(ESObjectUtils.isNotNull(roleResponseDTO) ? roleResponseDTO.getName() : null);
         return userResponseDTO;
     }
+
+    @Override
+    public User generate(UserResponseDTO userResponseDTO) {
+        User user = new User();
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(userResponseDTO, user);
+        return user;
+    }
 }

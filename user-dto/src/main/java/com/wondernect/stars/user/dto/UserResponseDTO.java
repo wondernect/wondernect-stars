@@ -31,6 +31,10 @@ public class UserResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "用户登录名")
     private String username;
 
+    @JsonProperty("password")
+    @ApiModelProperty(notes = "用户密码")
+    private String password;
+
     @JsonProperty("name")
     @ApiModelProperty(notes = "姓名")
     private String name;
@@ -52,7 +56,7 @@ public class UserResponseDTO extends BaseStringResponseDTO {
     private String email;
 
     @JsonProperty("location")
-    @ApiModelProperty(notes = "坐标(地理位置)")
+    @ApiModelProperty(notes = "地理位置")
     private String location;
 
     @JsonProperty("remark")
@@ -60,7 +64,7 @@ public class UserResponseDTO extends BaseStringResponseDTO {
     private String remark;
 
     @JsonProperty("role_type_id")
-    @ApiModelProperty(notes = "角色类型")
+    @ApiModelProperty(notes = "角色类型id")
     private String roleTypeId;
 
     @JsonProperty("role_type_name")
@@ -68,7 +72,7 @@ public class UserResponseDTO extends BaseStringResponseDTO {
     private String roleTypeName;
 
     @JsonProperty("role_id")
-    @ApiModelProperty(notes = "角色")
+    @ApiModelProperty(notes = "角色id")
     private String roleId;
 
     @JsonProperty("role_name")
