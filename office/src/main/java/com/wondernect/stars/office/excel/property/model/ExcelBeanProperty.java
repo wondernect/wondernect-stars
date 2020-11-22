@@ -24,7 +24,8 @@ import javax.persistence.UniqueConstraint;
         name = "excel_bean_property",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "beanId")
+                @Index(columnList = "beanId"),
+                @Index(columnList = "name")
         }
 )
 @Data

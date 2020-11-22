@@ -20,12 +20,13 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "excel导入导出模板请求对象")
 public class SaveExcelTemplateRequestDTO {
 
+    @NotBlank(message = "实体类id不能为空")
+    @JsonProperty("bean_id")
+    @ApiModelProperty(notes = "实体类id")
+    private String beanId;
+
     @NotBlank(message = "模板名称不能为空")
     @JsonProperty("name")
     @ApiModelProperty(notes = "模板名称")
     private String name;
-
-    @JsonProperty("description")
-    @ApiModelProperty(notes = "说明")
-    private String description;
 }

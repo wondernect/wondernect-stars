@@ -85,9 +85,6 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
                 saveLocalUserRequestDTO.getEditable(),
                 saveLocalUserRequestDTO.getDeletable()
         );
-        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getId())) {
-            user.setId(saveLocalUserRequestDTO.getId());
-        }
         UserResponseDTO userResponseDTO = super.save(user);
         if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getPassword())) {
             userLocalAuthService.create(userResponseDTO.getId(), new SaveUserLocalAuthRequestDTO(saveLocalUserRequestDTO.getPassword()));
@@ -260,12 +257,5 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         RoleResponseDTO roleResponseDTO = roleServerService.get(user.getRoleId());
         userResponseDTO.setRoleName(ESObjectUtils.isNotNull(roleResponseDTO) ? roleResponseDTO.getName() : null);
         return userResponseDTO;
-    }
-
-    @Override
-    public User generate(UserResponseDTO userResponseDTO) {
-        User user = new User();
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(userResponseDTO, user);
-        return user;
     }
 }

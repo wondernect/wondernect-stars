@@ -36,6 +36,11 @@ public interface ExcelBeanPropertyInterface {
     ExcelBeanPropertyResponseDTO findById(String id);
 
     /**
+     * 获取详细信息
+     **/
+    ExcelBeanPropertyResponseDTO findByBeanIdAndName(String beanId, String name);
+
+    /**
      * 列表
      **/
     List<ExcelBeanPropertyResponseDTO> list(ListExcelBeanPropertyRequestDTO listExcelBeanPropertyRequestDTO);

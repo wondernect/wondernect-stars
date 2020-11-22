@@ -21,6 +21,10 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "excel导入导出模板列表请求对象")
 public class ListExcelTemplateRequestDTO extends ListRequestDTO {
 
+    @JsonProperty("bean_id")
+    @ApiModelProperty(notes = "实体类id")
+    private String beanId;
+
     @JsonProperty("name")
     @ApiModelProperty(notes = "模板名称")
     private String name;

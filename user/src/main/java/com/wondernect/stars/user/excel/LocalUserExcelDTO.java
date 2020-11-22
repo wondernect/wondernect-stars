@@ -1,7 +1,8 @@
-package com.wondernect.stars.user.dto;
+package com.wondernect.stars.user.excel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.response.BaseStringResponseDTO;
+import com.wondernect.stars.user.em.Gender;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,26 +11,26 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Copyright (C), 2017-2019, wondernect.com
- * FileName: UserResponseDTO
+ * Copyright (C), 2020, wondernect.com
+ * FileName: UserExcelDTO
  * Author: chenxun
- * Date: 2019/7/17 9:53
- * Description: 用户响应对象
+ * Date: 2020-11-22 21:20
+ * Description: 本地用户导入导出对象
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "用户响应对象")
-public class UserResponseDTO extends BaseStringResponseDTO {
-
-    @JsonProperty("user_type")
-    @ApiModelProperty(notes = "用户类型")
-    private String userType;
+@ApiModel(value = "本地用户导入导出对象")
+public class LocalUserExcelDTO extends BaseStringResponseDTO {
 
     @JsonProperty("username")
     @ApiModelProperty(notes = "用户登录名")
     private String username;
+
+    @JsonProperty("password")
+    @ApiModelProperty(notes = "密码")
+    private String password;
 
     @JsonProperty("name")
     @ApiModelProperty(notes = "姓名")
@@ -37,7 +38,7 @@ public class UserResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("gender")
     @ApiModelProperty(notes = "性别")
-    private String gender;
+    private Gender gender;
 
     @JsonProperty("avatar")
     @ApiModelProperty(notes = "头像")

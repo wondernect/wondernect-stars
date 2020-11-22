@@ -1,10 +1,17 @@
 package com.wondernect.stars.user.excel;
 
+import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelImportDataHandler;
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
+import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
+import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
+import com.wondernect.stars.office.excel.dto.property.ListExcelBeanPropertyRequestDTO;
+import com.wondernect.stars.office.feign.excel.bean.ExcelBeanServerService;
+import com.wondernect.stars.office.feign.excel.property.ExcelBeanPropertyServerService;
 import com.wondernect.stars.user.dto.UserResponseDTO;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,12 +28,21 @@ import java.util.Map;
 @Service
 public class UserImportDataHandler extends ESExcelImportDataHandler {
 
+    @Autowired
+    private ExcelBeanServerService excelBeanServerService;
+
+    @Autowired
+    private ExcelBeanPropertyServerService excelBeanPropertyServerService;
+
     public Map<String, String> getDataPropertyMapping() {
         Map<String, String> dictionary = new HashMap<>();
-        List<ESExcelItem> excelItemList = ESExcelUtils.getAllEntityExcelItem(UserResponseDTO.class);
-        if (CollectionUtils.isNotEmpty(excelItemList)) {
-            for (ESExcelItem excelItem : excelItemList) {
-                dictionary.put(excelItem.getTitle(), excelItem.getName());
+        ExcelBeanResponseDTO excelBeanResponseDTO = excelBeanServerService.detailByBean(UserResponseDTO.class.getName());
+        if (ESObjectUtils.isNotNull(excelBeanResponseDTO)) {
+            List<ExcelBeanPropertyResponseDTO> excelBeanPropertyResponseDTOList = excelBeanPropertyServerService.list(new ListExcelBeanPropertyRequestDTO(excelBeanResponseDTO.getId(), null));
+            if (CollectionUtils.isNotEmpty(excelBeanPropertyResponseDTOList)) {
+                for (ExcelBeanPropertyResponseDTO excelBeanPropertyResponseDTO : excelBeanPropertyResponseDTOList) {
+                    dictionary.put(excelBeanPropertyResponseDTO.getTitle(), excelBeanPropertyResponseDTO.getName());
+                }
             }
         }
         return dictionary;

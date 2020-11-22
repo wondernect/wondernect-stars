@@ -11,7 +11,10 @@ import com.wondernect.stars.office.excel.dto.param.ExcelTemplateParamResponseDTO
 import com.wondernect.stars.office.excel.dto.param.ListExcelTemplateParamRequestDTO;
 import com.wondernect.stars.office.excel.dto.param.PageExcelTemplateParamRequestDTO;
 import com.wondernect.stars.office.excel.dto.param.SaveExcelTemplateParamRequestDTO;
+import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
 import com.wondernect.stars.office.excel.param.model.ExcelTemplateParam;
+import com.wondernect.stars.office.excel.property.service.ExcelBeanPropertyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,9 @@ import java.util.List;
  **/
 @Service
 public abstract class ExcelTemplateParamAbstractService extends BaseStringService<ExcelTemplateParamResponseDTO, ExcelTemplateParam> implements ExcelTemplateParamInterface {
+
+    @Autowired
+    private ExcelBeanPropertyService excelBeanPropertyService;
 
     @Transactional
     @Override
@@ -48,6 +54,7 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
     public List<ExcelTemplateParamResponseDTO> list(ListExcelTemplateParamRequestDTO listExcelTemplateParamRequestDTO) {
         Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
         excelTemplateParamCriteria.add(Restrictions.eq("templateId", listExcelTemplateParamRequestDTO.getTemplateId()));
+        excelTemplateParamCriteria.add(Restrictions.eq("beanId", listExcelTemplateParamRequestDTO.getBeanId()));
         excelTemplateParamCriteria.add(Restrictions.eq("name", listExcelTemplateParamRequestDTO.getName()));
         return super.findAll(excelTemplateParamCriteria, listExcelTemplateParamRequestDTO.getSortDataList());
     }
@@ -56,6 +63,7 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
     public PageResponseData<ExcelTemplateParamResponseDTO> page(PageExcelTemplateParamRequestDTO pageExcelTemplateParamRequestDTO) {
         Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
         excelTemplateParamCriteria.add(Restrictions.eq("templateId", pageExcelTemplateParamRequestDTO.getTemplateId()));
+        excelTemplateParamCriteria.add(Restrictions.eq("beanId", pageExcelTemplateParamRequestDTO.getBeanId()));
         excelTemplateParamCriteria.add(Restrictions.eq("name", pageExcelTemplateParamRequestDTO.getName()));
         return super.findAll(excelTemplateParamCriteria, pageExcelTemplateParamRequestDTO.getPageRequestData());
     }
@@ -64,13 +72,9 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
     public ExcelTemplateParamResponseDTO generate(ExcelTemplateParam excelTemplateParam) {
         ExcelTemplateParamResponseDTO excelTemplateParamResponseDTO = new ExcelTemplateParamResponseDTO();
         ESBeanUtils.copyProperties(excelTemplateParam, excelTemplateParamResponseDTO);
+        ExcelBeanPropertyResponseDTO excelBeanPropertyResponseDTO = excelBeanPropertyService.findByBeanIdAndName(excelTemplateParam.getBeanId(), excelTemplateParam.getName());
+        excelTemplateParamResponseDTO.setType(ESObjectUtils.isNotNull(excelBeanPropertyResponseDTO) ? excelBeanPropertyResponseDTO.getType() : null);
+        excelTemplateParamResponseDTO.setTitle(ESObjectUtils.isNotNull(excelBeanPropertyResponseDTO) ? excelBeanPropertyResponseDTO.getTitle() : null);
         return excelTemplateParamResponseDTO;
-    }
-
-    @Override
-    public ExcelTemplateParam generate(ExcelTemplateParamResponseDTO excelTemplateParamResponseDTO) {
-        ExcelTemplateParam excelTemplateParam = new ExcelTemplateParam();
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(excelTemplateParamResponseDTO, excelTemplateParam);
-        return excelTemplateParam;
     }
 }

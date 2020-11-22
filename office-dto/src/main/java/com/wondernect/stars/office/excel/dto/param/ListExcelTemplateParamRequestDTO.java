@@ -25,6 +25,10 @@ public class ListExcelTemplateParamRequestDTO extends ListRequestDTO {
     @ApiModelProperty(notes = "模板id")
     private String templateId;
 
+    @JsonProperty("bean_id")
+    @ApiModelProperty(notes = "实体类id")
+    private String beanId;
+
     @JsonProperty("name")
     @ApiModelProperty(notes = "属性名")
     private String name;

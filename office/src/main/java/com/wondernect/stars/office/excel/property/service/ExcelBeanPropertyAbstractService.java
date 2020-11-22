@@ -15,6 +15,7 @@ import com.wondernect.stars.office.excel.property.model.ExcelBeanProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +48,18 @@ public abstract class ExcelBeanPropertyAbstractService extends BaseStringService
     }
 
     @Override
+    public ExcelBeanPropertyResponseDTO findByBeanIdAndName(String beanId, String name) {
+        Criteria<ExcelBeanProperty> excelBeanPropertyCriteria = new Criteria<>();
+        excelBeanPropertyCriteria.add(Restrictions.eq("beanId", beanId));
+        excelBeanPropertyCriteria.add(Restrictions.eq("name", name));
+        ExcelBeanProperty excelBeanProperty = super.findOneEntity(excelBeanPropertyCriteria, new ArrayList<>());
+        if (ESObjectUtils.isNull(excelBeanProperty)) {
+            return null;
+        }
+        return generate(excelBeanProperty);
+    }
+
+    @Override
     public List<ExcelBeanPropertyResponseDTO> list(ListExcelBeanPropertyRequestDTO listExcelBeanPropertyRequestDTO) {
         Criteria<ExcelBeanProperty> excelBeanPropertyCriteria = new Criteria<>();
         excelBeanPropertyCriteria.add(Restrictions.eq("beanId", listExcelBeanPropertyRequestDTO.getBeanId()));
@@ -67,12 +80,5 @@ public abstract class ExcelBeanPropertyAbstractService extends BaseStringService
         ExcelBeanPropertyResponseDTO excelBeanPropertyResponseDTO = new ExcelBeanPropertyResponseDTO();
         ESBeanUtils.copyProperties(excelBeanProperty, excelBeanPropertyResponseDTO);
         return excelBeanPropertyResponseDTO;
-    }
-
-    @Override
-    public ExcelBeanProperty generate(ExcelBeanPropertyResponseDTO excelBeanPropertyResponseDTO) {
-        ExcelBeanProperty excelBeanProperty = new ExcelBeanProperty();
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(excelBeanPropertyResponseDTO, excelBeanProperty);
-        return excelBeanProperty;
     }
 }

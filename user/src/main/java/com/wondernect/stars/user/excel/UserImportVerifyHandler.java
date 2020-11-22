@@ -6,6 +6,7 @@ import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESRegexUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelImportVerifyHandler;
+import com.wondernect.elements.i18n.validator.ESPasswordValidator;
 import com.wondernect.stars.rbac.feign.role.RoleServerService;
 import com.wondernect.stars.rbac.feign.roleType.RoleTypeServerService;
 import com.wondernect.stars.user.manager.UserManager;
@@ -23,6 +24,10 @@ import java.util.Map;
  */
 @Service
 public class UserImportVerifyHandler extends ESExcelImportVerifyHandler {
+
+    private int min = 6;
+
+    private String passwordRegexPattern = "^(?![A-Z]*$)(?![a-z]*$)(?![0-9]*$)(?![^a-zA-Z0-9]*$)\\S+$";
 
     @Autowired
     private UserManager userManager;
@@ -51,6 +56,15 @@ public class UserImportVerifyHandler extends ESExcelImportVerifyHandler {
             }
         } else {
             return new BusinessData("用户登录名不能为空");
+        }
+
+        Object password = object.get("password");
+        if (ESObjectUtils.isNotNull(password)) {
+            if (password.toString().length() < min || !ESRegexUtils.match(passwordRegexPattern, password.toString())) {
+                return new BusinessData("密码强度不符合规则要求(至少6位，数字、大小写字母、特殊字符包含两种以上)");
+            }
+        } else {
+            return new BusinessData("密码不能为空");
         }
 
         Object name = object.get("name");

@@ -12,6 +12,7 @@ import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
 import com.wondernect.stars.office.excel.dto.bean.ListExcelBeanRequestDTO;
 import com.wondernect.stars.office.excel.dto.bean.PageExcelBeanRequestDTO;
 import com.wondernect.stars.office.excel.dto.bean.SaveExcelBeanRequestDTO;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +64,7 @@ public abstract class ExcelBeanAbstractService extends BaseStringService<ExcelBe
     public List<ExcelBeanResponseDTO> list(ListExcelBeanRequestDTO listExcelBeanRequestDTO) {
         Criteria<ExcelBean> excelBeanCriteria = new Criteria<>();
         excelBeanCriteria.add(Restrictions.eq("bean", listExcelBeanRequestDTO.getBean()));
-        excelBeanCriteria.add(Restrictions.eq("name", listExcelBeanRequestDTO.getName()));
+        excelBeanCriteria.add(Restrictions.like("name", listExcelBeanRequestDTO.getName(), MatchMode.ANYWHERE));
         return super.findAll(excelBeanCriteria, listExcelBeanRequestDTO.getSortDataList());
     }
 
@@ -71,7 +72,7 @@ public abstract class ExcelBeanAbstractService extends BaseStringService<ExcelBe
     public PageResponseData<ExcelBeanResponseDTO> page(PageExcelBeanRequestDTO pageExcelBeanRequestDTO) {
         Criteria<ExcelBean> excelBeanCriteria = new Criteria<>();
         excelBeanCriteria.add(Restrictions.eq("bean", pageExcelBeanRequestDTO.getBean()));
-        excelBeanCriteria.add(Restrictions.eq("name", pageExcelBeanRequestDTO.getName()));
+        excelBeanCriteria.add(Restrictions.like("name", pageExcelBeanRequestDTO.getName(), MatchMode.ANYWHERE));
         return super.findAll(excelBeanCriteria, pageExcelBeanRequestDTO.getPageRequestData());
     }
 
@@ -80,12 +81,5 @@ public abstract class ExcelBeanAbstractService extends BaseStringService<ExcelBe
         ExcelBeanResponseDTO excelBeanResponseDTO = new ExcelBeanResponseDTO();
         ESBeanUtils.copyProperties(excelBean, excelBeanResponseDTO);
         return excelBeanResponseDTO;
-    }
-
-    @Override
-    public ExcelBean generate(ExcelBeanResponseDTO excelBeanResponseDTO) {
-        ExcelBean excelBean = new ExcelBean();
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(excelBeanResponseDTO, excelBean);
-        return excelBean;
     }
 }

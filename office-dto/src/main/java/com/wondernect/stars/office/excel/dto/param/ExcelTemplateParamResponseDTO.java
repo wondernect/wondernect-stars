@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
  *
  * @author chenxun 2020-11-17 16:20:18
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,9 +25,17 @@ public class ExcelTemplateParamResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "模板id")
     private String templateId;
 
+    @JsonProperty("bean_id")
+    @ApiModelProperty(notes = "实体类id")
+    private String beanId;
+
     @JsonProperty("name")
     @ApiModelProperty(notes = "属性名")
     private String name;
+
+    @JsonProperty("order_num")
+    @ApiModelProperty(notes = "排序")
+    private int orderNum = 0;
 
     @JsonProperty("type")
     @ApiModelProperty(notes = "属性类型")
@@ -34,8 +44,4 @@ public class ExcelTemplateParamResponseDTO extends BaseStringResponseDTO {
     @JsonProperty("title")
     @ApiModelProperty(notes = "属性导入导出标题")
     private String title;
-
-    @JsonProperty("order_num")
-    @ApiModelProperty(notes = "排序")
-    private int orderNum = 0;
 }

@@ -67,6 +67,15 @@ public class ExcelBeanPropertyController {
         return new BusinessData<>(excelBeanPropertyService.findById(id));
     }
 
+    @ApiOperation(value = "获取详细信息", httpMethod = "GET")
+    @GetMapping(value = "/detail_by_bean_id_and_name")
+    public BusinessData<ExcelBeanPropertyResponseDTO> detailByBeanIdAndName(
+            @ApiParam(required = true) @NotBlank(message = "实体类id不能为空") @RequestParam(value = "beanId", required = false) String beanId,
+            @ApiParam(required = true) @NotBlank(message = "属性名不能为空") @RequestParam(value = "name", required = false) String name
+    ) {
+        return new BusinessData<>(excelBeanPropertyService.findByBeanIdAndName(beanId, name));
+    }
+
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<ExcelBeanPropertyResponseDTO>> list(

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -21,18 +22,21 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(
         name = "excel_template",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})}
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
+        indexes = {
+                @Index(columnList = "beanId")
+        }
 )
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "excel导入导出模板")
 public class ExcelTemplate extends BaseStringModel {
 
+    @JsonProperty("bean_id")
+    @ApiModelProperty(notes = "实体类id")
+    private String beanId;
+
     @JsonProperty("name")
     @ApiModelProperty(notes = "模板名称")
     private String name;
-
-    @JsonProperty("description")
-    @ApiModelProperty(notes = "说明")
-    private String description;
 }

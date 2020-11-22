@@ -24,7 +24,9 @@ import javax.persistence.UniqueConstraint;
         name = "excel_template_param",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "templateId")
+                @Index(columnList = "templateId"),
+                @Index(columnList = "beanId"),
+                @Index(columnList = "name")
         }
 )
 @Data
@@ -36,17 +38,13 @@ public class ExcelTemplateParam extends BaseStringModel {
     @ApiModelProperty("模板id")
     private String templateId;
 
+    @JsonProperty("bean_id")
+    @ApiModelProperty(notes = "实体类id")
+    private String beanId;
+
     @JsonProperty("name")
     @ApiModelProperty("属性名")
     private String name;
-
-    @JsonProperty("type")
-    @ApiModelProperty(notes = "属性类型")
-    private String type;
-
-    @JsonProperty("title")
-    @ApiModelProperty(notes = "属性导入导出标题")
-    private String title;
 
     @JsonProperty("order_num")
     @ApiModelProperty(notes = "排序")

@@ -56,6 +56,14 @@ public class ExcelBeanPropertyServerService {
         return businessData.getData();
     }
 
+    public ExcelBeanPropertyResponseDTO detailByBeanIdAndName(String beanId, String name) {
+        BusinessData<ExcelBeanPropertyResponseDTO> businessData = excelBeanPropertyFeignClient.detailByBeanIdAndName(beanId, name);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
     public List<ExcelBeanPropertyResponseDTO> list(ListExcelBeanPropertyRequestDTO listExcelBeanPropertyRequestDTO) {
         BusinessData<List<ExcelBeanPropertyResponseDTO>> businessData = excelBeanPropertyFeignClient.list(listExcelBeanPropertyRequestDTO);
         if (!businessData.success()) {

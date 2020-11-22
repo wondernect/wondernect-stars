@@ -48,6 +48,7 @@ public abstract class ExcelTemplateAbstractService extends BaseStringService<Exc
     @Override
     public List<ExcelTemplateResponseDTO> list(ListExcelTemplateRequestDTO listExcelTemplateRequestDTO) {
         Criteria<ExcelTemplate> excelTemplateCriteria = new Criteria<>();
+        excelTemplateCriteria.add(Restrictions.eq("beanId", listExcelTemplateRequestDTO.getBeanId()));
         excelTemplateCriteria.add(Restrictions.like("name", listExcelTemplateRequestDTO.getName(), MatchMode.ANYWHERE));
         return super.findAll(excelTemplateCriteria, listExcelTemplateRequestDTO.getSortDataList());
     }
@@ -55,6 +56,7 @@ public abstract class ExcelTemplateAbstractService extends BaseStringService<Exc
     @Override
     public PageResponseData<ExcelTemplateResponseDTO> page(PageExcelTemplateRequestDTO pageExcelTemplateRequestDTO) {
         Criteria<ExcelTemplate> excelTemplateCriteria = new Criteria<>();
+        excelTemplateCriteria.add(Restrictions.eq("beanId", pageExcelTemplateRequestDTO.getBeanId()));
         excelTemplateCriteria.add(Restrictions.like("name", pageExcelTemplateRequestDTO.getName(), MatchMode.ANYWHERE));
         return super.findAll(excelTemplateCriteria, pageExcelTemplateRequestDTO.getPageRequestData());
     }
@@ -64,12 +66,5 @@ public abstract class ExcelTemplateAbstractService extends BaseStringService<Exc
         ExcelTemplateResponseDTO excelTemplateResponseDTO = new ExcelTemplateResponseDTO();
         ESBeanUtils.copyProperties(excelTemplate, excelTemplateResponseDTO);
         return excelTemplateResponseDTO;
-    }
-
-    @Override
-    public ExcelTemplate generate(ExcelTemplateResponseDTO excelTemplateResponseDTO) {
-        ExcelTemplate excelTemplate = new ExcelTemplate();
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(excelTemplateResponseDTO, excelTemplate);
-        return excelTemplate;
     }
 }
