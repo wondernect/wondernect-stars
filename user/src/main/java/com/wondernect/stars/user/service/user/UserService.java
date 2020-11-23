@@ -1,7 +1,6 @@
 package com.wondernect.stars.user.service.user;
 
 import com.wondernect.elements.common.exception.BusinessException;
-import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.*;
@@ -132,40 +131,25 @@ public class UserService extends UserAbstractService {
     public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            BusinessData.error("导出模板不存在", response);
-        } else {
-            try {
-                super.excelDataExport(templateId, LocalUserExcelDTO.class, list(listUserRequestDTO), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
-            } catch (Exception e) {
-                BusinessData.error(e.getMessage(), response);
-            }
+            throw new BusinessException("导出模板不存在");
         }
+        super.excelDataExport(templateId, LocalUserExcelDTO.class, list(listUserRequestDTO), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
     }
 
     public void excelDataImport(String templateId, InputStream fileInputStream, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            BusinessData.error("导入模板不存在", response);
-        } else {
-            try {
-                super.excelDataImport(templateId, LocalUserExcelDTO.class, userImportDataHandler, userImportVerifyHandler, 1, 1, fileInputStream, excelTemplateResponseDTO.getName() + "错误信息", request, response);
-            } catch (Exception e) {
-                BusinessData.error(e.getMessage(), response);
-            }
+            throw new BusinessException("导入模板不存在");
         }
+        super.excelDataImport(templateId, LocalUserExcelDTO.class, userImportDataHandler, userImportVerifyHandler, 1, 1, fileInputStream, excelTemplateResponseDTO.getName() + "错误信息", request, response);
     }
 
     public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            BusinessData.error("导入模板不存在", response);
-        } else {
-            try {
-                super.excelDataExport(templateId, LocalUserExcelDTO.class, new ArrayList<>(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
-            } catch (Exception e) {
-                BusinessData.error(e.getMessage(), response);
-            }
+            throw new BusinessException("导入模板不存在");
         }
+        super.excelDataExport(templateId, LocalUserExcelDTO.class, new ArrayList<>(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
     }
 
     @Override

@@ -164,7 +164,11 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        userService.excelDataExport(templateId, listUserRequestDTO, request, response);
+        try {
+            userService.excelDataExport(templateId, listUserRequestDTO, request, response);
+        } catch (Exception e) {
+            BusinessData.error(e.getMessage(), response);
+        }
     }
 
     @AuthorizeServer
@@ -179,7 +183,7 @@ public class UserController {
         try {
             userService.excelDataImport(templateId, file.getInputStream(), request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            BusinessData.error(e.getMessage(), response);
         }
     }
 
@@ -191,6 +195,10 @@ public class UserController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        userService.excelDataImportModel(templateId, request, response);
+        try {
+            userService.excelDataImportModel(templateId, request, response);
+        } catch (Exception e) {
+            BusinessData.error(e.getMessage(), response);
+        }
     }
 }
