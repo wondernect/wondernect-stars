@@ -70,7 +70,7 @@ public class UserService extends UserAbstractService {
     @Autowired
     private UserLocalAuthService userLocalAuthService;
 
-    public List<ESExcelItem> initLocalUserExcelItem(boolean forceUpdate) {
+    public void initLocalUserExcelItem(boolean forceUpdate) {
         List<ESExcelItem> excelItemList = ESExcelUtils.getAllEntityExcelItem(LocalUserExcelDTO.class);
         if (CollectionUtils.isNotEmpty(excelItemList)) {
             ESExcelItem excelItemOne = excelItemList.get(0);
@@ -125,7 +125,6 @@ public class UserService extends UserAbstractService {
 
             }
         }
-        return excelItemList;
     }
 
     public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {

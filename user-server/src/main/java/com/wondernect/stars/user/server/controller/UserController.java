@@ -146,13 +146,14 @@ public class UserController {
     @AuthorizeServer
     @ApiOperation(value = "初始化本地用户导入导出item", httpMethod = "POST")
     @PostMapping(value = "/init_local_user_item")
-    public BusinessData<List<ESExcelItem>> initLocalUserExcelItem(
+    public BusinessData initLocalUserExcelItem(
             @ApiParam(required = false) @RequestParam(value = "force_update", required = false) Boolean forceUpdate
     ) {
         if (ESObjectUtils.isNull(forceUpdate)) {
             forceUpdate = false;
         }
-        return new BusinessData<>(userService.initLocalUserExcelItem(forceUpdate));
+        userService.initLocalUserExcelItem(forceUpdate);
+        return new BusinessData(BusinessError.SUCCESS);
     }
 
     @AuthorizeServer

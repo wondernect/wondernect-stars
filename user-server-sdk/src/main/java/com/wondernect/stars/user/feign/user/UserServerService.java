@@ -5,11 +5,16 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -111,5 +116,21 @@ public class UserServerService {
             throw new BusinessException(businessData);
         }
         return businessData.getData();
+    }
+
+    public BusinessData initLocalUserExcelItem(Boolean forceUpdate) {
+        return userFeignClient.initLocalUserExcelItem(forceUpdate);
+    }
+
+    public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {
+        userFeignClient.excelDataExport(templateId, listUserRequestDTO, request, response);
+    }
+
+    public void excelDataImport(String templateId, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+        userFeignClient.excelDataImport(templateId, file, request, response);
+    }
+
+    public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
+        userFeignClient.excelDataImportModel(templateId, request, response);
     }
 }
