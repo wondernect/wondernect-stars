@@ -1,8 +1,11 @@
 package com.wondernect.stars.user.service.user;
 
 import com.wondernect.elements.common.exception.BusinessException;
+import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.*;
+import com.wondernect.elements.easyoffice.excel.handler.*;
 import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
 import com.wondernect.stars.office.excel.dto.bean.SaveExcelBeanRequestDTO;
 import com.wondernect.stars.office.excel.dto.param.ExcelTemplateParamResponseDTO;
@@ -15,7 +18,6 @@ import com.wondernect.stars.office.feign.excel.param.ExcelTemplateParamServerSer
 import com.wondernect.stars.office.feign.excel.property.ExcelBeanPropertyServerService;
 import com.wondernect.stars.office.feign.excel.template.ExcelTemplateServerService;
 import com.wondernect.stars.user.dto.ListUserRequestDTO;
-import com.wondernect.stars.user.dto.UserResponseDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.em.Gender;
 import com.wondernect.stars.user.em.UserType;
@@ -23,6 +25,8 @@ import com.wondernect.stars.user.excel.*;
 import com.wondernect.stars.user.model.User;
 import com.wondernect.stars.user.service.localauth.UserLocalAuthService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +47,8 @@ import java.util.Map;
  */
 @Service
 public class UserService extends UserAbstractService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private ExcelBeanServerService excelBeanServerService;
@@ -124,15 +130,42 @@ public class UserService extends UserAbstractService {
     }
 
     public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataExport(templateId, LocalUserExcelDTO.class, list(listUserRequestDTO), "用户信息导出", "用户信息导出", "用户信息导出", request, response);
+        ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
+        if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
+            BusinessData.error("导出模板不存在", response);
+        } else {
+            try {
+                super.excelDataExport(templateId, LocalUserExcelDTO.class, list(listUserRequestDTO), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
+            } catch (Exception e) {
+                BusinessData.error(e.getMessage(), response);
+            }
+        }
     }
 
     public void excelDataImport(String templateId, InputStream fileInputStream, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataImport(templateId, LocalUserExcelDTO.class, userImportDataHandler, userImportVerifyHandler, 1, 1, fileInputStream, "用户信息导入错误信息", request, response);
+        ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
+        if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
+            BusinessData.error("导入模板不存在", response);
+        } else {
+            try {
+                super.excelDataImport(templateId, LocalUserExcelDTO.class, userImportDataHandler, userImportVerifyHandler, 1, 1, fileInputStream, excelTemplateResponseDTO.getName() + "错误信息", request, response);
+            } catch (Exception e) {
+                BusinessData.error(e.getMessage(), response);
+            }
+        }
     }
 
     public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataExport(templateId, LocalUserExcelDTO.class, new ArrayList<>(), "用户信息导入", "用户信息导入", "用户信息导入模板", request, response);
+        ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
+        if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
+            BusinessData.error("导入模板不存在", response);
+        } else {
+            try {
+                super.excelDataExport(templateId, LocalUserExcelDTO.class, new ArrayList<>(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
+            } catch (Exception e) {
+                BusinessData.error(e.getMessage(), response);
+            }
+        }
     }
 
     @Override
@@ -143,7 +176,7 @@ public class UserService extends UserAbstractService {
                     UserType.LOCAL,
                     localUserExcelDTO.getUsername(),
                     localUserExcelDTO.getName(),
-                    localUserExcelDTO.getGender(),
+                    ESObjectUtils.isNotNull(localUserExcelDTO.getGender()) ? localUserExcelDTO.getGender() : Gender.UNKNOWN,
                     localUserExcelDTO.getAvatar(),
                     localUserExcelDTO.getMobile(),
                     localUserExcelDTO.getEmail(),
@@ -151,9 +184,9 @@ public class UserService extends UserAbstractService {
                     localUserExcelDTO.getRemark(),
                     localUserExcelDTO.getRoleTypeId(),
                     localUserExcelDTO.getRoleId(),
-                    localUserExcelDTO.getEnable(),
-                    localUserExcelDTO.getEditable(),
-                    localUserExcelDTO.getDeletable()
+                    ESObjectUtils.isNotNull(localUserExcelDTO.getEnable()) ? localUserExcelDTO.getEnable() : true,
+                    ESObjectUtils.isNotNull(localUserExcelDTO.getEditable()) ? localUserExcelDTO.getEditable() : true,
+                    ESObjectUtils.isNotNull(localUserExcelDTO.getDeletable()) ? localUserExcelDTO.getDeletable() : true
             );
             user = super.saveEntity(user);
             userLocalAuthService.create(user.getId(), new SaveUserLocalAuthRequestDTO(localUserExcelDTO.getPassword()));
@@ -173,50 +206,6 @@ public class UserService extends UserAbstractService {
         List<ESExcelItemHandler> excelItemHandlerList = new ArrayList<>();
         for (ExcelTemplateParamResponseDTO excelTemplateParamResponseDTO : excelTemplateParamResponseDTOList) {
             switch (excelTemplateParamResponseDTO.getName()) {
-                case "id":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "username":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "password":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "name":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
                 case "gender":
                 {
                     Map<Gender, String> dictionary = new HashMap<>();
@@ -224,143 +213,11 @@ public class UserService extends UserAbstractService {
                     dictionary.put(Gender.FEMALE, "女");
                     dictionary.put(Gender.UNKNOWN, "未知");
                     excelItemHandlerList.add(
-                            new UserResponseDTOGenderHandler(
+                            new LocalUserExcelGenderItemHandler(
                                     excelTemplateParamResponseDTO.getName(),
                                     excelTemplateParamResponseDTO.getTitle(),
                                     excelTemplateParamResponseDTO.getOrderNum(),
                                     dictionary
-                            )
-                    );
-                    break;
-                }
-                case "avatar":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "mobile":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "email":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "location":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "remark":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "roleTypeId":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "roleTypeName":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "roleId":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "roleName":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelStringItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "enable":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelBooleanItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "editable":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelBooleanItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
-                            )
-                    );
-                    break;
-                }
-                case "deletable":
-                {
-                    excelItemHandlerList.add(
-                            new ESExcelBooleanItemHandler(
-                                    excelTemplateParamResponseDTO.getName(),
-                                    excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum()
                             )
                     );
                     break;
@@ -375,6 +232,26 @@ public class UserService extends UserAbstractService {
                             )
                     );
                     break;
+                }
+                default:
+                {
+                    if (ESStringUtils.equals(String.class.getName(), excelTemplateParamResponseDTO.getType())) {
+                        excelItemHandlerList.add(
+                                new ESExcelStringItemHandler(
+                                        excelTemplateParamResponseDTO.getName(),
+                                        excelTemplateParamResponseDTO.getTitle(),
+                                        excelTemplateParamResponseDTO.getOrderNum()
+                                )
+                        );
+                    } else if (ESStringUtils.equals(Boolean.class.getName(), excelTemplateParamResponseDTO.getType())) {
+                        excelItemHandlerList.add(
+                                new ESExcelBooleanItemHandler(
+                                        excelTemplateParamResponseDTO.getName(),
+                                        excelTemplateParamResponseDTO.getTitle(),
+                                        excelTemplateParamResponseDTO.getOrderNum()
+                                )
+                        );
+                    }
                 }
             }
         }

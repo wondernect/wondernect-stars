@@ -2,14 +2,11 @@ package com.wondernect.stars.user.excel;
 
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelImportDataHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
 import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
 import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
 import com.wondernect.stars.office.excel.dto.property.ListExcelBeanPropertyRequestDTO;
 import com.wondernect.stars.office.feign.excel.bean.ExcelBeanServerService;
 import com.wondernect.stars.office.feign.excel.property.ExcelBeanPropertyServerService;
-import com.wondernect.stars.user.dto.UserResponseDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +33,7 @@ public class UserImportDataHandler extends ESExcelImportDataHandler {
 
     public Map<String, String> getDataPropertyMapping() {
         Map<String, String> dictionary = new HashMap<>();
-        ExcelBeanResponseDTO excelBeanResponseDTO = excelBeanServerService.detailByBean(UserResponseDTO.class.getName());
+        ExcelBeanResponseDTO excelBeanResponseDTO = excelBeanServerService.detailByBean(LocalUserExcelDTO.class.getName());
         if (ESObjectUtils.isNotNull(excelBeanResponseDTO)) {
             List<ExcelBeanPropertyResponseDTO> excelBeanPropertyResponseDTOList = excelBeanPropertyServerService.list(new ListExcelBeanPropertyRequestDTO(excelBeanResponseDTO.getId(), null));
             if (CollectionUtils.isNotEmpty(excelBeanPropertyResponseDTOList)) {

@@ -6,7 +6,6 @@ import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESRegexUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelImportVerifyHandler;
-import com.wondernect.elements.i18n.validator.ESPasswordValidator;
 import com.wondernect.stars.rbac.feign.role.RoleServerService;
 import com.wondernect.stars.rbac.feign.roleType.RoleTypeServerService;
 import com.wondernect.stars.user.manager.UserManager;
@@ -40,14 +39,6 @@ public class UserImportVerifyHandler extends ESExcelImportVerifyHandler {
 
     @Override
     public BusinessData verifyData(Map<String, Object> object) {
-        Object userType = object.get("userType");
-        if (ESObjectUtils.isNotNull(userType)) {
-            if (!ESStringUtils.equals("本地用户", userType.toString()) && !ESStringUtils.equals("第三方用户", userType.toString())) {
-                return new BusinessData("用户类型有误");
-            }
-        } else {
-            return new BusinessData("用户类型不能为空");
-        }
 
         Object username = object.get("username");
         if (ESObjectUtils.isNotNull(username)) {
@@ -61,7 +52,7 @@ public class UserImportVerifyHandler extends ESExcelImportVerifyHandler {
         Object password = object.get("password");
         if (ESObjectUtils.isNotNull(password)) {
             if (password.toString().length() < min || !ESRegexUtils.match(passwordRegexPattern, password.toString())) {
-                return new BusinessData("密码强度不符合规则要求(至少6位，数字、大小写字母、特殊字符包含两种以上)");
+                return new BusinessData("密码强度不符合规则要求(至少6位，数字、大小写字母、特殊字符包含两种或两种以上)");
             }
         } else {
             return new BusinessData("密码不能为空");
