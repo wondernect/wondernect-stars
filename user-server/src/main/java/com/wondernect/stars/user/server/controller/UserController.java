@@ -4,7 +4,6 @@ import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESObjectUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
@@ -38,6 +37,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private HttpServletResponse response;
 
     @AuthorizeServer
     @ApiOperation(value = "激活", httpMethod = "POST")
@@ -161,9 +166,7 @@ public class UserController {
     @PostMapping(value = "/excel_data_export")
     public void excelDataExport(
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO
     ) {
         try {
             userService.excelDataExport(templateId, listUserRequestDTO, request, response);
@@ -177,9 +180,7 @@ public class UserController {
     @PostMapping(value = "/excel_data_import")
     public void excelDataImport(
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         try {
             userService.excelDataImport(templateId, file.getInputStream(), request, response);
@@ -192,9 +193,7 @@ public class UserController {
     @ApiOperation(value = "本地用户导入模板下载", httpMethod = "GET")
     @GetMapping(value = "/excel_data_import_model")
     public void excelDataImportModel(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId
     ) {
         try {
             userService.excelDataImportModel(templateId, request, response);

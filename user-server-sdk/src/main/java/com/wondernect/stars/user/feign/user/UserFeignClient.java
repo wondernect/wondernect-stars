@@ -12,8 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -104,25 +102,19 @@ public interface UserFeignClient {
     @PostMapping(value = "/excel_data_export")
     public void excelDataExport(
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO
     );
 
     @ApiOperation(value = "本地用户导入", httpMethod = "POST")
     @PostMapping(value = "/excel_data_import")
     public void excelDataImport(
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file
     );
 
     @ApiOperation(value = "本地用户导入模板下载", httpMethod = "GET")
     @GetMapping(value = "/excel_data_import_model")
     public void excelDataImportModel(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            HttpServletRequest request,
-            HttpServletResponse response
+            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId
     );
 }

@@ -122,15 +122,15 @@ public class UserServerService {
         return userFeignClient.initLocalUserExcelItem(forceUpdate);
     }
 
-    public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        userFeignClient.excelDataExport(templateId, listUserRequestDTO, request, response);
+    public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO) {
+        userFeignClient.excelDataExport(templateId, listUserRequestDTO);
     }
 
-    public void excelDataImport(String templateId, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-        userFeignClient.excelDataImport(templateId, file, request, response);
+    public void excelDataImport(String templateId, MultipartFile file) {
+        userFeignClient.excelDataImport(templateId, file);
     }
 
-    public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
-        userFeignClient.excelDataImportModel(templateId, request, response);
+    public void excelDataImportModel(String templateId) {
+        userFeignClient.excelDataImportModel(templateId);
     }
 }
