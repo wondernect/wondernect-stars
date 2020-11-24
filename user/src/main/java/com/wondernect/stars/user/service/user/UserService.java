@@ -205,7 +205,7 @@ public class UserService extends UserAbstractService {
                     );
                     break;
                 }
-                case "createTime":
+                case "create_time":
                 {
                     excelItemHandlerList.add(
                             new ESExcelTimestampItemHandler(
