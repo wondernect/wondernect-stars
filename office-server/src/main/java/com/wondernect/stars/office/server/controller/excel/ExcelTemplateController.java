@@ -1,5 +1,6 @@
 package com.wondernect.stars.office.server.controller.excel;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -33,6 +34,7 @@ public class ExcelTemplateController {
     @Autowired
     private ExcelTemplateService excelTemplateService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<ExcelTemplateResponseDTO> create(
@@ -41,6 +43,7 @@ public class ExcelTemplateController {
         return new BusinessData<>(excelTemplateService.create(saveExcelTemplateRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<ExcelTemplateResponseDTO> update(
@@ -50,6 +53,7 @@ public class ExcelTemplateController {
         return new BusinessData<>(excelTemplateService.update(id, saveExcelTemplateRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -59,6 +63,7 @@ public class ExcelTemplateController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<ExcelTemplateResponseDTO> detail(
@@ -67,6 +72,7 @@ public class ExcelTemplateController {
         return new BusinessData<>(excelTemplateService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<ExcelTemplateResponseDTO>> list(
@@ -75,6 +81,7 @@ public class ExcelTemplateController {
         return new BusinessData<>(excelTemplateService.list(listExcelTemplateRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<ExcelTemplateResponseDTO>> page(

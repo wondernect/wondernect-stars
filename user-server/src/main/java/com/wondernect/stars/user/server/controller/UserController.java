@@ -180,7 +180,7 @@ public class UserController {
     @PostMapping(value = "/excel_data_import")
     public void excelDataImport(
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file
+            @ApiParam(required = true) @NotNull(message = "文件不能为空") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         try {
             userService.excelDataImport(templateId, file.getInputStream(), request, response);

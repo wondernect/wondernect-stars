@@ -1,5 +1,6 @@
 package com.wondernect.stars.office.server.controller.excel;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -33,6 +34,7 @@ public class ExcelBeanController {
     @Autowired
     private ExcelBeanService excelBeanService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<ExcelBeanResponseDTO> create(
@@ -41,6 +43,7 @@ public class ExcelBeanController {
         return new BusinessData<>(excelBeanService.create(saveExcelBeanRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<ExcelBeanResponseDTO> update(
@@ -50,6 +53,7 @@ public class ExcelBeanController {
         return new BusinessData<>(excelBeanService.update(id, saveExcelBeanRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -59,6 +63,7 @@ public class ExcelBeanController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<ExcelBeanResponseDTO> detail(
@@ -67,6 +72,7 @@ public class ExcelBeanController {
         return new BusinessData<>(excelBeanService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/detail_by_bean")
     public BusinessData<ExcelBeanResponseDTO> detailByBean(
@@ -75,6 +81,7 @@ public class ExcelBeanController {
         return new BusinessData<>(excelBeanService.findByBean(bean));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<ExcelBeanResponseDTO>> list(
@@ -83,6 +90,7 @@ public class ExcelBeanController {
         return new BusinessData<>(excelBeanService.list(listExcelBeanRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<ExcelBeanResponseDTO>> page(
