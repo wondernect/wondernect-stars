@@ -45,7 +45,7 @@ public class FastDFSFileController {
             @ApiParam(required = false, allowableValues = "IMAGE, IMAGE_FILE, VOICE, VIDEO, FILE") @NotBlank(message = "文件类型不能为空") @RequestParam(value = "file_type", required = false) String fileType,
             @ApiParam(required = true) @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-        return new BusinessData<>(fastDFSFileService.upload(file, "", fileType, new HashMap<>()));
+        return new BusinessData<>(fastDFSFileService.upload(file, "", "", fileType, new HashMap<>()));
     }
 
     // @AuthorizeServer

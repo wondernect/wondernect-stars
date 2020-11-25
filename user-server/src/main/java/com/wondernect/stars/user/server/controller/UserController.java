@@ -7,7 +7,9 @@ import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
-import com.wondernect.stars.user.server.service.LocalUserExcelService;
+import com.wondernect.stars.user.server.service.LocalUserExcelExportService;
+import com.wondernect.stars.user.server.service.LocalUserExcelImportService;
+import com.wondernect.stars.user.server.service.LocalUserExcelInitService;
 import com.wondernect.stars.user.server.service.UserServerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +42,13 @@ public class UserController {
     private UserServerService userServerService;
 
     @Autowired
-    private LocalUserExcelService localUserExcelService;
+    private LocalUserExcelInitService localUserExcelInitService;
+
+    @Autowired
+    private LocalUserExcelExportService localUserExcelExportService;
+
+    @Autowired
+    private LocalUserExcelImportService localUserExcelImportService;
 
     @Autowired
     private HttpServletRequest request;
@@ -161,7 +169,7 @@ public class UserController {
         if (ESObjectUtils.isNull(forceUpdate)) {
             forceUpdate = false;
         }
-        localUserExcelService.initLocalUserExcelItem(forceUpdate);
+        localUserExcelInitService.initLocalUserExcelItem(forceUpdate);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
@@ -173,7 +181,7 @@ public class UserController {
             @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO
     ) {
         try {
-            localUserExcelService.excelDataExport(templateId, listUserRequestDTO, request, response);
+            localUserExcelExportService.excelDataExport(templateId, listUserRequestDTO, request, response);
         } catch (Exception e) {
             BusinessData.error(e.getMessage(), response);
         }
@@ -187,7 +195,7 @@ public class UserController {
             @ApiParam(required = true) @NotNull(message = "文件不能为空") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         try {
-            localUserExcelService.excelDataImport(templateId, file.getInputStream(), request, response);
+            localUserExcelImportService.excelDataImport(templateId, file.getInputStream(), request, response);
         } catch (Exception e) {
             BusinessData.error(e.getMessage(), response);
         }
@@ -200,7 +208,7 @@ public class UserController {
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId
     ) {
         try {
-            localUserExcelService.excelDataImportModel(templateId, request, response);
+            localUserExcelExportService.excelDataImportModel(templateId, request, response);
         } catch (Exception e) {
             BusinessData.error(e.getMessage(), response);
         }

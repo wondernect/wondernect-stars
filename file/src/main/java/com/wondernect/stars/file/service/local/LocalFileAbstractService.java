@@ -37,7 +37,7 @@ public abstract class LocalFileAbstractService extends FileAbstractService {
     }
 
     @Override
-    public FileResponseDTO saveFile(FileType fileType, String subFilePath, FileUploadResult fileUploadResult) {
+    public FileResponseDTO saveFile(FileType fileType, String localFilePathId, String subFilePath, FileUploadResult fileUploadResult) {
         return super.save(
                 new File(
                         FileUploadType.LOCAL,
@@ -45,6 +45,7 @@ public abstract class LocalFileAbstractService extends FileAbstractService {
                         fileUploadResult.getFileName(),
                         fileUploadResult.getFileSize(),
                         fileUploadResult.getFileExt(),
+                        localFilePathId,
                         subFilePath,
                         fileUploadResult.getFilePath(),
                         fileUploadResult.getThumbFilePath(),
