@@ -1,0 +1,99 @@
+package com.wondernect.stars.mail.mail.service;
+
+import com.wondernect.elements.mail.client.impl.DefaultMailClient;
+import com.wondernect.elements.mail.client.util.MailSendResult;
+import com.wondernect.elements.thymeleaf.FileTemplateThymeleaf;
+import com.wondernect.elements.thymeleaf.StringTemplateThymeleaf;
+import com.wondernect.elements.thymeleaf.UrlTemplateThymeleaf;
+import com.wondernect.stars.mail.em.MailTemplateType;
+import com.wondernect.stars.mail.mail.dto.SaveMailRequestDTO;
+import com.wondernect.stars.mail.mail.dto.SendMailRequestDTO;
+import com.wondernect.stars.mail.param.dto.ListMailTemplateParamRequestDTO;
+import com.wondernect.stars.mail.param.dto.MailTemplateParamResponseDTO;
+import com.wondernect.stars.mail.param.service.MailTemplateParamService;
+import com.wondernect.stars.mail.server.dto.MailServerResponseDTO;
+import com.wondernect.stars.mail.server.service.MailServerService;
+import com.wondernect.stars.mail.template.dto.MailTemplateResponseDTO;
+import com.wondernect.stars.mail.template.service.MailTemplateService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 邮件服务
+ *
+ * @author 王威 2020-11-23 11:21:48
+ **/
+@Service
+public class MailService extends MailAbstractService {
+
+    @Autowired
+    private StringTemplateThymeleaf stringTemplateThymeleaf;
+
+    @Autowired
+    private UrlTemplateThymeleaf urlTemplateThymeleaf;
+
+    @Autowired
+    private DefaultMailClient defaultMailClient;
+
+    @Autowired
+    private MailServerService mailServerService;
+
+    @Autowired
+    private MailTemplateService mailTemplateService;
+
+    @Autowired
+    private FileTemplateThymeleaf fileTemplateThymeleaf;
+
+    @Autowired
+    private MailTemplateParamService mailTemplateParamService;
+
+    public MailSendResult send(SendMailRequestDTO sendMailRequestDTO) {
+        MailServerResponseDTO mailServerResponseDTO = mailServerService.findById(sendMailRequestDTO.getMailServerId());
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost(mailServerResponseDTO.getHost());
+        javaMailSender.setPort(mailServerResponseDTO.getPort());
+        javaMailSender.setUsername(mailServerResponseDTO.getUsername());
+        javaMailSender.setPassword(mailServerResponseDTO.getPassword());
+        MailTemplateResponseDTO mailTemplateResponseDTO = mailTemplateService.findById(sendMailRequestDTO.getMailTemplateId());
+        ListMailTemplateParamRequestDTO listMailTemplateParamRequestDTO = new ListMailTemplateParamRequestDTO();
+        listMailTemplateParamRequestDTO.setSearchText(sendMailRequestDTO.getMailTemplateId());
+        List<MailTemplateParamResponseDTO> list =
+                mailTemplateParamService.list(listMailTemplateParamRequestDTO);
+        Map<String, Object> map = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(list)){
+            for (MailTemplateParamResponseDTO mailTemplateParamResponseDTO : list) {
+                Object value = sendMailRequestDTO.getAttachment().get(mailTemplateParamResponseDTO.getParam());
+                map.put(mailTemplateParamResponseDTO.getName(), value);
+            }
+        }else {
+            map = null;
+        }
+
+        if (mailTemplateResponseDTO.getType() == MailTemplateType.PLAIN_TEXT){
+            MailSendResult mailSendResult = defaultMailClient.sendPlainTextMail(javaMailSender,mailTemplateResponseDTO.getPersonal(),
+                    sendMailRequestDTO.getToAddress(), mailTemplateResponseDTO.getSubject(), mailTemplateResponseDTO.getContent(),
+                    sendMailRequestDTO.getAttachment());
+            return mailSendResult;
+        }else if ((mailTemplateResponseDTO.getType() == MailTemplateType.HTML_STRING)){
+            String mailText = stringTemplateThymeleaf.generateContent(mailTemplateResponseDTO.getContent(), map);
+            MailSendResult mailSendResult = defaultMailClient.sendHtmlMail(javaMailSender,mailTemplateResponseDTO.getPersonal(),
+                    sendMailRequestDTO.getToAddress(), mailTemplateResponseDTO.getSubject(), mailText);
+            return mailSendResult;
+        }else {
+            String mailText = fileTemplateThymeleaf.generateContent(mailTemplateResponseDTO.getUrl(), map);
+            MailSendResult mailSendResult = defaultMailClient.sendHtmlMail(javaMailSender,mailTemplateResponseDTO.getPersonal(),
+                    sendMailRequestDTO.getToAddress(), mailTemplateResponseDTO.getSubject(), mailText);
+            return mailSendResult;
+//            String mailText = urlTemplateThymeleaf.generateContent(sendMailRequestDTO.getMailTemplateId(), map);
+//            MailSendResult mailSendResult = defaultMailClient.sendHtmlMail(javaMailSender,mailTemplateResponseDTO.getPersonal(),
+//                    sendMailRequestDTO.getToAddress(), mailTemplateResponseDTO.getSubject(), mailText);
+//            return mailSendResult;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.wondernect.stars.mail.model.em;
+package com.wondernect.stars.mail.em;
 
 /**
  * Copyright (C), 2017-2020, wondernect.com

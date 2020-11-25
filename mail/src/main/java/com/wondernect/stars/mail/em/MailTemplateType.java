@@ -1,4 +1,4 @@
-package com.wondernect.stars.mail.model.em;
+package com.wondernect.stars.mail.em;
 
 /**
  * Created on 2017/10/26.

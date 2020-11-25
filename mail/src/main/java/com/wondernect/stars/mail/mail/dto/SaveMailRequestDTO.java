@@ -1,29 +1,25 @@
-package com.wondernect.stars.mail.model;
+package com.wondernect.stars.mail.mail.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.wondernect.elements.rdb.base.model.BaseStringModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Lob;
+import java.util.Map;
 
 /**
- * Created on 2017/10/26.
- * wondernect.com
- * @author sunbeam
- */
-@Entity
-@Table(name = "mail")
+ * 邮件请求DTO
+ *
+ * @author 王威 2020-11-23 11:21:47
+ **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "邮件")
-public class Mail extends BaseStringModel implements Serializable {
-
-    private static final long serialVersionUID = 4989238841024282305L;
+@ApiModel(value = "邮件请求对象")
+public class SaveMailRequestDTO {
 
     @JsonProperty("from_address")
     @ApiModelProperty(notes = "寄件人地址")
@@ -41,7 +37,6 @@ public class Mail extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "主题")
     private String subject;
 
-    @Lob
     @JsonProperty("content")
     @ApiModelProperty(notes = "内容")
     private String content;

@@ -1,4 +1,4 @@
-package com.wondernect.stars.mail.model;
+package com.wondernect.stars.mail.param.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.base.model.BaseStringModel;
@@ -28,8 +28,6 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "邮件模板参数")
 public class MailTemplateParam extends BaseStringModel implements Serializable {
-
-    private static final long serialVersionUID = 2388612040819458560L;
 
     @JsonProperty("template_id")
     @ApiModelProperty("邮件模板")

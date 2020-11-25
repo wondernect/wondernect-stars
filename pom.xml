@@ -49,6 +49,7 @@
         <module>session-server</module>
         <module>database-server</module>
         <module>office-server</module>
+        <module>mail-server</module>
     </modules>
 
     <build>

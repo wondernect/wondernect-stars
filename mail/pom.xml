@@ -45,7 +45,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
