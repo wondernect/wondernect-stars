@@ -50,6 +50,12 @@
             <groupId>com.wondernect.elements</groupId>
             <artifactId>thymeleaf</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>mail-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

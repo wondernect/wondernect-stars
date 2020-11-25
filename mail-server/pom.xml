@@ -68,7 +68,13 @@
         <dependency>
             <groupId>com.wondernect.stars</groupId>
             <artifactId>mail</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>mail-dto</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
