@@ -91,7 +91,7 @@ public class LocalUserExcelService extends ESExcelService {
                 );
             } else {
                 if (!forceUpdate) {
-                    throw new BusinessException("本地用户导入导出对象已完成初始化");
+                    throw new BusinessException("指定实体对象已完成初始化");
                 }
                 excelBeanResponseDTO = excelBeanServerService.update(
                         excelBeanResponseDTO.getId(),
@@ -136,7 +136,7 @@ public class LocalUserExcelService extends ESExcelService {
     public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            throw new BusinessException("导出模板不存在");
+            throw new BusinessException("模板信息不存在");
         }
         super.excelDataExport(templateId, LocalUserExcelDTO.class, userService.list(listUserRequestDTO), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
     }
@@ -144,7 +144,7 @@ public class LocalUserExcelService extends ESExcelService {
     public void excelDataImport(String templateId, InputStream fileInputStream, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            throw new BusinessException("导入模板不存在");
+            throw new BusinessException("模板信息不存在");
         }
         super.excelDataImport(templateId, LocalUserExcelDTO.class, userImportDataHandler, userImportVerifyHandler, 1, 1, fileInputStream, excelTemplateResponseDTO.getName() + "错误信息", request, response);
     }
@@ -152,7 +152,7 @@ public class LocalUserExcelService extends ESExcelService {
     public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            throw new BusinessException("导入模板不存在");
+            throw new BusinessException("模板信息不存在");
         }
         super.excelDataExport(templateId, LocalUserExcelDTO.class, new ArrayList<>(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
     }
@@ -199,16 +199,11 @@ public class LocalUserExcelService extends ESExcelService {
             switch (excelTemplateParamResponseDTO.getName()) {
                 case "gender":
                 {
-                    Map<Gender, String> dictionary = new HashMap<>();
-                    dictionary.put(Gender.MALE, "男");
-                    dictionary.put(Gender.FEMALE, "女");
-                    dictionary.put(Gender.UNKNOWN, "未知");
                     excelItemHandlerList.add(
                             new LocalUserExcelGenderItemHandler(
                                     excelTemplateParamResponseDTO.getName(),
                                     excelTemplateParamResponseDTO.getTitle(),
-                                    excelTemplateParamResponseDTO.getOrderNum(),
-                                    dictionary
+                                    excelTemplateParamResponseDTO.getOrderNum()
                             )
                     );
                     break;
