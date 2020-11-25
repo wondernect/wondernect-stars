@@ -1,7 +1,7 @@
-package com.wondernect.stars.user.excel;
+package com.wondernect.stars.user.server.excel;
 
 import com.wondernect.elements.common.utils.ESObjectUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelImportDataHandler;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelImportDataHandler;
 import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
 import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
 import com.wondernect.stars.office.excel.dto.property.ListExcelBeanPropertyRequestDTO;
@@ -23,7 +23,7 @@ import java.util.Map;
  * Description: 用户导入handler
  */
 @Service
-public class UserImportDataHandler extends ESExcelImportDataHandler {
+public class LocalUserExcelImportDataHandler extends ESExcelImportDataHandler {
 
     @Autowired
     private ExcelBeanServerService excelBeanServerService;

@@ -1,11 +1,11 @@
-package com.wondernect.stars.user.excel;
+package com.wondernect.stars.user.server.excel;
 
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESRegexUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelImportVerifyHandler;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelImportVerifyHandler;
 import com.wondernect.stars.rbac.feign.role.RoleServerService;
 import com.wondernect.stars.rbac.feign.roleType.RoleTypeServerService;
 import com.wondernect.stars.user.manager.UserManager;
@@ -22,7 +22,7 @@ import java.util.Map;
  * Description:
  */
 @Service
-public class UserImportVerifyHandler extends ESExcelImportVerifyHandler {
+public class LocalUserExcelImportVerifyHandler extends ESExcelImportVerifyHandler {
 
     private int min = 6;
 

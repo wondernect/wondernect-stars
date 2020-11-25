@@ -1,4 +1,4 @@
-package com.wondernect.stars.user.excel;
+package com.wondernect.stars.user.server.excel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.response.BaseStringResponseDTO;

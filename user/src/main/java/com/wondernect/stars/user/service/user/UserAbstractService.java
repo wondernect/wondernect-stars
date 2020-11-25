@@ -9,10 +9,6 @@ import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.rbac.dto.role.RoleResponseDTO;
-import com.wondernect.stars.rbac.dto.roletype.RoleTypeResponseDTO;
-import com.wondernect.stars.rbac.feign.role.RoleServerService;
-import com.wondernect.stars.rbac.feign.roleType.RoleTypeServerService;
 import com.wondernect.stars.user.common.error.UserErrorEnum;
 import com.wondernect.stars.user.common.exception.UserException;
 import com.wondernect.stars.user.dto.*;
@@ -46,12 +42,6 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
 
     @Autowired
     private UserThirdAuthService userThirdAuthService;
-
-    @Autowired
-    private RoleTypeServerService roleTypeServerService;
-
-    @Autowired
-    private RoleServerService roleServerService;
 
     @Transactional
     @Override
@@ -251,10 +241,6 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         ESBeanUtils.copyProperties(user, userResponseDTO);
         userResponseDTO.setUserType(user.getUserType().name());
         userResponseDTO.setGender(user.getGender().name());
-        RoleTypeResponseDTO roleTypeResponseDTO = roleTypeServerService.get(user.getRoleTypeId());
-        userResponseDTO.setRoleTypeName(ESObjectUtils.isNotNull(roleTypeResponseDTO) ? roleTypeResponseDTO.getName() : null);
-        RoleResponseDTO roleResponseDTO = roleServerService.get(user.getRoleId());
-        userResponseDTO.setRoleName(ESObjectUtils.isNotNull(roleResponseDTO) ? roleResponseDTO.getName() : null);
         return userResponseDTO;
     }
 }
