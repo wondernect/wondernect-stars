@@ -61,7 +61,7 @@ public class LocalFileController {
         if (ESStringUtils.isBlank(localFilePathResponseDTO.getSubFilePath())) {
             throw new BusinessException("文件存储路径为空");
         }
-        return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
+        return new BusinessData<>(localFileService.upload(file, localFilePathResponseDTO.getId(), localFilePathResponseDTO.getSubFilePath(), fileType, new HashMap<>()));
     }
 
     // @AuthorizeServer

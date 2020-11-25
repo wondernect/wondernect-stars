@@ -45,6 +45,10 @@ public class FileResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "文件扩展名")
     private String ext;
 
+    @JsonProperty("local_path_id")
+    @ApiModelProperty(notes = "文件存储路径id")
+    private String localPathId;
+
     @JsonProperty("local_path")
     @ApiModelProperty(notes = "文件资源服务器唯一路径")
     private String localPath;

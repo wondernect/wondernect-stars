@@ -21,7 +21,7 @@ public interface FileInterface {
     /**
      * 上传文件（fileType为IMAGE时默认上传图片文件并生成图片缩略图）
      */
-    FileResponseDTO upload(MultipartFile fileMedia, String subFilePath, String fileType, Map<String, String> fileMetaData);
+    FileResponseDTO upload(MultipartFile fileMedia, String localFilePathId, String subFilePath, String fileType, Map<String, String> fileMetaData);
 
     /**
      * 删除

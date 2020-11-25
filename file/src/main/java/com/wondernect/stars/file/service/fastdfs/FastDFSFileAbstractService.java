@@ -22,8 +22,6 @@ import java.util.Map;
  */
 public abstract class FastDFSFileAbstractService extends FileAbstractService {
 
-    private static final String FAST_DFS_SUB_FILE_PATH = "";
-
     @Autowired
     private FastDFSFileClient fastDFSFileClient;
 
@@ -39,7 +37,7 @@ public abstract class FastDFSFileAbstractService extends FileAbstractService {
     }
 
     @Override
-    public FileResponseDTO saveFile(FileType fileType, String subFilePath, FileUploadResult fileUploadResult) {
+    public FileResponseDTO saveFile(FileType fileType, String localFilePathId, String subFilePath, FileUploadResult fileUploadResult) {
         return super.save(
                 new File(
                         FileUploadType.FASTDFS,
@@ -47,7 +45,8 @@ public abstract class FastDFSFileAbstractService extends FileAbstractService {
                         fileUploadResult.getFileName(),
                         fileUploadResult.getFileSize(),
                         fileUploadResult.getFileExt(),
-                        FAST_DFS_SUB_FILE_PATH,
+                        localFilePathId,
+                        subFilePath,
                         fileUploadResult.getFilePath(),
                         fileUploadResult.getThumbFilePath(),
                         ESJSONObjectUtils.jsonObjectToJsonString(fileUploadResult.getMetaData()),

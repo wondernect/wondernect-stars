@@ -52,6 +52,10 @@ public class File extends BaseStringModel implements Serializable {
     @ApiModelProperty(notes = "文件扩展名")
     private String ext;
 
+    @JsonProperty("local_path_id")
+    @ApiModelProperty(notes = "文件存储路径id")
+    private String localPathId;
+
     @JsonProperty("sub_file_path")
     @ApiModelProperty(notes = "文件存储根目录下子目录")
     private String subFilePath;

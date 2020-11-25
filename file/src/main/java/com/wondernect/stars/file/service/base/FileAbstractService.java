@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public abstract class FileAbstractService extends BaseStringService<FileResponseDTO, File> implements FileInterface {
 
-    public FileResponseDTO upload(MultipartFile fileMedia, String subFilePath, String fileType, Map<String, String> fileMetaData) {
+    public FileResponseDTO upload(MultipartFile fileMedia, String localFilePathId, String subFilePath, String fileType, Map<String, String> fileMetaData) {
         if (ESStringUtils.isRealEmpty(fileType)) {
             throw new FileException(FileErrorEnum.FILE_TYPE_IS_NULL);
         }
@@ -43,12 +43,12 @@ public abstract class FileAbstractService extends BaseStringService<FileResponse
         if (!fileUploadResult.getResult()) {
             throw new FileException(FileErrorEnum.FILE_UPLOAD_FAILED, fileUploadResult.getMessage());
         }
-        return saveFile(fileTypeEnum, subFilePath, fileUploadResult);
+        return saveFile(fileTypeEnum, localFilePathId, subFilePath, fileUploadResult);
     }
 
     public abstract FileUploadResult uploadFile(FileType fileType, String subFilePath, MultipartFile fileMedia, Map<String, String> fileMetaData);
 
-    public abstract FileResponseDTO saveFile(FileType fileType, String subFilePath, FileUploadResult fileUploadResult);
+    public abstract FileResponseDTO saveFile(FileType fileType, String localFilePathId, String subFilePath, FileUploadResult fileUploadResult);
 
     @Override
     public void deleteById(String id) {
@@ -65,6 +65,10 @@ public abstract class FileAbstractService extends BaseStringService<FileResponse
     public List<FileResponseDTO> list(ListFileRequestDTO listFileRequestDTO) {
         Criteria<File> fileCriteria = new Criteria<>();
         fileCriteria.add(Restrictions.eq("createUser", listFileRequestDTO.getUserId()));
+        fileCriteria.add(Restrictions.eq("uploadType", listFileRequestDTO.getUploadType()));
+        fileCriteria.add(Restrictions.eq("type", listFileRequestDTO.getType()));
+        fileCriteria.add(Restrictions.eq("localPathId", listFileRequestDTO.getLocalPathId()));
+        fileCriteria.add(Restrictions.eq("subFilePath", listFileRequestDTO.getSubFilePath()));
         fileCriteria.add(Restrictions.eq("deleted", listFileRequestDTO.getDeleted()));
         return super.findAll(fileCriteria, listFileRequestDTO.getSortDataList());
     }
@@ -72,6 +76,10 @@ public abstract class FileAbstractService extends BaseStringService<FileResponse
     public PageResponseData<FileResponseDTO> page(PageFileRequestDTO pageFileRequestDTO) {
         Criteria<File> fileCriteria = new Criteria<>();
         fileCriteria.add(Restrictions.eq("createUser", pageFileRequestDTO.getUserId()));
+        fileCriteria.add(Restrictions.eq("uploadType", pageFileRequestDTO.getUploadType()));
+        fileCriteria.add(Restrictions.eq("type", pageFileRequestDTO.getType()));
+        fileCriteria.add(Restrictions.eq("localPathId", pageFileRequestDTO.getLocalPathId()));
+        fileCriteria.add(Restrictions.eq("subFilePath", pageFileRequestDTO.getSubFilePath()));
         fileCriteria.add(Restrictions.eq("deleted", pageFileRequestDTO.getDeleted()));
         return super.findAll(fileCriteria, pageFileRequestDTO.getPageRequestData());
     }

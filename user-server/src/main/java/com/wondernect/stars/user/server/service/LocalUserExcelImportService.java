@@ -8,20 +8,13 @@ import com.wondernect.elements.easyoffice.excel.handler.ESExcelItemHandler;
 import com.wondernect.elements.easyoffice.excel.handler.ESExcelStringItemHandler;
 import com.wondernect.elements.easyoffice.excel.handler.ESExcelTimestampItemHandler;
 import com.wondernect.elements.easyoffice.excel.model.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.service.ESExcelService;
+import com.wondernect.elements.easyoffice.excel.service.ESExcelImportResponseService;
 import com.wondernect.elements.easyoffice.excel.util.ESExcelUtils;
-import com.wondernect.stars.office.excel.dto.bean.ExcelBeanResponseDTO;
-import com.wondernect.stars.office.excel.dto.bean.SaveExcelBeanRequestDTO;
 import com.wondernect.stars.office.excel.dto.param.ExcelTemplateParamResponseDTO;
 import com.wondernect.stars.office.excel.dto.param.ListExcelTemplateParamRequestDTO;
-import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
-import com.wondernect.stars.office.excel.dto.property.SaveExcelBeanPropertyRequestDTO;
 import com.wondernect.stars.office.excel.dto.template.ExcelTemplateResponseDTO;
-import com.wondernect.stars.office.feign.excel.bean.ExcelBeanServerService;
 import com.wondernect.stars.office.feign.excel.param.ExcelTemplateParamServerService;
-import com.wondernect.stars.office.feign.excel.property.ExcelBeanPropertyServerService;
 import com.wondernect.stars.office.feign.excel.template.ExcelTemplateServerService;
-import com.wondernect.stars.user.dto.ListUserRequestDTO;
 import com.wondernect.stars.user.dto.SaveLocalUserRequestDTO;
 import com.wondernect.stars.user.em.Gender;
 import com.wondernect.stars.user.em.UserType;
@@ -40,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,15 +44,9 @@ import java.util.Map;
  * Description:
  */
 @Service
-public class LocalUserExcelService extends ESExcelService {
+public class LocalUserExcelImportService extends ESExcelImportResponseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LocalUserExcelService.class);
-
-    @Autowired
-    private ExcelBeanServerService excelBeanServerService;
-
-    @Autowired
-    private ExcelBeanPropertyServerService excelBeanPropertyServerService;
+    private static final Logger logger = LoggerFactory.getLogger(LocalUserExcelImportService.class);
 
     @Autowired
     private ExcelTemplateServerService excelTemplateServerService;
@@ -77,70 +63,6 @@ public class LocalUserExcelService extends ESExcelService {
     @Autowired
     private UserService userService;
 
-    public void initLocalUserExcelItem(boolean forceUpdate) {
-        List<ESExcelItem> excelItemList = ESExcelUtils.getAllEntityExcelItem(LocalUserExcelDTO.class);
-        if (CollectionUtils.isNotEmpty(excelItemList)) {
-            ESExcelItem excelItemOne = excelItemList.get(0);
-            ExcelBeanResponseDTO excelBeanResponseDTO = excelBeanServerService.detailByBean(excelItemOne.getEntity());
-            if (ESObjectUtils.isNull(excelBeanResponseDTO)) {
-                excelBeanResponseDTO = excelBeanServerService.create(
-                        new SaveExcelBeanRequestDTO(
-                                excelItemOne.getEntity(),
-                                excelItemOne.getEntityName()
-                        )
-                );
-            } else {
-                if (!forceUpdate) {
-                    throw new BusinessException("指定实体对象已完成初始化");
-                }
-                excelBeanResponseDTO = excelBeanServerService.update(
-                        excelBeanResponseDTO.getId(),
-                        new SaveExcelBeanRequestDTO(
-                                excelItemOne.getEntity(),
-                                excelItemOne.getEntityName()
-                        )
-                );
-            }
-            for (ESExcelItem excelItem : excelItemList) {
-                ExcelBeanPropertyResponseDTO excelBeanPropertyResponseDTO = excelBeanPropertyServerService.detailByBeanIdAndName(excelBeanResponseDTO.getId(), excelItem.getName());
-                if (ESObjectUtils.isNull(excelBeanPropertyResponseDTO)) {
-                    excelBeanPropertyServerService.create(
-                            new SaveExcelBeanPropertyRequestDTO(
-                                    excelBeanResponseDTO.getId(),
-                                    excelItem.getName(),
-                                    excelItem.getType(),
-                                    excelItem.getTitle(),
-                                    excelItem.getOrderNum(),
-                                    excelItem.getGetMethodName(),
-                                    excelItem.getSetMethodName()
-                            )
-                    );
-                } else {
-                    excelBeanPropertyServerService.update(
-                            excelBeanPropertyResponseDTO.getId(),
-                            new SaveExcelBeanPropertyRequestDTO(
-                                    excelBeanPropertyResponseDTO.getBeanId(),
-                                    excelBeanPropertyResponseDTO.getName(),
-                                    excelItem.getType(),
-                                    excelItem.getTitle(),
-                                    excelItem.getOrderNum(),
-                                    excelItem.getGetMethodName(),
-                                    excelItem.getSetMethodName()
-                            )
-                    );
-                }
-            }
-        }
-    }
-
-    public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
-        if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            throw new BusinessException("模板信息不存在");
-        }
-        super.excelDataExport(templateId, LocalUserExcelDTO.class, userService.list(listUserRequestDTO), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
-    }
-
     public void excelDataImport(String templateId, InputStream fileInputStream, HttpServletRequest request, HttpServletResponse response) {
         ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
         if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
@@ -149,16 +71,8 @@ public class LocalUserExcelService extends ESExcelService {
         super.excelDataImport(templateId, LocalUserExcelDTO.class, userImportDataHandler, userImportVerifyHandler, 1, 1, fileInputStream, excelTemplateResponseDTO.getName() + "错误信息", request, response);
     }
 
-    public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
-        ExcelTemplateResponseDTO excelTemplateResponseDTO = excelTemplateServerService.detail(templateId);
-        if (ESObjectUtils.isNull(excelTemplateResponseDTO)) {
-            throw new BusinessException("模板信息不存在");
-        }
-        super.excelDataExport(templateId, LocalUserExcelDTO.class, new ArrayList<>(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), excelTemplateResponseDTO.getName(), request, response);
-    }
-
     @Override
-    public void saveExcelEntityData(Map<String, Object> map, List<ESExcelItem> excelItemList) {
+    public void saveExcelImportEntityData(Map<String, Object> map, List<ESExcelItem> excelItemList) {
         LocalUserExcelDTO localUserExcelDTO = ESExcelUtils.getImportObject(LocalUserExcelDTO.class, map, excelItemList);
         if (ESObjectUtils.isNotNull(localUserExcelDTO)) {
             userService.createLocalUser(
