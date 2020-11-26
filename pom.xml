@@ -31,7 +31,9 @@
         <module>user-dto</module>
         <module>user</module>
         <module>user-server-sdk</module>
+        <module>mail-dto</module>
         <module>mail</module>
+        <module>mail-server-sdk</module>
         <module>sms</module>
         <module>app-dto</module>
         <module>app</module>
@@ -50,8 +52,6 @@
         <module>database-server</module>
         <module>office-server</module>
         <module>mail-server</module>
-        <module>mail-dto</module>
-        <module>mail-server-sdk</module>
     </modules>
 
     <build>

@@ -49,12 +49,6 @@
 			<artifactId>log</artifactId>
 		</dependency>
 
-		<!-- elements easyoffice -->
-		<dependency>
-			<groupId>com.wondernect.elements</groupId>
-			<artifactId>easyoffice</artifactId>
-		</dependency>
-
 		<!-- elements swagger-api -->
 		<dependency>
 			<groupId>com.wondernect.elements</groupId>

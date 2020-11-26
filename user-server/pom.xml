@@ -82,13 +82,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- stars office-server-sdk -->
-        <dependency>
-            <groupId>com.wondernect.stars</groupId>
-            <artifactId>office-server-sdk</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- mysql connector -->
         <dependency>
             <groupId>mysql</groupId>
