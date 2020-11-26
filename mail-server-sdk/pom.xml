@@ -11,5 +11,34 @@
 
     <artifactId>mail-server-sdk</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!-- mail-dto -->
+        <dependency>
+            <groupId>com.wondernect.stars</groupId>
+            <artifactId>mail-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>mail-client</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>
