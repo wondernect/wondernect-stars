@@ -195,6 +195,24 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
     }
 
     @Override
+    public UserResponseDTO findByMobile(String mobile) {
+        User user = userManager.findByMobile(mobile);
+        if (ESObjectUtils.isNull(user)) {
+            return null;
+        }
+        return generate(user);
+    }
+
+    @Override
+    public UserResponseDTO findByEmail(String email) {
+        User user = userManager.findByEmail(email);
+        if (ESObjectUtils.isNull(user)) {
+            return null;
+        }
+        return generate(user);
+    }
+
+    @Override
     public UserResponseDTO findByUsername(String username) {
         User user = userManager.findByUsername(username);
         if (ESObjectUtils.isNull(user)) {
@@ -209,7 +227,7 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         if (ESObjectUtils.isNull(userThirdAuthResponseDTO)) {
             return null;
         }
-        User user = userManager.findById(userThirdAuthResponseDTO.getUserId());
+        User user = super.findEntityById(userThirdAuthResponseDTO.getUserId());
         if (ESObjectUtils.isNull(user)) {
             return null;
         }

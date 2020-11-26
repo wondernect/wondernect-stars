@@ -5,16 +5,11 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import feign.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -28,6 +23,9 @@ public class UserServerService {
 
     @Autowired
     private UserFeignClient userFeignClient;
+
+    @Autowired
+    private LocalUserExcelFeignClient localUserExcelFeignClient;
 
     public UserResponseDTO create(SaveLocalUserRequestDTO saveLocalUserRequestDTO){
         BusinessData<UserResponseDTO> businessData = userFeignClient.create(saveLocalUserRequestDTO);
@@ -119,18 +117,18 @@ public class UserServerService {
     }
 
     public BusinessData initLocalUserExcelItem(Boolean forceUpdate) {
-        return userFeignClient.initLocalUserExcelItem(forceUpdate);
+        return localUserExcelFeignClient.initLocalUserExcelItem(forceUpdate);
     }
 
-    public void excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO) {
-        userFeignClient.excelDataExport(templateId, listUserRequestDTO);
+    public Response excelDataExport(String templateId, ListUserRequestDTO listUserRequestDTO) {
+        return localUserExcelFeignClient.excelDataExport(templateId, listUserRequestDTO);
     }
 
-    public void excelDataImport(String templateId, MultipartFile file) {
-        userFeignClient.excelDataImport(templateId, file);
+    public Response excelDataImport(String templateId, MultipartFile file) {
+        return localUserExcelFeignClient.excelDataImport(templateId, file);
     }
 
-    public void excelDataImportModel(String templateId) {
-        userFeignClient.excelDataImportModel(templateId);
+    public Response excelDataImportModel(String templateId) {
+        return localUserExcelFeignClient.excelDataImportModel(templateId);
     }
 }

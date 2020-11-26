@@ -48,6 +48,16 @@ public interface UserInterface {
     /**
      * 获取
      */
+    UserResponseDTO findByMobile(String mobile);
+
+    /**
+     * 获取
+     */
+    UserResponseDTO findByEmail(String email);
+
+    /**
+     * 获取
+     */
     UserResponseDTO findByUsername(String username);
 
     /**

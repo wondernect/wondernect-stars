@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -90,31 +89,5 @@ public interface UserFeignClient {
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody PageUserRequestDTO pageUserRequestDTO
-    );
-
-    @ApiOperation(value = "初始化本地用户导入导出item", httpMethod = "POST")
-    @PostMapping(value = "/init_local_user_item")
-    public BusinessData initLocalUserExcelItem(
-            @ApiParam(required = false) @RequestParam(value = "force_update", required = false) Boolean forceUpdate
-    );
-
-    @ApiOperation(value = "本地用户导出", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_export")
-    public void excelDataExport(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO
-    );
-
-    @ApiOperation(value = "本地用户导入", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_import")
-    public void excelDataImport(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "文件不能为空") @RequestPart(value = "file", required = false) MultipartFile file
-    );
-
-    @ApiOperation(value = "本地用户导入模板下载", httpMethod = "GET")
-    @GetMapping(value = "/excel_data_import_model")
-    public void excelDataImportModel(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId
     );
 }

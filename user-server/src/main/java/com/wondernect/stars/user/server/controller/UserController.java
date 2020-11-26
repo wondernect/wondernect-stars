@@ -3,13 +3,9 @@ package com.wondernect.stars.user.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
-import com.wondernect.stars.user.server.service.LocalUserExcelExportService;
-import com.wondernect.stars.user.server.service.LocalUserExcelImportService;
-import com.wondernect.stars.user.server.service.LocalUserExcelInitService;
 import com.wondernect.stars.user.server.service.UserServerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,10 +13,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -40,21 +33,6 @@ public class UserController {
 
     @Autowired
     private UserServerService userServerService;
-
-    @Autowired
-    private LocalUserExcelInitService localUserExcelInitService;
-
-    @Autowired
-    private LocalUserExcelExportService localUserExcelExportService;
-
-    @Autowired
-    private LocalUserExcelImportService localUserExcelImportService;
-
-    @Autowired
-    private HttpServletRequest request;
-
-    @Autowired
-    private HttpServletResponse response;
 
     @AuthorizeServer
     @ApiOperation(value = "激活", httpMethod = "POST")
@@ -158,59 +136,5 @@ public class UserController {
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody PageUserRequestDTO pageUserRequestDTO
     ) {
         return new BusinessData<>(userServerService.page(pageUserRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "初始化本地用户导入导出item", httpMethod = "POST")
-    @PostMapping(value = "/init_local_user_item")
-    public BusinessData initLocalUserExcelItem(
-            @ApiParam(required = false) @RequestParam(value = "force_update", required = false) Boolean forceUpdate
-    ) {
-        if (ESObjectUtils.isNull(forceUpdate)) {
-            forceUpdate = false;
-        }
-        localUserExcelInitService.initLocalUserExcelItem(forceUpdate);
-        return new BusinessData(BusinessError.SUCCESS);
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "本地用户导出", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_export")
-    public void excelDataExport(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListUserRequestDTO listUserRequestDTO
-    ) {
-        try {
-            localUserExcelExportService.excelDataExport(templateId, listUserRequestDTO, request, response);
-        } catch (Exception e) {
-            BusinessData.error(e.getMessage(), response);
-        }
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "本地用户导入", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_import")
-    public void excelDataImport(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "文件不能为空") @RequestPart(value = "file", required = false) MultipartFile file
-    ) {
-        try {
-            localUserExcelImportService.excelDataImport(templateId, file.getInputStream(), request, response);
-        } catch (Exception e) {
-            BusinessData.error(e.getMessage(), response);
-        }
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "本地用户导入模板下载", httpMethod = "GET")
-    @GetMapping(value = "/excel_data_import_model")
-    public void excelDataImportModel(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId
-    ) {
-        try {
-            localUserExcelExportService.excelDataImportModel(templateId, request, response);
-        } catch (Exception e) {
-            BusinessData.error(e.getMessage(), response);
-        }
     }
 }
