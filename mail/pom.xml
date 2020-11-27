@@ -23,12 +23,6 @@
             <artifactId>common</artifactId>
         </dependency>
 
-        <!-- mail-client -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>mail-client</artifactId>
-        </dependency>
-
         <!-- rdb -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
@@ -41,20 +35,16 @@
             <artifactId>boot-application</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>thymeleaf</artifactId>
-        </dependency>
-
+        <!-- mail-dto -->
         <dependency>
             <groupId>com.wondernect.stars</groupId>
             <artifactId>mail-dto</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 

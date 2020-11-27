@@ -1,11 +1,11 @@
 package com.wondernect.stars.mail.server.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.mail.client.util.MailSendResult;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.mail.dto.mail.*;
-import com.wondernect.stars.mail.service.mail.MailService;
+import com.wondernect.stars.mail.server.service.MailClientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -22,40 +22,25 @@ import java.util.List;
  *
  * @author 王威 2020-11-23 11:21:48
  **/
-@RequestMapping(value = "/v1.0/wondernect/mail")
+@RequestMapping(value = "/v1/wondernect/mail")
 @RestController
 @Validated
 @Api(tags = "邮件接口")
 public class MailController {
 
     @Autowired
-    private MailService mailService;
+    private MailClientService mailService;
 
+    @AuthorizeServer
     @ApiOperation(value = "发送邮件", httpMethod = "POST")
     @PostMapping(value = "/send")
-    public BusinessData<MailSendResult> send(
+    public BusinessData<MailResponseDTO> send(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SendMailRequestDTO sendMailRequestDTO
     ) {
         return new BusinessData<>(mailService.send(sendMailRequestDTO));
     }
 
-    @ApiOperation(value = "创建", httpMethod = "POST")
-    @PostMapping(value = "/create")
-    public BusinessData<MailResponseDTO> create(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveMailRequestDTO saveMailRequestDTO
-    ) {
-        return new BusinessData<>(mailService.create(saveMailRequestDTO));
-    }
-
-    @ApiOperation(value = "更新", httpMethod = "POST")
-    @PostMapping(value = "/{id}/update")
-    public BusinessData<MailResponseDTO> update(
-            @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveMailRequestDTO saveMailRequestDTO
-    ) {
-        return new BusinessData<>(mailService.update(id, saveMailRequestDTO));
-    }
-
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -65,6 +50,7 @@ public class MailController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<MailResponseDTO> detail(
@@ -73,6 +59,7 @@ public class MailController {
         return new BusinessData<>(mailService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<MailResponseDTO>> list(
@@ -81,6 +68,7 @@ public class MailController {
         return new BusinessData<>(mailService.list(listMailRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<MailResponseDTO>> page(

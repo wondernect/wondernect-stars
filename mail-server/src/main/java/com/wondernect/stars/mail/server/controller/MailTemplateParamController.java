@@ -1,5 +1,6 @@
 package com.wondernect.stars.mail.server.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author 王威 2020-11-23 15:55:11
  **/
-@RequestMapping(value = "/v1.0/wondernect/mail_template_param")
+@RequestMapping(value = "/v1/wondernect/mail/template_param")
 @RestController
 @Validated
 @Api(tags = "邮件模板参数接口")
@@ -33,6 +34,7 @@ public class MailTemplateParamController {
     @Autowired
     private MailTemplateParamService mailTemplateParamService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<MailTemplateParamResponseDTO> create(
@@ -41,6 +43,7 @@ public class MailTemplateParamController {
         return new BusinessData<>(mailTemplateParamService.create(saveMailTemplateParamRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<MailTemplateParamResponseDTO> update(
@@ -50,6 +53,7 @@ public class MailTemplateParamController {
         return new BusinessData<>(mailTemplateParamService.update(id, saveMailTemplateParamRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -59,6 +63,7 @@ public class MailTemplateParamController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<MailTemplateParamResponseDTO> detail(
@@ -67,6 +72,7 @@ public class MailTemplateParamController {
         return new BusinessData<>(mailTemplateParamService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<MailTemplateParamResponseDTO>> list(
@@ -75,6 +81,7 @@ public class MailTemplateParamController {
         return new BusinessData<>(mailTemplateParamService.list(listMailTemplateParamRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<MailTemplateParamResponseDTO>> page(

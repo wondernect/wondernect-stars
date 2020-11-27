@@ -5,6 +5,7 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.mail.dto.template.ListMailTemplateRequestDTO;
 import com.wondernect.stars.mail.dto.template.MailTemplateResponseDTO;
@@ -27,8 +28,6 @@ public abstract class MailTemplateAbstractService extends BaseStringService<Mail
     @Transactional
     @Override
     public MailTemplateResponseDTO create(SaveMailTemplateRequestDTO saveMailTemplateRequestDTO) {
-//TODO:判断对象是否存在
-
         MailTemplate mailTemplate = new MailTemplate();
         ESBeanUtils.copyProperties(saveMailTemplateRequestDTO, mailTemplate);
         return super.save(mailTemplate);
@@ -48,16 +47,14 @@ public abstract class MailTemplateAbstractService extends BaseStringService<Mail
     @Override
     public List<MailTemplateResponseDTO> list(ListMailTemplateRequestDTO listMailTemplateRequestDTO) {
         Criteria<MailTemplate> mailTemplateCriteria = new Criteria<>();
-//TODO:添加列表筛选条件
-
+        mailTemplateCriteria.add(Restrictions.eq("type", listMailTemplateRequestDTO.getType()));
         return super.findAll(mailTemplateCriteria, listMailTemplateRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<MailTemplateResponseDTO> page(PageMailTemplateRequestDTO pageMailTemplateRequestDTO) {
         Criteria<MailTemplate> mailTemplateCriteria = new Criteria<>();
-//TODO:添加分页筛选条件
-
+        mailTemplateCriteria.add(Restrictions.eq("type", pageMailTemplateRequestDTO.getType()));
         return super.findAll(mailTemplateCriteria, pageMailTemplateRequestDTO.getPageRequestData());
     }
 

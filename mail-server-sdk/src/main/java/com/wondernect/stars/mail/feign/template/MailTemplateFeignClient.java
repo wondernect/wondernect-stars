@@ -1,10 +1,7 @@
 package com.wondernect.stars.mail.feign.template;
 
-import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.mail.client.util.MailSendResult;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.mail.dto.mail.*;
 import com.wondernect.stars.mail.dto.template.ListMailTemplateRequestDTO;
 import com.wondernect.stars.mail.dto.template.MailTemplateResponseDTO;
 import com.wondernect.stars.mail.dto.template.PageMailTemplateRequestDTO;
@@ -29,7 +26,7 @@ import java.util.List;
  * @Version 1.0
  */
 
-@FeignClient(name = "${wondernect.stars.mail.feign.name}", url = "${wondernect.stars.mail.feign.url}", path = "/v1/wondernect/mail/mail_template", configuration = WondernectMailFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.mail.feign.name}", url = "${wondernect.stars.mail.feign.url}", path = "/v1/wondernect/mail/template", configuration = WondernectMailFeignConfiguration.class)
 public interface MailTemplateFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

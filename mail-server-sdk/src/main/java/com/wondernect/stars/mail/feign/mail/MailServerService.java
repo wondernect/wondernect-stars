@@ -3,10 +3,7 @@ package com.wondernect.stars.mail.feign.mail;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.mail.dto.mail.ListMailRequestDTO;
-import com.wondernect.stars.mail.dto.mail.MailResponseDTO;
-import com.wondernect.stars.mail.dto.mail.PageMailRequestDTO;
-import com.wondernect.stars.mail.dto.mail.SaveMailRequestDTO;
+import com.wondernect.stars.mail.dto.mail.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +21,8 @@ public class MailServerService {
     @Autowired
     private MailFeignClient mailFeignClient;
 
-    public MailResponseDTO create(SaveMailRequestDTO saveMailRequestDTO){
-        BusinessData<MailResponseDTO> businessData = mailFeignClient.create(saveMailRequestDTO);
-        if (!businessData.success()) {
-            throw new BusinessException(businessData);
-        }
-        return businessData.getData();
-    }
-
-    public MailResponseDTO update(String id,SaveMailRequestDTO saveMailRequestDTO){
-        BusinessData<MailResponseDTO> businessData = mailFeignClient.update(id,saveMailRequestDTO);
+    public MailResponseDTO send(SendMailRequestDTO sendMailRequestDTO) {
+        BusinessData<MailResponseDTO> businessData = mailFeignClient.send(sendMailRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

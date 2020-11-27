@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 /**
@@ -20,14 +21,17 @@ import java.util.Map;
 @ApiModel(value = "邮件发送请求对象")
 public class SendMailRequestDTO {
 
+    @NotBlank(message = "邮件服务器id不能为空")
     @JsonProperty("mail_server_id")
     @ApiModelProperty("邮件服务器id")
     private String mailServerId;
 
+    @NotBlank(message = "邮件模板id不能为空")
     @JsonProperty("mail_template_id")
     @ApiModelProperty("邮件模板id")
     private String mailTemplateId;
 
+    @NotBlank(message = "收件人地址不能为空")
     @JsonProperty("to_address")
     @ApiModelProperty(notes = "收件人地址")
     private String toAddress;

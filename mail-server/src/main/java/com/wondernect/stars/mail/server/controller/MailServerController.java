@@ -1,5 +1,6 @@
 package com.wondernect.stars.mail.server.controller;
 
+import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author 王威 2020-11-23 15:55:47
  **/
-@RequestMapping(value = "/v1.0/wondernect/mail_server")
+@RequestMapping(value = "/v1/wondernect/mail/server")
 @RestController
 @Validated
 @Api(tags = "邮箱服务器接口")
@@ -33,6 +34,7 @@ public class MailServerController {
     @Autowired
     private MailServerService mailServerService;
 
+    @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<MailServerResponseDTO> create(
@@ -41,6 +43,7 @@ public class MailServerController {
         return new BusinessData<>(mailServerService.create(saveMailServerRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<MailServerResponseDTO> update(
@@ -50,6 +53,7 @@ public class MailServerController {
         return new BusinessData<>(mailServerService.update(id, saveMailServerRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -59,6 +63,7 @@ public class MailServerController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<MailServerResponseDTO> detail(
@@ -67,6 +72,7 @@ public class MailServerController {
         return new BusinessData<>(mailServerService.findById(id));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<MailServerResponseDTO>> list(
@@ -75,6 +81,7 @@ public class MailServerController {
         return new BusinessData<>(mailServerService.list(listMailServerRequestDTO));
     }
 
+    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<MailServerResponseDTO>> page(

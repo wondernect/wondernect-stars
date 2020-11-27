@@ -5,6 +5,7 @@ import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.mail.dto.param.ListMailTemplateParamRequestDTO;
 import com.wondernect.stars.mail.dto.param.MailTemplateParamResponseDTO;
@@ -27,8 +28,6 @@ public abstract class MailTemplateParamAbstractService extends BaseStringService
     @Transactional
     @Override
     public MailTemplateParamResponseDTO create(SaveMailTemplateParamRequestDTO saveMailTemplateParamRequestDTO) {
-//TODO:判断对象是否存在
-
         MailTemplateParam mailTemplateParam = new MailTemplateParam();
         ESBeanUtils.copyProperties(saveMailTemplateParamRequestDTO, mailTemplateParam);
         return super.save(mailTemplateParam);
@@ -48,16 +47,14 @@ public abstract class MailTemplateParamAbstractService extends BaseStringService
     @Override
     public List<MailTemplateParamResponseDTO> list(ListMailTemplateParamRequestDTO listMailTemplateParamRequestDTO) {
         Criteria<MailTemplateParam> mailTemplateParamCriteria = new Criteria<>();
-//TODO:添加列表筛选条件
-
+        mailTemplateParamCriteria.add(Restrictions.eq("templateId", listMailTemplateParamRequestDTO.getTemplateId()));
         return super.findAll(mailTemplateParamCriteria, listMailTemplateParamRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<MailTemplateParamResponseDTO> page(PageMailTemplateParamRequestDTO pageMailTemplateParamRequestDTO) {
         Criteria<MailTemplateParam> mailTemplateParamCriteria = new Criteria<>();
-//TODO:添加分页筛选条件
-
+        mailTemplateParamCriteria.add(Restrictions.eq("templateId", pageMailTemplateParamRequestDTO.getTemplateId()));
         return super.findAll(mailTemplateParamCriteria, pageMailTemplateParamRequestDTO.getPageRequestData());
     }
 
