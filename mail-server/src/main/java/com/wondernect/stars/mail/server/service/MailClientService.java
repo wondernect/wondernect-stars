@@ -94,7 +94,7 @@ public class MailClientService extends MailService {
                         sendMailRequestDTO.getToAddress(),
                         mailTemplateResponseDTO.getSubject(),
                         mailTemplateResponseDTO.getContent(),
-                        sendMailRequestDTO.getAttachment()
+                        varibles
                 );
                 break;
             }
@@ -122,7 +122,7 @@ public class MailClientService extends MailService {
                         mailTemplateResponseDTO.getPersonal(),
                         sendMailRequestDTO.getToAddress(),
                         mailTemplateResponseDTO.getSubject(),
-                        urlTemplateThymeleaf.generateContent(sendMailRequestDTO.getMailTemplateId(), varibles)
+                        urlTemplateThymeleaf.generateContent(mailTemplateResponseDTO.getUrl(), varibles)
                 );
                 break;
             }
