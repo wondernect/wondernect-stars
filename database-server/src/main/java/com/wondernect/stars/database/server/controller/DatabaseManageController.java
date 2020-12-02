@@ -21,14 +21,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 数据库接口
+ * 数据库实例接口
  *
  * @author liyafei 2020-11-09 15:57:45
  **/
 @RequestMapping(value = "/v1/wondernect/database/database_manage")
 @RestController
 @Validated
-@Api(tags = "数据库接口")
+@Api(tags = "数据库实例管理接口")
 public class DatabaseManageController {
 
     @Autowired

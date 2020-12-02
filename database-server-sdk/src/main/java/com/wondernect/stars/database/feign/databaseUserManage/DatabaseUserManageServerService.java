@@ -63,30 +63,6 @@ public class DatabaseUserManageServerService {
         return businessData.getData();
     }
 
-    public DatabaseUserManageResponseDTO giveRights(int type, DatabaseUserRequestDTO databaseUserRequestDTO) {
-        BusinessData<DatabaseUserManageResponseDTO> businessData = databaseUserManageFeignClient.giveRights(type, databaseUserRequestDTO);
-        if (!businessData.success()) {
-            throw new BusinessException(businessData);
-        }
-        return businessData.getData();
-    }
-
-    public DatabaseUserManageResponseDTO revokeRights(DatabaseUserRequestDTO databaseUserRequestDTO) {
-        BusinessData<DatabaseUserManageResponseDTO> businessData = databaseUserManageFeignClient.revokeRights(databaseUserRequestDTO);
-        if (!businessData.success()) {
-            throw new BusinessException(businessData);
-        }
-        return businessData.getData();
-    }
-
-    public TestConnectResponseDTO testConnect(DatabaseConnectRequestDTO databaseConnectRequestDTO) {
-        BusinessData<TestConnectResponseDTO> businessData = databaseUserManageFeignClient.testConnect(databaseConnectRequestDTO);
-        if (!businessData.success()) {
-            throw new BusinessException(businessData);
-        }
-        return businessData.getData();
-    }
-
     public DatabaseUserManageResponseDTO modifyPassword(DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO) {
         BusinessData<DatabaseUserManageResponseDTO> businessData = databaseUserManageFeignClient.modifyPassword(databaseModifyPasswordRequestDTO);
         if (!businessData.success()) {

@@ -1,14 +1,18 @@
 package com.wondernect.stars.database.service;
 
+import com.wondernect.elements.authorize.context.AuthorizeData;
+import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
-import com.wondernect.elements.jdbc.client.response.JDBCResult;
 import com.wondernect.elements.jdbc.client.util.JDBCClient;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
-import com.wondernect.stars.database.dto.*;
+import com.wondernect.stars.database.dto.DatabaseModifyPasswordRequestDTO;
+import com.wondernect.stars.database.dto.DatabaseUserManageResponseDTO;
 import com.wondernect.stars.database.model.DatabaseManage;
+import com.wondernect.stars.database.model.DatabaseRootManage;
 import com.wondernect.stars.database.model.DatabaseUserManage;
+import com.wondernect.stars.database.model.DatabaseUserRightsShip;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,111 +33,46 @@ public class DatabaseUserManageService extends DatabaseUserManageAbstractService
     private JDBCClient jdbcClient;
 
     @Autowired
+    private WondernectCommonContext wondernectCommonContext;
+
+    @Autowired
     private DatabaseManageService databaseManageService;
 
-    //赋权限
-    @Transactional
-    public DatabaseUserManageResponseDTO giveRights(int type, DatabaseUserRequestDTO databaseUserRequestDTO) {
-        DatabaseManage databaseManage = databaseManageService.findEntityById(databaseUserRequestDTO.getDatabaseManageId());
-        if (ESObjectUtils.isNull(databaseManage)) {
-            throw new BusinessException("要赋权限的数据库不存在");
-        }
-        Criteria<DatabaseUserManage> databaseUserManageCriteria = new Criteria<>();
-        databaseUserManageCriteria.add(Restrictions.eq("databaseManageId", databaseUserRequestDTO.getDatabaseManageId()));
-        databaseUserManageCriteria.add(Restrictions.eq("userName", databaseUserRequestDTO.getDatabaseName()));
-        List<DatabaseUserManage> databaseUserManageList = super.findAllEntity(databaseUserManageCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseUserManageList)) {
-            throw new BusinessException("要赋权限的数据库用户信息不存在");
-        }
-        if (databaseUserManageList.get(0).getRightsState() != 0) {
-            throw new BusinessException("要赋权限的数据库用户已经有权限了");
-        }
-        DatabaseUserManage databaseUserManage = databaseUserManageList.get(0);
-        jdbcClient.giveRights(type, databaseUserRequestDTO.getDatabaseName(), databaseUserRequestDTO.getUserName(), databaseUserRequestDTO.getPassword());
-        databaseUserManage.setRightsState(type);
-        if (type == 1) {
-            databaseUserManage.setRightsMessage("只读权限");
-        } else {
-            databaseUserManage.setRightsMessage("所有权限");
-        }
-        super.save(databaseUserManage);
-        return new DatabaseUserManageResponseDTO(
-                databaseUserManage.getId(),
-                databaseUserManage.getDatabaseManageId(),
-                databaseUserManage.getUserName(),
-                databaseUserManage.getPassword(),
-                databaseUserManage.getRightsState(),
-                databaseUserManage.getRightsMessage()
-        );
-    }
+    @Autowired
+    private DatabaseRootManageService databaseRootManageService;
 
-    //收回权限
-    @Transactional
-    public DatabaseUserManageResponseDTO revokeRights(DatabaseUserRequestDTO databaseUserRequestDTO) {
-        DatabaseManage databaseManage = databaseManageService.findEntityById(databaseUserRequestDTO.getDatabaseManageId());
-        if (ESObjectUtils.isNull(databaseManage)) {
-            throw new BusinessException("要收回权限的数据库不存在");
-        }
-        Criteria<DatabaseUserManage> databaseUserManageCriteria = new Criteria<>();
-        databaseUserManageCriteria.add(Restrictions.eq("databaseManageId", databaseUserRequestDTO.getDatabaseManageId()));
-        databaseUserManageCriteria.add(Restrictions.eq("userName", databaseUserRequestDTO.getDatabaseName()));
-        List<DatabaseUserManage> databaseUserManageList = super.findAllEntity(databaseUserManageCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseUserManageList)) {
-            throw new BusinessException("要收回权限的数据库用户信息不存在");
-        }
-        if (databaseUserManageList.get(0).getRightsState() == 0) {
-            throw new BusinessException("要收回权限的数据库用户没有需要收回的权限");
-        }
-        DatabaseUserManage databaseUserManage = databaseUserManageList.get(0);
-        JDBCResult jdbcResult = jdbcClient.revokeRights(databaseUserRequestDTO.getDatabaseName(), databaseUserRequestDTO.getUserName());
-        if (jdbcResult.getResult()) {
-            databaseUserManage.setRightsState(0);
-            databaseUserManage.setRightsMessage("尚未赋予权限");
-            super.save(databaseUserManage);
-        }
-        return new DatabaseUserManageResponseDTO(
-                databaseUserManage.getId(),
-                databaseUserManage.getDatabaseManageId(),
-                databaseUserManage.getUserName(),
-                databaseUserManage.getPassword(),
-                databaseUserManage.getRightsState(),
-                jdbcResult.getMessage()
-        );
-    }
-
-    //测试连接
-    public TestConnectResponseDTO testConnect(DatabaseConnectRequestDTO databaseConnectRequestDTO) {
-        JDBCResult jdbcResult = jdbcClient.testConnect(databaseConnectRequestDTO.getUrl(), databaseConnectRequestDTO.getUserName(), databaseConnectRequestDTO.getPassword());
-        return new TestConnectResponseDTO(
-                databaseConnectRequestDTO.getUrl(),
-                databaseConnectRequestDTO.getUserName(),
-                databaseConnectRequestDTO.getPassword(),
-                jdbcResult.getResult(),
-                jdbcResult.getMessage()
-        );
-    }
+    @Autowired
+    private DatabaseUserRightsShipService databaseUserRightsShipService;
 
     //修改密码
     @Transactional
     public DatabaseUserManageResponseDTO modifyPassword(DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO) {
-        DatabaseUserManage databaseUserManage = super.findEntityById(databaseModifyPasswordRequestDTO.getId());
+        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
+        if (authorizeData.getUserId() == null) {
+            throw new BusinessException("当前无登录用户");
+        }
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", databaseModifyPasswordRequestDTO.getDatabaseUserId()));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = databaseUserRightsShipService.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
+            //如果没有权限关系，就直接修改返回
+            DatabaseUserManage databaseUserManage = new DatabaseUserManage();
+            databaseUserManage.setPassword(databaseModifyPasswordRequestDTO.getNewPassword());
+            return super.save(databaseUserManage);
+        }
+        DatabaseUserManage databaseUserManage = super.findEntityById(databaseModifyPasswordRequestDTO.getDatabaseUserId());
         if (ESObjectUtils.isNull(databaseUserManage)) {
             throw new BusinessException("需要修改密码的用户不存在");
         }
-        if (databaseUserManage.getRightsState() == 0) {
-            throw new BusinessException("该用户无数据库操作权限，无法为其修改密码");
+        DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseUserManage.getDatabaseRootManageId());
+        if (ESObjectUtils.isNull(databaseRootManage)) {
+            throw new BusinessException("要修改密码的用户不存在MySQL数据库管理服务");
         }
-        DatabaseManage databaseManage = databaseManageService.findEntityById(databaseUserManage.getDatabaseManageId());
-        jdbcClient.giveRights(databaseUserManage.getRightsState(), databaseManage.getDatabaseName(), databaseUserManage.getUserName(), databaseModifyPasswordRequestDTO.getNewPassword());
+        for (DatabaseUserRightsShip databaseUserRightsShip : databaseUserRightsShipList) {
+            DatabaseManage databaseManage = databaseManageService.findEntityById(databaseUserRightsShip.getDatabaseManageId());
+            jdbcClient.giveRights(databaseUserRightsShip.getRightsState(), databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUserName(), databaseModifyPasswordRequestDTO.getNewPassword());
+        }
         databaseUserManage.setPassword(databaseModifyPasswordRequestDTO.getNewPassword());
-        DatabaseUserManageResponseDTO databaseUserManageResponseDTO = super.save(databaseUserManage);
-        return new DatabaseUserManageResponseDTO(
-                databaseUserManageResponseDTO.getId(),
-                databaseUserManageResponseDTO.getDatabaseManageId(),
-                databaseUserManageResponseDTO.getUserName(),
-                databaseUserManageResponseDTO.getPassword(),
-                databaseUserManageResponseDTO.getRightsState(),
-                databaseUserManageResponseDTO.getRightsMessage()
-        );
+        return super.save(databaseUserManage);
     }
 }

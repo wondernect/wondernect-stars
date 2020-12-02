@@ -20,7 +20,7 @@ import java.io.Serializable;
         name = "database_manage",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "createApp"),
+                @Index(columnList = "databaseRootManageId"),
                 @Index(columnList = "databaseName")
         }
 )
@@ -28,8 +28,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "数据库")
+@ApiModel(description = "具体数据库管理")
 public class DatabaseManage extends BaseStringModel implements Serializable {
+
+    @JsonProperty("database_root_manage_id")
+    @ApiModelProperty(notes = "MySQL数据库id")
+    private String databaseRootManageId;
 
     @JsonProperty("database_name")
     @ApiModelProperty(notes = "数据库名称")

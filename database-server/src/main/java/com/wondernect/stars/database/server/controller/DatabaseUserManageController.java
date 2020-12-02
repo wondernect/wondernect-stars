@@ -18,14 +18,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 数据库用户接口
+ * 数据库实例用户接口
  *
  * @author liyafei 2020-11-09 15:58:16
  **/
 @RequestMapping(value = "/v1/wondernect/database/database_user_manage")
 @RestController
 @Validated
-@Api(tags = "数据库用户接口")
+@Api(tags = "数据库实例用户管理接口")
 public class DatabaseUserManageController {
 
     @Autowired
@@ -85,34 +85,6 @@ public class DatabaseUserManageController {
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody(required = false) PageDatabaseUserManageRequestDTO pageDatabaseUserManageRequestDTO
     ) {
         return new BusinessData<>(databaseUserManageService.page(pageDatabaseUserManageRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "赋权限", httpMethod = "POST")
-    @PostMapping(value = "/{type}/give_rights")
-    public BusinessData<DatabaseUserManageResponseDTO> giveRights(
-            @ApiParam(required = true) @NotNull(message = "1-只读权限，2-所有权限") @PathVariable(value = "type", required = false) Integer type,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
-    ) {
-        return new BusinessData<>(databaseUserManageService.giveRights(type, databaseUserRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "收回权限", httpMethod = "POST")
-    @PostMapping(value = "/revoke_rights")
-    public BusinessData<DatabaseUserManageResponseDTO> revokeRights(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
-    ) {
-        return new BusinessData<>(databaseUserManageService.revokeRights(databaseUserRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "测试连接", httpMethod = "POST")
-    @PostMapping(value = "/test_connect")
-    public BusinessData<TestConnectResponseDTO> testConnect(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseConnectRequestDTO databaseConnectRequestDTO
-    ) {
-        return new BusinessData<>(databaseUserManageService.testConnect(databaseConnectRequestDTO));
     }
 
     @AuthorizeServer

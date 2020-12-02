@@ -18,37 +18,33 @@ import java.io.Serializable;
 
 @Entity
 @Table(
-        name = "database_user_manage",
+        name = "database_user_rights_ship",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
                 @Index(columnList = "databaseManageId"),
-                @Index(columnList = "userName")
+                @Index(columnList = "databaseUserId")
         }
 )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "数据库用户管理")
-public class DatabaseUserManage extends BaseStringModel implements Serializable {
+@ApiModel(description = "数据库用户权限关系表")
+public class DatabaseUserRightsShip extends BaseStringModel implements Serializable {
 
-    @JsonProperty("database_root_manage_id")
-    @ApiModelProperty(notes = "MySQL数据库id")
-    private String databaseRootManageId;
+    @JsonProperty("database_manage_id")
+    @ApiModelProperty(notes = "数据库id")
+    private String databaseManageId;
 
-    @JsonProperty("user_name")
-    @ApiModelProperty(notes = "用户名称")
-    private String userName;
+    @JsonProperty("database_user_id")
+    @ApiModelProperty(notes = "数据库用户id")
+    private String databaseUserId;
 
-    @JsonProperty("password")
-    @ApiModelProperty(notes = "用户密码")
-    private String password;
-
-   /* @JsonProperty("rights_state")
-    @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)", allowableValues = "0, 1, 2")
+    @JsonProperty("rights_state")
+    @ApiModelProperty(notes = "权限状态(1-只读权限，2-所有权限)", allowableValues = "1, 2")
     private int rightsState;
 
     @JsonProperty("rights_message")
     @ApiModelProperty(notes = "权限结果描述")
-    private String rightsMessage;*/
+    private String rightsMessage;
 }

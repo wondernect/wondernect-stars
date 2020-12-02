@@ -20,6 +20,16 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "数据库请求对象")
 public class SaveDatabaseManageRequestDTO {
 
+  /*  @NotNull
+    @JsonProperty("secret")
+    @ApiModelProperty(notes = "标识码")
+    private String secret;*/
+
+    @NotNull
+    @JsonProperty("database_root_manage_id")
+    @ApiModelProperty(notes = "MySQL数据库id")
+    private String databaseRootManageId;
+
     @NotNull
     @JsonProperty("database_name")
     @ApiModelProperty(notes = "数据库名称")

@@ -19,13 +19,9 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "数据库用户响应对象")
 public class DatabaseUserManageResponseDTO extends BaseStringResponseDTO {
 
-    @JsonProperty("id")
-    @ApiModelProperty(notes = "数据库用户id")
-    private String id;
-
-    @JsonProperty("database_manage_id")
-    @ApiModelProperty(notes = "数据库id")
-    private String databaseManageId;
+    @JsonProperty("database_root_manage_id")
+    @ApiModelProperty(notes = "MySQL数据库id")
+    private String databaseRootManageId;
 
     @JsonProperty("user_name")
     @ApiModelProperty(notes = "用户名称")
@@ -35,11 +31,11 @@ public class DatabaseUserManageResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "用户密码")
     private String password;
 
-    @JsonProperty("rights_state")
+    /*@JsonProperty("rights_state")
     @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)", allowableValues = "0, 1, 2")
     private int rightsState;
 
     @JsonProperty("rights_message")
     @ApiModelProperty(notes = "权限结果描述")
-    private String rightsMessage;
+    private String rightsMessage;*/
 }

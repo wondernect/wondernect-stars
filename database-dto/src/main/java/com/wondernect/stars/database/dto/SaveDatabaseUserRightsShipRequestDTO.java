@@ -10,33 +10,28 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 /**
- * 数据库用户请求DTO
+ * 数据库用户权限关系表请求DTO
  *
- * @author liyafei 2020-11-09 15:58:15
+ * @author 李亚飞 2020-12-02 14:25:41
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "数据库用户创建请求对象")
-public class SaveDatabaseUserManageRequestDTO {
+@ApiModel(value = "数据库用户权限关系表请求对象")
+public class SaveDatabaseUserRightsShipRequestDTO {
 
     @NotNull
-    @JsonProperty("database_root_manage_id")
-    @ApiModelProperty(notes = "MySQL数据库id")
-    private String databaseRootManageId;
+    @JsonProperty("database_manage_id")
+    @ApiModelProperty(notes = "数据库id")
+    private String databaseManageId;
 
     @NotNull
-    @JsonProperty("user_name")
-    @ApiModelProperty(notes = "用户名称")
-    private String userName;
-
-    @NotNull
-    @JsonProperty("password")
-    @ApiModelProperty(notes = "用户密码")
-    private String password;
+    @JsonProperty("database_user_id")
+    @ApiModelProperty(notes = "数据库用户id")
+    private String databaseUserId;
 
    /* @JsonProperty("rights_state")
-    @ApiModelProperty(notes = "权限状态")
+    @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)")
     private int rightsState;
 
     @JsonProperty("rights_message")

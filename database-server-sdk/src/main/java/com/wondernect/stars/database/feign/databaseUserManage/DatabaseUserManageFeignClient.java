@@ -8,7 +8,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -52,25 +55,6 @@ public interface DatabaseUserManageFeignClient {
     @PostMapping(value = "/page")
     BusinessData<PageResponseData<DatabaseUserManageResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "分页请求参数不能为空") @Validated @RequestBody(required = false) PageDatabaseUserManageRequestDTO pageDatabaseUserManageRequestDTO
-    );
-
-    @ApiOperation(value = "赋权限", httpMethod = "POST")
-    @PostMapping(value = "/{type}/give_rights")
-    BusinessData<DatabaseUserManageResponseDTO> giveRights(
-            @ApiParam(required = true) @NotBlank(message = "1-只读权限，2-所有权限") @PathVariable(value = "type", required = false) int type,
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
-    );
-
-    @ApiOperation(value = "收回权限", httpMethod = "POST")
-    @PostMapping(value = "/revoke_rights")
-    BusinessData<DatabaseUserManageResponseDTO> revokeRights(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
-    );
-
-    @ApiOperation(value = "测试连接", httpMethod = "POST")
-    @PostMapping(value = "/test_connect")
-    BusinessData<TestConnectResponseDTO> testConnect(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseConnectRequestDTO databaseConnectRequestDTO
     );
 
     @ApiOperation(value = "修改密码", httpMethod = "POST")
