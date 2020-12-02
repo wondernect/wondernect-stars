@@ -20,11 +20,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "数据库请求对象")
 public class SaveDatabaseManageRequestDTO {
 
-  /*  @NotNull
-    @JsonProperty("secret")
-    @ApiModelProperty(notes = "标识码")
-    private String secret;*/
-
     @NotNull
     @JsonProperty("database_root_manage_id")
     @ApiModelProperty(notes = "MySQL数据库id")
@@ -35,15 +30,4 @@ public class SaveDatabaseManageRequestDTO {
     @ApiModelProperty(notes = "数据库名称")
     private String databaseName;
 
-    /*@JsonProperty("url")
-    @ApiModelProperty(notes = "连接地址")
-    private String url;
-
-    @JsonProperty("init_state")
-    @ApiModelProperty(notes = "初始化状态")
-    private Boolean initState;
-
-    @JsonProperty("init_message")
-    @ApiModelProperty(notes = "初始化结果描述")
-    private String initMessage;*/
 }

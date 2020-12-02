@@ -98,13 +98,6 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
             throw new BusinessException("当前无登录用户");
         }
         String appId = authorizeData.getAppId();
-       /* Criteria<DatabaseRootManage> databaseRootManageCriteria = new Criteria<>();
-        databaseRootManageCriteria.add(Restrictions.eq("createApp",appId));
-        databaseRootManageCriteria.add(Restrictions.eq("secret",listDatabaseManageRequestDTO.getSecret()));
-        List<DatabaseRootManage> databaseRootManageList = databaseRootManageService.findAllEntity(databaseRootManageCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseRootManageList)){
-            throw new BusinessException("标识码无对应的MySQL数据库");
-        }*/
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
         databaseManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", listDatabaseManageRequestDTO.getDatabaseRootManageId()));
@@ -119,12 +112,7 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
             throw new BusinessException("当前无登录用户");
         }
         String appId = authorizeData.getAppId();
-        /*Criteria<DatabaseRootManage> databaseRootManageCriteria = new Criteria<>();
-        databaseRootManageCriteria.add(Restrictions.eq("secret",pageDatabaseManageRequestDTO.getSecret()));
-        List<DatabaseRootManage> databaseRootManageList = databaseRootManageService.findAllEntity(databaseRootManageCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseRootManageList)){
-            throw new BusinessException("标识码无对应的MySQL数据库");
-        }*/
+
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
         databaseManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", pageDatabaseManageRequestDTO.getDatabaseRootManageId()));

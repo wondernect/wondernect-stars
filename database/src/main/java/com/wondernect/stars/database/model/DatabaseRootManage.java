@@ -20,8 +20,7 @@ import java.io.Serializable;
         name = "database_root_manage",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "serverIp"),
-                @Index(columnList = "secret")
+                @Index(columnList = "serverIp")
         }
 )
 @Data
@@ -55,7 +54,4 @@ public class DatabaseRootManage extends BaseStringModel implements Serializable 
     @ApiModelProperty(notes = "MySQL数据库密码")
     private String password;
 
-   /* @JsonProperty("secret")
-    @ApiModelProperty(notes = "标识码")
-    private String secret;*/
 }

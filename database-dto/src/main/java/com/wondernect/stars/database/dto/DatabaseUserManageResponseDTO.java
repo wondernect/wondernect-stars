@@ -31,11 +31,4 @@ public class DatabaseUserManageResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "用户密码")
     private String password;
 
-    /*@JsonProperty("rights_state")
-    @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)", allowableValues = "0, 1, 2")
-    private int rightsState;
-
-    @JsonProperty("rights_message")
-    @ApiModelProperty(notes = "权限结果描述")
-    private String rightsMessage;*/
 }

@@ -52,7 +52,6 @@ public abstract class DatabaseRootManageAbstractService extends BaseStringServic
         ESBeanUtils.copyProperties(saveDatabaseRootManageRequestDTO, databaseRootManage);
         databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");
         databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getServerIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
-//        databaseRootManage.setSecret(ESUUIDGenerateUtils.generateIdentifier(""));
         return super.save(databaseRootManage);
     }
 

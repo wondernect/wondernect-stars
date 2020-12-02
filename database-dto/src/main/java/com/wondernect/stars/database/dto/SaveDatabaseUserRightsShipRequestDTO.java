@@ -30,11 +30,4 @@ public class SaveDatabaseUserRightsShipRequestDTO {
     @ApiModelProperty(notes = "数据库用户id")
     private String databaseUserId;
 
-   /* @JsonProperty("rights_state")
-    @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)")
-    private int rightsState;
-
-    @JsonProperty("rights_message")
-    @ApiModelProperty(notes = "权限结果描述")
-    private String rightsMessage;*/
 }

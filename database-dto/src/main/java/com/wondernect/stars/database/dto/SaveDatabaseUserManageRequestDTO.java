@@ -35,11 +35,4 @@ public class SaveDatabaseUserManageRequestDTO {
     @ApiModelProperty(notes = "用户密码")
     private String password;
 
-   /* @JsonProperty("rights_state")
-    @ApiModelProperty(notes = "权限状态")
-    private int rightsState;
-
-    @JsonProperty("rights_message")
-    @ApiModelProperty(notes = "权限结果描述")
-    private String rightsMessage;*/
 }

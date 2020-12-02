@@ -43,7 +43,4 @@ public class DatabaseRootManageResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "根数据库密码")
     private String password;
 
-    /*@JsonProperty("secret")
-    @ApiModelProperty(notes = "标识码")
-    private String secret;*/
 }
