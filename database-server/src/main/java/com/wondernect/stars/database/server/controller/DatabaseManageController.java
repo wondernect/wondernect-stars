@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping(value = "/v1/wondernect/database/database_manage")
 @RestController
 @Validated
-@Api(tags = "数据库实例管理接口")
+@Api(tags = "数据库接口")
 public class DatabaseManageController {
 
     @Autowired
