@@ -2,10 +2,7 @@ package com.wondernect.stars.office.feign.excel.param;
 
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.office.excel.dto.param.ExcelTemplateParamResponseDTO;
-import com.wondernect.stars.office.excel.dto.param.ListExcelTemplateParamRequestDTO;
-import com.wondernect.stars.office.excel.dto.param.PageExcelTemplateParamRequestDTO;
-import com.wondernect.stars.office.excel.dto.param.SaveExcelTemplateParamRequestDTO;
+import com.wondernect.stars.office.excel.dto.param.*;
 import com.wondernect.stars.office.feign.config.WondernectOfficeFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +26,12 @@ import java.util.List;
  */
 @FeignClient(name = "${wondernect.stars.office.feign.name}", url = "${wondernect.stars.office.feign.url}", path = "/v1/wondernect/office/excel_template_param", configuration = WondernectOfficeFeignConfiguration.class)
 public interface ExcelTemplateParamFeignClient {
+
+    @ApiOperation(value = "批量添加", httpMethod = "POST")
+    @PostMapping(value = "/batch_add")
+    public BusinessData batchAdd(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) BatchAddExcelTemplateParamRequestDTO batchAddExcelTemplateParamRequestDTO
+    );
 
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")

@@ -28,7 +28,7 @@ public class WondernectOfficeFeignConfiguration implements RequestInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(WondernectOfficeFeignConfiguration.class);
 
     @Autowired
-    private WondernectOfficeFeignConfigProperties wondernectRbacFeignConfigProperties;
+    private WondernectOfficeFeignConfigProperties wondernectOfficeFeignConfigProperties;
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
@@ -43,12 +43,12 @@ public class WondernectOfficeFeignConfiguration implements RequestInterceptor {
                     requestTemplate.header(name, value);
                 }
             }
-            Object value = request.getAttribute(wondernectRbacFeignConfigProperties.getUserIdPropertyName());
+            Object value = request.getAttribute(wondernectOfficeFeignConfigProperties.getUserIdPropertyName());
             if (ESObjectUtils.isNotNull(value)) {
-                requestTemplate.header(wondernectRbacFeignConfigProperties.getUserIdPropertyName(), value.toString());
+                requestTemplate.header(wondernectOfficeFeignConfigProperties.getUserIdPropertyName(), value.toString());
             }
         }
-        requestTemplate.header(wondernectRbacFeignConfigProperties.getAppIdPropertyName(), wondernectRbacFeignConfigProperties.getAppId());
-        requestTemplate.header(wondernectRbacFeignConfigProperties.getAppSecretPropertyName(), wondernectRbacFeignConfigProperties.getAppSecret());
+        requestTemplate.header(wondernectOfficeFeignConfigProperties.getAppIdPropertyName(), wondernectOfficeFeignConfigProperties.getAppId());
+        requestTemplate.header(wondernectOfficeFeignConfigProperties.getAppSecretPropertyName(), wondernectOfficeFeignConfigProperties.getAppSecret());
     }
 }

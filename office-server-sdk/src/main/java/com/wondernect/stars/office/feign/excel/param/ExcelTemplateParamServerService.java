@@ -3,10 +3,7 @@ package com.wondernect.stars.office.feign.excel.param;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.office.excel.dto.param.ExcelTemplateParamResponseDTO;
-import com.wondernect.stars.office.excel.dto.param.ListExcelTemplateParamRequestDTO;
-import com.wondernect.stars.office.excel.dto.param.PageExcelTemplateParamRequestDTO;
-import com.wondernect.stars.office.excel.dto.param.SaveExcelTemplateParamRequestDTO;
+import com.wondernect.stars.office.excel.dto.param.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +21,13 @@ public class ExcelTemplateParamServerService {
 
     @Autowired
     private ExcelTemplateParamFeignClient excelTemplateParamFeignClient;
+
+    public void batchAdd(BatchAddExcelTemplateParamRequestDTO batchAddExcelTemplateParamRequestDTO) {
+        BusinessData businessData = excelTemplateParamFeignClient.batchAdd(batchAddExcelTemplateParamRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+    }
 
     public ExcelTemplateParamResponseDTO create(SaveExcelTemplateParamRequestDTO saveExcelTemplateParamRequestDTO) {
         BusinessData<ExcelTemplateParamResponseDTO> businessData = excelTemplateParamFeignClient.create(saveExcelTemplateParamRequestDTO);
