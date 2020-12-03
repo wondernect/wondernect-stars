@@ -112,7 +112,6 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
             throw new BusinessException("当前无登录用户");
         }
         String appId = authorizeData.getAppId();
-
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
         databaseManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", pageDatabaseManageRequestDTO.getDatabaseRootManageId()));

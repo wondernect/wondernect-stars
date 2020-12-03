@@ -30,6 +30,8 @@ import java.io.Serializable;
 @ApiModel(description = "MySQL数据库管理")
 public class DatabaseRootManage extends BaseStringModel implements Serializable {
 
+    private static final long serialVersionUID = 7827047990969051918L;
+
     @JsonProperty("driver")
     @ApiModelProperty(notes = "MySQL数据库驱动")
     private String driver;
@@ -53,5 +55,4 @@ public class DatabaseRootManage extends BaseStringModel implements Serializable 
     @JsonProperty("password")
     @ApiModelProperty(notes = "MySQL数据库密码")
     private String password;
-
 }

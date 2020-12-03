@@ -32,6 +32,8 @@ import java.io.Serializable;
 @ApiModel(description = "数据库用户权限关系表")
 public class DatabaseUserRightsShip extends BaseStringModel implements Serializable {
 
+    private static final long serialVersionUID = -5083916624919446820L;
+
     @JsonProperty("database_manage_id")
     @ApiModelProperty(notes = "数据库id")
     private String databaseManageId;

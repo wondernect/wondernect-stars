@@ -32,6 +32,8 @@ import java.io.Serializable;
 @ApiModel(description = "数据库用户管理")
 public class DatabaseUserManage extends BaseStringModel implements Serializable {
 
+    private static final long serialVersionUID = -5442453012367600263L;
+
     @JsonProperty("database_root_manage_id")
     @ApiModelProperty(notes = "MySQL数据库id")
     private String databaseRootManageId;
@@ -43,12 +45,4 @@ public class DatabaseUserManage extends BaseStringModel implements Serializable 
     @JsonProperty("password")
     @ApiModelProperty(notes = "用户密码")
     private String password;
-
-   /* @JsonProperty("rights_state")
-    @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)", allowableValues = "0, 1, 2")
-    private int rightsState;
-
-    @JsonProperty("rights_message")
-    @ApiModelProperty(notes = "权限结果描述")
-    private String rightsMessage;*/
 }
