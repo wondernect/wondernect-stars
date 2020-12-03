@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-
 /**
  * 根数据库列表请求DTO
  *
@@ -21,8 +19,8 @@ import java.util.ArrayList;
 @ApiModel(value = "根数据库列表请求对象")
 public class ListDatabaseRootManageRequestDTO extends ListRequestDTO {
 
-    @JsonProperty("server_ip")
-    @ApiModelProperty(notes = "根数据库服务器ip地址")
-    private String serverIp;
+    @JsonProperty("ip")
+    @ApiModelProperty(notes = "数据库ip地址")
+    private String ip;
 
 }

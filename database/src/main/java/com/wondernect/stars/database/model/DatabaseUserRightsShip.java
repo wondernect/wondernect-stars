@@ -35,7 +35,7 @@ public class DatabaseUserRightsShip extends BaseStringModel implements Serializa
     private static final long serialVersionUID = -5083916624919446820L;
 
     @JsonProperty("database_manage_id")
-    @ApiModelProperty(notes = "数据库id")
+    @ApiModelProperty(notes = "数据库名称id")
     private String databaseManageId;
 
     @JsonProperty("database_user_id")

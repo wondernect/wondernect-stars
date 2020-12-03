@@ -73,4 +73,20 @@ public class DatabaseManageServerService {
         }
         return businessData.getData();
     }
+
+    public List<DatabaseManageResponseDTO> userHasRightsList(String databaseUserId) {
+        BusinessData<List<DatabaseManageResponseDTO>> businessData = databaseManageFeignClient.userHasRightsList(databaseUserId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public List<DatabaseManageResponseDTO> userNoRightsList(String databaseUserId) {
+        BusinessData<List<DatabaseManageResponseDTO>> businessData = databaseManageFeignClient.userNoRightsList(databaseUserId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
 }

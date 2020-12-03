@@ -16,31 +16,31 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "根数据库响应对象")
+@ApiModel(value = "数据库响应对象")
 public class DatabaseRootManageResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("driver")
     @ApiModelProperty(notes = "数据库驱动")
     private String driver;
 
-    @JsonProperty("server_ip")
-    @ApiModelProperty(notes = "根数据库服务器ip地址")
-    private String serverIp;
+    @JsonProperty("ip")
+    @ApiModelProperty(notes = "数据库ip地址")
+    private String ip;
 
     @JsonProperty("port")
-    @ApiModelProperty(notes = "根数据库连接端口")
+    @ApiModelProperty(notes = "数据库连接端口")
     private Integer port;
 
     @JsonProperty("url")
-    @ApiModelProperty(notes = "根数据库连接地址")
+    @ApiModelProperty(notes = "数据库连接地址")
     private String url;
 
     @JsonProperty("username")
-    @ApiModelProperty(notes = "根数据库用户名")
+    @ApiModelProperty(notes = "数据库用户名")
     private String username;
 
     @JsonProperty("password")
-    @ApiModelProperty(notes = "根数据库密码")
+    @ApiModelProperty(notes = "数据库密码")
     private String password;
 
 }

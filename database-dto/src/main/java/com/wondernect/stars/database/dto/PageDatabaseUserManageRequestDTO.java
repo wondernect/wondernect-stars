@@ -20,6 +20,6 @@ import lombok.NoArgsConstructor;
 public class PageDatabaseUserManageRequestDTO extends PageRequestDTO {
 
     @JsonProperty("database_root_manage_id")
-    @ApiModelProperty(notes = "MySQL数据库id")
+    @ApiModelProperty(notes = "数据库id")
     private String databaseRootManageId;
 }

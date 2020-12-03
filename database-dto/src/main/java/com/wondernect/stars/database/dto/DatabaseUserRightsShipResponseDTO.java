@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class DatabaseUserRightsShipResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("database_manage_id")
-    @ApiModelProperty(notes = "数据库id")
+    @ApiModelProperty(notes = "数据库名称id")
     private String databaseManageId;
 
     @JsonProperty("database_name")
@@ -31,9 +31,9 @@ public class DatabaseUserRightsShipResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "数据库用户id")
     private String databaseUserId;
 
-    @JsonProperty("user_name")
+    @JsonProperty("username")
     @ApiModelProperty(notes = "用户名称")
-    private String userName;
+    private String username;
 
     @JsonProperty("rights_state")
     @ApiModelProperty(notes = "权限状态(0-无权限，1-只读权限，2-所有权限)")

@@ -1,7 +1,5 @@
 package com.wondernect.stars.database.service;
 
-import com.wondernect.elements.authorize.context.AuthorizeData;
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
@@ -13,6 +11,7 @@ import com.wondernect.stars.database.dto.DatabaseRootManageResponseDTO;
 import com.wondernect.stars.database.dto.ListDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.PageDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.SaveDatabaseRootManageRequestDTO;
+import com.wondernect.stars.database.model.DatabaseManage;
 import com.wondernect.stars.database.model.DatabaseRootManage;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,27 +30,15 @@ import java.util.List;
 public abstract class DatabaseRootManageAbstractService extends BaseStringService<DatabaseRootManageResponseDTO, DatabaseRootManage> implements DatabaseRootManageInterface {
 
     @Autowired
-    private WondernectCommonContext wondernectCommonContext;
+    private DatabaseManageService databaseManageService;
 
     @Transactional
     @Override
     public DatabaseRootManageResponseDTO create(SaveDatabaseRootManageRequestDTO saveDatabaseRootManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
-        Criteria<DatabaseRootManage> databaseRootManageCriteria = new Criteria<>();
-        databaseRootManageCriteria.add(Restrictions.eq("createApp", appId));
-        databaseRootManageCriteria.add(Restrictions.eq("serverIp", saveDatabaseRootManageRequestDTO.getServerIp()));
-        List<DatabaseRootManage> databaseRootManageList = super.findAllEntity(databaseRootManageCriteria, new ArrayList<>());
-        if (CollectionUtils.isNotEmpty(databaseRootManageList)) {
-            throw new BusinessException("该APP已存在地址为" + saveDatabaseRootManageRequestDTO.getServerIp() + "的MySQL数据库管理服务");
-        }
         DatabaseRootManage databaseRootManage = new DatabaseRootManage();
         ESBeanUtils.copyProperties(saveDatabaseRootManageRequestDTO, databaseRootManage);
-        databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");
-        databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getServerIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+        databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");//mysql驱动及连接
+        databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
         return super.save(databaseRootManage);
     }
 
@@ -60,37 +47,52 @@ public abstract class DatabaseRootManageAbstractService extends BaseStringServic
     public DatabaseRootManageResponseDTO update(String id, SaveDatabaseRootManageRequestDTO saveDatabaseRootManageRequestDTO) {
         DatabaseRootManage databaseRootManage = super.findEntityById(id);
         if (ESObjectUtils.isNull(databaseRootManage)) {
-            throw new BusinessException("MySQL数据库不存在");
+            throw new BusinessException("数据库不存在");
+        }
+        //如果ip或者port发生改变，就需要修改数据库名称那里的连接url
+        if (!databaseRootManage.getIp().equals(saveDatabaseRootManageRequestDTO.getIp()) || !databaseRootManage.getPort().equals(saveDatabaseRootManageRequestDTO.getPort())) {
+            Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
+            databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", id));
+            List<DatabaseManage> databaseManageList = databaseManageService.findAllEntity(databaseManageCriteria, new ArrayList<>());
+            if (CollectionUtils.isNotEmpty(databaseManageList)) {
+                for (DatabaseManage databaseManage : databaseManageList) {
+                    databaseManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/" + databaseManage.getDatabaseName() + "?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+                    databaseManageService.save(databaseManage);
+                }
+            }
         }
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveDatabaseRootManageRequestDTO, databaseRootManage);
-        databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");
-        databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getServerIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+        databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");//mysql驱动及连接
+        databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
         return super.save(databaseRootManage);
+    }
+
+    @Transactional
+    public void delete(String id) {
+        DatabaseRootManage databaseRootManage = super.findEntityById(id);
+        if (ESObjectUtils.isNull(databaseRootManage)) {
+            throw new BusinessException("要删除的数据库不存在");
+        }
+        Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
+        databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", id));
+        List<DatabaseManage> databaseManageList = databaseManageService.findAllEntity(databaseManageCriteria, new ArrayList<>());
+        if (CollectionUtils.isNotEmpty(databaseManageList)) {
+            throw new BusinessException("要删除的数据库还存在其他数据库名称管理，不允许删除");
+        }
+        super.deleteById(id);
     }
 
     @Override
     public List<DatabaseRootManageResponseDTO> list(ListDatabaseRootManageRequestDTO listDatabaseRootManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseRootManage> databaseRootManageCriteria = new Criteria<>();
-        databaseRootManageCriteria.add(Restrictions.eq("createApp", appId));
-        databaseRootManageCriteria.add(Restrictions.eq("serverIp", listDatabaseRootManageRequestDTO.getServerIp()));
+        databaseRootManageCriteria.add(Restrictions.eq("ip", listDatabaseRootManageRequestDTO.getIp()));
         return super.findAll(databaseRootManageCriteria, listDatabaseRootManageRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<DatabaseRootManageResponseDTO> page(PageDatabaseRootManageRequestDTO pageDatabaseRootManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseRootManage> databaseRootManageCriteria = new Criteria<>();
-        databaseRootManageCriteria.add(Restrictions.eq("createApp", appId));
-        databaseRootManageCriteria.add(Restrictions.eq("serverIp", pageDatabaseRootManageRequestDTO.getServerIp()));
+        databaseRootManageCriteria.add(Restrictions.eq("ip", pageDatabaseRootManageRequestDTO.getIp()));
         return super.findAll(databaseRootManageCriteria, pageDatabaseRootManageRequestDTO.getPageRequestData());
     }
 

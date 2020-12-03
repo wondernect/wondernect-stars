@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "数据库响应对象")
+@ApiModel(value = "数据库名称响应对象")
 public class DatabaseManageResponseDTO extends BaseStringResponseDTO {
 
     @JsonProperty("database_name")

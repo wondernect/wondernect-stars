@@ -1,7 +1,5 @@
 package com.wondernect.stars.database.service;
 
-import com.wondernect.elements.authorize.context.AuthorizeData;
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.jdbc.client.response.JDBCResult;
@@ -36,9 +34,6 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
     private JDBCClient jdbcClient;
 
     @Autowired
-    private WondernectCommonContext wondernectCommonContext;
-
-    @Autowired
     private DatabaseUserManageService databaseUserManageService;
 
     @Autowired
@@ -50,17 +45,6 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
     //赋权限
     @Transactional
     public DatabaseUserRightsShipResponseDTO giveRights(int type, SaveDatabaseUserRightsShipRequestDTO saveDatabaseUserRightsShipRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId()));
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId()));
-        List<DatabaseUserRightsShip> databaseUserRightsShipList = super.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
-        if (CollectionUtils.isNotEmpty(databaseUserRightsShipList)) {
-            throw new BusinessException("要赋权限的用户和数据库已经存在权限关系");
-        }
         DatabaseUserManage databaseUserManage = databaseUserManageService.findEntityById(saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId());
         if (ESObjectUtils.isNull(databaseUserManage)) {
             throw new BusinessException("要赋权限的用户信息不存在");
@@ -71,9 +55,16 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
         }
         DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseManage.getDatabaseRootManageId());
         if (ESObjectUtils.isNull(databaseRootManage)) {
-            throw new BusinessException("要赋权限的数据库不存在MySQL数据库管理服务");
+            throw new BusinessException("要赋权限的数据库不存在数据库管理服务");
         }
-        JDBCResult jdbcResult = jdbcClient.giveRights(type, databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUserName(), databaseUserManage.getPassword());
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId()));
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId()));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = super.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isNotEmpty(databaseUserRightsShipList)) {
+            throw new BusinessException("要赋权限的用户和数据库已经存在权限关系");
+        }
+        JDBCResult jdbcResult = jdbcClient.giveRights(type, databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUsername(), databaseUserManage.getPassword());
         DatabaseUserRightsShip databaseUserRightsShip = new DatabaseUserRightsShip();
         if (jdbcResult.getResult()) {
             databaseUserRightsShip.setDatabaseManageId(saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId());
@@ -90,7 +81,7 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
                 databaseUserRightsShip.getDatabaseManageId(),
                 databaseManage.getDatabaseName(),
                 databaseUserRightsShip.getDatabaseUserId(),
-                databaseUserManage.getUserName(),
+                databaseUserManage.getUsername(),
                 databaseUserRightsShip.getRightsState(),
                 databaseUserRightsShip.getRightsMessage()
         );
@@ -99,17 +90,6 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
     //收回权限
     @Transactional
     public void revokeRights(SaveDatabaseUserRightsShipRequestDTO saveDatabaseUserRightsShipRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId()));
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId()));
-        List<DatabaseUserRightsShip> databaseUserRightsShipList = super.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
-            throw new BusinessException("要收回的数据库和用户权限关系不存在");
-        }
         DatabaseUserManage databaseUserManage = databaseUserManageService.findEntityById(saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId());
         if (ESObjectUtils.isNull(databaseUserManage)) {
             throw new BusinessException("要收回权限的用户信息不存在");
@@ -122,25 +102,23 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
         if (ESObjectUtils.isNull(databaseRootManage)) {
             throw new BusinessException("要收回权限的数据库不存在数据库管理服务");
         }
-        JDBCResult jdbcResult = jdbcClient.revokeRights(databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUserName());
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId()));
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId()));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = super.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
+            throw new BusinessException("要收回的数据库和用户权限关系不存在");
+        }
+        JDBCResult jdbcResult = jdbcClient.revokeRights(databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUsername());
         if (jdbcResult.getResult()) {
-            super.deleteById(databaseUserRightsShipList.get(0).getId());
+            for (DatabaseUserRightsShip databaseUserRightsShip : databaseUserRightsShipList) {//目前集合中就只有一个对象
+                super.deleteById(databaseUserRightsShip.getId());
+            }
         }
     }
 
     //测试连接
     public TestConnectResponseDTO testConnect(DatabaseUserRequestDTO databaseUserRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", databaseUserRequestDTO.getDatabaseManageId()));
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", databaseUserRequestDTO.getDatabaseUserId()));
-        List<DatabaseUserRightsShip> databaseUserRightsShipList = super.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
-            throw new BusinessException("要测试连接的用户没有该数据库的操作权限，请先赋予相应的权限");
-        }
         DatabaseUserManage databaseUserManage = databaseUserManageService.findEntityById(databaseUserRequestDTO.getDatabaseUserId());
         if (ESObjectUtils.isNull(databaseUserManage)) {
             throw new BusinessException("要测试连接的用户信息不存在");
@@ -151,12 +129,19 @@ public class DatabaseUserRightsShipService extends DatabaseUserRightsShipAbstrac
         }
         DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseManage.getDatabaseRootManageId());
         if (ESObjectUtils.isNull(databaseRootManage)) {
-            throw new BusinessException("要测试连接的数据库不存在MySQL数据库管理服务");
+            throw new BusinessException("要测试连接的数据库不存在数据库管理服务");
         }
-        JDBCResult jdbcResult = jdbcClient.testConnect(databaseRootManage.getDriver(), databaseManage.getUrl(), databaseUserManage.getUserName(), databaseUserManage.getPassword());
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", databaseUserRequestDTO.getDatabaseManageId()));
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", databaseUserRequestDTO.getDatabaseUserId()));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = super.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
+            throw new BusinessException("要测试连接的用户没有该数据库的操作权限，请先赋予相应的权限");
+        }
+        JDBCResult jdbcResult = jdbcClient.testConnect(databaseRootManage.getDriver(), databaseManage.getUrl(), databaseUserManage.getUsername(), databaseUserManage.getPassword());
         return new TestConnectResponseDTO(
                 databaseManage.getUrl(),
-                databaseUserManage.getUserName(),
+                databaseUserManage.getUsername(),
                 databaseUserManage.getPassword(),
                 jdbcResult.getResult(),
                 jdbcResult.getMessage()

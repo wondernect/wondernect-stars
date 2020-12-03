@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 数据库请求DTO
@@ -20,14 +20,13 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "数据库请求对象")
 public class SaveDatabaseManageRequestDTO {
 
-    @NotNull
+    @NotBlank(message = "数据库id不能为空")
     @JsonProperty("database_root_manage_id")
-    @ApiModelProperty(notes = "MySQL数据库id")
+    @ApiModelProperty(notes = "数据库id")
     private String databaseRootManageId;
 
-    @NotNull
+    @NotBlank(message = "数据库名称不能为空")
     @JsonProperty("database_name")
     @ApiModelProperty(notes = "数据库名称")
     private String databaseName;
-
 }

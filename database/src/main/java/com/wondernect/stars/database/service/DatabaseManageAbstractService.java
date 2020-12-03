@@ -1,7 +1,5 @@
 package com.wondernect.stars.database.service;
 
-import com.wondernect.elements.authorize.context.AuthorizeData;
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
@@ -15,6 +13,7 @@ import com.wondernect.stars.database.dto.PageDatabaseManageRequestDTO;
 import com.wondernect.stars.database.dto.SaveDatabaseManageRequestDTO;
 import com.wondernect.stars.database.model.DatabaseManage;
 import com.wondernect.stars.database.model.DatabaseRootManage;
+import com.wondernect.stars.database.model.DatabaseUserRightsShip;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,39 +34,32 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
     private DatabaseRootManageService databaseRootManageService;
 
     @Autowired
-    private WondernectCommonContext wondernectCommonContext;
+    private DatabaseUserRightsShipService databaseUserRightsShipService;
 
     @Transactional
     @Override
     public DatabaseManageResponseDTO create(SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
-        Criteria<DatabaseRootManage> databaseRootManageCriteria = new Criteria<>();
-        databaseRootManageCriteria.add(Restrictions.eq("createApp", appId));
-        List<DatabaseRootManage> databaseRootManageList = databaseRootManageService.findAllEntity(databaseRootManageCriteria, new ArrayList<>());
+        List<DatabaseRootManage> databaseRootManageList = databaseRootManageService.findAllEntity(new ArrayList<>());
         if (CollectionUtils.isEmpty(databaseRootManageList)) {
-            throw new BusinessException("该APP无对应的MySQL数据库管理服务");
+            throw new BusinessException("该APP无对应的数据库管理服务");
+        }
+        DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(saveDatabaseManageRequestDTO.getDatabaseRootManageId());
+        if (ESObjectUtils.isNull(databaseRootManage)) {
+            throw new BusinessException("您选择的数据库不存在");
         }
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", saveDatabaseManageRequestDTO.getDatabaseRootManageId()));
         databaseManageCriteria.add(Restrictions.eq("databaseName", saveDatabaseManageRequestDTO.getDatabaseName()));
         List<DatabaseManage> databaseManageList = super.findAllEntity(databaseManageCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(databaseManageList)) {
-            throw new BusinessException("该MySQL数据库已存在名为" + saveDatabaseManageRequestDTO.getDatabaseName() + "的数据库，请重新输入一个数据库名称进行创建");
+            throw new BusinessException("该数据库已存在名为" + saveDatabaseManageRequestDTO.getDatabaseName() + "的数据库，请重新输入一个数据库名称进行创建");
         }
-        DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(saveDatabaseManageRequestDTO.getDatabaseRootManageId());
-        if (ESObjectUtils.isNull(databaseRootManage)) {
-            throw new BusinessException("您选择的MySQL数据库不存在");
-        }
-        String serverIp = databaseRootManage.getServerIp();
+        String ip = databaseRootManage.getIp();
         String port = String.valueOf(databaseRootManage.getPort());
         DatabaseManage databaseManage = new DatabaseManage();
         databaseManage.setDatabaseRootManageId(databaseRootManage.getId());
         databaseManage.setDatabaseName(saveDatabaseManageRequestDTO.getDatabaseName());
-        databaseManage.setUrl("jdbc:mysql://" + serverIp + ":" + port + "/" + saveDatabaseManageRequestDTO.getDatabaseName() + "?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+        databaseManage.setUrl("jdbc:mysql://" + ip + ":" + port + "/" + saveDatabaseManageRequestDTO.getDatabaseName() + "?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");//mysql的连接
         databaseManage.setInitState(false);
         databaseManage.setInitMessage("数据库尚未初始化");
         return super.save(databaseManage);
@@ -85,21 +77,33 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
         }
         DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(saveDatabaseManageRequestDTO.getDatabaseRootManageId());
         if (ESObjectUtils.isNull(databaseRootManage)) {
-            throw new BusinessException("您选择的MySQL数据库不存在");
+            throw new BusinessException("您选择的数据库不存在");
         }
+        String ip = databaseRootManage.getIp();
+        String port = String.valueOf(databaseRootManage.getPort());
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveDatabaseManageRequestDTO, databaseManage);
+        databaseManage.setUrl("jdbc:mysql://" + ip + ":" + port + "/" + saveDatabaseManageRequestDTO.getDatabaseName() + "?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");//mysql的连接
         return super.save(databaseManage);
+    }
+
+    @Transactional
+    public void delete(String id) {
+        DatabaseManage databaseManage = super.findEntityById(id);
+        if (ESObjectUtils.isNull(databaseManage)) {
+            throw new BusinessException("要删除的数据库不存在");
+        }
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", id));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = databaseUserRightsShipService.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isNotEmpty(databaseUserRightsShipList)) {
+            throw new BusinessException("要删除的数据库还存在用户数据库权限关系，不允许删除");
+        }
+        super.deleteById(id);
     }
 
     @Override
     public List<DatabaseManageResponseDTO> list(ListDatabaseManageRequestDTO listDatabaseManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
-        databaseManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", listDatabaseManageRequestDTO.getDatabaseRootManageId()));
         databaseManageCriteria.add(Restrictions.eq("databaseName", listDatabaseManageRequestDTO.getDatabaseName()));
         return super.findAll(databaseManageCriteria, listDatabaseManageRequestDTO.getSortDataList());
@@ -107,13 +111,7 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
 
     @Override
     public PageResponseData<DatabaseManageResponseDTO> page(PageDatabaseManageRequestDTO pageDatabaseManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
-        databaseManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", pageDatabaseManageRequestDTO.getDatabaseRootManageId()));
         databaseManageCriteria.add(Restrictions.eq("databaseName", pageDatabaseManageRequestDTO.getDatabaseName()));
         return super.findAll(databaseManageCriteria, pageDatabaseManageRequestDTO.getPageRequestData());

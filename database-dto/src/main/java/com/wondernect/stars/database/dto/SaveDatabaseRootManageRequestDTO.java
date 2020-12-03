@@ -18,26 +18,31 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "根数据库请求对象")
+@ApiModel(value = "数据库请求对象")
 public class SaveDatabaseRootManageRequestDTO {
 
-    @NotNull
-    @JsonProperty("server_ip")
-    @ApiModelProperty(notes = "根数据库服务器ip地址")
-    private String serverIp;
+    /*@NotBlank(message = "数据库驱动不能为空")
+    @JsonProperty("driver")
+    @ApiModelProperty(notes = "数据库驱动")
+    private String driver;*/
 
-    @NotBlank
+    @NotBlank(message = "数据库ip地址不能为空")
+    @JsonProperty("ip")
+    @ApiModelProperty(notes = "数据库ip地址")
+    private String ip;
+
+    @NotNull(message = "数据库连接端口不能为空")
     @JsonProperty("port")
-    @ApiModelProperty(notes = "根数据库连接端口")
+    @ApiModelProperty(notes = "数据库连接端口")
     private Integer port;
 
-    @NotNull
+    @NotBlank(message = "数据库用户名不能为空")
     @JsonProperty("username")
-    @ApiModelProperty(notes = "根数据库用户名")
+    @ApiModelProperty(notes = "数据库用户名")
     private String username;
 
-    @NotNull
+    @NotBlank(message = "数据库密码不能为空")
     @JsonProperty("password")
-    @ApiModelProperty(notes = "根数据库密码")
+    @ApiModelProperty(notes = "数据库密码")
     private String password;
 }

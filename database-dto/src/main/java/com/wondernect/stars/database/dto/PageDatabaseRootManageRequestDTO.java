@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "根数据库分页请求对象")
 public class PageDatabaseRootManageRequestDTO extends PageRequestDTO {
 
-    @JsonProperty("server_ip")
-    @ApiModelProperty(notes = "根数据库服务器ip地址")
-    private String serverIp;
+    @JsonProperty("ip")
+    @ApiModelProperty(notes = "数据库ip地址")
+    private String ip;
 }

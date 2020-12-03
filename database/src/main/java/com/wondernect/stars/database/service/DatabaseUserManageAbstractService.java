@@ -1,7 +1,5 @@
 package com.wondernect.stars.database.service;
 
-import com.wondernect.elements.authorize.context.AuthorizeData;
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
@@ -32,30 +30,21 @@ import java.util.List;
 public abstract class DatabaseUserManageAbstractService extends BaseStringService<DatabaseUserManageResponseDTO, DatabaseUserManage> implements DatabaseUserManageInterface {
 
     @Autowired
-    private WondernectCommonContext wondernectCommonContext;
-
-    @Autowired
     private DatabaseUserRightsShipService databaseUserRightsShipService;
 
     @Transactional
     @Override
     public DatabaseUserManageResponseDTO create(SaveDatabaseUserManageRequestDTO saveDatabaseUserManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseUserManage> databaseUserManageCriteria = new Criteria<>();
-        databaseUserManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseUserManageCriteria.add(Restrictions.eq("databaseRootManageId", saveDatabaseUserManageRequestDTO.getDatabaseRootManageId()));
-        databaseUserManageCriteria.add(Restrictions.eq("userName", saveDatabaseUserManageRequestDTO.getUserName()));
+        databaseUserManageCriteria.add(Restrictions.eq("username", saveDatabaseUserManageRequestDTO.getUsername()));
         List<DatabaseUserManage> databaseUserManageList = super.findAllEntity(databaseUserManageCriteria, new ArrayList<>());
         if (CollectionUtils.isNotEmpty(databaseUserManageList)) {
-            throw new BusinessException("该MySQL数据库已存在该用户，请重新输入一个用户名称进行创建");
+            throw new BusinessException("该数据库已存在该用户，请重新输入一个用户名称进行创建");
         }
         DatabaseUserManage databaseUserManage = new DatabaseUserManage();
         databaseUserManage.setDatabaseRootManageId(saveDatabaseUserManageRequestDTO.getDatabaseRootManageId());
-        databaseUserManage.setUserName(saveDatabaseUserManageRequestDTO.getUserName());
+        databaseUserManage.setUsername(saveDatabaseUserManageRequestDTO.getUsername());
         databaseUserManage.setPassword(saveDatabaseUserManageRequestDTO.getPassword());
         return super.save(databaseUserManage);
     }
@@ -73,33 +62,36 @@ public abstract class DatabaseUserManageAbstractService extends BaseStringServic
         if (CollectionUtils.isNotEmpty(databaseUserRightsShipList)) {
             throw new BusinessException("该用户已被赋予权限，不允许修改");
         }
-        databaseUserManage.setUserName(saveDatabaseUserManageRequestDTO.getUserName());
+        databaseUserManage.setUsername(saveDatabaseUserManageRequestDTO.getUsername());
         databaseUserManage.setPassword(saveDatabaseUserManageRequestDTO.getPassword());
         return super.save(databaseUserManage);
     }
 
+    @Transactional
+    public void delete(String id) {
+        DatabaseUserManage databaseUserManage = super.findEntityById(id);
+        if (ESObjectUtils.isNull(databaseUserManage)) {
+            throw new BusinessException("要删除的用户信息不存在");
+        }
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", id));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = databaseUserRightsShipService.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isNotEmpty(databaseUserRightsShipList)) {
+            throw new BusinessException("要删除的用户还存在用户数据库权限关系，不允许删除");
+        }
+        super.deleteById(id);
+    }
+
     @Override
     public List<DatabaseUserManageResponseDTO> list(ListDatabaseUserManageRequestDTO listDatabaseUserManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseUserManage> databaseUserManageCriteria = new Criteria<>();
-        databaseUserManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseUserManageCriteria.add(Restrictions.eq("databaseRootManageId", listDatabaseUserManageRequestDTO.getDatabaseRootManageId()));
         return super.findAll(databaseUserManageCriteria, listDatabaseUserManageRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<DatabaseUserManageResponseDTO> page(PageDatabaseUserManageRequestDTO pageDatabaseUserManageRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseUserManage> databaseUserManageCriteria = new Criteria<>();
-        databaseUserManageCriteria.add(Restrictions.eq("createApp", appId));
         databaseUserManageCriteria.add(Restrictions.eq("databaseRootManageId", pageDatabaseUserManageRequestDTO.getDatabaseRootManageId()));
         return super.findAll(databaseUserManageCriteria, pageDatabaseUserManageRequestDTO.getPageRequestData());
     }

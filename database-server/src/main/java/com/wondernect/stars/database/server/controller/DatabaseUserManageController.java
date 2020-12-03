@@ -56,7 +56,7 @@ public class DatabaseUserManageController {
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        databaseUserManageService.deleteById(id);
+        databaseUserManageService.delete(id);
         return new BusinessData(BusinessError.SUCCESS);
     }
 

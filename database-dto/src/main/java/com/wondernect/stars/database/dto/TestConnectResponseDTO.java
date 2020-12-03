@@ -17,9 +17,9 @@ public class TestConnectResponseDTO {
     @ApiModelProperty(notes = "连接地址")
     private String url;
 
-    @JsonProperty("user_name")
+    @JsonProperty("username")
     @ApiModelProperty(notes = "用户名称")
-    private String userName;
+    private String username;
 
     @JsonProperty("password")
     @ApiModelProperty(notes = "用户密码")

@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping(value = "/v1/wondernect/database/database_root_manage")
 @RestController
 @Validated
-@Api(tags = "MySQL数据库管理接口")
+@Api(tags = "数据库管理接口")
 public class DatabaseRootManageController {
 
     @Autowired
@@ -59,7 +59,7 @@ public class DatabaseRootManageController {
     public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
     ) {
-        databaseRootManageService.deleteById(id);
+        databaseRootManageService.delete(id);
         return new BusinessData(BusinessError.SUCCESS);
     }
 

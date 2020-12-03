@@ -1,7 +1,5 @@
 package com.wondernect.stars.database.service;
 
-import com.wondernect.elements.authorize.context.AuthorizeData;
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
@@ -29,9 +27,6 @@ import java.util.List;
  **/
 @Service
 public abstract class DatabaseUserRightsShipAbstractService extends BaseStringService<DatabaseUserRightsShipResponseDTO, DatabaseUserRightsShip> implements DatabaseUserRightsShipInterface {
-
-    @Autowired
-    private WondernectCommonContext wondernectCommonContext;
 
     @Autowired
     private DatabaseUserManageService databaseUserManageService;
@@ -62,26 +57,14 @@ public abstract class DatabaseUserRightsShipAbstractService extends BaseStringSe
 
     @Override
     public List<DatabaseUserRightsShipResponseDTO> list(ListDatabaseUserRightsShipRequestDTO listDatabaseUserRightsShipRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
-        databaseUserRightsShipCriteria.add(Restrictions.eq("createApp", appId));
         databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", listDatabaseUserRightsShipRequestDTO.getDatabaseUserId()));
         return super.findAll(databaseUserRightsShipCriteria, listDatabaseUserRightsShipRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<DatabaseUserRightsShipResponseDTO> page(PageDatabaseUserRightsShipRequestDTO pageDatabaseUserRightsShipRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        String appId = authorizeData.getAppId();
         Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
-        databaseUserRightsShipCriteria.add(Restrictions.eq("createApp", appId));
         databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", pageDatabaseUserRightsShipRequestDTO.getDatabaseUserId()));
         return super.findAll(databaseUserRightsShipCriteria, pageDatabaseUserRightsShipRequestDTO.getPageRequestData());
     }
@@ -93,7 +76,7 @@ public abstract class DatabaseUserRightsShipAbstractService extends BaseStringSe
         DatabaseUserRightsShipResponseDTO databaseUserRightsShipResponseDTO = new DatabaseUserRightsShipResponseDTO();
         ESBeanUtils.copyProperties(databaseUserRightsShip, databaseUserRightsShipResponseDTO);
         databaseUserRightsShipResponseDTO.setDatabaseName(ESObjectUtils.isNotNull(databaseManage) ? databaseManage.getDatabaseName() : null);
-        databaseUserRightsShipResponseDTO.setUserName(ESObjectUtils.isNotNull(databaseUserManage) ? databaseUserManage.getUserName() : null);
+        databaseUserRightsShipResponseDTO.setUsername(ESObjectUtils.isNotNull(databaseUserManage) ? databaseUserManage.getUsername() : null);
         return databaseUserRightsShipResponseDTO;
     }
 }

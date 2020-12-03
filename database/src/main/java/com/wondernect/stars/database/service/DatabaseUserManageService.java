@@ -1,7 +1,5 @@
 package com.wondernect.stars.database.service;
 
-import com.wondernect.elements.authorize.context.AuthorizeData;
-import com.wondernect.elements.authorize.context.WondernectCommonContext;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.jdbc.client.util.JDBCClient;
@@ -33,9 +31,6 @@ public class DatabaseUserManageService extends DatabaseUserManageAbstractService
     private JDBCClient jdbcClient;
 
     @Autowired
-    private WondernectCommonContext wondernectCommonContext;
-
-    @Autowired
     private DatabaseManageService databaseManageService;
 
     @Autowired
@@ -47,30 +42,25 @@ public class DatabaseUserManageService extends DatabaseUserManageAbstractService
     //修改密码
     @Transactional
     public DatabaseUserManageResponseDTO modifyPassword(DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO) {
-        AuthorizeData authorizeData = wondernectCommonContext.getAuthorizeData();
-        if (authorizeData.getUserId() == null) {
-            throw new BusinessException("当前无登录用户");
-        }
-        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
-        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", databaseModifyPasswordRequestDTO.getDatabaseUserId()));
-        List<DatabaseUserRightsShip> databaseUserRightsShipList = databaseUserRightsShipService.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
-        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
-            //如果没有权限关系，就直接修改返回
-            DatabaseUserManage databaseUserManage = new DatabaseUserManage();
-            databaseUserManage.setPassword(databaseModifyPasswordRequestDTO.getNewPassword());
-            return super.save(databaseUserManage);
-        }
         DatabaseUserManage databaseUserManage = super.findEntityById(databaseModifyPasswordRequestDTO.getDatabaseUserId());
         if (ESObjectUtils.isNull(databaseUserManage)) {
             throw new BusinessException("需要修改密码的用户不存在");
         }
         DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseUserManage.getDatabaseRootManageId());
         if (ESObjectUtils.isNull(databaseRootManage)) {
-            throw new BusinessException("要修改密码的用户不存在MySQL数据库管理服务");
+            throw new BusinessException("要修改密码的用户不存在数据库管理服务");
+        }
+        Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
+        databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", databaseModifyPasswordRequestDTO.getDatabaseUserId()));
+        List<DatabaseUserRightsShip> databaseUserRightsShipList = databaseUserRightsShipService.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
+        if (CollectionUtils.isEmpty(databaseUserRightsShipList)) {
+            //如果没有权限关系，就直接修改返回
+            databaseUserManage.setPassword(databaseModifyPasswordRequestDTO.getNewPassword());
+            return super.save(databaseUserManage);
         }
         for (DatabaseUserRightsShip databaseUserRightsShip : databaseUserRightsShipList) {
             DatabaseManage databaseManage = databaseManageService.findEntityById(databaseUserRightsShip.getDatabaseManageId());
-            jdbcClient.giveRights(databaseUserRightsShip.getRightsState(), databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUserName(), databaseModifyPasswordRequestDTO.getNewPassword());
+            jdbcClient.giveRights(databaseUserRightsShip.getRightsState(), databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUsername(), databaseModifyPasswordRequestDTO.getNewPassword());
         }
         databaseUserManage.setPassword(databaseModifyPasswordRequestDTO.getNewPassword());
         return super.save(databaseUserManage);

@@ -20,36 +20,36 @@ import java.io.Serializable;
         name = "database_root_manage",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})},
         indexes = {
-                @Index(columnList = "serverIp")
+                @Index(columnList = "ip")
         }
 )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "MySQL数据库管理")
+@ApiModel(description = "数据库管理")
 public class DatabaseRootManage extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = 7827047990969051918L;
 
     @JsonProperty("driver")
-    @ApiModelProperty(notes = "MySQL数据库驱动")
+    @ApiModelProperty(notes = "数据库驱动")
     private String driver;
 
-    @JsonProperty("server_ip")
-    @ApiModelProperty(notes = "MySQL数据库服务器ip地址")
-    private String serverIp;
+    @JsonProperty("ip")
+    @ApiModelProperty(notes = "数据库ip地址")
+    private String ip;
 
     @JsonProperty("port")
-    @ApiModelProperty(notes = "MySQL数据库连接端口")
+    @ApiModelProperty(notes = "数据库连接端口")
     private Integer port;
 
     @JsonProperty("url")
-    @ApiModelProperty(notes = "MySQL数据库连接地址")
+    @ApiModelProperty(notes = "数据库连接地址")
     private String url;
 
     @JsonProperty("username")
-    @ApiModelProperty(notes = "MySQL数据库用户名")
+    @ApiModelProperty(notes = "数据库用户名")
     private String username;
 
     @JsonProperty("password")

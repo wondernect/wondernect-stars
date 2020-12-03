@@ -28,13 +28,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(description = "具体数据库管理")
+@ApiModel(description = "数据库名称管理")
 public class DatabaseManage extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = 1980133829123975131L;
 
     @JsonProperty("database_root_manage_id")
-    @ApiModelProperty(notes = "MySQL数据库id")
+    @ApiModelProperty(notes = "数据库id")
     private String databaseRootManageId;
 
     @JsonProperty("database_name")
