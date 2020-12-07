@@ -8,10 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -56,6 +53,13 @@ public interface ExcelTemplateParamFeignClient {
     @GetMapping(value = "/{id}/detail")
     public BusinessData<ExcelTemplateParamResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id
+    );
+
+    @ApiOperation(value = "获取详细信息", httpMethod = "GET")
+    @GetMapping(value = "/{id}/detail_by_template_id_and_name")
+    public BusinessData<ExcelTemplateParamResponseDTO> detailByTemplateIdAndName(
+            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
+            @ApiParam(required = true) @NotBlank(message = "属性名不能为空") @RequestParam(value = "name", required = false) String name
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")

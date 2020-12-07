@@ -2,6 +2,8 @@ package com.wondernect.stars.office.excel.param.service;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.rdb.criteria.Criteria;
+import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.stars.office.excel.dto.param.BatchAddExcelTemplateParamRequestDTO;
 import com.wondernect.stars.office.excel.param.model.ExcelTemplateParam;
 import com.wondernect.stars.office.excel.property.model.ExcelBeanProperty;
@@ -11,6 +13,8 @@ import com.wondernect.stars.office.excel.template.service.ExcelTemplateService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 /**
  * excel导入导出模板配置服务
@@ -35,14 +39,20 @@ public class ExcelTemplateParamService extends ExcelTemplateParamAbstractService
             for (String beanPropertyId : batchAddExcelTemplateParamRequestDTO.getBeanPropertyIdList()) {
                 ExcelBeanProperty excelBeanProperty = excelBeanPropertyService.findEntityById(beanPropertyId);
                 if (ESObjectUtils.isNotNull(excelBeanProperty)) {
-                    super.saveEntity(
-                            new ExcelTemplateParam(
-                                    excelTemplate.getId(),
-                                    excelBeanProperty.getBeanId(),
-                                    excelBeanProperty.getName(),
-                                    excelBeanProperty.getOrderNum()
-                            )
-                    );
+                    Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
+                    excelTemplateParamCriteria.add(Restrictions.eq("templateId", excelTemplate.getId()));
+                    excelTemplateParamCriteria.add(Restrictions.eq("name", excelBeanProperty.getName()));
+                    ExcelTemplateParam excelTemplateParam = super.findOneEntity(excelTemplateParamCriteria, new ArrayList<>());
+                    if (ESObjectUtils.isNull(excelTemplateParam)) {
+                        super.saveEntity(
+                                new ExcelTemplateParam(
+                                        excelTemplate.getId(),
+                                        excelBeanProperty.getBeanId(),
+                                        excelBeanProperty.getName(),
+                                        excelBeanProperty.getOrderNum()
+                                )
+                        );
+                    }
                 }
             }
         }

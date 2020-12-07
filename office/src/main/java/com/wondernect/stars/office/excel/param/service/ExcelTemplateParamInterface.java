@@ -36,6 +36,11 @@ public interface ExcelTemplateParamInterface {
     ExcelTemplateParamResponseDTO findById(String id);
 
     /**
+     * 获取详细信息
+     **/
+    ExcelTemplateParamResponseDTO findByTemplateIdAndName(String templateId, String name);
+
+    /**
      * 列表
      **/
     List<ExcelTemplateParamResponseDTO> list(ListExcelTemplateParamRequestDTO listExcelTemplateParamRequestDTO);

@@ -3,6 +3,7 @@ package com.wondernect.stars.office.excel.param.service;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
+import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
@@ -14,10 +15,13 @@ import com.wondernect.stars.office.excel.dto.param.SaveExcelTemplateParamRequest
 import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
 import com.wondernect.stars.office.excel.param.model.ExcelTemplateParam;
 import com.wondernect.stars.office.excel.property.service.ExcelBeanPropertyService;
+import com.wondernect.stars.office.excel.template.model.ExcelTemplate;
+import com.wondernect.stars.office.excel.template.service.ExcelTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,10 +35,24 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
     @Autowired
     private ExcelBeanPropertyService excelBeanPropertyService;
 
+    @Autowired
+    private ExcelTemplateService excelTemplateService;
+
     @Transactional
     @Override
     public ExcelTemplateParamResponseDTO create(SaveExcelTemplateParamRequestDTO saveExcelTemplateParamRequestDTO) {
-        ExcelTemplateParam excelTemplateParam = new ExcelTemplateParam();
+        ExcelTemplate excelTemplate = excelTemplateService.findEntityById(saveExcelTemplateParamRequestDTO.getTemplateId());
+        if (ESObjectUtils.isNull(excelTemplate)) {
+            throw new BusinessException("模板不存在");
+        }
+        Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
+        excelTemplateParamCriteria.add(Restrictions.eq("templateId", excelTemplate.getId()));
+        excelTemplateParamCriteria.add(Restrictions.eq("name", saveExcelTemplateParamRequestDTO.getName()));
+        ExcelTemplateParam excelTemplateParam = super.findOneEntity(excelTemplateParamCriteria, new ArrayList<>());
+        if (ESObjectUtils.isNotNull(excelTemplateParam)) {
+            throw new BusinessException("模板参数已存在");
+        }
+        excelTemplateParam = new ExcelTemplateParam();
         ESBeanUtils.copyProperties(saveExcelTemplateParamRequestDTO, excelTemplateParam);
         return super.save(excelTemplateParam);
     }
@@ -46,8 +64,24 @@ public abstract class ExcelTemplateParamAbstractService extends BaseStringServic
         if (ESObjectUtils.isNull(excelTemplateParam)) {
             throw new BusinessException("excel导入导出模板配置不存在");
         }
+        Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
+        excelTemplateParamCriteria.add(Restrictions.eq("templateId", saveExcelTemplateParamRequestDTO.getTemplateId()));
+        excelTemplateParamCriteria.add(Restrictions.eq("name", saveExcelTemplateParamRequestDTO.getName()));
+        ExcelTemplateParam excelTemplateParamGet = super.findOneEntity(excelTemplateParamCriteria, new ArrayList<>());
+        if (ESObjectUtils.isNotNull(excelTemplateParamGet) &&
+                !ESStringUtils.equals(excelTemplateParam.getName(), excelTemplateParamGet.getName())) {
+            throw new BusinessException("模板参数已存在");
+        }
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveExcelTemplateParamRequestDTO, excelTemplateParam);
         return super.save(excelTemplateParam);
+    }
+
+    @Override
+    public ExcelTemplateParamResponseDTO findByTemplateIdAndName(String templateId, String name) {
+        Criteria<ExcelTemplateParam> excelTemplateParamCriteria = new Criteria<>();
+        excelTemplateParamCriteria.add(Restrictions.eq("templateId", templateId));
+        excelTemplateParamCriteria.add(Restrictions.eq("name", name));
+        return super.findOne(excelTemplateParamCriteria, new ArrayList<>());
     }
 
     @Override

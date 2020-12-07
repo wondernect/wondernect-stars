@@ -60,6 +60,14 @@ public class ExcelTemplateParamServerService {
         return businessData.getData();
     }
 
+    public ExcelTemplateParamResponseDTO detailByTemplateIdAndName(String templateId, String name) {
+        BusinessData<ExcelTemplateParamResponseDTO> businessData = excelTemplateParamFeignClient.detailByTemplateIdAndName(templateId, name);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
     public List<ExcelTemplateParamResponseDTO> list(ListExcelTemplateParamRequestDTO listExcelTemplateParamRequestDTO) {
         BusinessData<List<ExcelTemplateParamResponseDTO>> businessData = excelTemplateParamFeignClient.list(listExcelTemplateParamRequestDTO);
         if (!businessData.success()) {
