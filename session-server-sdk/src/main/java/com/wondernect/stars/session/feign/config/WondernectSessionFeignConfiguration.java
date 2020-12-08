@@ -43,9 +43,13 @@ public class WondernectSessionFeignConfiguration implements RequestInterceptor {
                     requestTemplate.header(name, value);
                 }
             }
-            Object value = request.getAttribute(wondernectSessionFeignConfigProperties.getUserIdPropertyName());
-            if (ESObjectUtils.isNotNull(value)) {
-                requestTemplate.header(wondernectSessionFeignConfigProperties.getUserIdPropertyName(), value.toString());
+            Object requestId = request.getAttribute(wondernectSessionFeignConfigProperties.getRequestIdPropertyName());
+            if (ESObjectUtils.isNotNull(requestId)) {
+                requestTemplate.header(wondernectSessionFeignConfigProperties.getRequestIdPropertyName(), requestId.toString());
+            }
+            Object userId = request.getAttribute(wondernectSessionFeignConfigProperties.getUserIdPropertyName());
+            if (ESObjectUtils.isNotNull(userId)) {
+                requestTemplate.header(wondernectSessionFeignConfigProperties.getUserIdPropertyName(), userId.toString());
             }
         }
         requestTemplate.header(wondernectSessionFeignConfigProperties.getAppIdPropertyName(), wondernectSessionFeignConfigProperties.getAppId());
