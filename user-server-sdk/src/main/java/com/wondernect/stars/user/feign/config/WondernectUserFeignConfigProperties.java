@@ -27,6 +27,8 @@ public class WondernectUserFeignConfigProperties implements Serializable {
 
     private String url; // 远程服务url
 
+    private String requestIdPropertyName = "REQUESTID"; // 请求标识
+
     private String userIdPropertyName = "USERID"; // 用户标识
 
     private String appIdPropertyName = "APPID"; // 应用标识
@@ -51,6 +53,14 @@ public class WondernectUserFeignConfigProperties implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getRequestIdPropertyName() {
+        return requestIdPropertyName;
+    }
+
+    public void setRequestIdPropertyName(String requestIdPropertyName) {
+        this.requestIdPropertyName = requestIdPropertyName;
     }
 
     public String getUserIdPropertyName() {

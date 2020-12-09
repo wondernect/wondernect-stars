@@ -49,6 +49,12 @@
             <artifactId>log</artifactId>
         </dependency>
 
+        <!-- log-context -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>log-context</artifactId>
+        </dependency>
+
         <!-- elements swagger-api -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>

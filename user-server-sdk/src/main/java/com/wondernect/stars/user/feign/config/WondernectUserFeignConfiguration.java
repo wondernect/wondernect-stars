@@ -43,12 +43,16 @@ public class WondernectUserFeignConfiguration implements RequestInterceptor {
                     requestTemplate.header(name, value);
                 }
             }
-            Object value = request.getAttribute(wondernectUserFeignConfigProperties.getUserIdPropertyName());
-            if (ESObjectUtils.isNotNull(value)) {
-                requestTemplate.header(wondernectUserFeignConfigProperties.getUserIdPropertyName(), value.toString());
+            Object requestId = request.getAttribute(wondernectUserFeignConfigProperties.getRequestIdPropertyName());
+            if (ESObjectUtils.isNotNull(requestId)) {
+                requestTemplate.header(wondernectUserFeignConfigProperties.getRequestIdPropertyName(), requestId.toString());
             }
+            Object userId = request.getAttribute(wondernectUserFeignConfigProperties.getUserIdPropertyName());
+            if (ESObjectUtils.isNotNull(userId)) {
+                requestTemplate.header(wondernectUserFeignConfigProperties.getUserIdPropertyName(), userId.toString());
+            }
+            requestTemplate.header(wondernectUserFeignConfigProperties.getAppIdPropertyName(), wondernectUserFeignConfigProperties.getAppId());
+            requestTemplate.header(wondernectUserFeignConfigProperties.getAppSecretPropertyName(), wondernectUserFeignConfigProperties.getAppSecret());
         }
-        requestTemplate.header(wondernectUserFeignConfigProperties.getAppIdPropertyName(), wondernectUserFeignConfigProperties.getAppId());
-        requestTemplate.header(wondernectUserFeignConfigProperties.getAppSecretPropertyName(), wondernectUserFeignConfigProperties.getAppSecret());
     }
 }
