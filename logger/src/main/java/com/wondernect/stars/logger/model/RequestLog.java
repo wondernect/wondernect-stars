@@ -81,6 +81,10 @@ public class RequestLog extends BaseStringModel {
     @ApiModelProperty(notes = "返回结果")
     private String returnValue;
 
+    @JsonProperty("run_start_time")
+    @ApiModelProperty(notes = "开始运行时间")
+    private Long runStartTime;
+
     @JsonProperty("run_time")
     @ApiModelProperty(notes = "运行时间")
     private Long runTime;
