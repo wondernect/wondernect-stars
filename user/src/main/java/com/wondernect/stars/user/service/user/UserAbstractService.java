@@ -81,6 +81,7 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         return userResponseDTO;
     }
 
+    @Transactional
     @Override
     public UserResponseDTO createThirdUser(SaveThirdUserRequestDTO saveThirdUserRequestDTO) {
         UserThirdAuthResponseDTO userThirdAuthResponseDTO = userThirdAuthService.findByAppTypeAndAppUserId(saveThirdUserRequestDTO.getAppType(), saveThirdUserRequestDTO.getAppUserId());
@@ -127,6 +128,7 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
         return userResponseDTO;
     }
 
+    @Transactional
     @Override
     public UserResponseDTO update(String userId, SaveLocalUserRequestDTO saveLocalUserRequestDTO) {
         User user = super.findEntityById(userId);
@@ -148,6 +150,9 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
             throw new UserException(UserErrorEnum.USER_EMAIL_INVALID);
         }
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveLocalUserRequestDTO, user);
+        if (ESStringUtils.isNotBlank(saveLocalUserRequestDTO.getPassword())) {
+            userLocalAuthService.update(userId, new SaveUserLocalAuthRequestDTO(saveLocalUserRequestDTO.getPassword()));
+        }
         return super.save(user);
     }
 
