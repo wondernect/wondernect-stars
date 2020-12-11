@@ -49,6 +49,14 @@ public class RequestLog extends BaseStringModel {
     @ApiModelProperty(notes = "操作用户名")
     private String userName;
 
+    @JsonProperty("app_id")
+    @ApiModelProperty(notes = "操作应用id")
+    private String appId;
+
+    @JsonProperty("app_name")
+    @ApiModelProperty(notes = "操作应用名称")
+    private String appName;
+
     @Column(columnDefinition = "not null")
     @JsonProperty("operation")
     @ApiModelProperty(notes = "操作")
