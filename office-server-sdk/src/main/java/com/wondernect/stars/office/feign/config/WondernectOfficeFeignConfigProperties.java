@@ -27,16 +27,6 @@ public class WondernectOfficeFeignConfigProperties implements Serializable {
 
     private String url; // 远程服务url
 
-    private String userIdPropertyName = "USERID"; // 用户标识
-
-    private String appIdPropertyName = "APPID"; // 应用标识
-
-    private String appId; // 应用id
-
-    private String appSecretPropertyName = "APPSECRET"; // 传递加密内容的头部key
-
-    private String appSecret; // 密钥
-
     public String getName() {
         return name;
     }
@@ -51,46 +41,6 @@ public class WondernectOfficeFeignConfigProperties implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getUserIdPropertyName() {
-        return userIdPropertyName;
-    }
-
-    public void setUserIdPropertyName(String userIdPropertyName) {
-        this.userIdPropertyName = userIdPropertyName;
-    }
-
-    public String getAppIdPropertyName() {
-        return appIdPropertyName;
-    }
-
-    public void setAppIdPropertyName(String appIdPropertyName) {
-        this.appIdPropertyName = appIdPropertyName;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getAppSecretPropertyName() {
-        return appSecretPropertyName;
-    }
-
-    public void setAppSecretPropertyName(String appSecretPropertyName) {
-        this.appSecretPropertyName = appSecretPropertyName;
-    }
-
-    public String getAppSecret() {
-        return appSecret;
-    }
-
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
     }
 }
 

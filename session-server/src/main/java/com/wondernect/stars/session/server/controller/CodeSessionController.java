@@ -97,7 +97,6 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(level = "INFO", service = "wondernect-stars-session", module = "code-session", operation = "authCache", description = "验证(缓存)")
     @ApiOperation(value = "验证(缓存)", httpMethod = "POST")
     @PostMapping(value = "/cache_auth")
     public BusinessData<CodeResponseDTO> authCache(
