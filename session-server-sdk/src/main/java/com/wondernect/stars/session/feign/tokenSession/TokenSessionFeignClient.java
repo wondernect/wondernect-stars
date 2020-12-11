@@ -39,7 +39,7 @@ public interface TokenSessionFeignClient {
 
     @ApiOperation(value = "获取令牌(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{token}/detail")
-    public BusinessData<TokenResponseDTO> get(
+    public BusinessData<TokenResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "令牌不能为空") @PathVariable(value = "token", required = false) String token
     );
 

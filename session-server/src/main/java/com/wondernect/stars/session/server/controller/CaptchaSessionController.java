@@ -3,6 +3,7 @@ package com.wondernect.stars.session.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.captcha.*;
 import com.wondernect.stars.session.service.captcha.CaptchaSessionService;
@@ -34,6 +35,7 @@ public class CaptchaSessionController {
     private CaptchaSessionService captchaSessionService;
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "request", description = "请求(缓存&数据库)")
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/request")
     public BusinessData<CaptchaResponseDTO> request(
@@ -43,6 +45,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "delete", description = "删除(缓存&数据库)")
     @ApiOperation(value = "删除(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -53,6 +56,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "detail", description = "获取详情(缓存&数据库)")
     @ApiOperation(value = "获取详情(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<CaptchaResponseDTO> detail(
@@ -62,6 +66,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "deleteCache", description = "删除(缓存&数据库)")
     @ApiOperation(value = "删除(缓存)", httpMethod = "POST")
     @PostMapping(value = "/{id}/cache_delete")
     public BusinessData deleteCache(
@@ -72,6 +77,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "detailCache", description = "获取详情(缓存)")
     @ApiOperation(value = "获取详情(缓存)", httpMethod = "GET")
     @GetMapping(value = "/{id}/cache_detail")
     public BusinessData<CaptchaResponseDTO> detailCache(
@@ -81,6 +87,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "authCache", description = "验证(缓存)")
     @ApiOperation(value = "验证(缓存)", httpMethod = "POST")
     @PostMapping(value = "/cache_auth")
     public BusinessData<CaptchaResponseDTO> authCache(
@@ -90,6 +97,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "list", description = "列表(数据库)")
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<CaptchaResponseDTO>> list(
@@ -99,6 +107,7 @@ public class CaptchaSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "captcha-session", operation = "page", description = "分页(数据库)")
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<CaptchaResponseDTO>> page(

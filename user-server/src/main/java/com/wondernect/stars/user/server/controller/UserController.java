@@ -3,6 +3,7 @@ package com.wondernect.stars.user.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
@@ -35,6 +36,7 @@ public class UserController {
     private UserServerService userServerService;
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "enable", description = "激活")
     @ApiOperation(value = "激活", httpMethod = "POST")
     @PostMapping(value = "/{id}/enable")
     public BusinessData enable(
@@ -45,6 +47,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "disable", description = "禁用")
     @ApiOperation(value = "禁用", httpMethod = "POST")
     @PostMapping(value = "/{id}/disable")
     public BusinessData disable(
@@ -55,6 +58,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "create", description = "创建local user")
     @ApiOperation(value = "创建local user", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<UserResponseDTO> create(
@@ -64,6 +68,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "createThirdUser", description = "创建third user")
     @ApiOperation(value = "创建third user", httpMethod = "POST")
     @PostMapping(value = "/create_third_user")
     public BusinessData<UserResponseDTO> createThirdUser(
@@ -73,6 +78,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "update", description = "更新")
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<UserResponseDTO> update(
@@ -83,6 +89,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "delete", description = "删除")
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -93,6 +100,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "detail", description = "获取详情")
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
@@ -102,6 +110,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "detailByUsername", description = "获取本地用户详情")
     @ApiOperation(value = "获取本地用户详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserResponseDTO> detailByUsername(
@@ -111,6 +120,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "detailByAppTypeAndAppUserId", description = "获取第三方用户详情")
     @ApiOperation(value = "获取第三方用户详情", httpMethod = "GET")
     @GetMapping(value = "/detail_third_user")
     public BusinessData<UserResponseDTO> detailByAppTypeAndAppUserId(
@@ -121,6 +131,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "list", description = "列表")
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserResponseDTO>> list(
@@ -130,6 +141,7 @@ public class UserController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user", operation = "page", description = "分页")
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserResponseDTO>> page(

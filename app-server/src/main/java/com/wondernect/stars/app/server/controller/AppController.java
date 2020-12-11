@@ -3,6 +3,7 @@ package com.wondernect.stars.app.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.service.AppService;
@@ -32,6 +33,7 @@ public class AppController {
     private AppService appService;
 
     @AuthorizeServer
+    @RequestLogger(module = "app", operation = "create", description = "创建")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<AppResponseDTO> create(
@@ -41,6 +43,7 @@ public class AppController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "app", operation = "update", description = "更新")
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<AppResponseDTO> update(
@@ -51,6 +54,7 @@ public class AppController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "app", operation = "delete", description = "删除")
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -61,6 +65,7 @@ public class AppController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "app", operation = "detail", description = "获取详细信息")
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<AppResponseDTO> detail(
@@ -80,6 +85,7 @@ public class AppController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "app", operation = "list", description = "列表")
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<AppResponseDTO>> list(
@@ -89,6 +95,7 @@ public class AppController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "app", operation = "page", description = "分页")
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<AppResponseDTO>> page(

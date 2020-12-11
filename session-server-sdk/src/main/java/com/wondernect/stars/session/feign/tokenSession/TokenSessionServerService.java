@@ -36,8 +36,8 @@ public class TokenSessionServerService {
         }
     }
 
-    public TokenResponseDTO get(String token){
-        BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.get(token);
+    public TokenResponseDTO detail(String token){
+        BusinessData<TokenResponseDTO> businessData = tokenSessionFeignClient.detail(token);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

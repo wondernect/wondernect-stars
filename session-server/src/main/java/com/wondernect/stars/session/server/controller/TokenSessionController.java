@@ -3,6 +3,7 @@ package com.wondernect.stars.session.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.token.*;
 import com.wondernect.stars.session.service.token.TokenSessionService;
@@ -34,6 +35,7 @@ public class TokenSessionController {
     private TokenSessionService tokenSessionService;
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "request", description = "请求令牌(缓存&数据库)")
     @ApiOperation(value = "请求令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/request")
     public BusinessData<TokenResponseDTO> request(
@@ -43,6 +45,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "delete", description = "删除令牌(缓存&数据库)")
     @ApiOperation(value = "删除令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/{token}/delete")
     public BusinessData delete(
@@ -53,15 +56,17 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "detail", description = "获取令牌(缓存&数据库)")
     @ApiOperation(value = "获取令牌(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{token}/detail")
-    public BusinessData<TokenResponseDTO> get(
+    public BusinessData<TokenResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "令牌不能为空") @PathVariable(value = "token", required = false) String token
     ) {
         return new BusinessData<>(tokenSessionService.findByToken(token));
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "refresh", description = "刷新令牌(缓存&数据库)")
     @ApiOperation(value = "刷新令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/refresh")
     public BusinessData<TokenResponseDTO> refresh(
@@ -80,6 +85,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "list", description = "列表(数据库)")
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<TokenResponseDTO>> list(
@@ -89,6 +95,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "page", description = "分页(数据库)")
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<TokenResponseDTO>> page(

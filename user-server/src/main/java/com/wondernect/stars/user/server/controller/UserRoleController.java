@@ -3,6 +3,7 @@ package com.wondernect.stars.user.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
 import com.wondernect.stars.user.dto.userrole.PageUserRoleRequestDTO;
@@ -35,6 +36,7 @@ public class UserRoleController {
     private UserRoleService userRoleService;
 
     @AuthorizeServer
+    @RequestLogger(module = "user_role", operation = "create", description = "新增")
     @ApiOperation(value = "新增", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData create(
@@ -45,6 +47,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user_role", operation = "delete", description = "删除")
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -55,6 +58,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user_role", operation = "detail", description = "获取详细信息")
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserRoleResponseDTO> detail(
@@ -65,6 +69,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user_role", operation = "list", description = "列表")
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserRoleResponseDTO>> list(
@@ -74,6 +79,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "user_role", operation = "page", description = "分页")
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserRoleResponseDTO>> page(
