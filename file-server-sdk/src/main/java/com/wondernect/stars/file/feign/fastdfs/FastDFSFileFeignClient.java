@@ -54,13 +54,13 @@ public interface FastDFSFileFeignClient {
 
     @ApiOperation(value = "删除文件", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
-    public BusinessData deleteById(
+    public BusinessData delete(
             @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @PathVariable(value = "id", required = false) String id
     );
 
     @ApiOperation(value = "获取文件信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<FileResponseDTO> getById(
+    public BusinessData<FileResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "文件id不能为空") @PathVariable(value = "id", required = false) String id
     );
 

@@ -50,7 +50,7 @@ public interface RoleMenuOperationFeignClient {
 
     @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
-    public BusinessData<RoleMenuOperationResponseDTO> getRoleMenuOperation(
+    public BusinessData<RoleMenuOperationResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "角色不能为空") @RequestParam(value = "role_id", required = false) String roleId,
             @ApiParam(required = true) @NotBlank(message = "菜单不能为空") @RequestParam(value = "menu_id", required = false) String menuId,
             @ApiParam(required = true) @NotBlank(message = "操作不能为空") @RequestParam(value = "operation_id", required = false) String operationId

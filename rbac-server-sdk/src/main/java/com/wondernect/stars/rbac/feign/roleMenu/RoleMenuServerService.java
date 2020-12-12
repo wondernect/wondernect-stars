@@ -30,16 +30,16 @@ public class RoleMenuServerService {
     @Autowired
     private RoleMenuFeignClient roleMenuFeignClient;
 
-    public boolean create(RoleMenuRequestDTO roleMenuRequestDTO) {
-        BusinessData businessData = roleMenuFeignClient.create(roleMenuRequestDTO);
+    public boolean add(RoleMenuRequestDTO roleMenuRequestDTO) {
+        BusinessData businessData = roleMenuFeignClient.add(roleMenuRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }
         return businessData.success();
     }
 
-    public boolean update(RoleMenuRequestDTO roleMenuRequestDTO) {
-        BusinessData businessData = roleMenuFeignClient.update(roleMenuRequestDTO);
+    public boolean edit(RoleMenuRequestDTO roleMenuRequestDTO) {
+        BusinessData businessData = roleMenuFeignClient.edit(roleMenuRequestDTO);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }
@@ -78,8 +78,8 @@ public class RoleMenuServerService {
         return businessData.getData();
     }
 
-    public List<MenuAuthorityResponseDTO> roleAuthority(List<String> roleIdList){
-        BusinessData<List<MenuAuthorityResponseDTO>> businessData = roleMenuFeignClient.roleAuthority(roleIdList);
+    public List<MenuAuthorityResponseDTO> roleListAuthority(List<String> roleIdList){
+        BusinessData<List<MenuAuthorityResponseDTO>> businessData = roleMenuFeignClient.roleListAuthority(roleIdList);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

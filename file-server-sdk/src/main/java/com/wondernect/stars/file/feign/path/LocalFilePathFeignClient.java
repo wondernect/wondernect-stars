@@ -48,13 +48,9 @@ public interface LocalFilePathFeignClient {
 
     @ApiOperation(value = "获取", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<LocalFilePathResponseDTO> get(
+    public BusinessData<LocalFilePathResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
-
-    @ApiOperation(value = "获取根节点", httpMethod = "GET")
-    @GetMapping(value = "/root")
-    public BusinessData<LocalFilePathResponseDTO> root();
 
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
@@ -67,6 +63,10 @@ public interface LocalFilePathFeignClient {
     public BusinessData<PageResponseData<LocalFilePathResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) PageLocalFilePathRequestDTO pageLocalFilePathRequestDTO
     );
+
+    @ApiOperation(value = "获取根节点", httpMethod = "GET")
+    @GetMapping(value = "/root")
+    public BusinessData<LocalFilePathResponseDTO> root();
 
     @ApiOperation(value = "树形结构", httpMethod = "GET")
     @GetMapping(value = "/{root_file_path_id}/tree")

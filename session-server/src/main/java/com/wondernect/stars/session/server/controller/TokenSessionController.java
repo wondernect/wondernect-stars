@@ -3,7 +3,7 @@ package com.wondernect.stars.session.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.logger.RequestLogger;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.token.*;
 import com.wondernect.stars.session.service.token.TokenSessionService;
@@ -56,7 +56,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "token-session", operation = "detail", description = "获取令牌(缓存&数据库)")
+    @RequestLogger(module = "token-session", operation = "detail", description = "获取令牌(缓存&数据库)", recordResponse = false)
     @ApiOperation(value = "获取令牌(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{token}/detail")
     public BusinessData<TokenResponseDTO> detail(
@@ -76,6 +76,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "token-session", operation = "auth", description = "验证令牌(缓存&数据库)", recordResponse = false)
     @ApiOperation(value = "验证令牌(缓存&数据库)", httpMethod = "POST")
     @PostMapping(value = "/auth")
     public BusinessData<TokenResponseDTO> auth(
@@ -85,7 +86,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "token-session", operation = "list", description = "列表(数据库)")
+    @RequestLogger(module = "token-session", operation = "list", description = "列表(数据库)", recordResponse = false)
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<TokenResponseDTO>> list(
@@ -95,7 +96,7 @@ public class TokenSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "token-session", operation = "page", description = "分页(数据库)")
+    @RequestLogger(module = "token-session", operation = "page", description = "分页(数据库)", recordResponse = false)
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<TokenResponseDTO>> page(

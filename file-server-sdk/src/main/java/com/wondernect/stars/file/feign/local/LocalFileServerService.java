@@ -31,16 +31,16 @@ public class LocalFileServerService {
         return businessData.getData();
     }
 
-    public boolean deleteById(String id) {
-        BusinessData businessData = localFileFeignClient.deleteById(id);
+    public boolean delete(String id) {
+        BusinessData businessData = localFileFeignClient.delete(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }
         return businessData.success();
     }
 
-    public FileResponseDTO getById(String id) {
-        BusinessData<FileResponseDTO> businessData = localFileFeignClient.getById(id);
+    public FileResponseDTO detail(String id) {
+        BusinessData<FileResponseDTO> businessData = localFileFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

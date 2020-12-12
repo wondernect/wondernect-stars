@@ -48,7 +48,7 @@ public interface RoleTypeFeignClient {
 
     @ApiOperation(value = "获取角色类型", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<RoleTypeResponseDTO> get(
+    public BusinessData<RoleTypeResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 

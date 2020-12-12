@@ -31,16 +31,16 @@ public class FastDFSServerService {
         return businessData.getData();
     }
 
-    public boolean deleteById(String id) {
-        BusinessData businessData = fastDFSFileFeignClient.deleteById(id);
+    public boolean delete(String id) {
+        BusinessData businessData = fastDFSFileFeignClient.delete(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }
         return businessData.success();
     }
 
-    public FileResponseDTO getById(String id) {
-        BusinessData<FileResponseDTO> businessData = fastDFSFileFeignClient.getById(id);
+    public FileResponseDTO detail(String id) {
+        BusinessData<FileResponseDTO> businessData = fastDFSFileFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

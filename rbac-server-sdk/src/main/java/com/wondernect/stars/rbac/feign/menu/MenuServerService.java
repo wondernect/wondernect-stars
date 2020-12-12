@@ -48,8 +48,8 @@ public class MenuServerService {
         return businessData.success();
     }
 
-    public MenuResponseDTO get(String id){
-        BusinessData<MenuResponseDTO> businessData = menuFeignClient.get(id);
+    public MenuResponseDTO detail(String id){
+        BusinessData<MenuResponseDTO> businessData = menuFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

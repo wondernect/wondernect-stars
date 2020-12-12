@@ -29,13 +29,13 @@ public interface RoleMenuFeignClient {
 
     @ApiOperation(value = "勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/add")
-    public BusinessData create(
+    public BusinessData add(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) RoleMenuRequestDTO roleMenuRequestDTO
     );
 
     @ApiOperation(value = "编辑勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/edit")
-    public BusinessData update(
+    public BusinessData edit(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) RoleMenuRequestDTO roleMenuRequestDTO
     );
 
@@ -67,7 +67,7 @@ public interface RoleMenuFeignClient {
 
     @ApiOperation(value = "角色对应权限", httpMethod = "POST")
     @PostMapping(value = "/authority")
-    public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(
+    public BusinessData<List<MenuAuthorityResponseDTO>> roleListAuthority(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestBody(required = false) List<String> roleIdList
     );
 

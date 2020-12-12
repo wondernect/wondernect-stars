@@ -4,6 +4,7 @@ import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESStringUtils;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.menu.*;
 import com.wondernect.stars.rbac.server.config.RBACConfigProperties;
@@ -40,6 +41,7 @@ public class MenuController {
     private MenuService menuService;
 
     @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "create", description = "创建菜单")
     @ApiOperation(value = "创建菜单", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<MenuResponseDTO> create(
@@ -52,6 +54,7 @@ public class MenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "update", description = "更新菜单")
     @ApiOperation(value = "更新菜单", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<MenuResponseDTO> update(
@@ -62,6 +65,7 @@ public class MenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "delete", description = "删除菜单")
     @ApiOperation(value = "删除菜单", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -72,15 +76,43 @@ public class MenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "detail", description = "获取菜单详情", recordResponse = false)
     @ApiOperation(value = "获取菜单详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<MenuResponseDTO> get(
+    public BusinessData<MenuResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
         return new BusinessData<>(menuService.findById(id));
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "list", description = "菜单列表", recordResponse = false)
+    @ApiOperation(value = "菜单列表", httpMethod = "POST")
+    @PostMapping(value = "/list")
+    public BusinessData<List<MenuResponseDTO>> list(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) ListMenuRequestDTO listMenuRequestDTO
+    ) {
+        if (ESStringUtils.isBlank(listMenuRequestDTO.getParentMenuId())) {
+            listMenuRequestDTO.setParentMenuId(rbacConfigProperties.getRootMenuId());
+        }
+        return new BusinessData<>(menuService.list(listMenuRequestDTO));
+    }
+
+    @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "page", description = "菜单分页", recordResponse = false)
+    @ApiOperation(value = "菜单分页", httpMethod = "POST")
+    @PostMapping(value = "/page")
+    public BusinessData<PageResponseData<MenuResponseDTO>> page(
+            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) PageMenuRequestDTO pageMenuRequestDTO
+    ) {
+        if (ESStringUtils.isBlank(pageMenuRequestDTO.getParentMenuId())) {
+            pageMenuRequestDTO.setParentMenuId(rbacConfigProperties.getRootMenuId());
+        }
+        return new BusinessData<>(menuService.page(pageMenuRequestDTO));
+    }
+
+    @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "root", description = "获取菜单根节点", recordResponse = false)
     @ApiOperation(value = "获取菜单根节点", httpMethod = "GET")
     @GetMapping(value = "/root")
     public BusinessData<MenuResponseDTO> root() {
@@ -94,30 +126,7 @@ public class MenuController {
     }
 
     @AuthorizeServer
-    @ApiOperation(value = "菜单列表", httpMethod = "POST")
-    @PostMapping(value = "/list")
-    public BusinessData<List<MenuResponseDTO>> list(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) ListMenuRequestDTO listMenuRequestDTO
-    ) {
-        if (ESStringUtils.isBlank(listMenuRequestDTO.getParentMenuId())) {
-            listMenuRequestDTO.setParentMenuId(rbacConfigProperties.getRootMenuId());
-        }
-        return new BusinessData<>(menuService.list(listMenuRequestDTO));
-    }
-
-    @AuthorizeServer
-    @ApiOperation(value = "菜单分页", httpMethod = "POST")
-    @PostMapping(value = "/page")
-    public BusinessData<PageResponseData<MenuResponseDTO>> page(
-            @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) PageMenuRequestDTO pageMenuRequestDTO
-    ) {
-        if (ESStringUtils.isBlank(pageMenuRequestDTO.getParentMenuId())) {
-            pageMenuRequestDTO.setParentMenuId(rbacConfigProperties.getRootMenuId());
-        }
-        return new BusinessData<>(menuService.page(pageMenuRequestDTO));
-    }
-
-    @AuthorizeServer
+    @RequestLogger(module = "menu", operation = "tree", description = "菜单树形结构", recordResponse = false)
     @ApiOperation(value = "菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/{root_menu_id}/tree")
     public BusinessData<MenuTreeResponseDTO> tree(

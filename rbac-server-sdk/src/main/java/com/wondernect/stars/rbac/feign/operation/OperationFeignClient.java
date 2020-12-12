@@ -51,7 +51,7 @@ public interface OperationFeignClient {
 
     @ApiOperation(value = "获取操作详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<OperationResponseDTO> get(
+    public BusinessData<OperationResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
 

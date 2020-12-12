@@ -53,8 +53,8 @@ public class OperationServerService {
         return businessData.success();
     }
 
-    public OperationResponseDTO get(String id){
-        BusinessData<OperationResponseDTO> businessData = operationFeignClient.get(id);
+    public OperationResponseDTO detail(String id){
+        BusinessData<OperationResponseDTO> businessData = operationFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

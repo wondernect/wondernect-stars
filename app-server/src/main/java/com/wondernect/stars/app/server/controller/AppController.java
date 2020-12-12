@@ -3,7 +3,7 @@ package com.wondernect.stars.app.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.logger.RequestLogger;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.service.AppService;
@@ -74,6 +74,7 @@ public class AppController {
         return new BusinessData<>(appService.findById(id));
     }
 
+    // @RequestLogger(module = "app", operation = "auth", description = "认证应用密钥")
     @ApiOperation(value = "认证应用密钥", httpMethod = "POST")
     @PostMapping(value = "/{id}/auth")
     public BusinessData auth(
@@ -85,7 +86,7 @@ public class AppController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "app", operation = "list", description = "列表")
+    @RequestLogger(module = "app", operation = "list", description = "列表", recordResponse = false)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<AppResponseDTO>> list(
@@ -95,7 +96,7 @@ public class AppController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "app", operation = "page", description = "分页")
+    @RequestLogger(module = "app", operation = "page", description = "分页", recordResponse = false)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<AppResponseDTO>> page(

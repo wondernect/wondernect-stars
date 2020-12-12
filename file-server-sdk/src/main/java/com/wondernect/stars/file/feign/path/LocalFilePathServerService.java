@@ -45,8 +45,8 @@ public class LocalFilePathServerService {
         }
     }
 
-    public LocalFilePathResponseDTO get(String id) {
-        BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.get(id);
+    public LocalFilePathResponseDTO detail(String id) {
+        BusinessData<LocalFilePathResponseDTO> businessData = localFilePathFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

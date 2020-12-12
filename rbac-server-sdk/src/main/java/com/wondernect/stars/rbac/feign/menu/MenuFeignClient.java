@@ -45,13 +45,9 @@ public interface MenuFeignClient {
 
     @ApiOperation(value = "获取菜单详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<MenuResponseDTO> get(
+    public BusinessData<MenuResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     );
-
-    @ApiOperation(value = "获取菜单根节点", httpMethod = "GET")
-    @GetMapping(value = "/root")
-    public BusinessData<MenuResponseDTO> root();
 
     @ApiOperation(value = "菜单列表", httpMethod = "POST")
     @PostMapping(value = "/list")
@@ -64,6 +60,10 @@ public interface MenuFeignClient {
     public BusinessData<PageResponseData<MenuResponseDTO>> page(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) PageMenuRequestDTO pageMenuRequestDTO
     );
+
+    @ApiOperation(value = "获取菜单根节点", httpMethod = "GET")
+    @GetMapping(value = "/root")
+    public BusinessData<MenuResponseDTO> root();
 
     @ApiOperation(value = "菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/{root_menu_id}/tree")

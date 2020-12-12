@@ -3,7 +3,7 @@ package com.wondernect.stars.user.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.logger.RequestLogger;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
@@ -68,7 +68,7 @@ public class UserLocalAuthController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "local_auth", operation = "detail", description = "获取详情")
+    @RequestLogger(module = "local_auth", operation = "detail", description = "获取详情", recordResponse = false)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserLocalAuthResponseDTO> detail(
@@ -78,7 +78,7 @@ public class UserLocalAuthController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "local_auth", operation = "auth", description = "认证")
+    @RequestLogger(module = "local_auth", operation = "auth", description = "认证", recordResponse = false)
     @ApiOperation(value = "认证", httpMethod = "POST")
     @PostMapping(value = "/{id}/auth")
     public BusinessData<UserLocalAuthResponseDTO> auth(

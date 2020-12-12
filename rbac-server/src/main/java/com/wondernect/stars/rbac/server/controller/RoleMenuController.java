@@ -3,6 +3,7 @@ package com.wondernect.stars.rbac.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
@@ -37,9 +38,10 @@ public class RoleMenuController {
     private RoleMenuService roleMenuService;
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu", operation = "add", description = "勾选菜单")
     @ApiOperation(value = "勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/add")
-    public BusinessData create(
+    public BusinessData add(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) RoleMenuRequestDTO roleMenuRequestDTO
     ) {
         roleMenuService.add(roleMenuRequestDTO);
@@ -47,9 +49,10 @@ public class RoleMenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu", operation = "edit", description = "编辑勾选菜单")
     @ApiOperation(value = "编辑勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/edit")
-    public BusinessData update(
+    public BusinessData edit(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) RoleMenuRequestDTO roleMenuRequestDTO
     ) {
         roleMenuService.edit(roleMenuRequestDTO);
@@ -57,6 +60,7 @@ public class RoleMenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu", operation = "delete", description = "取消勾选菜单")
     @ApiOperation(value = "取消勾选菜单", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -67,6 +71,7 @@ public class RoleMenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu", operation = "detail", description = "获取角色菜单", recordResponse = false)
     @ApiOperation(value = "获取角色菜单", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<RoleMenuResponseDTO> detail(
@@ -77,6 +82,7 @@ public class RoleMenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu", operation = "tree", description = "角色对应菜单树形结构", recordResponse = false)
     @ApiOperation(value = "角色对应菜单树形结构", httpMethod = "GET")
     @GetMapping(value = "/tree")
     public BusinessData<RoleMenuTreeResponseDTO> tree(
@@ -87,6 +93,7 @@ public class RoleMenuController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu", operation = "roleAuthority", description = "角色对应权限", recordResponse = false)
     @ApiOperation(value = "角色对应权限", httpMethod = "POST")
     @PostMapping(value = "/{role_id}/authority")
     public BusinessData<RoleAuthorityResponseDTO> roleAuthority(
@@ -96,9 +103,10 @@ public class RoleMenuController {
     }
 
     @AuthorizeServer
-    @ApiOperation(value = "角色对应权限", httpMethod = "POST")
+    @RequestLogger(module = "role_menu", operation = "roleListAuthority", description = "角色列表对应权限", recordResponse = false)
+    @ApiOperation(value = "角色列表对应权限", httpMethod = "POST")
     @PostMapping(value = "/authority")
-    public BusinessData<List<MenuAuthorityResponseDTO>> roleAuthority(
+    public BusinessData<List<MenuAuthorityResponseDTO>> roleListAuthority(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @RequestBody(required = false) List<String> roleIdList
     ) {
         return new BusinessData<>(roleMenuService.roleAuthority(roleIdList));

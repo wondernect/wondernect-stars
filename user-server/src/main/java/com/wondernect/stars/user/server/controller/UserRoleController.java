@@ -3,7 +3,7 @@ package com.wondernect.stars.user.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.logger.RequestLogger;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
 import com.wondernect.stars.user.dto.userrole.PageUserRoleRequestDTO;
@@ -58,7 +58,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user_role", operation = "detail", description = "获取详细信息")
+    @RequestLogger(module = "user_role", operation = "detail", description = "获取详细信息", recordResponse = false)
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserRoleResponseDTO> detail(
@@ -69,7 +69,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user_role", operation = "list", description = "列表")
+    @RequestLogger(module = "user_role", operation = "list", description = "列表", recordResponse = false)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserRoleResponseDTO>> list(
@@ -79,7 +79,7 @@ public class UserRoleController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user_role", operation = "page", description = "分页")
+    @RequestLogger(module = "user_role", operation = "page", description = "分页", recordResponse = false)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserRoleResponseDTO>> page(

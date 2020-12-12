@@ -3,6 +3,7 @@ package com.wondernect.stars.office.server.controller.excel;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.office.excel.dto.param.*;
 import com.wondernect.stars.office.excel.param.service.ExcelTemplateParamService;
@@ -32,6 +33,7 @@ public class ExcelTemplateParamController {
     private ExcelTemplateParamService excelTemplateParamService;
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "batchAdd", description = "批量添加")
     @ApiOperation(value = "批量添加", httpMethod = "POST")
     @PostMapping(value = "/batch_add")
     public BusinessData batchAdd(
@@ -42,6 +44,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "create", description = "创建")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<ExcelTemplateParamResponseDTO> create(
@@ -51,6 +54,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "update", description = "更新")
     @ApiOperation(value = "更新", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<ExcelTemplateParamResponseDTO> update(
@@ -61,6 +65,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "delete", description = "删除")
     @ApiOperation(value = "删除", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -71,6 +76,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "detail", description = "获取详细信息", recordResponse = false)
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<ExcelTemplateParamResponseDTO> detail(
@@ -80,6 +86,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "detailByTemplateIdAndName", description = "获取详细信息", recordResponse = false)
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail_by_template_id_and_name")
     public BusinessData<ExcelTemplateParamResponseDTO> detailByTemplateIdAndName(
@@ -90,6 +97,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "list", description = "列表", recordResponse = false)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<ExcelTemplateParamResponseDTO>> list(
@@ -99,6 +107,7 @@ public class ExcelTemplateParamController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "excel_template_param", operation = "page", description = "分页", recordResponse = false)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<ExcelTemplateParamResponseDTO>> page(

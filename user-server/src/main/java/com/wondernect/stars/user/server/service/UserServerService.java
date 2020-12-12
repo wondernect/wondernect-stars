@@ -30,9 +30,9 @@ public class UserServerService extends UserService {
     @Override
     public UserResponseDTO generate(User user) {
         UserResponseDTO userResponseDTO = super.generate(user);
-        RoleTypeResponseDTO roleTypeResponseDTO = roleTypeServerService.get(user.getRoleTypeId());
+        RoleTypeResponseDTO roleTypeResponseDTO = roleTypeServerService.detail(user.getRoleTypeId());
         userResponseDTO.setRoleTypeName(ESObjectUtils.isNotNull(roleTypeResponseDTO) ? roleTypeResponseDTO.getName() : null);
-        RoleResponseDTO roleResponseDTO = roleServerService.get(user.getRoleId());
+        RoleResponseDTO roleResponseDTO = roleServerService.detail(user.getRoleId());
         userResponseDTO.setRoleName(ESObjectUtils.isNotNull(roleResponseDTO) ? roleResponseDTO.getName() : null);
         return userResponseDTO;
     }

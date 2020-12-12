@@ -3,7 +3,7 @@ package com.wondernect.stars.user.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.logger.RequestLogger;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
 import com.wondernect.stars.user.em.AppType;
@@ -100,7 +100,7 @@ public class UserController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user", operation = "detail", description = "获取详情")
+    @RequestLogger(module = "user", operation = "detail", description = "获取详情", recordResponse = false)
     @ApiOperation(value = "获取详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<UserResponseDTO> detail(
@@ -110,7 +110,7 @@ public class UserController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user", operation = "detailByUsername", description = "获取本地用户详情")
+    @RequestLogger(module = "user", operation = "detailByUsername", description = "获取本地用户详情", recordResponse = false)
     @ApiOperation(value = "获取本地用户详情", httpMethod = "GET")
     @GetMapping(value = "/detail")
     public BusinessData<UserResponseDTO> detailByUsername(
@@ -120,7 +120,7 @@ public class UserController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user", operation = "detailByAppTypeAndAppUserId", description = "获取第三方用户详情")
+    @RequestLogger(module = "user", operation = "detailByAppTypeAndAppUserId", description = "获取第三方用户详情", recordResponse = false)
     @ApiOperation(value = "获取第三方用户详情", httpMethod = "GET")
     @GetMapping(value = "/detail_third_user")
     public BusinessData<UserResponseDTO> detailByAppTypeAndAppUserId(
@@ -131,7 +131,7 @@ public class UserController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user", operation = "list", description = "列表")
+    @RequestLogger(module = "user", operation = "list", description = "列表", recordResponse = false)
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<UserResponseDTO>> list(
@@ -141,7 +141,7 @@ public class UserController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "user", operation = "page", description = "分页")
+    @RequestLogger(module = "user", operation = "page", description = "分页", recordResponse = false)
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<UserResponseDTO>> page(

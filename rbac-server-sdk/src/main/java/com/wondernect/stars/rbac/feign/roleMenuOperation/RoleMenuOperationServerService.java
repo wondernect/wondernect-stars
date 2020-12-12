@@ -52,8 +52,8 @@ public class RoleMenuOperationServerService {
         return businessData.success();
     }
 
-    public RoleMenuOperationResponseDTO getRoleMenuOperation(String roleId, String menuId, String operationId) {
-        BusinessData<RoleMenuOperationResponseDTO> businessData = roleMenuOperationFeignClient.getRoleMenuOperation(roleId, menuId,operationId);
+    public RoleMenuOperationResponseDTO detail(String roleId, String menuId, String operationId) {
+        BusinessData<RoleMenuOperationResponseDTO> businessData = roleMenuOperationFeignClient.detail(roleId, menuId,operationId);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

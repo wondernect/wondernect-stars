@@ -54,8 +54,8 @@ public class RoleServerService {
         return businessData.success();
     }
 
-    public RoleResponseDTO get(String id){
-        BusinessData<RoleResponseDTO> businessData = roleFeignClient.get(id);
+    public RoleResponseDTO detail(String id){
+        BusinessData<RoleResponseDTO> businessData = roleFeignClient.detail(id);
         if (!businessData.success()) {
             throw new BusinessException(businessData);
         }

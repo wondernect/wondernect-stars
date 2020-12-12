@@ -3,6 +3,7 @@ package com.wondernect.stars.rbac.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.operation.ListOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.operation.OperationResponseDTO;
@@ -37,6 +38,7 @@ public class OperationController {
     private OperationService operationService;
 
     @AuthorizeServer
+    @RequestLogger(module = "operation", operation = "create", description = "创建操作")
     @ApiOperation(value = "创建操作", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<OperationResponseDTO> create(
@@ -46,6 +48,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "operation", operation = "update", description = "更新操作")
     @ApiOperation(value = "更新操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/update")
     public BusinessData<OperationResponseDTO> update(
@@ -56,6 +59,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "operation", operation = "delete", description = "删除操作")
     @ApiOperation(value = "删除操作", httpMethod = "POST")
     @PostMapping(value = "/{id}/delete")
     public BusinessData delete(
@@ -66,15 +70,17 @@ public class OperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "operation", operation = "detail", description = "获取操作详情", recordResponse = false)
     @ApiOperation(value = "获取操作详情", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
-    public BusinessData<OperationResponseDTO> get(
+    public BusinessData<OperationResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @PathVariable(value = "id", required = false) String id
     ) {
         return new BusinessData<>(operationService.findById(id));
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "operation", operation = "list", description = "操作列表", recordResponse = false)
     @ApiOperation(value = "操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<OperationResponseDTO>> list(
@@ -84,6 +90,7 @@ public class OperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "operation", operation = "page", description = "操作分页", recordResponse = false)
     @ApiOperation(value = "操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<OperationResponseDTO>> page(

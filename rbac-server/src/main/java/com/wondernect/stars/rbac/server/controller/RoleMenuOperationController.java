@@ -3,6 +3,7 @@ package com.wondernect.stars.rbac.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.ListRoleMenuOperationRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenuoperation.PageRoleMenuOperationRequestDTO;
@@ -37,6 +38,7 @@ public class RoleMenuOperationController {
     private RoleMenuOperationService roleMenuOperationService;
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu_operation", operation = "add", description = "勾选操作")
     @ApiOperation(value = "勾选操作", httpMethod = "POST")
     @PostMapping(value = "/add")
     public BusinessData add(
@@ -47,6 +49,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu_operation", operation = "edit", description = "编辑勾选操作")
     @ApiOperation(value = "编辑勾选操作", httpMethod = "POST")
     @PostMapping(value = "/edit")
     public BusinessData edit(
@@ -57,6 +60,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu_operation", operation = "delete", description = "取消勾选操作")
     @ApiOperation(value = "取消勾选操作", httpMethod = "POST")
     @PostMapping(value = "/delete")
     public BusinessData delete(
@@ -67,9 +71,10 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu_operation", operation = "detail", description = "获取角色菜单对应操作的相关信息", recordResponse = false)
     @ApiOperation(value = "获取角色菜单对应操作的相关信息", httpMethod = "GET")
     @GetMapping(value = "/detail")
-    public BusinessData<RoleMenuOperationResponseDTO> getRoleMenuOperation(
+    public BusinessData<RoleMenuOperationResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "角色不能为空") @RequestParam(value = "role_id", required = false) String roleId,
             @ApiParam(required = true) @NotBlank(message = "菜单不能为空") @RequestParam(value = "menu_id", required = false) String menuId,
             @ApiParam(required = true) @NotBlank(message = "操作不能为空") @RequestParam(value = "operation_id", required = false) String operationId
@@ -78,6 +83,7 @@ public class RoleMenuOperationController {
     };
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu_operation", operation = "list", description = "角色权限菜单操作列表", recordResponse = false)
     @ApiOperation(value = "角色权限菜单操作列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<RoleMenuOperationResponseDTO>> list(
@@ -87,6 +93,7 @@ public class RoleMenuOperationController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "role_menu_operation", operation = "page", description = "角色权限菜单操作分页", recordResponse = false)
     @ApiOperation(value = "角色权限菜单操作分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<RoleMenuOperationResponseDTO>> page(

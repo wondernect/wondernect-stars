@@ -3,7 +3,7 @@ package com.wondernect.stars.session.server.controller;
 import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.logger.RequestLogger;
+import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.code.*;
 import com.wondernect.stars.session.service.code.CodeSessionService;
@@ -56,7 +56,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "code-session", operation = "detail", description = "获取(缓存&数据库)")
+    @RequestLogger(module = "code-session", operation = "detail", description = "获取(缓存&数据库)", recordResponse = false)
     @ApiOperation(value = "获取(缓存&数据库)", httpMethod = "GET")
     @GetMapping(value = "/{code}/detail")
     public BusinessData<CodeResponseDTO> detail(
@@ -77,7 +77,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "code-session", operation = "detailCache", description = "获取(缓存)")
+    @RequestLogger(module = "code-session", operation = "detailCache", description = "获取(缓存)", recordResponse = false)
     @ApiOperation(value = "获取(缓存)", httpMethod = "GET")
     @GetMapping(value = "/{code}/cache_detail")
     public BusinessData<CodeResponseDTO> detailCache(
@@ -97,6 +97,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
+    @RequestLogger(module = "code-session", operation = "authCache", description = "验证(缓存)", recordResponse = false)
     @ApiOperation(value = "验证(缓存)", httpMethod = "POST")
     @PostMapping(value = "/cache_auth")
     public BusinessData<CodeResponseDTO> authCache(
@@ -106,7 +107,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "code-session", operation = "list", description = "列表(数据库)")
+    @RequestLogger(module = "code-session", operation = "list", description = "列表(数据库)", recordResponse = false)
     @ApiOperation(value = "列表(数据库)", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<CodeResponseDTO>> list(
@@ -116,7 +117,7 @@ public class CodeSessionController {
     }
 
     @AuthorizeServer
-    @RequestLogger(module = "code-session", operation = "page", description = "分页(数据库)")
+    @RequestLogger(module = "code-session", operation = "page", description = "分页(数据库)", recordResponse = false)
     @ApiOperation(value = "分页(数据库)", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<CodeResponseDTO>> page(
