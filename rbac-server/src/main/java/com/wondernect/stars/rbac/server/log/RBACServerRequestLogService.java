@@ -1,6 +1,5 @@
 package com.wondernect.stars.rbac.server.log;
 
-import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.logger.request.AbstractRequestLoggerRecordService;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +13,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class RBACServerRequestLogService extends AbstractRequestLoggerRecordService {
 
-    private static final String RBAC_SERVER_DEFAULT_LOG_LEVEL = "INFO";
-
-    private static final String RBAC_SERVER_SERVICE = "wondernect-stars-rbac";
+    @Override
+    public String defaultRequestLogLevel() {
+        return "INFO";
+    }
 
     @Override
-    public void recordRequestLog(String level, String service, String module, String userId, String appId, String operation, String description, String requestId, String url, String method, String argValue, String returnValue, Long runStartTime, Long runTime, String ip, String devicePlatform, String deviceDescription) {
-        if (ESStringUtils.isBlank(level)) {
-            level = RBAC_SERVER_DEFAULT_LOG_LEVEL;
-        }
-        if (ESStringUtils.isBlank(service)) {
-            service = RBAC_SERVER_SERVICE;
-        }
-        super.recordRequestLog(level, service, module, userId, appId, operation, description, requestId, url, method, argValue, returnValue, runStartTime, runTime, ip, devicePlatform, deviceDescription);
+    public String defaultExceptionRequestLogLevel() {
+        return "ERROR";
+    }
+
+    @Override
+    public String defaultService() {
+        return "wondernect-stars-rbac";
+    }
+
+    @Override
+    public void doRecordRequestLog(String level, String service, String module, String userId, String appId, String operation, String description, String requestId, String url, String method, String argValue, String returnValue, Long runStartTime, Long runTime, String ip, String devicePlatform, String deviceDescription) {
+
     }
 }
