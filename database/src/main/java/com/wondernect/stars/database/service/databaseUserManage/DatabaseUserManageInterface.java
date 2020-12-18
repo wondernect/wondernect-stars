@@ -1,10 +1,7 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseUserManage;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.database.dto.DatabaseUserManageResponseDTO;
-import com.wondernect.stars.database.dto.ListDatabaseUserManageRequestDTO;
-import com.wondernect.stars.database.dto.PageDatabaseUserManageRequestDTO;
-import com.wondernect.stars.database.dto.SaveDatabaseUserManageRequestDTO;
+import com.wondernect.stars.database.dto.*;
 
 import java.util.List;
 
@@ -44,4 +41,9 @@ public interface DatabaseUserManageInterface {
      * 分页
      **/
     PageResponseData<DatabaseUserManageResponseDTO> page(PageDatabaseUserManageRequestDTO pageDatabaseUserManageRequestDTO);
+
+    /**
+     * 修改密码
+     */
+    DatabaseUserManageResponseDTO modifyPassword(DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO);
 }

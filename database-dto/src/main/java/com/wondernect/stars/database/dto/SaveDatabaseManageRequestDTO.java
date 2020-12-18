@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "数据库请求对象")
+@ApiModel(value = "数据库名称请求对象")
 public class SaveDatabaseManageRequestDTO {
 
     @NotBlank(message = "数据库id不能为空")

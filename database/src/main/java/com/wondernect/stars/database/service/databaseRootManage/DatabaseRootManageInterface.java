@@ -1,4 +1,4 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseRootManage;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.DatabaseRootManageResponseDTO;

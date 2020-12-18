@@ -1,4 +1,4 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseUserRightsShip;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
@@ -14,6 +14,8 @@ import com.wondernect.stars.database.dto.SaveDatabaseUserRightsShipRequestDTO;
 import com.wondernect.stars.database.model.DatabaseManage;
 import com.wondernect.stars.database.model.DatabaseUserManage;
 import com.wondernect.stars.database.model.DatabaseUserRightsShip;
+import com.wondernect.stars.database.service.databaseManage.DatabaseManageService;
+import com.wondernect.stars.database.service.databaseUserManage.DatabaseUserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

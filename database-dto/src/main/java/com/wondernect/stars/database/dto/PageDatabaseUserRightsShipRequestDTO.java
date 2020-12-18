@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 数据库用户权限关系表分页请求DTO
  *
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "数据库用户权限关系表分页请求对象")
 public class PageDatabaseUserRightsShipRequestDTO extends PageRequestDTO {
 
+    @NotBlank(message = "数据库用户id不能为空")
     @JsonProperty("database_user_id")
     @ApiModelProperty(notes = "数据库用户id")
     private String databaseUserId;

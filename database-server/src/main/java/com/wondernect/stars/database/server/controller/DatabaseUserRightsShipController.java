@@ -5,7 +5,8 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.*;
-import com.wondernect.stars.database.service.DatabaseUserRightsShipService;
+import com.wondernect.stars.database.server.service.DatabaseUserRightsShipClientService;
+import com.wondernect.stars.database.service.databaseUserRightsShip.DatabaseUserRightsShipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +31,9 @@ public class DatabaseUserRightsShipController {
 
     @Autowired
     private DatabaseUserRightsShipService databaseUserRightsShipService;
+
+    @Autowired
+    private DatabaseUserRightsShipClientService databaseUserRightsShipClientService;
 
     /*@ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
@@ -91,7 +95,7 @@ public class DatabaseUserRightsShipController {
             @ApiParam(required = true) @NotNull(message = "1-只读权限，2-所有权限") @PathVariable(value = "type", required = false) Integer type,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveDatabaseUserRightsShipRequestDTO saveDatabaseUserRightsShipRequestDTO
     ) {
-        return new BusinessData<>(databaseUserRightsShipService.giveRights(type, saveDatabaseUserRightsShipRequestDTO));
+        return new BusinessData<>(databaseUserRightsShipClientService.giveRights(type, saveDatabaseUserRightsShipRequestDTO));
     }
 
     @AuthorizeServer
@@ -100,7 +104,7 @@ public class DatabaseUserRightsShipController {
     public BusinessData revokeRights(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveDatabaseUserRightsShipRequestDTO saveDatabaseUserRightsShipRequestDTO
     ) {
-        databaseUserRightsShipService.revokeRights(saveDatabaseUserRightsShipRequestDTO);
+        databaseUserRightsShipClientService.revokeRights(saveDatabaseUserRightsShipRequestDTO);
         return new BusinessData(BusinessError.SUCCESS);
     }
 
@@ -110,6 +114,6 @@ public class DatabaseUserRightsShipController {
     public BusinessData<TestConnectResponseDTO> testConnect(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseUserRequestDTO databaseUserRequestDTO
     ) {
-        return new BusinessData<>(databaseUserRightsShipService.testConnect(databaseUserRequestDTO));
+        return new BusinessData<>(databaseUserRightsShipClientService.testConnect(databaseUserRequestDTO));
     }
 }

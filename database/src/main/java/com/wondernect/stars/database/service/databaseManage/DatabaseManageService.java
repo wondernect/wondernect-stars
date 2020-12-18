@@ -1,16 +1,15 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseManage;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
-import com.wondernect.elements.jdbc.client.response.JDBCResult;
-import com.wondernect.elements.jdbc.client.util.JDBCClient;
 import com.wondernect.elements.rdb.criteria.Criteria;
 import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.stars.database.dto.DatabaseManageResponseDTO;
 import com.wondernect.stars.database.model.DatabaseManage;
-import com.wondernect.stars.database.model.DatabaseRootManage;
 import com.wondernect.stars.database.model.DatabaseUserManage;
 import com.wondernect.stars.database.model.DatabaseUserRightsShip;
+import com.wondernect.stars.database.service.databaseUserManage.DatabaseUserManageService;
+import com.wondernect.stars.database.service.databaseUserRightsShip.DatabaseUserRightsShipService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,16 +26,10 @@ import java.util.*;
 public class DatabaseManageService extends DatabaseManageAbstractService {
 
     @Autowired
-    private DatabaseRootManageService databaseRootManageService;
-
-    @Autowired
     private DatabaseUserRightsShipService databaseUserRightsShipService;
 
     @Autowired
     private DatabaseUserManageService databaseUserManageService;
-
-    @Autowired
-    private JDBCClient jdbcClient;
 
     @Transactional
     public DatabaseManageResponseDTO initDatabase(String id) {
@@ -44,13 +37,13 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
         if (ESObjectUtils.isNull(databaseManage)) {
             throw new BusinessException("要初始化的数据库不存在");
         }
-        DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseManage.getDatabaseRootManageId());
+       /* DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseManage.getDatabaseRootManageId());
         if (ESObjectUtils.isNull(databaseRootManage)) {
             throw new BusinessException("要初始化的数据库不存在数据库管理服务");
         }
         JDBCResult jdbcResult = jdbcClient.initDatabase(databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName());
         databaseManage.setInitState(jdbcResult.getResult());
-        databaseManage.setInitMessage(jdbcResult.getMessage());
+        databaseManage.setInitMessage(jdbcResult.getMessage());*/
         return super.save(databaseManage);
     }
 

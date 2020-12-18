@@ -1,4 +1,4 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseManage;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.DatabaseManageResponseDTO;
@@ -44,4 +44,9 @@ public interface DatabaseManageInterface {
      * 分页
      **/
     PageResponseData<DatabaseManageResponseDTO> page(PageDatabaseManageRequestDTO pageDatabaseManageRequestDTO);
+
+    /**
+     * 初始化数据库
+     */
+    DatabaseManageResponseDTO initDatabase(String id);
 }

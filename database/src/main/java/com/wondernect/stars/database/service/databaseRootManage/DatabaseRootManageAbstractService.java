@@ -1,4 +1,4 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseRootManage;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
@@ -13,6 +13,7 @@ import com.wondernect.stars.database.dto.PageDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.SaveDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.model.DatabaseManage;
 import com.wondernect.stars.database.model.DatabaseRootManage;
+import com.wondernect.stars.database.service.databaseManage.DatabaseManageService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,9 @@ public abstract class DatabaseRootManageAbstractService extends BaseStringServic
     public DatabaseRootManageResponseDTO create(SaveDatabaseRootManageRequestDTO saveDatabaseRootManageRequestDTO) {
         DatabaseRootManage databaseRootManage = new DatabaseRootManage();
         ESBeanUtils.copyProperties(saveDatabaseRootManageRequestDTO, databaseRootManage);
-        databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");//mysql驱动及连接
+        /*databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");//mysql驱动及连接
         databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+        */
         return super.save(databaseRootManage);
     }
 
@@ -46,7 +48,7 @@ public abstract class DatabaseRootManageAbstractService extends BaseStringServic
     @Override
     public DatabaseRootManageResponseDTO update(String id, SaveDatabaseRootManageRequestDTO saveDatabaseRootManageRequestDTO) {
         DatabaseRootManage databaseRootManage = super.findEntityById(id);
-        if (ESObjectUtils.isNull(databaseRootManage)) {
+        /*if (ESObjectUtils.isNull(databaseRootManage)) {
             throw new BusinessException("数据库不存在");
         }
         //如果ip或者port发生改变，就需要修改数据库名称那里的连接url
@@ -60,10 +62,11 @@ public abstract class DatabaseRootManageAbstractService extends BaseStringServic
                     databaseManageService.save(databaseManage);
                 }
             }
-        }
+        }*/
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveDatabaseRootManageRequestDTO, databaseRootManage);
-        databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");//mysql驱动及连接
+        /*databaseRootManage.setDriver("com.mysql.cj.jdbc.Driver");//mysql驱动及连接
         databaseRootManage.setUrl("jdbc:mysql://" + saveDatabaseRootManageRequestDTO.getIp() + ":" + saveDatabaseRootManageRequestDTO.getPort() + "/mysql?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC");
+       */
         return super.save(databaseRootManage);
     }
 

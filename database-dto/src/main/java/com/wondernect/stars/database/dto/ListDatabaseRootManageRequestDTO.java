@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "根数据库列表请求对象")
+@ApiModel(value = "数据库列表请求对象")
 public class ListDatabaseRootManageRequestDTO extends ListRequestDTO {
 
     @JsonProperty("ip")

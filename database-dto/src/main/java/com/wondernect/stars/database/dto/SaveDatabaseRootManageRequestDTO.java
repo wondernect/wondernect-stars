@@ -1,6 +1,7 @@
 package com.wondernect.stars.database.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.stars.database.em.DatabaseType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,10 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "数据库请求对象")
 public class SaveDatabaseRootManageRequestDTO {
 
-    /*@NotBlank(message = "数据库驱动不能为空")
-    @JsonProperty("driver")
-    @ApiModelProperty(notes = "数据库驱动")
-    private String driver;*/
+    @NotNull(message = "数据库类型不能为空")
+    @JsonProperty("type")
+    @ApiModelProperty(notes = "数据库类型")
+    private DatabaseType type;
 
     @NotBlank(message = "数据库ip地址不能为空")
     @JsonProperty("ip")

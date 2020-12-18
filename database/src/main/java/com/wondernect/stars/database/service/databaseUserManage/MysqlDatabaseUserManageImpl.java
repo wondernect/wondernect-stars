@@ -1,4 +1,4 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseUserManage;
 
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESObjectUtils;
@@ -11,6 +11,9 @@ import com.wondernect.stars.database.model.DatabaseManage;
 import com.wondernect.stars.database.model.DatabaseRootManage;
 import com.wondernect.stars.database.model.DatabaseUserManage;
 import com.wondernect.stars.database.model.DatabaseUserRightsShip;
+import com.wondernect.stars.database.service.databaseManage.DatabaseManageService;
+import com.wondernect.stars.database.service.databaseRootManage.DatabaseRootManageService;
+import com.wondernect.stars.database.service.databaseUserRightsShip.DatabaseUserRightsShipService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 数据库用户服务
- *
- * @author liyafei 2020-11-09 15:58:16
- **/
 @Service
-public class DatabaseUserManageService extends DatabaseUserManageAbstractService {
+public class MysqlDatabaseUserManageImpl extends DatabaseUserManageService implements DatabaseUserManageInterface {
 
     @Autowired
     private JDBCClient jdbcClient;
@@ -39,8 +37,8 @@ public class DatabaseUserManageService extends DatabaseUserManageAbstractService
     @Autowired
     private DatabaseUserRightsShipService databaseUserRightsShipService;
 
-    //修改密码
     @Transactional
+    @Override
     public DatabaseUserManageResponseDTO modifyPassword(DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO) {
         DatabaseUserManage databaseUserManage = super.findEntityById(databaseModifyPasswordRequestDTO.getDatabaseUserId());
         if (ESObjectUtils.isNull(databaseUserManage)) {
@@ -65,4 +63,5 @@ public class DatabaseUserManageService extends DatabaseUserManageAbstractService
         databaseUserManage.setPassword(databaseModifyPasswordRequestDTO.getNewPassword());
         return super.save(databaseUserManage);
     }
+
 }

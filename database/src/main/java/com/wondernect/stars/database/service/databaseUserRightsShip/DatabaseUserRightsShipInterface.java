@@ -1,10 +1,7 @@
-package com.wondernect.stars.database.service;
+package com.wondernect.stars.database.service.databaseUserRightsShip;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
-import com.wondernect.stars.database.dto.DatabaseUserRightsShipResponseDTO;
-import com.wondernect.stars.database.dto.ListDatabaseUserRightsShipRequestDTO;
-import com.wondernect.stars.database.dto.PageDatabaseUserRightsShipRequestDTO;
-import com.wondernect.stars.database.dto.SaveDatabaseUserRightsShipRequestDTO;
+import com.wondernect.stars.database.dto.*;
 
 import java.util.List;
 
@@ -44,4 +41,10 @@ public interface DatabaseUserRightsShipInterface {
      * 分页
      **/
     PageResponseData<DatabaseUserRightsShipResponseDTO> page(PageDatabaseUserRightsShipRequestDTO pageDatabaseUserRightsShipRequestDTO);
+
+    DatabaseUserRightsShipResponseDTO giveRights(int type, SaveDatabaseUserRightsShipRequestDTO saveDatabaseUserRightsShipRequestDTO);
+
+    void revokeRights(SaveDatabaseUserRightsShipRequestDTO saveDatabaseUserRightsShipRequestDTO);
+
+    TestConnectResponseDTO testConnect(DatabaseUserRequestDTO databaseUserRequestDTO);
 }

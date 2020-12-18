@@ -5,7 +5,8 @@ import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.*;
-import com.wondernect.stars.database.service.DatabaseUserManageService;
+import com.wondernect.stars.database.server.service.DatabaseUserManageClientService;
+import com.wondernect.stars.database.service.databaseUserManage.DatabaseUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +31,9 @@ public class DatabaseUserManageController {
 
     @Autowired
     private DatabaseUserManageService databaseUserManageService;
+
+    @Autowired
+    private DatabaseUserManageClientService databaseUserManageClientService;
 
     @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
@@ -93,7 +97,7 @@ public class DatabaseUserManageController {
     public BusinessData<DatabaseUserManageResponseDTO> modifyPassword(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) DatabaseModifyPasswordRequestDTO databaseModifyPasswordRequestDTO
     ) {
-        return new BusinessData<>(databaseUserManageService.modifyPassword(databaseModifyPasswordRequestDTO));
+        return new BusinessData<>(databaseUserManageClientService.modifyPassword(databaseModifyPasswordRequestDTO));
     }
 
 }

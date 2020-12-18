@@ -34,4 +34,8 @@ public class DatabaseManageResponseDTO extends BaseStringResponseDTO {
     @JsonProperty("init_message")
     @ApiModelProperty(notes = "初始化结果描述")
     private String initMessage;
+
+    @JsonProperty("type")
+    @ApiModelProperty(notes = "数据库类型")
+    private String type;
 }

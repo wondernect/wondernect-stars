@@ -8,7 +8,8 @@ import com.wondernect.stars.database.dto.DatabaseManageResponseDTO;
 import com.wondernect.stars.database.dto.ListDatabaseManageRequestDTO;
 import com.wondernect.stars.database.dto.PageDatabaseManageRequestDTO;
 import com.wondernect.stars.database.dto.SaveDatabaseManageRequestDTO;
-import com.wondernect.stars.database.service.DatabaseManageService;
+import com.wondernect.stars.database.server.service.DatabaseManageClientService;
+import com.wondernect.stars.database.service.databaseManage.DatabaseManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,13 +35,16 @@ public class DatabaseManageController {
     @Autowired
     private DatabaseManageService databaseManageService;
 
+    @Autowired
+    private DatabaseManageClientService databaseManageClientService;
+
     @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<DatabaseManageResponseDTO> create(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO
     ) {
-        return new BusinessData<>(databaseManageService.create(saveDatabaseManageRequestDTO));
+        return new BusinessData<>(databaseManageClientService.create(saveDatabaseManageRequestDTO));
     }
 
     @AuthorizeServer
@@ -50,7 +54,7 @@ public class DatabaseManageController {
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveDatabaseManageRequestDTO saveDatabaseManageRequestDTO
     ) {
-        return new BusinessData<>(databaseManageService.update(id, saveDatabaseManageRequestDTO));
+        return new BusinessData<>(databaseManageClientService.update(id, saveDatabaseManageRequestDTO));
     }
 
     @AuthorizeServer
@@ -96,7 +100,7 @@ public class DatabaseManageController {
     public BusinessData<DatabaseManageResponseDTO> initDatabase(
             @ApiParam(required = true) @NotBlank(message = "请求参数不能为空") @RequestParam(value = "id", required = false) String id
     ) {
-        return new BusinessData<>(databaseManageService.initDatabase(id));
+        return new BusinessData<>(databaseManageClientService.initDatabase(id));
     }
 
     @AuthorizeServer

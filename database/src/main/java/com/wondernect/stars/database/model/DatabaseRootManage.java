@@ -2,6 +2,7 @@ package com.wondernect.stars.database.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.base.model.BaseStringModel;
+import com.wondernect.stars.database.em.DatabaseType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -9,10 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -31,6 +29,11 @@ import java.io.Serializable;
 public class DatabaseRootManage extends BaseStringModel implements Serializable {
 
     private static final long serialVersionUID = 7827047990969051918L;
+
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("type")
+    @ApiModelProperty(notes = "数据库类型")
+    private DatabaseType type;
 
     @JsonProperty("driver")
     @ApiModelProperty(notes = "数据库驱动")

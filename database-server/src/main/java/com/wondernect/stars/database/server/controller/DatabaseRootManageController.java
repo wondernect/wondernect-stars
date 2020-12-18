@@ -8,7 +8,8 @@ import com.wondernect.stars.database.dto.DatabaseRootManageResponseDTO;
 import com.wondernect.stars.database.dto.ListDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.PageDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.SaveDatabaseRootManageRequestDTO;
-import com.wondernect.stars.database.service.DatabaseRootManageService;
+import com.wondernect.stars.database.server.service.DatabaseRootManageClientService;
+import com.wondernect.stars.database.service.databaseRootManage.DatabaseRootManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,13 +35,16 @@ public class DatabaseRootManageController {
     @Autowired
     private DatabaseRootManageService databaseRootManageService;
 
+    @Autowired
+    private DatabaseRootManageClientService databaseRootManageClientService;
+
     @AuthorizeServer
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
     public BusinessData<DatabaseRootManageResponseDTO> create(
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveDatabaseRootManageRequestDTO saveDatabaseRootManageRequestDTO
     ) {
-        return new BusinessData<>(databaseRootManageService.create(saveDatabaseRootManageRequestDTO));
+        return new BusinessData<>(databaseRootManageClientService.create(saveDatabaseRootManageRequestDTO));
     }
 
     @AuthorizeServer
@@ -50,7 +54,7 @@ public class DatabaseRootManageController {
             @ApiParam(required = true) @NotBlank(message = "对象id不能为空") @PathVariable(value = "id", required = false) String id,
             @ApiParam(required = true) @NotNull(message = "请求参数不能为空") @Validated @RequestBody(required = false) SaveDatabaseRootManageRequestDTO saveDatabaseRootManageRequestDTO
     ) {
-        return new BusinessData<>(databaseRootManageService.update(id, saveDatabaseRootManageRequestDTO));
+        return new BusinessData<>(databaseRootManageClientService.update(id, saveDatabaseRootManageRequestDTO));
     }
 
     @AuthorizeServer
