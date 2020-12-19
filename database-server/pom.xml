@@ -19,12 +19,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -43,16 +37,16 @@
             <artifactId>i18n</artifactId>
         </dependency>
 
-        <!-- elements log -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>log</artifactId>
-        </dependency>
-
         <!-- elements swagger-api -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
             <artifactId>swagger-api</artifactId>
+        </dependency>
+
+        <!-- elements boot-application -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>boot-application</artifactId>
         </dependency>
 
         <!-- stars database -->

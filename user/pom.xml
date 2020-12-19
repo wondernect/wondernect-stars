@@ -29,12 +29,6 @@
             <artifactId>redis</artifactId>
         </dependency>
 
-        <!-- elements boot-application -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>boot-application</artifactId>
-        </dependency>
-
         <!-- user-dto -->
         <dependency>
             <groupId>com.wondernect.stars</groupId>

@@ -17,22 +17,10 @@
     <url>http://www.example.com</url>
 
     <dependencies>
-        <!-- common -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>common</artifactId>
-        </dependency>
-
         <!-- rdb -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
             <artifactId>rdb</artifactId>
-        </dependency>
-
-        <!-- elements boot-application -->
-        <dependency>
-            <groupId>com.wondernect.elements</groupId>
-            <artifactId>boot-application</artifactId>
         </dependency>
 
         <!-- mail-dto -->
