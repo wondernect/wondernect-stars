@@ -26,17 +26,14 @@ import javax.persistence.*;
 @ApiModel(description = "日志")
 public class RequestLog extends BaseStringModel {
 
-    @Column(columnDefinition = "not null")
     @JsonProperty("level")
     @ApiModelProperty(notes = "等级")
     private String level;
 
-    @Column(columnDefinition = "not null")
     @JsonProperty("service")
     @ApiModelProperty(notes = "服务")
     private String service;
 
-    @Column(columnDefinition = "not null")
     @JsonProperty("module")
     @ApiModelProperty(notes = "模块")
     private String module;
@@ -57,12 +54,10 @@ public class RequestLog extends BaseStringModel {
     @ApiModelProperty(notes = "操作应用名称")
     private String appName;
 
-    @Column(columnDefinition = "not null")
     @JsonProperty("operation")
     @ApiModelProperty(notes = "操作")
     private String operation;
 
-    @Column(columnDefinition = "not null")
     @JsonProperty("description")
     @ApiModelProperty(notes = "日志描述")
     private String description;
