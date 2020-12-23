@@ -93,6 +93,9 @@ public abstract class DatabaseManageAbstractService extends BaseStringService<Da
         if (ESObjectUtils.isNull(databaseManage)) {
             throw new BusinessException("要删除的数据库不存在");
         }
+        if (databaseManage.getInitState()){
+            throw new BusinessException("要删除的数据库已初始化，不能删除");
+        }
         Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
         databaseUserRightsShipCriteria.add(Restrictions.eq("databaseManageId", id));
         List<DatabaseUserRightsShip> databaseUserRightsShipList = databaseUserRightsShipService.findAllEntity(databaseUserRightsShipCriteria, new ArrayList<>());
