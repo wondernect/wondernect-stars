@@ -51,6 +51,9 @@ public class MysqlDatabaseUserRightsShipImpl extends DatabaseUserRightsShipServi
         if (ESObjectUtils.isNull(databaseManage)) {
             throw new BusinessException("要赋权限的数据库不存在");
         }
+        if (!databaseManage.getInitState()){
+            throw new BusinessException("要赋权限的数据库尚未初始化");
+        }
         DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseManage.getDatabaseRootManageId());
         if (ESObjectUtils.isNull(databaseRootManage)) {
             throw new BusinessException("要赋权限的数据库不存在数据库管理服务");
