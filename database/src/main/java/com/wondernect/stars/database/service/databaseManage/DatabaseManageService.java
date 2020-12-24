@@ -62,9 +62,14 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
                 set.add(databaseUserRightsShip.getDatabaseManageId());
             }
         }
-        Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
-        databaseManageCriteria.add(Restrictions.in("id", Collections.singletonList(set)));
-        return super.findAll(databaseManageCriteria, new ArrayList<>());
+        //避免Collections.singletonList(noSet)的集合是个空（这里的空不指null）
+        if (set.size() == 0) {
+            return super.findAll(new ArrayList<>());
+        } else {
+            Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
+            databaseManageCriteria.add(Restrictions.in("id", Collections.singletonList(set)));
+            return super.findAll(databaseManageCriteria, new ArrayList<>());
+        }
     }
 
     //查询用户没有那些数据库的权限
@@ -99,9 +104,14 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
                 }
             }
         }
-        Criteria<DatabaseManage> databaseManageCriteria1 = new Criteria<>();
-        databaseManageCriteria1.add(Restrictions.in("id", Collections.singletonList(noSet)));
-        return super.findAll(databaseManageCriteria, new ArrayList<>());
+        //避免Collections.singletonList(noSet)的集合是个空（这里的空不指null）
+        if (noSet.size() == 0) {
+            return super.findAll(new ArrayList<>());
+        } else {
+            Criteria<DatabaseManage> databaseManageCriteria1 = new Criteria<>();
+            databaseManageCriteria1.add(Restrictions.in("id", Collections.singletonList(noSet)));
+            return super.findAll(databaseManageCriteria1, new ArrayList<>());
+        }
     }
 
 }
