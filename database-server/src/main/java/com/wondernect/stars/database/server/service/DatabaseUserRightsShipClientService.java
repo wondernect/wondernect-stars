@@ -48,6 +48,7 @@ public class DatabaseUserRightsShipClientService {
             case "MySQL": {
                 DatabaseUserRightsShipContext databaseUserRightsShipContext = new DatabaseUserRightsShipContext(mysqlDatabaseUserRightsShipImpl);
                 databaseUserRightsShipContext.revokeRights(saveDatabaseUserRightsShipRequestDTO);
+                return;
             }
             default: {
                 throw new BusinessException("所选的数据库类型暂不支持");
@@ -63,7 +64,7 @@ public class DatabaseUserRightsShipClientService {
         switch (databaseManage.getType()) {
             case "MySQL": {
                 DatabaseUserRightsShipContext databaseUserRightsShipContext = new DatabaseUserRightsShipContext(mysqlDatabaseUserRightsShipImpl);
-                databaseUserRightsShipContext.testConnect(databaseUserRequestDTO);
+                return databaseUserRightsShipContext.testConnect(databaseUserRequestDTO);
             }
             default: {
                 throw new BusinessException("所选的数据库类型暂不支持");
