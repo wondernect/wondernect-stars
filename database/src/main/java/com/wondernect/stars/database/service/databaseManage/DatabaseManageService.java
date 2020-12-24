@@ -64,7 +64,7 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
         }
         //避免Collections.singletonList(noSet)的集合是个空（这里的空不指null）
         if (set.size() == 0) {
-            return super.findAll(new ArrayList<>());
+            return new ArrayList<>();
         } else {
             Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
             databaseManageCriteria.add(Restrictions.in("id", Collections.singletonList(set)));
@@ -80,6 +80,7 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
         }
         Criteria<DatabaseManage> databaseManageCriteria = new Criteria<>();
         databaseManageCriteria.add(Restrictions.eq("databaseRootManageId", databaseUserManage.getDatabaseRootManageId()));
+        databaseManageCriteria.add(Restrictions.eq("initState", true));
         List<DatabaseManage> databaseManageList = super.findAllEntity(databaseManageCriteria, new ArrayList<>());
         Criteria<DatabaseUserRightsShip> databaseUserRightsShipCriteria = new Criteria<>();
         databaseUserRightsShipCriteria.add(Restrictions.eq("databaseUserId", databaseUserId));
@@ -106,7 +107,7 @@ public class DatabaseManageService extends DatabaseManageAbstractService {
         }
         //避免Collections.singletonList(noSet)的集合是个空（这里的空不指null）
         if (noSet.size() == 0) {
-            return super.findAll(new ArrayList<>());
+            return new ArrayList<>();
         } else {
             Criteria<DatabaseManage> databaseManageCriteria1 = new Criteria<>();
             databaseManageCriteria1.add(Restrictions.in("id", Collections.singletonList(noSet)));
