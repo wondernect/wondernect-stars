@@ -57,9 +57,6 @@ public class MailClientService extends MailService {
     @Autowired
     private MailTemplateService mailTemplateService;
 
-    @Autowired
-    private MailTemplateParamService mailTemplateParamService;
-
     @Transactional
     public MailResponseDTO send(SendMailRequestDTO sendMailRequestDTO) {
         MailServerResponseDTO mailServerResponseDTO = mailServerService.findById(sendMailRequestDTO.getMailServerId());
@@ -70,17 +67,7 @@ public class MailClientService extends MailService {
         if (ESObjectUtils.isNull(mailTemplateResponseDTO)) {
             throw new BusinessException("邮件模板不存在");
         }
-        List<MailTemplateParamResponseDTO> mailTemplateParamResponseDTOList = mailTemplateParamService.list(new ListMailTemplateParamRequestDTO(sendMailRequestDTO.getMailTemplateId()));
-        Map<String, Object> varibles = new HashMap<>();
-        if (MapUtils.isNotEmpty(sendMailRequestDTO.getAttachment()) &&
-                CollectionUtils.isNotEmpty(mailTemplateParamResponseDTOList)) {
-            for (MailTemplateParamResponseDTO mailTemplateParamResponseDTO : mailTemplateParamResponseDTOList) {
-                Object value = sendMailRequestDTO.getAttachment().get(mailTemplateParamResponseDTO.getParam());
-                if (ESObjectUtils.isNotNull(value)) {
-                    varibles.put(mailTemplateParamResponseDTO.getName(), value);
-                }
-            }
-        }
+        Map<String, Object> varibles = sendMailRequestDTO.getAttachment();
         MailSendResult mailSendResult;
         switch (mailTemplateResponseDTO.getType()) {
             case PLAIN_TEXT:
