@@ -25,16 +25,12 @@ public class SaveMailTemplateParamRequestDTO {
     @ApiModelProperty(notes = "邮件模板")
     private String templateId;
 
-    @NotBlank(message = "模板内容中变量名称不能为空")
-    @JsonProperty("name")
-    @ApiModelProperty(notes = "模板内容中变量名称")
-    private String name;
-
     @NotBlank(message = "替换数据key值不能为空")
     @JsonProperty("param")
     @ApiModelProperty(notes = "传入替换数据Map<String, Object> varibles中key值")
     private String param;
 
+    @NotBlank(message = "替换数据key值说明不能为空")
     @JsonProperty("description")
     @ApiModelProperty(notes = "传入替换数据Map<String, Object> varibles中key值说明")
     private String description;

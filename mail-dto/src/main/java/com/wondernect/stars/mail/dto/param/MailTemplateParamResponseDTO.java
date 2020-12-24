@@ -25,10 +25,6 @@ public class MailTemplateParamResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "邮件模板")
     private String templateId;
 
-    @JsonProperty("name")
-    @ApiModelProperty(notes = "模板内容中变量名称")
-    private String name;
-
     @JsonProperty("param")
     @ApiModelProperty(notes = "传入替换数据Map<String, Object> varibles中key值")
     private String param;

@@ -33,10 +33,6 @@ public class MailTemplateParam extends BaseStringModel implements Serializable {
     @ApiModelProperty("邮件模板")
     private String templateId;
 
-    @JsonProperty("name")
-    @ApiModelProperty("模板内容中变量名称")
-    private String name;
-
     @JsonProperty("param")
     @ApiModelProperty("传入替换数据Map<String, Object> varibles中key值")
     private String param;
