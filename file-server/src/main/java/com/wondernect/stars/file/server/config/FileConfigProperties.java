@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @Component
 @Primary
-@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true, encoding = "UTF-8")
+@PropertySource(value = {"classpath:application.properties", "classpath:application.yml", "classpath:application.yaml"}, ignoreResourceNotFound = true, factory = WondernectPropertySourceFactory.class)
 @ConfigurationProperties(prefix = "wondernect.stars.file")
 public class FileConfigProperties implements Serializable {
 
