@@ -1,12 +1,12 @@
 package com.wondernect.stars.rbac.feign.roleMenu;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.stars.rbac.dto.MenuAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.RoleAuthorityResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuRequestDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuResponseDTO;
 import com.wondernect.stars.rbac.dto.rolemenu.RoleMenuTreeResponseDTO;
-import com.wondernect.stars.rbac.feign.config.WondernectRbacFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", path = "/v1/wondernect/rbac/role_menu", configuration = WondernectRbacFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", path = "/v1/wondernect/rbac/role_menu", configuration = WondernectFeignConfiguration.class)
 public interface RoleMenuFeignClient {
 
     @ApiOperation(value = "勾选菜单", httpMethod = "POST")

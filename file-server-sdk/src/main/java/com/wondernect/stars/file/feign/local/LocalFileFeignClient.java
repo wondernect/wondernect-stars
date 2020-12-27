@@ -1,9 +1,9 @@
 package com.wondernect.stars.file.feign.local;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.*;
-import com.wondernect.stars.file.feign.config.WondernectFileFeignConfiguration;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +30,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", path = "/v1/wondernect/file/local", configuration = {WondernectFileFeignConfiguration.class, LocalFileFeignClient.MultipartSupportConfig.class})
+@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", path = "/v1/wondernect/file/local", configuration = {WondernectFeignConfiguration.class, LocalFileFeignClient.MultipartSupportConfig.class})
 public interface LocalFileFeignClient {
 
     @Configuration

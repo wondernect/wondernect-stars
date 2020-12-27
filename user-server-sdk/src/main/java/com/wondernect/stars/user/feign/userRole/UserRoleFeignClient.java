@@ -1,12 +1,12 @@
 package com.wondernect.stars.user.feign.userRole;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.userrole.ListUserRoleRequestDTO;
 import com.wondernect.stars.user.dto.userrole.PageUserRoleRequestDTO;
 import com.wondernect.stars.user.dto.userrole.UserRoleRequestDTO;
 import com.wondernect.stars.user.dto.userrole.UserRoleResponseDTO;
-import com.wondernect.stars.user.feign.config.WondernectUserFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -22,7 +22,7 @@ import java.util.List;
  * @Date: 2020/8/12 11:21
  * @Version 1.0
  */
-@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", path = "/v1/wondernect/user/role", configuration = WondernectUserFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", path = "/v1/wondernect/user/role", configuration = WondernectFeignConfiguration.class)
 public interface UserRoleFeignClient {
 
     @ApiOperation(value = "新增", httpMethod = "POST")

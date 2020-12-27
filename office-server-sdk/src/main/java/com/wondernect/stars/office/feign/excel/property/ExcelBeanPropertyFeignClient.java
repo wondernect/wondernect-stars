@@ -1,12 +1,12 @@
 package com.wondernect.stars.office.feign.excel.property;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.office.excel.dto.property.ExcelBeanPropertyResponseDTO;
 import com.wondernect.stars.office.excel.dto.property.ListExcelBeanPropertyRequestDTO;
 import com.wondernect.stars.office.excel.dto.property.PageExcelBeanPropertyRequestDTO;
 import com.wondernect.stars.office.excel.dto.property.SaveExcelBeanPropertyRequestDTO;
-import com.wondernect.stars.office.feign.config.WondernectOfficeFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.office.feign.name}", url = "${wondernect.stars.office.feign.url}", path = "/v1/wondernect/office/excel_bean_property", configuration = WondernectOfficeFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.office.feign.name}", url = "${wondernect.stars.office.feign.url}", path = "/v1/wondernect/office/excel_bean_property", configuration = WondernectFeignConfiguration.class)
 public interface ExcelBeanPropertyFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

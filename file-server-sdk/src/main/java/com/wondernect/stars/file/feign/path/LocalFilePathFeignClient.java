@@ -1,9 +1,9 @@
 package com.wondernect.stars.file.feign.path;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.file.dto.*;
-import com.wondernect.stars.file.feign.config.WondernectFileFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", path = "/v1/wondernect/file/path", configuration = WondernectFileFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.file.feign.name}", url = "${wondernect.stars.file.feign.url}", path = "/v1/wondernect/file/path", configuration = WondernectFeignConfiguration.class)
 public interface LocalFilePathFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

@@ -1,12 +1,12 @@
 package com.wondernect.stars.logger.feign.request;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.logger.dto.ListRequestLogRequestDTO;
 import com.wondernect.stars.logger.dto.PageRequestLogRequestDTO;
 import com.wondernect.stars.logger.dto.RequestLogResponseDTO;
 import com.wondernect.stars.logger.dto.SaveRequestLogRequestDTO;
-import com.wondernect.stars.logger.feign.config.WondernectLoggerFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.logger.feign.name}", url = "${wondernect.stars.logger.feign.url}", path = "/v1/wondernect/log/request_log", configuration = WondernectLoggerFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.logger.feign.name}", url = "${wondernect.stars.logger.feign.url}", path = "/v1/wondernect/log/request_log", configuration = WondernectFeignConfiguration.class)
 public interface RequestLogFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

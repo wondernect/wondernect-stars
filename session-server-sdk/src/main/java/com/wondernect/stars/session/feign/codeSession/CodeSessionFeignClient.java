@@ -1,9 +1,9 @@
 package com.wondernect.stars.session.feign.codeSession;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.code.*;
-import com.wondernect.stars.session.feign.config.WondernectSessionFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -22,7 +22,7 @@ import java.util.List;
  * @Date: 2020/8/12 11:21
  * @Version 1.0
  */
-@FeignClient(name = "${wondernect.stars.session.feign.name}", url = "${wondernect.stars.session.feign.url}", path = "/v1/wondernect/session/code", configuration = WondernectSessionFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.session.feign.name}", url = "${wondernect.stars.session.feign.url}", path = "/v1/wondernect/session/code", configuration = WondernectFeignConfiguration.class)
 public interface CodeSessionFeignClient {
 
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")

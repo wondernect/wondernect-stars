@@ -1,11 +1,11 @@
 package com.wondernect.stars.user.feign.userThirdAuth;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.SaveUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
 import com.wondernect.stars.user.em.AppType;
-import com.wondernect.stars.user.feign.config.WondernectUserFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  * @Date: 2020/8/12 11:21
  * @Version 1.0
  */
-@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", path = "/v1/wondernect/user/third_auth", configuration = WondernectUserFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.user.feign.name}", url = "${wondernect.stars.user.feign.url}", path = "/v1/wondernect/user/third_auth", configuration = WondernectFeignConfiguration.class)
 public interface UserThirdAuthFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

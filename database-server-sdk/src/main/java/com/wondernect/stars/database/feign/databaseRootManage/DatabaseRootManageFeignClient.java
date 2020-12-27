@@ -1,12 +1,12 @@
 package com.wondernect.stars.database.feign.databaseRootManage;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.database.dto.DatabaseRootManageResponseDTO;
 import com.wondernect.stars.database.dto.ListDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.PageDatabaseRootManageRequestDTO;
 import com.wondernect.stars.database.dto.SaveDatabaseRootManageRequestDTO;
-import com.wondernect.stars.database.feign.config.WondernectDatabaseFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@FeignClient(name = "${wondernect.stars.database.feign.name}", url = "${wondernect.stars.database.feign.url}", path = "/v1/wondernect/database/database_root_manage", configuration = WondernectDatabaseFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.database.feign.name}", url = "${wondernect.stars.database.feign.url}", path = "/v1/wondernect/database/database_root_manage", configuration = WondernectFeignConfiguration.class)
 public interface DatabaseRootManageFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

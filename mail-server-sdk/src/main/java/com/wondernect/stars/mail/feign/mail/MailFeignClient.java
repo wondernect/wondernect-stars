@@ -1,9 +1,9 @@
 package com.wondernect.stars.mail.feign.mail;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.mail.dto.mail.*;
-import com.wondernect.stars.mail.feign.config.WondernectMailFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -23,7 +23,7 @@ import java.util.List;
  * @Version 1.0
  */
 
-@FeignClient(name = "${wondernect.stars.mail.feign.name}", url = "${wondernect.stars.mail.feign.url}", path = "/v1/wondernect/mail", configuration = WondernectMailFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.mail.feign.name}", url = "${wondernect.stars.mail.feign.url}", path = "/v1/wondernect/mail", configuration = WondernectFeignConfiguration.class)
 public interface MailFeignClient {
 
     @ApiOperation(value = "发送邮件", httpMethod = "POST")

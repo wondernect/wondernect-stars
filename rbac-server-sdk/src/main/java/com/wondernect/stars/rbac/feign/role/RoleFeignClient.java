@@ -1,12 +1,12 @@
 package com.wondernect.stars.rbac.feign.role;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.rbac.dto.role.ListRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.PageRoleRequestDTO;
 import com.wondernect.stars.rbac.dto.role.RoleResponseDTO;
 import com.wondernect.stars.rbac.dto.role.SaveRoleRequestDTO;
-import com.wondernect.stars.rbac.feign.config.WondernectRbacFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -27,7 +27,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", path = "/v1/wondernect/rbac/role", configuration = WondernectRbacFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.rbac.feign.name}", url = "${wondernect.stars.rbac.feign.url}", path = "/v1/wondernect/rbac/role", configuration = WondernectFeignConfiguration.class)
 public interface RoleFeignClient {
 
     @ApiOperation(value = "创建角色", httpMethod = "POST")

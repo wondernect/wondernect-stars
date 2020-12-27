@@ -1,9 +1,9 @@
 package com.wondernect.stars.app.feign.app;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
-import com.wondernect.stars.app.feign.config.WondernectAppFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -26,7 +26,7 @@ import java.util.List;
  * 当@FeignClient有name和url还有configuration时，取值为url的地址,name只是为一个名称而已(无意义)
  * 当@FeignClient只有name和configuration时，name的取值为注册中心项目的名称即虚拟地址
  */
-@FeignClient(name = "${wondernect.stars.app.feign.name}", url = "${wondernect.stars.app.feign.url}", path = "/v1/wondernect/app", configuration = WondernectAppFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.app.feign.name}", url = "${wondernect.stars.app.feign.url}", path = "/v1/wondernect/app", configuration = WondernectFeignConfiguration.class)
 public interface AppFeignClient {
 
     @ApiOperation(value = "创建", httpMethod = "POST")

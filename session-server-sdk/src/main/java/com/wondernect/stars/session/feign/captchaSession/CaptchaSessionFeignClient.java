@@ -1,9 +1,9 @@
 package com.wondernect.stars.session.feign.captchaSession;
 
 import com.wondernect.elements.common.response.BusinessData;
+import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.session.dto.captcha.*;
-import com.wondernect.stars.session.feign.config.WondernectSessionFeignConfiguration;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 2019/8/1 19:37
  * Description: 部门服务
  */
-@FeignClient(name = "${wondernect.stars.session.feign.name}", url = "${wondernect.stars.session.feign.url}", path = "/v1/wondernect/session/captcha", configuration = WondernectSessionFeignConfiguration.class)
+@FeignClient(name = "${wondernect.stars.session.feign.name}", url = "${wondernect.stars.session.feign.url}", path = "/v1/wondernect/session/captcha", configuration = WondernectFeignConfiguration.class)
 public interface CaptchaSessionFeignClient {
 
     @ApiOperation(value = "请求(缓存&数据库)", httpMethod = "POST")
