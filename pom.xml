@@ -34,7 +34,9 @@
         <module>mail-dto</module>
         <module>mail</module>
         <module>mail-server-sdk</module>
+        <module>sms-dto</module>
         <module>sms</module>
+        <module>sms-server-sdk</module>
         <module>app-dto</module>
         <module>app</module>
         <module>app-server-sdk</module>
@@ -56,6 +58,7 @@
         <module>office-server</module>
         <module>mail-server</module>
         <module>logger-server</module>
+        <module>sms-server</module>
     </modules>
 
     <build>

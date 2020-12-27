@@ -10,17 +10,18 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>sms</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>sms-server-sdk</artifactId>
+    <version>1.0.0</version>
 
-    <name>sms</name>
+    <name>sms-server-sdk</name>
     <url>http://www.example.com</url>
 
     <dependencies>
-        <!-- rdb -->
+        <!-- feign-context -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
-            <artifactId>rdb</artifactId>
+            <artifactId>feign-context</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- sms-dto -->
@@ -30,31 +31,17 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- property-source -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>property-source</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <!--添加QueryDSL插件支持-->
-            <plugin>
-                <groupId>com.mysema.maven</groupId>
-                <artifactId>apt-maven-plugin</artifactId>
-                <version>1.1.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/generated-sources/java</outputDirectory>
-                            <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

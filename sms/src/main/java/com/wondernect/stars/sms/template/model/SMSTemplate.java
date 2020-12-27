@@ -1,4 +1,4 @@
-package com.wondernect.stars.sms.model;
+package com.wondernect.stars.sms.template.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wondernect.elements.rdb.base.model.BaseStringModel;
@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -28,8 +29,6 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(description = "短信模板")
 public class SMSTemplate extends BaseStringModel implements Serializable {
-
-    private static final long serialVersionUID = 8612562965955497011L;
 
     @JsonProperty("name")
     @ApiModelProperty("模板名称")
