@@ -21,7 +21,12 @@ import javax.validation.constraints.NotBlank;
 public class AuthAppRequestDTO {
 
     @NotBlank(message = "访问密钥不能为空")
-    @JsonProperty("encrypt_secret")
+    @JsonProperty("secret")
     @ApiModelProperty(notes = "加密后访问密钥")
-    private String encryptSecret;
+    private String secret;
+
+    @NotBlank(message = "绑定用户id不能为空")
+    @JsonProperty("user_id")
+    @ApiModelProperty(notes = "绑定用户id")
+    private String userId;
 }

@@ -10,7 +10,8 @@ import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.model.App;
-import org.springframework.stereotype.Service;
+import com.wondernect.stars.app.model.AppAuth;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,14 +21,19 @@ import java.util.List;
  *
  * @author chenxun 2020-09-13 23:02:00
  **/
-@Service
 public abstract class AppAbstractService extends BaseStringService<AppResponseDTO, App> implements AppInterface {
+
+    @Autowired
+    private AppAuthService appAuthService;
 
     @Transactional
     @Override
     public AppResponseDTO create(SaveAppRequestDTO saveAppRequestDTO) {
         App app = new App();
         ESBeanUtils.copyProperties(saveAppRequestDTO, app);
+        app = super.saveEntity(app);
+        AppAuth appAuth = appAuthService.saveEntity(new AppAuth(app.getId(), saveAppRequestDTO.getSecret(), saveAppRequestDTO.getUserId(), false));
+        app.setAppAuthId(appAuth.getId());
         return super.save(app);
     }
 
@@ -38,6 +44,13 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
         if (ESObjectUtils.isNull(app)) {
             throw new BusinessException("应用不存在");
         }
+        AppAuth appAuth = appAuthService.findEntityById(app.getAppAuthId());
+        if (ESObjectUtils.isNull(appAuth)) {
+            throw new BusinessException("应用认证信息不存在");
+        }
+        appAuth.setSecret(saveAppRequestDTO.getSecret());
+        appAuth.setUserId(saveAppRequestDTO.getUserId());
+        appAuthService.saveEntity(appAuth);
         ESBeanUtils.copyWithoutNullAndIgnoreProperties(saveAppRequestDTO, app);
         return super.save(app);
     }
@@ -48,7 +61,11 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
         if (ESObjectUtils.isNull(app)) {
             throw new BusinessException("应用不存在");
         }
-        if (!ESStringUtils.equals(authAppRequestDTO.getEncryptSecret(), app.getSecret())) {
+        AppAuth appAuth = appAuthService.findEntityByAppIdAndUserId(app.getId(), authAppRequestDTO.getUserId());
+        if (ESObjectUtils.isNull(appAuth)) {
+            throw new BusinessException("应用认证信息不存在");
+        }
+        if (!ESStringUtils.equals(authAppRequestDTO.getSecret(), appAuth.getSecret())) {
             throw new BusinessException("应用密钥认证失败");
         }
     }
@@ -71,7 +88,9 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
     public AppResponseDTO generate(App app) {
         AppResponseDTO appResponseDTO = new AppResponseDTO();
         ESBeanUtils.copyProperties(app, appResponseDTO);
-        appResponseDTO.setId(app.getId());
+        AppAuth appAuth = appAuthService.findEntityById(app.getAppAuthId());
+        appResponseDTO.setSecret(appAuth.getSecret());
+        appResponseDTO.setUserId(appAuth.getUserId());
         return appResponseDTO;
     }
 }

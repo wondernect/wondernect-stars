@@ -6,7 +6,7 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.logger.request.RequestLogger;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
-import com.wondernect.stars.app.service.AppService;
+import com.wondernect.stars.app.server.service.AppServerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,7 +30,7 @@ import java.util.List;
 public class AppController {
 
     @Autowired
-    private AppService appService;
+    private AppServerService appService;
 
     @AuthorizeServer
     @RequestLogger(module = "app", operation = "create", description = "创建")

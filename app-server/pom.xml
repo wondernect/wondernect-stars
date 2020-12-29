@@ -62,6 +62,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- stars user-server-sdk -->
+		<dependency>
+			<groupId>com.wondernect.stars</groupId>
+			<artifactId>user-server-sdk</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- mysql connector -->
 		<dependency>
 			<groupId>mysql</groupId>

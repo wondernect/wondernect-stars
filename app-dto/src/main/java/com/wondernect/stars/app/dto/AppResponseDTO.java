@@ -25,10 +25,6 @@ public class AppResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "名称")
     private String name;
 
-    @JsonProperty("secret")
-    @ApiModelProperty(notes = "访问秘钥")
-    private String secret;
-
     @JsonProperty("logo")
     @ApiModelProperty(notes = "logo")
     private String logo;
@@ -41,7 +37,15 @@ public class AppResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "官网链接")
     private String website;
 
+    @JsonProperty("secret")
+    @ApiModelProperty(notes = "访问秘钥")
+    private String secret;
+
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "绑定管理员用户id")
     private String userId;
+
+    @JsonProperty("user_name")
+    @ApiModelProperty(notes = "绑定管理员用户姓名")
+    private String userName;
 }

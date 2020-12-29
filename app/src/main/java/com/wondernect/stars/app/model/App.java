@@ -30,10 +30,6 @@ public class App extends BaseStringModel {
     @ApiModelProperty(notes = "名称")
     private String name;
 
-    @JsonProperty("secret")
-    @ApiModelProperty(notes = "访问秘钥")
-    private String secret;
-
     @JsonProperty("logo")
     @ApiModelProperty(notes = "logo")
     private String logo;
@@ -46,7 +42,7 @@ public class App extends BaseStringModel {
     @ApiModelProperty(notes = "官网链接")
     private String website;
 
-    @JsonProperty("user_id")
-    @ApiModelProperty(notes = "绑定管理员用户id")
-    private String userId;
+    @JsonProperty("app_auth_id")
+    @ApiModelProperty(notes = "应用访问认证id")
+    private String appAuthId;
 }

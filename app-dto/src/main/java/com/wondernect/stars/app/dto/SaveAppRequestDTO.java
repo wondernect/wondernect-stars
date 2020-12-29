@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 应用请求DTO
  *
@@ -18,13 +20,10 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "应用请求对象")
 public class SaveAppRequestDTO {
 
+    @NotBlank(message = "应用名称不能为空")
     @JsonProperty("name")
     @ApiModelProperty(notes = "名称")
     private String name;
-
-    @JsonProperty("secret")
-    @ApiModelProperty(notes = "访问秘钥")
-    private String secret;
 
     @JsonProperty("logo")
     @ApiModelProperty(notes = "logo")
@@ -38,6 +37,12 @@ public class SaveAppRequestDTO {
     @ApiModelProperty(notes = "官网链接")
     private String website;
 
+    @NotBlank(message = "应用访问秘钥不能为空")
+    @JsonProperty("secret")
+    @ApiModelProperty(notes = "访问秘钥")
+    private String secret;
+
+    @NotBlank(message = "绑定管理员用户id不能为空")
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "绑定管理员用户id")
     private String userId;
