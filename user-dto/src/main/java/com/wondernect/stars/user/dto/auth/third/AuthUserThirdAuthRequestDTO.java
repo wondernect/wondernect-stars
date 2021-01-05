@@ -24,6 +24,11 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "第三方用户认证认证请求对象")
 public class AuthUserThirdAuthRequestDTO {
 
+    @NotBlank(message = "用户id不能为空")
+    @JsonProperty("user_id")
+    @ApiModelProperty(notes = "用户id")
+    private String userId;
+
     @NotNull(message = "第三方注册类型不能为空")
     @JsonProperty("app_type")
     @ApiModelProperty(notes = "第三方注册类型")

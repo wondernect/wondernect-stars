@@ -4,6 +4,10 @@ import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
+import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
 import com.wondernect.stars.user.em.AppType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +97,28 @@ public class UserServerService {
             throw new BusinessException(businessData);
         }
         return businessData.getData();
+    }
+
+    public UserResponseDTO exist(String userId) {
+        BusinessData<UserResponseDTO> businessData = userFeignClient.exist(userId);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+        return businessData.getData();
+    }
+
+    public void authLocalUser(AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO){
+        BusinessData businessData = userFeignClient.authLocalUser(authUserLocalAuthRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
+    }
+
+    public void authThirdUser(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO){
+        BusinessData businessData = userFeignClient.authThirdUser(authUserThirdAuthRequestDTO);
+        if (!businessData.success()) {
+            throw new BusinessException(businessData);
+        }
     }
 
     public List<UserResponseDTO> list(ListUserRequestDTO listUserRequestDTO){

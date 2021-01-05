@@ -32,7 +32,7 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
         App app = new App();
         ESBeanUtils.copyProperties(saveAppRequestDTO, app);
         app = super.saveEntity(app);
-        AppAuth appAuth = appAuthService.saveEntity(new AppAuth(app.getId(), saveAppRequestDTO.getSecret(), saveAppRequestDTO.getUserId(), false));
+        AppAuth appAuth = appAuthService.saveEntity(new AppAuth(app.getId(), saveAppRequestDTO.getSecret(), saveAppRequestDTO.getUserId(), 2, false));
         app.setAppAuthId(appAuth.getId());
         return super.save(app);
     }
@@ -56,31 +56,25 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
     }
 
     @Override
-    public void auth(String id, AuthAppRequestDTO authAppRequestDTO) {
-        App app = super.findEntityById(id);
+    public void auth(AuthAppRequestDTO authAppRequestDTO) {
+        App app = super.findEntityById(authAppRequestDTO.getAppId());
         if (ESObjectUtils.isNull(app)) {
             throw new BusinessException("应用不存在");
         }
-        AppAuth appAuth = appAuthService.findEntityByAppIdAndUserId(app.getId(), authAppRequestDTO.getUserId());
-        if (ESObjectUtils.isNull(appAuth)) {
-            throw new BusinessException("应用认证信息不存在");
-        }
-        if (!ESStringUtils.equals(authAppRequestDTO.getSecret(), appAuth.getSecret())) {
-            throw new BusinessException("应用密钥认证失败");
-        }
+        appAuthService.auth(authAppRequestDTO);
     }
 
     @Override
     public List<AppResponseDTO> list(ListAppRequestDTO listAppRequestDTO) {
         Criteria<App> appCriteria = new Criteria<>();
-        appCriteria.add(Restrictions.eq("userId", listAppRequestDTO.getUserId()));
+        appCriteria.add(Restrictions.eq("createUser", listAppRequestDTO.getUserId()));
         return super.findAll(appCriteria, listAppRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<AppResponseDTO> page(PageAppRequestDTO pageAppRequestDTO) {
         Criteria<App> appCriteria = new Criteria<>();
-        appCriteria.add(Restrictions.eq("userId", pageAppRequestDTO.getUserId()));
+        appCriteria.add(Restrictions.eq("createUser", pageAppRequestDTO.getUserId()));
         return super.findAll(appCriteria, pageAppRequestDTO.getPageRequestData());
     }
 

@@ -26,6 +26,6 @@ public class PageAppAuthRequestDTO extends PageRequestDTO {
     private String appId;
 
     @JsonProperty("user_id")
-    @ApiModelProperty(notes = "应用访问密钥绑定用户id")
+    @ApiModelProperty(notes = "应用访问密钥绑定用户id", hidden = true)
     private String userId;
 }

@@ -33,6 +33,10 @@ public class AppAuthResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "应用访问密钥")
     private String secret;
 
+    @JsonProperty("access_type")
+    @ApiModelProperty(notes = "应用访问类型(1-只读；2-读写；)")
+    private Integer accessType;
+
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "应用访问密钥绑定用户id")
     private String userId;

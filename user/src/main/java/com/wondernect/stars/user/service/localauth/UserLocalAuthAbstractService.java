@@ -43,16 +43,14 @@ public abstract class UserLocalAuthAbstractService extends BaseService<UserLocal
         return super.save(userLocalAuth);
     }
 
-    @Override
-    public UserLocalAuthResponseDTO auth(String userId, AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO) {
-        UserLocalAuth userLocalAuth = super.findEntityById(userId);
+    public void auth(AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO) {
+        UserLocalAuth userLocalAuth = super.findEntityById(authUserLocalAuthRequestDTO.getUserId());
         if (ESObjectUtils.isNull(userLocalAuth)) {
             throw new UserException(UserErrorEnum.USER_LOCAL_AUTH_NOT_FOUND);
         }
         if (!userLocalAuth.getPassword().equals(authUserLocalAuthRequestDTO.getPassword())) {
             throw new UserException(UserErrorEnum.USER_LOCAL_AUTH_PASSWORD_FAILED);
         }
-        return generate(userLocalAuth);
     }
 
     public abstract String encryptUserLocalAuthPassword(String password);

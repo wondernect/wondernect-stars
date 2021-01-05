@@ -4,6 +4,8 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.feign.config.WondernectFeignConfiguration;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.em.AppType;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -77,6 +79,24 @@ public interface UserFeignClient {
     public BusinessData<UserResponseDTO> detailByAppTypeAndAppUserId(
             @ApiParam(required = true) @NotNull(message = "第三方应用类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
             @ApiParam(required = true) @NotBlank(message = "第三方应用用户id不能为空") @RequestParam(value = "app_user_id", required = false) String appUserId
+    );
+
+    @ApiOperation(value = "获取详情(只获取用户基础信息)", httpMethod = "GET")
+    @GetMapping(value = "/{id}/exist")
+    public BusinessData<UserResponseDTO> exist(
+            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
+    );
+
+    @ApiOperation(value = "验证本地用户", httpMethod = "POST")
+    @PostMapping(value = "/auth")
+    public BusinessData authLocalUser(
+            @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO
+    );
+
+    @ApiOperation(value = "验证第三方用户", httpMethod = "POST")
+    @PostMapping(value = "/auth_third_user")
+    public BusinessData authThirdUser(
+            @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO
     );
 
     @ApiOperation(value = "列表", httpMethod = "POST")

@@ -33,9 +33,9 @@ public interface AppInterface {
     AppResponseDTO findById(String id);
 
     /**
-     * 认证密钥
+     * 应用认证
      */
-    void auth(String id, AuthAppRequestDTO authAppRequestDTO);
+    void auth(AuthAppRequestDTO authAppRequestDTO);
 
     /**
      * 列表

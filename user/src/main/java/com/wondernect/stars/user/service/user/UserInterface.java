@@ -2,6 +2,10 @@ package com.wondernect.stars.user.service.user;
 
 import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
+import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
 import com.wondernect.stars.user.em.AppType;
 
 import java.util.List;
@@ -64,6 +68,21 @@ public interface UserInterface {
      * 获取
      */
     UserResponseDTO findByAppTypeAndAppUserId(AppType appType, String appUserId);
+
+    /**
+     * 获取(只获取用户基础信息)
+     */
+    UserResponseDTO existByUserId(String userId);
+
+    /**
+     * 认证本地用户密码
+     */
+    void auth(AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO);
+
+    /**
+     * 认证第三方用户
+     */
+    void auth(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO);
 
     /**
      * 列表

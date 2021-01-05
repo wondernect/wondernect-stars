@@ -22,6 +22,6 @@ import lombok.NoArgsConstructor;
 public class ListAppRequestDTO extends ListRequestDTO {
 
     @JsonProperty("user_id")
-    @ApiModelProperty(notes = "绑定管理员用户id")
+    @ApiModelProperty(notes = "绑定管理员用户id", hidden = true)
     private String userId;
 }

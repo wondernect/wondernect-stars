@@ -22,6 +22,11 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value = "本地用户认证认证请求对象")
 public class AuthUserLocalAuthRequestDTO {
 
+    @NotBlank(message = "用户id不能为空")
+    @JsonProperty("user_id")
+    @ApiModelProperty(notes = "用户id")
+    private String userId;
+
     @NotBlank(message = "密码不能为空")
     @JsonProperty("password")
     @ApiModelProperty(notes = "密码")

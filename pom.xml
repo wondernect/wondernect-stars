@@ -49,16 +49,6 @@
         <module>logger</module>
         <module>logger-dto</module>
         <module>logger-server-sdk</module>
-        <module>app-server</module>
-        <module>user-server</module>
-        <module>file-server</module>
-        <module>rbac-server</module>
-        <module>session-server</module>
-        <module>database-server</module>
-        <module>office-server</module>
-        <module>mail-server</module>
-        <module>logger-server</module>
-        <module>sms-server</module>
     </modules>
 
     <build>

@@ -1,6 +1,5 @@
 package com.wondernect.stars.user.service.localauth;
 
-import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.UserLocalAuthResponseDTO;
 
@@ -32,9 +31,4 @@ public interface UserLocalAuthInterface {
      * 获取
      */
     UserLocalAuthResponseDTO findById(String userId);
-
-    /**
-     * 认证
-     */
-    UserLocalAuthResponseDTO auth(String userId, AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO);
 }

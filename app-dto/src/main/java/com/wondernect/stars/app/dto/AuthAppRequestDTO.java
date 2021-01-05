@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 应用请求DTO
+ * 应用认证请求DTO
  *
  * @author chenxun 2020-09-13 23:01:59
  **/
@@ -19,6 +19,11 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @ApiModel(value = "应用认证请求对象")
 public class AuthAppRequestDTO {
+
+    @NotBlank(message = "应用id不能为空")
+    @JsonProperty("app_id")
+    @ApiModelProperty(notes = "应用id")
+    private String appId;
 
     @NotBlank(message = "访问密钥不能为空")
     @JsonProperty("secret")

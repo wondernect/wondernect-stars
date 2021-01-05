@@ -57,10 +57,4 @@ public interface UserThirdAuthFeignClient {
             @ApiParam(required = true) @NotNull(message = "app类型不能为空") @RequestParam(value = "app_type", required = false) AppType appType,
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @RequestParam(value = "app_user_id", required = false) String appUserId
     );
-
-    @ApiOperation(value = "认证", httpMethod = "POST")
-    @PostMapping(value = "/auth")
-    public BusinessData<UserThirdAuthResponseDTO> auth(
-            @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO
-    );
 }

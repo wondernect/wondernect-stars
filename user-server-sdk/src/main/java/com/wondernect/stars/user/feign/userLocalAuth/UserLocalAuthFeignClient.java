@@ -47,11 +47,4 @@ public interface UserLocalAuthFeignClient {
     public BusinessData<UserLocalAuthResponseDTO> detail(
             @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId
     );
-
-    @ApiOperation(value = "认证", httpMethod = "POST")
-    @PostMapping(value = "/{id}/auth")
-    public BusinessData<UserLocalAuthResponseDTO> auth(
-            @ApiParam(required = true) @NotBlank(message = "用户id不能为空") @PathVariable(value = "id", required = false) String userId,
-            @ApiParam(required = true) @NotNull(message = "认证请求参数不能为空") @Validated @RequestBody AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO
-    );
 }

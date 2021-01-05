@@ -103,13 +103,11 @@ public abstract class UserThirdAuthAbstractService extends BaseStringService<Use
         return generate(userThirdAuth);
     }
 
-    @Override
-    public UserThirdAuthResponseDTO auth(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO) {
+    public void auth(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO) {
         UserThirdAuth userThirdAuth = userThirdAuthManager.findByAppTypeAndAppUserId(authUserThirdAuthRequestDTO.getAppType(), authUserThirdAuthRequestDTO.getAppUserId());
         if (ESObjectUtils.isNull(userThirdAuth)) {
             throw new UserException(UserErrorEnum.USER_THIRD_AUTH_NOT_FOUND);
         }
-        return generate(userThirdAuth);
     }
 
     @Override

@@ -12,7 +12,9 @@ import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.user.common.error.UserErrorEnum;
 import com.wondernect.stars.user.common.exception.UserException;
 import com.wondernect.stars.user.dto.*;
+import com.wondernect.stars.user.dto.auth.local.AuthUserLocalAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.local.SaveUserLocalAuthRequestDTO;
+import com.wondernect.stars.user.dto.auth.third.AuthUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.SaveUserThirdAuthRequestDTO;
 import com.wondernect.stars.user.dto.auth.third.UserThirdAuthResponseDTO;
 import com.wondernect.stars.user.em.AppType;
@@ -237,6 +239,37 @@ public abstract class UserAbstractService extends BaseStringService<UserResponse
             return null;
         }
         return generate(user);
+    }
+
+    @Override
+    public UserResponseDTO existByUserId(String userId) {
+        User user = super.findEntityById(userId);
+        if (ESObjectUtils.isNull(user)) {
+            throw new UserException(UserErrorEnum.USER_NOT_FOUND);
+        }
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        ESBeanUtils.copyProperties(user, userResponseDTO);
+        userResponseDTO.setUserType(user.getUserType().name());
+        userResponseDTO.setGender(user.getGender().name());
+        return userResponseDTO;
+    }
+
+    @Override
+    public void auth(AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO) {
+        User user = super.findEntityById(authUserLocalAuthRequestDTO.getUserId());
+        if (ESObjectUtils.isNull(user)) {
+            throw new UserException(UserErrorEnum.USER_NOT_FOUND);
+        }
+        userLocalAuthService.auth(authUserLocalAuthRequestDTO);
+    }
+
+    @Override
+    public void auth(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO) {
+        User user = super.findEntityById(authUserThirdAuthRequestDTO.getUserId());
+        if (ESObjectUtils.isNull(user)) {
+            throw new UserException(UserErrorEnum.USER_NOT_FOUND);
+        }
+        userThirdAuthService.auth(authUserThirdAuthRequestDTO);
     }
 
     @Override

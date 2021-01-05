@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 应用访问认证请求DTO
@@ -34,4 +35,9 @@ public class SaveAppAuthRequestDTO {
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "应用访问密钥绑定用户id")
     private String userId;
+
+    @NotNull(message = "应用访问类型不能为空")
+    @JsonProperty("access_type")
+    @ApiModelProperty(notes = "应用访问类型(1-只读；2-读写；)")
+    private Integer accessType;
 }

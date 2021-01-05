@@ -36,9 +36,9 @@ public interface AppAuthInterface {
     AppAuthResponseDTO findById(String id);
 
     /**
-     * 获取详细信息
+     * 获取详细信息(基础信息)
      **/
-    AppAuthResponseDTO findByAppIdAndUserId(String appId, String userId);
+    AppAuthResponseDTO existByAppIdAndUserId(String appId, String userId);
 
     /**
      * 列表

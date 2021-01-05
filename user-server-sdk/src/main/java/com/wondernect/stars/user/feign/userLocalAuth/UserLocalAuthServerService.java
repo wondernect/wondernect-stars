@@ -51,12 +51,4 @@ public class UserLocalAuthServerService {
         }
         return businessData.getData();
     }
-
-    public UserLocalAuthResponseDTO auth(String userId,AuthUserLocalAuthRequestDTO authUserLocalAuthRequestDTO){
-        BusinessData<UserLocalAuthResponseDTO> businessData = userLocalAuthFeignClient.auth(userId,authUserLocalAuthRequestDTO);
-        if (!businessData.success()) {
-            throw new BusinessException(businessData);
-        }
-        return businessData.getData();
-    }
 }

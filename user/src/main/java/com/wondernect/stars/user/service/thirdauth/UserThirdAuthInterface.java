@@ -43,9 +43,4 @@ public interface UserThirdAuthInterface {
      * 获取
      */
     UserThirdAuthResponseDTO findByAppTypeAndAppUserId(AppType appType, String appUserId);
-
-    /**
-     * 认证
-     */
-    UserThirdAuthResponseDTO auth(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO);
 }

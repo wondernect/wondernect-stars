@@ -61,12 +61,4 @@ public class UserThirdAuthServerService {
         }
         return businessData.getData();
     }
-
-    public UserThirdAuthResponseDTO auth(AuthUserThirdAuthRequestDTO authUserThirdAuthRequestDTO){
-        BusinessData<UserThirdAuthResponseDTO> businessData = userThirdAuthFeignClient.auth(authUserThirdAuthRequestDTO);
-        if (!businessData.success()) {
-            throw new BusinessException(businessData);
-        }
-        return businessData.getData();
-    }
 }
