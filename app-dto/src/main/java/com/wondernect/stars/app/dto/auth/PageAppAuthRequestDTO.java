@@ -21,11 +21,11 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "应用访问认证分页请求对象")
 public class PageAppAuthRequestDTO extends PageRequestDTO {
 
-    @JsonProperty("app_id")
-    @ApiModelProperty(notes = "应用id")
-    private String appId;
-
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "应用访问密钥绑定用户id", hidden = true)
     private String userId;
+
+    @JsonProperty("create_user")
+    @ApiModelProperty(notes = "应用访问密钥创建用户id", hidden = true)
+    private String createUser;
 }

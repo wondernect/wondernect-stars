@@ -21,6 +21,10 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "应用分页请求对象")
 public class PageAppRequestDTO extends PageRequestDTO {
 
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "应用名称(模糊搜索)")
+    private String name;
+
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "绑定管理员用户id", hidden = true)
     private String userId;

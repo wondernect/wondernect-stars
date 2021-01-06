@@ -11,6 +11,7 @@ import com.wondernect.elements.rdb.response.PageResponseData;
 import com.wondernect.stars.app.dto.*;
 import com.wondernect.stars.app.model.App;
 import com.wondernect.stars.app.model.AppAuth;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +68,7 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
     @Override
     public List<AppResponseDTO> list(ListAppRequestDTO listAppRequestDTO) {
         Criteria<App> appCriteria = new Criteria<>();
+        appCriteria.add(Restrictions.like("name", listAppRequestDTO.getName(), MatchMode.ANYWHERE));
         appCriteria.add(Restrictions.eq("createUser", listAppRequestDTO.getUserId()));
         return super.findAll(appCriteria, listAppRequestDTO.getSortDataList());
     }
@@ -74,6 +76,7 @@ public abstract class AppAbstractService extends BaseStringService<AppResponseDT
     @Override
     public PageResponseData<AppResponseDTO> page(PageAppRequestDTO pageAppRequestDTO) {
         Criteria<App> appCriteria = new Criteria<>();
+        appCriteria.add(Restrictions.like("name", pageAppRequestDTO.getName(), MatchMode.ANYWHERE));
         appCriteria.add(Restrictions.eq("createUser", pageAppRequestDTO.getUserId()));
         return super.findAll(appCriteria, pageAppRequestDTO.getPageRequestData());
     }

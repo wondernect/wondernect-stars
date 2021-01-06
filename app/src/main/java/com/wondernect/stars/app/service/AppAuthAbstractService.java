@@ -81,12 +81,8 @@ public abstract class AppAuthAbstractService extends BaseStringService<AppAuthRe
     @Override
     public List<AppAuthResponseDTO> list(ListAppAuthRequestDTO listAppAuthRequestDTO) {
         Criteria<AppAuth> appAuthCriteria = new Criteria<>();
-        if (ESStringUtils.isNotBlank(listAppAuthRequestDTO.getAppId())) {
-            appAuthCriteria.add(Restrictions.eq("appId", listAppAuthRequestDTO.getAppId()));
-            appAuthCriteria.add(Restrictions.eq("createUser", listAppAuthRequestDTO.getUserId()));
-        } else {
-            appAuthCriteria.add(Restrictions.eq("userId", listAppAuthRequestDTO.getUserId()));
-        }
+        appAuthCriteria.add(Restrictions.eq("createUser", listAppAuthRequestDTO.getCreateUser()));
+        appAuthCriteria.add(Restrictions.eq("userId", listAppAuthRequestDTO.getUserId()));
         appAuthCriteria.add(Restrictions.eq("visible", true));
         return super.findAll(appAuthCriteria, listAppAuthRequestDTO.getSortDataList());
     }
@@ -94,12 +90,8 @@ public abstract class AppAuthAbstractService extends BaseStringService<AppAuthRe
     @Override
     public PageResponseData<AppAuthResponseDTO> page(PageAppAuthRequestDTO pageAppAuthRequestDTO) {
         Criteria<AppAuth> appAuthCriteria = new Criteria<>();
-        if (ESStringUtils.isNotBlank(pageAppAuthRequestDTO.getAppId())) {
-            appAuthCriteria.add(Restrictions.eq("appId", pageAppAuthRequestDTO.getAppId()));
-            appAuthCriteria.add(Restrictions.eq("createUser", pageAppAuthRequestDTO.getUserId()));
-        } else {
-            appAuthCriteria.add(Restrictions.eq("userId", pageAppAuthRequestDTO.getUserId()));
-        }
+        appAuthCriteria.add(Restrictions.eq("createUser", pageAppAuthRequestDTO.getCreateUser()));
+        appAuthCriteria.add(Restrictions.eq("userId", pageAppAuthRequestDTO.getUserId()));
         appAuthCriteria.add(Restrictions.eq("visible", true));
         return super.findAll(appAuthCriteria, pageAppAuthRequestDTO.getPageRequestData());
     }

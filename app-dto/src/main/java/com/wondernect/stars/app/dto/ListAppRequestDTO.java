@@ -21,6 +21,10 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "应用列表请求对象")
 public class ListAppRequestDTO extends ListRequestDTO {
 
+    @JsonProperty("name")
+    @ApiModelProperty(notes = "应用名称(模糊搜索)")
+    private String name;
+
     @JsonProperty("user_id")
     @ApiModelProperty(notes = "绑定管理员用户id", hidden = true)
     private String userId;
