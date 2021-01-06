@@ -25,9 +25,21 @@ public class AppAuthResponseDTO extends BaseStringResponseDTO {
     @ApiModelProperty(notes = "应用id")
     private String appId;
 
-    @JsonProperty("app_name")
+    @JsonProperty("name")
     @ApiModelProperty(notes = "应用名称")
-    private String appName;
+    private String name;
+
+    @JsonProperty("logo")
+    @ApiModelProperty(notes = "应用logo")
+    private String logo;
+
+    @JsonProperty("brief")
+    @ApiModelProperty(notes = "应用简介")
+    private String brief;
+
+    @JsonProperty("website")
+    @ApiModelProperty(notes = "应用官网链接")
+    private String website;
 
     @JsonProperty("secret")
     @ApiModelProperty(notes = "应用访问密钥")

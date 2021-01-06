@@ -101,7 +101,10 @@ public abstract class AppAuthAbstractService extends BaseStringService<AppAuthRe
         AppAuthResponseDTO appAuthResponseDTO = new AppAuthResponseDTO();
         ESBeanUtils.copyProperties(appAuth, appAuthResponseDTO);
         App app = appService.findEntityById(appAuth.getAppId());
-        appAuthResponseDTO.setAppName(ESObjectUtils.isNotNull(app) ? app.getName() : null);
+        appAuthResponseDTO.setName(ESObjectUtils.isNotNull(app) ? app.getName() : null);
+        appAuthResponseDTO.setLogo(ESObjectUtils.isNotNull(app) ? app.getLogo() : null);
+        appAuthResponseDTO.setBrief(ESObjectUtils.isNotNull(app) ? app.getBrief() : null);
+        appAuthResponseDTO.setWebsite(ESObjectUtils.isNotNull(app) ? app.getWebsite() : null);
         return appAuthResponseDTO;
     }
 }
