@@ -93,7 +93,7 @@ public class MysqlDatabaseManageImpl extends DatabaseManageService implements Da
             databaseManage.setInitState(jdbcResult.getResult());
             databaseManage.setInitMessage(jdbcResult.getMessage());
             super.save(databaseManage);
-            throw new BusinessException("初始化的数据库失败");
+            throw new BusinessException("初始化数据库失败");
         }
         databaseManage.setInitState(jdbcResult.getResult());
         databaseManage.setInitMessage(jdbcResult.getMessage());

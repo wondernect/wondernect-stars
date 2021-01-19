@@ -51,7 +51,7 @@ public class MysqlDatabaseUserRightsShipImpl extends DatabaseUserRightsShipServi
         if (ESObjectUtils.isNull(databaseManage)) {
             throw new BusinessException("要赋权限的数据库不存在");
         }
-        if (!databaseManage.getInitState()){
+        if (!databaseManage.getInitState()) {
             throw new BusinessException("要赋权限的数据库尚未初始化");
         }
         DatabaseRootManage databaseRootManage = databaseRootManageService.findEntityById(databaseManage.getDatabaseRootManageId());
@@ -67,17 +67,18 @@ public class MysqlDatabaseUserRightsShipImpl extends DatabaseUserRightsShipServi
         }
         JDBCResult jdbcResult = jdbcClient.giveRights(type, databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUsername(), databaseUserManage.getPassword());
         DatabaseUserRightsShip databaseUserRightsShip = new DatabaseUserRightsShip();
-        if (jdbcResult.getResult()) {
-            databaseUserRightsShip.setDatabaseManageId(saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId());
-            databaseUserRightsShip.setDatabaseUserId(saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId());
-            databaseUserRightsShip.setRightsState(type);
-            if (type == 1) {
-                databaseUserRightsShip.setRightsMessage("只读权限");
-            } else {
-                databaseUserRightsShip.setRightsMessage("所有权限");
-            }
-            super.save(databaseUserRightsShip);
+        if (!jdbcResult.getResult()) {
+            throw new BusinessException("赋权限失败，原因是：" + jdbcResult.getMessage());
         }
+        databaseUserRightsShip.setDatabaseManageId(saveDatabaseUserRightsShipRequestDTO.getDatabaseManageId());
+        databaseUserRightsShip.setDatabaseUserId(saveDatabaseUserRightsShipRequestDTO.getDatabaseUserId());
+        databaseUserRightsShip.setRightsState(type);
+        if (type == 1) {
+            databaseUserRightsShip.setRightsMessage("只读权限");
+        } else {
+            databaseUserRightsShip.setRightsMessage("所有权限");
+        }
+        super.save(databaseUserRightsShip);
         return new DatabaseUserRightsShipResponseDTO(
                 databaseUserRightsShip.getDatabaseManageId(),
                 databaseManage.getDatabaseName(),
@@ -111,10 +112,11 @@ public class MysqlDatabaseUserRightsShipImpl extends DatabaseUserRightsShipServi
             throw new BusinessException("要收回的数据库和用户权限关系不存在");
         }
         JDBCResult jdbcResult = jdbcClient.revokeRights(databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName(), databaseUserManage.getUsername());
-        if (jdbcResult.getResult()) {
-            for (DatabaseUserRightsShip databaseUserRightsShip : databaseUserRightsShipList) {//目前集合中就只有一个对象
-                super.deleteById(databaseUserRightsShip.getId());
-            }
+        if (!jdbcResult.getResult()) {
+            throw new BusinessException("收回权限失败，原因是：" + jdbcResult.getMessage());
+        }
+        for (DatabaseUserRightsShip databaseUserRightsShip : databaseUserRightsShipList) {//目前集合中就只有一个对象
+            super.deleteById(databaseUserRightsShip.getId());
         }
     }
 
@@ -140,6 +142,9 @@ public class MysqlDatabaseUserRightsShipImpl extends DatabaseUserRightsShipServi
             throw new BusinessException("要测试连接的用户没有该数据库的操作权限，请先赋予相应的权限");
         }
         JDBCResult jdbcResult = jdbcClient.testConnect(databaseRootManage.getDriver(), databaseManage.getUrl(), databaseUserManage.getUsername(), databaseUserManage.getPassword());
+        if (!jdbcResult.getResult()) {
+            throw new BusinessException("测试连接失败，原因是：" + jdbcResult.getMessage());
+        }
         return new TestConnectResponseDTO(
                 databaseManage.getUrl(),
                 databaseUserManage.getUsername(),
