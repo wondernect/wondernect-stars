@@ -79,7 +79,6 @@ public class MysqlDatabaseManageImpl extends DatabaseManageService implements Da
         return databaseManageService.save(databaseManage);
     }
 
-    @Transactional
     public DatabaseManageResponseDTO initDatabase(String id) {
         DatabaseManage databaseManage = super.findEntityById(id);
         if (ESObjectUtils.isNull(databaseManage)) {
@@ -90,6 +89,12 @@ public class MysqlDatabaseManageImpl extends DatabaseManageService implements Da
             throw new BusinessException("要初始化的数据库不存在数据库管理服务");
         }
         JDBCResult jdbcResult = jdbcClient.initDatabase(databaseRootManage.getDriver(), databaseRootManage.getUrl(), databaseRootManage.getUsername(), databaseRootManage.getPassword(), databaseManage.getDatabaseName());
+        if (!jdbcResult.getResult()) {
+            databaseManage.setInitState(jdbcResult.getResult());
+            databaseManage.setInitMessage(jdbcResult.getMessage());
+            super.save(databaseManage);
+            throw new BusinessException("初始化的数据库失败");
+        }
         databaseManage.setInitState(jdbcResult.getResult());
         databaseManage.setInitMessage(jdbcResult.getMessage());
         return super.save(databaseManage);
